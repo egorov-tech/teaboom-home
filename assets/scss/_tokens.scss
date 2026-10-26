@@ -34,6 +34,10 @@
   --step-8: 72px;
 
   --gutter: clamp(16px, 4vw, 48px);
+
+  // Sticky header: full height and how much of it slides off screen in compact mode.
+  --pin-h: 78px;
+  --pin-trim: 20px;
   --tap: 44px;
 
   --ease: 180ms cubic-bezier(0.23, 1, 0.32, 1); // strong ease-out, same curve as --ease-out

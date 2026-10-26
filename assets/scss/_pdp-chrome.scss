@@ -67,6 +67,7 @@
 }
 
 .masthead,
+.masthead__bottom,
 .page {
   animation: settle 420ms ease 520ms both;
 }
@@ -108,6 +109,7 @@
 
 .is-warm .steep,
 .is-warm .masthead,
+.is-warm .masthead__bottom,
 .is-warm .page {
   animation: none;
 }
@@ -122,6 +124,7 @@
   }
 
   .masthead,
+  .masthead__bottom,
   .page {
     animation: none;
   }

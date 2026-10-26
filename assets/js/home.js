@@ -119,13 +119,16 @@
     });
   });
 
-  // Autoplay helper: advances while visible, pauses on hover/focus/touch and reduced-motion.
-  const bindAutoplay = (root, { interval, next, paused }) => {
-    if (reduceMotion.matches || !interval || interval < 1200) return { stop() {} };
+  // Autoplay helper: advances while visible, pauses on hover/focus/touch, off with reduced
+  // motion. `control` is a visible pause/resume button — WCAG 2.2.2 needs one for anything
+  // that moves on its own for longer than five seconds.
+  const bindAutoplay = (root, { interval, next, paused, control }) => {
+    if (reduceMotion.matches || !interval || interval < 1200) return { stop() {}, nudge() {} };
 
     let timer = 0;
     let visible = false;
     let held = false;
+    let stopped = false;
 
     const clear = () => {
       window.clearInterval(timer);
@@ -139,8 +142,22 @@
 
     const arm = () => {
       clear();
-      if (visible && !held && !document.hidden) timer = window.setInterval(tick, interval);
+      if (visible && !held && !stopped && !document.hidden) timer = window.setInterval(tick, interval);
     };
+
+    if (control) {
+      const sync = () => {
+        control.setAttribute("aria-label", stopped ? "Включить автопрокрутку баннеров" : "Остановить автопрокрутку баннеров");
+        control.classList.toggle("is-stopped", stopped);
+      };
+      control.hidden = false;
+      control.addEventListener("click", () => {
+        stopped = !stopped;
+        sync();
+        arm();
+      });
+      sync();
+    }
 
     const hold = () => {
       held = true;
@@ -273,6 +290,7 @@
     autoplay = bindAutoplay(banners, {
       interval: Number(banners.dataset.autoplay) || 5000,
       next: () => goTo(index + 1),
+      control: banners.querySelector("[data-play]"),
     });
   }
 
@@ -349,8 +367,9 @@
     next?.addEventListener("click", markSwiped);
     dots.forEach((dot) => dot.addEventListener("click", markSwiped));
 
+    // Product photos change only by hand; autoplay stays opt-in through data-autoplay.
     autoplay = bindAutoplay(gallery, {
-      interval: Number(gallery.dataset.autoplay) || 3500,
+      interval: Number(gallery.dataset.autoplay) || 0,
       next: () => {
         markSwiped();
         render(index + 1);

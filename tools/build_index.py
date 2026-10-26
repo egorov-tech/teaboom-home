@@ -171,7 +171,7 @@ for idx, p in enumerate(products, 1):
                 f"{current} data-gallery-dot></button>"
             )
         dots = "\n".join(dot_bits)
-        media = f'''            <div class="good__media good__gallery" data-gallery data-autoplay="3500">
+        media = f'''            <div class="good__media good__gallery" data-gallery>
               <div class="good__track" data-gallery-track>
 {chr(10).join(frames)}
               </div>

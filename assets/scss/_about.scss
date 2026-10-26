@@ -21,7 +21,8 @@
 
     @media (min-width: $bp-split) {
       position: sticky;
-      top: var(--step-5);
+      // Below the compact sticky header, not under it.
+      top: calc(var(--pin-h) - var(--pin-trim) + var(--step-5));
     }
   }
 

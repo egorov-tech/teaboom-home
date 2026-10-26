@@ -133,7 +133,7 @@ body::before {
   position: absolute;
   top: var(--step-2);
   left: var(--step-2);
-  z-index: 30;
+  z-index: 40; // above the sticky header (30), below the product intro (50)
   padding: var(--step-3) var(--step-4);
   background: var(--ink);
   color: var(--paper);

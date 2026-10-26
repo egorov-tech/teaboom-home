@@ -58,13 +58,14 @@
 
     <main id="main" tabindex="-1">
       <article class="product">
-        <div class="product__media" data-autoplay="4000">
+        <div class="product__media">
           <figure class="shot">
             <picture>
-              <source data-gallery-webp srcset="assets/images/products/ananasovij-ulun.webp" type="image/webp">
+              <source data-gallery-webp srcset="assets/images/products/ananasovij-ulun-640.webp 640w, assets/images/products/ananasovij-ulun.webp 970w" sizes="(min-width: 1060px) 520px, calc(100vw - 32px)" type="image/webp">
               <img class="shot__image"
                    data-gallery-main
                    src="assets/images/products/ananasovij-ulun.jpg"
+                   srcset="assets/images/products/ananasovij-ulun-640.jpg 640w, assets/images/products/ananasovij-ulun.jpg 970w" sizes="(min-width: 1060px) 520px, calc(100vw - 32px)"
                    alt="Ананасовый улун — китайский ароматизированный чай"
                    width="970" height="970" fetchpriority="high">
             </picture>
@@ -76,50 +77,50 @@
 
           <ul class="gallery" role="list" aria-label="Фотографии товара">
             <li>
-              <button class="gallery__btn" type="button" aria-current="true"
+              <button class="gallery__btn" type="button" aria-label="Ананасовый улун — сухой лист" aria-current="true"
                       data-gallery-item
                       data-src="assets/images/products/ananasovij-ulun.jpg"
-                      data-webp="assets/images/products/ananasovij-ulun.webp"
+                      data-webp="assets/images/products/ananasovij-ulun-640.webp 640w, assets/images/products/ananasovij-ulun.webp 970w"
                       data-alt="Ананасовый улун — сухой лист"
                       data-key="Лист"
                       data-caption="Крупный, изумрудного цвета, скрутка как у Те Гуань Инь">
-                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun.webp"
+                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-280.webp"
                      alt="" width="120" height="120" loading="lazy">
               </button>
             </li>
             <li>
-              <button class="gallery__btn" type="button"
+              <button class="gallery__btn" type="button" aria-label="Ананасовый улун — крупный план листа"
                       data-gallery-item
                       data-src="assets/images/products/ananasovij-ulun-2.jpg"
-                      data-webp="assets/images/products/ananasovij-ulun-2.webp"
+                      data-webp="assets/images/products/ananasovij-ulun-2-640.webp 640w, assets/images/products/ananasovij-ulun-2.webp 970w"
                       data-alt="Ананасовый улун — крупный план листа"
                       data-key="Крупно"
                       data-caption="Скрутка и цвет листа крупным планом">
-                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-2.webp"
+                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-2-280.webp"
                      alt="" width="120" height="120" loading="lazy">
               </button>
             </li>
             <li>
-              <button class="gallery__btn" type="button"
+              <button class="gallery__btn" type="button" aria-label="Ананасовый улун — текстура листьев"
                       data-gallery-item
                       data-src="assets/images/products/ananasovij-ulun-3.jpg"
-                      data-webp="assets/images/products/ananasovij-ulun-3.webp"
+                      data-webp="assets/images/products/ananasovij-ulun-3-640.webp 640w, assets/images/products/ananasovij-ulun-3.webp 970w"
                       data-alt="Ананасовый улун — текстура листьев"
                       data-key="Текстура"
                       data-caption="Плотная скрутка и естественный блеск листа">
-                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-3.webp"
+                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-3-280.webp"
                      alt="" width="120" height="120" loading="lazy">
               </button>
             </li>
             <li>
-              <button class="gallery__btn" type="button"
+              <button class="gallery__btn" type="button" aria-label="Ананасовый улун — ракурс чая"
                       data-gallery-item
                       data-src="assets/images/products/ananasovij-ulun-4.jpg"
-                      data-webp="assets/images/products/ananasovij-ulun-4.webp"
+                      data-webp="assets/images/products/ananasovij-ulun-4-640.webp 640w, assets/images/products/ananasovij-ulun-4.webp 970w"
                       data-alt="Ананасовый улун — ракурс чая"
                       data-key="Ракурс"
                       data-caption="Ещё один ракурс сухого листа для сравнения">
-                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-4.webp"
+                <img class="gallery__thumb" src="assets/images/products/ananasovij-ulun-4-280.webp"
                      alt="" width="120" height="120" loading="lazy">
               </button>
             </li>
@@ -230,44 +231,55 @@
         <section class="reviews" aria-labelledby="reviews-title">
           <div class="reviews__head">
             <h2 class="reviews__title" id="reviews-title">Отзывы</h2>
-            <p class="reviews__score">
-              <b>4,8</b> из 5 · 12 отзывов
-            </p>
+            <div class="reviews__summary">
+              <p class="reviews__value">4,8</p>
+              <p class="reviews__meta">
+                <span class="reviews__stars" aria-hidden="true">★★★★★</span>
+                <span class="visually-hidden">Средняя оценка 4,8 из 5,</span>
+                <span class="reviews__count">12 отзывов</span>
+              </p>
+            </div>
+            <a class="reviews__write press" href="https://teaboom.ru/product/ananasovij-ulun">Оставить отзыв на teaboom.ru</a>
           </div>
+          <!-- On teaboom.ru this product has no reviews yet: the block shows the layout only. -->
+          <p class="reviews__sample">Пример оформления блока. На teaboom.ru у этого товара отзывов пока нет — имена, оценки и тексты ниже условные.</p>
 
           <ul class="reviews__list">
             <li class="review">
-              <div class="review__meta">
-                <span class="review__author">Марина</span>
-                <span class="review__rating" aria-label="Оценка 5 из 5">★★★★★</span>
-              </div>
-              <p class="review__text">
+              <p class="review__rating"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">Оценка 5 из 5</span></p>
+              <blockquote class="review__text">
                 Ананас чувствуется мягко, без химии. Настой светлый, пьём вечером —
                 фасовку 500 г взяли сразу, выгоднее.
-              </p>
-              <time class="review__date" datetime="2026-08-14">14 августа 2026</time>
+              </blockquote>
+              <div class="review__who">
+                <span class="review__avatar" aria-hidden="true">М</span>
+                <span class="review__author">Марина</span>
+                <time class="review__date" datetime="2026-08-14">14 августа 2026</time>
+              </div>
             </li>
             <li class="review">
-              <div class="review__meta">
-                <span class="review__author">Игорь</span>
-                <span class="review__rating" aria-label="Оценка 5 из 5">★★★★★</span>
-              </div>
-              <p class="review__text">
+              <p class="review__rating"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">Оценка 5 из 5</span></p>
+              <blockquote class="review__text">
                 Лист крупный, скрутка аккуратная. Завариваю 80–85 °C, как в карточке —
                 аромат раскрывается со второго пролива.
-              </p>
-              <time class="review__date" datetime="2026-07-02">2 июля 2026</time>
+              </blockquote>
+              <div class="review__who">
+                <span class="review__avatar" aria-hidden="true">И</span>
+                <span class="review__author">Игорь</span>
+                <time class="review__date" datetime="2026-07-02">2 июля 2026</time>
+              </div>
             </li>
             <li class="review">
-              <div class="review__meta">
-                <span class="review__author">Анна</span>
-                <span class="review__rating" aria-label="Оценка 4 из 5">★★★★☆</span>
-              </div>
-              <p class="review__text">
+              <p class="review__rating"><span aria-hidden="true">★★★★☆</span><span class="visually-hidden">Оценка 4 из 5</span></p>
+              <blockquote class="review__text">
                 Вкус приятный, сладковатый. Для ежедневного чая чуть ярковат ананас,
                 но гостям заходит отлично.
-              </p>
-              <time class="review__date" datetime="2026-05-21">21 мая 2026</time>
+              </blockquote>
+              <div class="review__who">
+                <span class="review__avatar" aria-hidden="true">А</span>
+                <span class="review__author">Анна</span>
+                <time class="review__date" datetime="2026-05-21">21 мая 2026</time>
+              </div>
             </li>
           </ul>
         </section>
@@ -288,13 +300,6 @@
       "https://media.teaboom.ru/images/e4bb1618-fb80-41e2-8758-86f884ce095d.jpg"
     ],
     "brand": { "@type": "Brand", "name": "Teaboom" },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.8",
-      "reviewCount": "12",
-      "bestRating": "5",
-      "worstRating": "1"
-    },
     "offers": {
       "@type": "AggregateOffer",
       "priceCurrency": "RUB",
@@ -307,12 +312,6 @@
 
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@400;500;600&amp;display=swap"></script>
-  <script src="assets/js/product-card.js" defer></script>
-</body>
-</html>
-
-  <script src="assets/js/cart.js" defer></script>
-  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
   <script src="assets/js/product-card.js" defer></script>
 </body>
 </html>

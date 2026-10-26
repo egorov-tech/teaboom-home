@@ -224,9 +224,10 @@
 <body>
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 
-<header class="masthead" data-masthead>
-    <!-- Sticky pin = brand + cart only on phones (contacts live in the scrolling block below). -->
-    <div class="masthead__pin">
+<!-- The header itself is the sticky bar (brand, contacts, cart). Menu, search and catalogue
+       follow it in normal flow and scroll away. Compact mode never changes the header height,
+       so nothing below it moves while scrolling. -->
+  <header class="masthead" data-masthead>
       <div class="masthead__top wrap">
         <a class="brand" href="./">
           <img class="brand__mark" src="assets/images/logo.png" alt="" width="95" height="95">
@@ -251,7 +252,7 @@
         </p>
         <p class="visually-hidden" role="status" data-cart-status></p>
       </div>
-    </div>
+  </header>
 
     <div class="masthead__bottom">
       <div class="masthead__contacts masthead__contacts--mobile wrap">
@@ -317,7 +318,6 @@
         </div>
       </div>
     </div>
-  </header>
 
 
 
@@ -518,6 +518,10 @@
           <button class="banners__arrow press" type="button" data-next aria-label="Следующий баннер">
             <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
           </button>
+          <button class="banners__arrow banners__play press" type="button" data-play hidden aria-label="Остановить автопрокрутку баннеров">
+            <svg class="banners__icon-pause" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false"><rect x="5.5" y="4.5" width="3" height="11" rx="1"/><rect x="11.5" y="4.5" width="3" height="11" rx="1"/></svg>
+            <svg class="banners__icon-play" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 4.8v10.4a.8.8 0 0 0 1.2.7l8.2-5.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8Z"/></svg>
+          </button>
           <p class="banners__count" aria-hidden="true"><span data-current>01</span> <span class="banners__total">/ 12</span></p>
           <p class="visually-hidden" aria-live="polite" data-status></p>
           <div class="banners__bars" aria-hidden="true" data-bars><span class="is-current"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
@@ -552,7 +556,7 @@
       <ul class="goods__grid">
         <li>
           <article class="good" aria-labelledby="good-1-name" data-good data-slug="ananasovij-ulun">
-            <div class="good__media good__gallery" data-gallery data-autoplay="3500">
+            <div class="good__media good__gallery" data-gallery>
               <div class="good__track" data-gallery-track>
               <a class="good__frame" href="product.html" tabindex="-1" aria-hidden="true" data-gallery-frame>
                 <picture>

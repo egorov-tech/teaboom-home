@@ -202,6 +202,20 @@
       opacity: 0.4;
       cursor: default;
     }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Pause/resume for autoplay: shows the action it will take.
+  &__icon-play,
+  &__play.is-stopped &__icon-pause {
+    display: none;
+  }
+
+  &__play.is-stopped &__icon-play {
+    display: block;
   }
 
   &__count {
@@ -242,37 +256,49 @@
   }
 }
 
+// Shop promises: one white panel, three columns split by hairlines (stacked rows on phones).
 .perks {
   display: grid;
-  gap: var(--step-4) var(--step-6);
-  margin-block: var(--step-2) 0;
-  padding: var(--step-5) 0 var(--step-6);
-  border-block: 1px solid var(--line);
-  // One brand accent for the whole strip — not a card kit.
-  box-shadow: inset 0 3px 0 var(--brand);
+  margin-top: var(--step-2);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
 
   @media (min-width: $bp-mid) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--step-5);
-    padding-block: var(--step-6);
   }
 
   &__item {
     display: grid;
-    grid-template-columns: 44px 1fr;
+    grid-template-columns: 48px 1fr;
     align-items: center;
-    column-gap: var(--step-3);
+    column-gap: var(--step-4);
     row-gap: 2px;
+    padding: var(--step-4) var(--step-5);
+
+    & + & {
+      border-top: 1px solid var(--line);
+    }
+
+    @media (min-width: $bp-mid) {
+      padding: var(--step-5) var(--step-6);
+
+      & + & {
+        border-top: 0;
+        border-left: 1px solid var(--line);
+      }
+    }
   }
 
   &__icon {
     grid-row: span 2;
-    width: 44px;
-    height: 44px;
-    padding: 6px;
+    width: 48px;
+    height: 48px;
+    padding: 10px;
     color: var(--tea);
-    background: color-mix(in srgb, var(--brand) 28%, var(--paper));
-    border-radius: var(--radius-md);
+    background: var(--canvas);
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--line);
   }
 
   &__name {

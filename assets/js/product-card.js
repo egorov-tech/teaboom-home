@@ -99,6 +99,8 @@ try {
     const alt = button.dataset.alt || photo.alt;
 
     if (galleryWebp && webp) galleryWebp.srcset = webp;
+    // The first photo ships with a responsive srcset; drop it so the JPEG fallback follows src.
+    photo.removeAttribute("srcset");
     photo.src = jpg;
     photo.alt = alt;
 
@@ -117,14 +119,18 @@ try {
     galleryTimer = 0;
   };
 
+  // Product photos change only by hand (thumbnails, swipe). Set to a number of ms to bring
+  // autoplay back; it would then also need a visible pause control (WCAG 2.2.2).
+  const GALLERY_AUTOPLAY = 0;
+
   const armGallery = () => {
     clearGallery();
-    if (reduceMotion.matches || galleryItems.length < 2) return;
+    if (!GALLERY_AUTOPLAY || reduceMotion.matches || galleryItems.length < 2) return;
     galleryTimer = window.setInterval(() => {
       if (document.hidden) return;
       const next = galleryItems[(galleryIndex + 1) % galleryItems.length];
       showGalleryItem(next, { fromAuto: true });
-    }, 4000);
+    }, GALLERY_AUTOPLAY);
   };
 
   galleryItems.forEach((button) => {
