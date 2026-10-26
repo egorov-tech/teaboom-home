@@ -181,6 +181,16 @@
   }
 }
 
+// Ghost photo that flies into the cart on «В корзину» (home + product).
+.fly {
+  position: fixed;
+  z-index: 20;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  pointer-events: none;
+  box-shadow: 0 8px 24px rgb(27 27 27 / 18%);
+}
+
 .menu {
   // Narrow screens scroll the menu sideways instead of hiding it behind a burger.
   flex: 1 1 100%;

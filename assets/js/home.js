@@ -179,6 +179,66 @@
     else window.addEventListener("load", warmNext, { once: true });
   }
 
+  // ---------- Product-card photo swipe (home grid) ----------
+  document.querySelectorAll("[data-gallery]").forEach((gallery) => {
+    const track = gallery.querySelector("[data-gallery-track]");
+    const frames = [...gallery.querySelectorAll("[data-gallery-frame]")];
+    const dots = [...gallery.querySelectorAll("[data-gallery-dot]")];
+    const prev = gallery.querySelector("[data-gallery-prev]");
+    const next = gallery.querySelector("[data-gallery-next]");
+    if (!track || frames.length < 2) return;
+
+    let index = 0;
+
+    const render = (i) => {
+      index = (i + frames.length) % frames.length;
+      track.scrollTo({
+        left: frames[index].offsetLeft - frames[0].offsetLeft,
+        behavior: scrollBehavior(),
+      });
+      dots.forEach((dot, n) => {
+        if (n === index) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
+    };
+
+    const go = (i, event) => {
+      event?.preventDefault();
+      event?.stopPropagation();
+      render(i);
+    };
+
+    prev?.addEventListener("click", (event) => go(index - 1, event));
+    next?.addEventListener("click", (event) => go(index + 1, event));
+    dots.forEach((dot, n) => {
+      dot.addEventListener("click", (event) => go(n, event));
+    });
+
+    gallery.addEventListener("keydown", (event) => {
+      if (!gallery.contains(document.activeElement)) return;
+      if (event.key === "ArrowRight") go(index + 1, event);
+      else if (event.key === "ArrowLeft") go(index - 1, event);
+    });
+
+    const seen = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const i = frames.indexOf(entry.target);
+          if (i >= 0 && i !== index) {
+            index = i;
+            dots.forEach((dot, n) => {
+              if (n === index) dot.setAttribute("aria-current", "true");
+              else dot.removeAttribute("aria-current");
+            });
+          }
+        });
+      },
+      { root: track, threshold: 0.6 }
+    );
+    frames.forEach((frame) => seen.observe(frame));
+  });
+
   // ---------- Packs and prices ----------
   const money = (value) =>
     new Intl.NumberFormat("ru-RU", {
@@ -217,13 +277,7 @@
     });
   });
 
-  // ---------- Demo cart ----------
-  const cart = document.querySelector("[data-cart]");
-  const count = document.querySelector("[data-cart-count]");
-  const words = document.querySelector("[data-cart-words]");
-  const cartStatus = document.querySelector("[data-cart-status]");
-  let total = 0;
-
+  // ---------- Demo cart (shared with product.html via assets/js/cart.js) ----------
   document.querySelectorAll("[data-add]").forEach((button) => {
     const label = button.textContent;
     let timer;
@@ -232,16 +286,24 @@
       const good = button.closest("[data-good]");
       const pack = good.querySelector(".pack__input:checked");
       const name = good.querySelector(".good__name").textContent.trim();
+      const gallery = good.querySelector("[data-gallery-track]");
+      let photo = good.querySelector(".good__image");
+      // Prefer the frame that is currently in view when the card has a swipe gallery.
+      if (gallery) {
+        const frames = [...gallery.querySelectorAll("[data-gallery-frame]")];
+        const visible = frames.find((frame) => {
+          const mid = gallery.scrollLeft + gallery.clientWidth / 2;
+          return frame.offsetLeft <= mid && mid < frame.offsetLeft + frame.offsetWidth;
+        });
+        photo = visible?.querySelector(".good__image") || photo;
+      }
 
-      total += 1;
-      count.textContent = String(total);
-      words.textContent = `, товаров: ${total}`;
-      cartStatus.textContent = `${name}, ${pack.dataset.label} — добавлено в корзину. В корзине товаров: ${total}.`;
+      if (!window.TeaboomCart) return;
 
-      cart.classList.add("is-filled");
-      cart.classList.remove("is-bumped");
-      void cart.offsetWidth; // restart the bump when items are added quickly
-      cart.classList.add("is-bumped");
+      window.TeaboomCart.add({
+        photo,
+        label: `${name}, ${pack.dataset.label} — добавлено в корзину.`,
+      });
 
       button.textContent = "Добавлено";
       button.classList.add("is-added");

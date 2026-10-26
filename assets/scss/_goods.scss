@@ -56,6 +56,33 @@
     grid-area: media;
     position: relative;
     display: block;
+    min-width: 0;
+  }
+
+  // Multi-photo peek without leaving the home grid (same idea as marketplace carousels).
+  &__gallery {
+    position: relative;
+  }
+
+  &__track {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    touch-action: pan-y pinch-zoom;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__frame {
+    flex: 0 0 100%;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   // Shop photos come in three proportions; a square white field keeps every row level.
@@ -65,16 +92,91 @@
     object-fit: contain;
   }
 
+  &__nav {
+    position: absolute;
+    top: 50%;
+    z-index: 2;
+    display: none;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    color: var(--ink);
+    transform: translateY(-50%);
+    cursor: pointer;
+
+    @media (hover: hover) {
+      .good__gallery:hover &,
+      .good__gallery:focus-within & {
+        display: grid;
+        place-items: center;
+      }
+    }
+
+    &:active {
+      transform: translateY(-50%) scale(0.97);
+    }
+
+    &[data-gallery-prev] {
+      left: 2px;
+    }
+
+    &[data-gallery-next] {
+      right: 2px;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__dots {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    pointer-events: none;
+
+    button {
+      pointer-events: auto;
+      width: 6px;
+      height: 6px;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      background: var(--line-strong);
+      cursor: pointer;
+
+      &[aria-current="true"] {
+        background: var(--ink);
+      }
+    }
+  }
+
   &__badge {
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 3;
     padding: 2px var(--step-2);
     border-radius: var(--radius-sm);
     background: var(--brand);
     font-size: 12px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__track {
+      scroll-behavior: auto;
+    }
   }
 
   &__head {
@@ -262,27 +364,4 @@
   }
 }
 
-.add {
-  width: 100%;
-  min-height: 52px;
-  padding: 0 var(--step-5);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  background: var(--brand);
-  border: 1px solid var(--brand-deep);
-  border-radius: var(--radius-md);
-  cursor: pointer;
-
-  @media (hover: hover) {
-    &:hover {
-      background: var(--brand-lift);
-    }
-  }
-
-  &.is-added {
-    background: var(--tea);
-    border-color: var(--tea);
-    color: var(--paper);
-  }
-}
+// .add styles live in _cta.scss (shared with .cta on the product page).

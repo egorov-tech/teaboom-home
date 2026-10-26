@@ -1,4 +1,4 @@
-"""Builds index.html from tools/index.template.html and data/products.json.
+"""Builds index.html and product.html from templates + data/products.json.
 
 Run from anywhere: python3 tools/build_index.py
 Needs Pillow (reads product photo sizes for width/height).
@@ -7,13 +7,17 @@ import json, html, pathlib
 
 from PIL import Image
 
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "https://teaboom.ru"
-products = json.load(open(ROOT / f"data/products.json", encoding="utf-8"))
-NB = " "
+PRODUCT_PAGE = "product.html"
+products = json.load(open(ROOT / "data/products.json", encoding="utf-8"))
+NB = "\u00a0"
+
 
 def esc(s):
     return html.escape(s, quote=True)
+
 
 def money(v):
     whole = abs(v - round(v)) < 1e-9
@@ -21,11 +25,32 @@ def money(v):
     s = s.replace(",", NB).replace(".", ",")
     return f"{s}{NB}₽"
 
+
 def cut(old, now):
     return int((old - now) * 100 / old + 0.5)
 
+
 def site(path):
     return path if path.startswith("http") else SITE + path
+
+
+def gallery_stems(p):
+    """Local stems under assets/images/products/ for the in-card swipe."""
+    stems = []
+    for item in p.get("gallery") or [p["img"]]:
+        if isinstance(item, str) and item.startswith("assets/"):
+            stems.append(pathlib.Path(item).stem)
+        else:
+            # Remote URL: only the main product photo is stored locally as <slug>.*
+            if p["slug"] not in stems:
+                stems.append(p["slug"])
+    # Unique, keep order
+    out = []
+    for s in stems:
+        if s not in out:
+            out.append(s)
+    return out
+
 
 # ---------- banners (text transcribed from the images, see CONTENT.md) ----------
 slides = [
@@ -97,6 +122,10 @@ catalog_html = "\n".join(f'            <li><a class="catalog__link" href="{SITE}
 # ---------- products ----------
 cards = []
 ld_items = []
+ARROW = (
+    '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" '
+    'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
+)
 for idx, p in enumerate(products, 1):
     pid = f"good-{idx}"
     v0 = p["variants"][0]
@@ -113,20 +142,58 @@ for idx, p in enumerate(products, 1):
     badge = f'<span class="good__badge" data-cut>−{cut(v0["old"], v0["price"])}%</span>' if v0["old"] else '<span class="good__badge" data-cut hidden></span>'
     was_hidden = "" if v0["old"] else " hidden"
     was_val = money(v0["old"]) if v0["old"] else ""
-    w, h = (600, 600)
-    w, h = Image.open(ROOT / f"assets/images/products/{p['slug']}.jpg").size
-    cards.append(f'''        <li>
-          <article class="good" aria-labelledby="{pid}-name" data-good>
-            <a class="good__media" href="{SITE}{p["url"]}" tabindex="-1" aria-hidden="true">
-              <picture>
-                <source srcset="assets/images/products/{p["slug"]}-280.webp 280w, assets/images/products/{p["slug"]}.webp 600w" sizes="{GOOD_SIZES}" type="image/webp">
-                <img class="good__image" src="assets/images/products/{p["slug"]}.jpg" srcset="assets/images/products/{p["slug"]}-280.jpg 280w, assets/images/products/{p["slug"]}.jpg 600w" sizes="{GOOD_SIZES}" alt="{esc(p["alt"])}" width="{w}" height="{h}" loading="lazy" decoding="async">
-              </picture>
+
+    stems = gallery_stems(p)
+    frames = []
+    for fi, stem in enumerate(stems):
+        jpg = ROOT / f"assets/images/products/{stem}.jpg"
+        if not jpg.exists():
+            # Fall back to the main slug file if a gallery stem is missing.
+            stem = p["slug"]
+            jpg = ROOT / f"assets/images/products/{stem}.jpg"
+        w, h = Image.open(jpg).size
+        lazy = "" if (idx == 1 and fi == 0) else ' loading="lazy"'
+        alt = esc(p["alt"] if fi == 0 else f'{p["alt"]} — фото {fi + 1}')
+        frames.append(f'''              <a class="good__frame" href="{PRODUCT_PAGE}" tabindex="-1" aria-hidden="true" data-gallery-frame>
+                <picture>
+                  <source srcset="assets/images/products/{stem}-280.webp 280w, assets/images/products/{stem}.webp 600w" sizes="{GOOD_SIZES}" type="image/webp">
+                  <img class="good__image" src="assets/images/products/{stem}.jpg" srcset="assets/images/products/{stem}-280.jpg 280w, assets/images/products/{stem}.jpg 600w" sizes="{GOOD_SIZES}" alt="{alt}" width="{w}" height="{h}"{lazy} decoding="async">
+                </picture>
+              </a>''')
+
+    multi = len(stems) > 1
+    if multi:
+        dot_bits = []
+        for i in range(1, len(stems) + 1):
+            current = ' aria-current="true"' if i == 1 else ""
+            dot_bits.append(
+                f'                <button type="button" aria-label="Фото {i} из {len(stems)}"'
+                f"{current} data-gallery-dot></button>"
+            )
+        dots = "\n".join(dot_bits)
+        media = f'''            <div class="good__media good__gallery" data-gallery>
+              <div class="good__track" data-gallery-track>
+{chr(10).join(frames)}
+              </div>
+              <button class="good__nav" type="button" data-gallery-prev aria-label="Предыдущее фото">{ARROW}<path d="M12.5 4.5 7 10l5.5 5.5"/></svg></button>
+              <button class="good__nav" type="button" data-gallery-next aria-label="Следующее фото">{ARROW}<path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></button>
+              <div class="good__dots" data-gallery-dots>
+{dots}
+              </div>
               {badge}
-            </a>
+            </div>'''
+    else:
+        media = f'''            <div class="good__media">
+{frames[0].replace("good__frame", "good__frame good__frame--solo").replace(' tabindex="-1" aria-hidden="true"', "")}
+              {badge}
+            </div>'''
+
+    cards.append(f'''        <li>
+          <article class="good" aria-labelledby="{pid}-name" data-good data-slug="{esc(p["slug"])}">
+{media}
             <div class="good__head">
               <p class="good__cat"><a href="{SITE}{p["cat_url"]}">{esc(p["cat"])}</a></p>
-              <h3 class="good__name" id="{pid}-name"><a href="{SITE}{p["url"]}">{esc(p["name"])}</a></h3>
+              <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{esc(p["name"])}</a></h3>
             </div>
             <fieldset class="good__packs">
               <legend class="visually-hidden">Фасовка: {esc(p["name"])}</legend>
@@ -149,7 +216,7 @@ for idx, p in enumerate(products, 1):
     ld_items.append({
         "@type": "ListItem", "position": idx,
         "item": {
-            "@type": "Product", "name": p["name"], "url": SITE + p["url"], "image": p["img"] if p["img"].startswith("http") else SITE + p["img"],
+            "@type": "Product", "name": p["name"], "url": SITE + p["url"], "image": p["img"] if str(p["img"]).startswith("http") else SITE + "/" + str(p["img"]).lstrip("/"),
             "category": p["cat"], "sku": v0["sku"],
             "offers": {"@type": "AggregateOffer", "priceCurrency": "RUB", "lowPrice": f"{min(prices):.2f}", "highPrice": f"{max(prices):.2f}", "offerCount": len(prices)},
         },
@@ -168,5 +235,12 @@ out = (tpl.replace("{{SLIDES}}", "\n".join(slide_html)).replace("{{BARS}}", bars
           .replace("{{SIDE}}", side_html).replace("{{CATALOG}}", catalog_html).replace("{{GOODS}}", "\n".join(cards))
           .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2)))
 assert "{{" not in out
-open(ROOT / f"index.html", "w", encoding="utf-8").write(out)
-print("ok", len(out))
+(ROOT / "index.html").write_text(out, encoding="utf-8")
+print("ok index", len(out))
+
+# ---------- product.html (shared shell + accepted pineapple card) ----------
+ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
+pout = ptpl.replace("{{CATALOG}}", catalog_html)
+assert "{{" not in pout
+(ROOT / "product.html").write_text(pout, encoding="utf-8")
+print("ok product", len(pout))

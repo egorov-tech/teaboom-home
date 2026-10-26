@@ -1,5 +1,52 @@
 [
  {
+  "url": "/product/ananasovij-ulun",
+  "img": "https://media.teaboom.ru/images/e4bb1618-fb80-41e2-8758-86f884ce095d.jpg",
+  "alt": "Ананасовый улун",
+  "cat_url": "/category-aromatizirovannyj-ulun",
+  "cat": "Ароматизированный улун",
+  "name": "Ананасовый улун",
+  "sale": true,
+  "variants": [
+   {
+    "title": "Ананасовый улун, 100 г",
+    "label": "100 г",
+    "sku": "01306",
+    "old": 349.2,
+    "price": 326.4
+   },
+   {
+    "title": "Ананасовый улун, 500 г",
+    "label": "500 г",
+    "sku": "01307",
+    "old": 1646.0,
+    "price": 1432.0
+   },
+   {
+    "title": "Ананасовый улун, 1000 г",
+    "label": "1000 г",
+    "sku": "01308",
+    "old": 2592.0,
+    "price": 2064.0
+   },
+   {
+    "title": "Ананасовый улун, 5000 г",
+    "label": "5000 г",
+    "sku": "01309",
+    "old": 8710.0,
+    "price": 6320.0
+   }
+  ],
+  "slug": "ananasovij-ulun",
+  "gallery": [
+   "assets/images/products/ananasovij-ulun.jpg",
+   "assets/images/products/ananasovij-ulun-2.jpg",
+   "assets/images/products/ananasovij-ulun-3.jpg",
+   "assets/images/products/ananasovij-ulun-4.jpg"
+  ],
+  "demo_product": true
+ },
+ {
   "url": "/product/dun-din-ulun-ulun-is-moroznogo-pika",
   "img": "https://media.teaboom.ru/images/193fedfb-4ab3-46a0-a3b3-41d1115e0fe6.jpg",
   "alt": "Дун Дин Улун (Улун с Морозного Пика)",
@@ -37,7 +84,10 @@
     "price": 34585.0
    }
   ],
-  "slug": "dun-din-ulun-ulun-is-moroznogo-pika"
+  "slug": "dun-din-ulun-ulun-is-moroznogo-pika",
+  "gallery": [
+   "https://media.teaboom.ru/images/193fedfb-4ab3-46a0-a3b3-41d1115e0fe6.jpg"
+  ]
  },
  {
   "url": "/product/kofe-v-zernah-aromatizirovannij-tiramisu",
@@ -77,7 +127,10 @@
     "price": 11050.0
    }
   ],
-  "slug": "kofe-v-zernah-aromatizirovannij-tiramisu"
+  "slug": "kofe-v-zernah-aromatizirovannij-tiramisu",
+  "gallery": [
+   "https://media.teaboom.ru/images/868f60bc-e813-4074-960f-bca29fb2b3a4.jpg"
+  ]
  },
  {
   "url": "/product/kofe-v-zyornah-aromatizirovannyj-bejliz",
@@ -117,7 +170,10 @@
     "price": 11050.0
    }
   ],
-  "slug": "kofe-v-zyornah-aromatizirovannyj-bejliz"
+  "slug": "kofe-v-zyornah-aromatizirovannyj-bejliz",
+  "gallery": [
+   "https://media.teaboom.ru/images/c6d9330c-dd96-4d98-8ad4-14f1faf41799.jpg"
+  ]
  },
  {
   "url": "/product/persikovij-ulun",
@@ -157,7 +213,10 @@
     "price": 6475.0
    }
   ],
-  "slug": "persikovij-ulun"
+  "slug": "persikovij-ulun",
+  "gallery": [
+   "https://media.teaboom.ru/images/c635aaf6-b6e5-4c95-8abc-6c8e6aa32a07.jpg"
+  ]
  },
  {
   "url": "/product/chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii",
@@ -197,7 +256,10 @@
     "price": 21420.0
    }
   ],
-  "slug": "chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii"
+  "slug": "chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii",
+  "gallery": [
+   "https://media.teaboom.ru/images/9535cf7f-bbda-43f7-aade-76c7f0157c9b.jpg"
+  ]
  },
  {
   "url": "/product/chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom",
@@ -237,7 +299,10 @@
     "price": 6765.0
    }
   ],
-  "slug": "chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom"
+  "slug": "chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom",
+  "gallery": [
+   "https://media.teaboom.ru/images/73f25b78-434f-4d9a-ba57-7c10d39cb66d.jpg"
+  ]
  },
  {
   "url": "/product/chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj",
@@ -263,7 +328,10 @@
     "price": 22656.0
    }
   ],
-  "slug": "chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj"
+  "slug": "chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj",
+  "gallery": [
+   "https://media.teaboom.ru/images/7765934c-9cc8-4953-9689-d97227ca9741.jpg"
+  ]
  },
  {
   "url": "/product/shu-sian-lyuj-sencha",
@@ -303,6 +371,9 @@
     "price": 5840.0
    }
   ],
-  "slug": "shu-sian-lyuj-sencha"
+  "slug": "shu-sian-lyuj-sencha",
+  "gallery": [
+   "https://media.teaboom.ru/images/8fddbae6-24ba-4e0c-90f9-b427969efb3e.jpg"
+  ]
  }
 ]
