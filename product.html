@@ -16,33 +16,13 @@
   <meta property="og:description" content="Светлый фуцзяньский улун с ароматом ананаса. Четыре фасовки: 100, 500, 1000 и 5000 г.">
   <meta property="og:image" content="https://media.teaboom.ru/images/e4bb1618-fb80-41e2-8758-86f884ce095d.jpg">
 
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@400;500;600&display=swap"></noscript>
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="stylesheet" href="assets/css/product.css">
-
-  <script>
-    try {
-      if (sessionStorage.getItem("teaboom-intro")) {
-        document.documentElement.classList.add("is-warm");
-      }
-    } catch (e) {}
-  </script>
 </head>
 <body>
-  <div class="steep" data-steep aria-hidden="true">
-    <svg class="steep__leaf" viewBox="0 0 64 88" width="64" height="88" role="presentation" focusable="false">
-      <path class="steep__vein" d="M32 84V22" />
-      <path class="steep__half steep__half--left" d="M32 84C6 62 6 26 32 6" />
-      <path class="steep__half steep__half--right" d="M32 84c26-22 26-58 0-78" />
-      <path class="steep__rib steep__rib--l1" d="M32 62C22 58 17 48 17 39" />
-      <path class="steep__rib steep__rib--l2" d="M32 44c-7-3-11-11-11-18" />
-      <path class="steep__rib steep__rib--r1" d="M32 62c10-4 15-14 15-23" />
-      <path class="steep__rib steep__rib--r2" d="M32 44c7-3 11-11 11-18" />
-    </svg>
-  </div>
-
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 
-  <header class="masthead" data-masthead>
+<header class="masthead" data-masthead>
     <div class="masthead__top wrap">
       <a class="brand" href="./">
         <img class="brand__mark" src="assets/images/logo.png" alt="" width="95" height="95">
@@ -92,8 +72,8 @@
         </nav>
 
         <form class="search" role="search" action="https://teaboom.ru/search" method="get">
-          <label class="visually-hidden" for="search-field">Поиск по каталогу</label>
-          <input class="search__field" id="search-field" type="search" name="q" placeholder="Начните вводить название товара..." autocomplete="off" enterkeyhint="search">
+          <label class="visually-hidden" for="search-field-product">Поиск по каталогу</label>
+          <input class="search__field" id="search-field-product" type="search" name="q" placeholder="Начните вводить название товара..." autocomplete="off" enterkeyhint="search">
           <button class="search__submit press" type="submit">Найти</button>
         </form>
       </div>
@@ -127,6 +107,7 @@
       </div>
     </div>
   </header>
+
 
   <div class="page">
     <nav class="breadcrumbs" aria-label="Вы здесь">
@@ -358,7 +339,7 @@
     </main>
   </div>
 
-  <footer class="footer">
+<footer class="footer">
     <div class="footer__grid wrap">
       <section aria-labelledby="f-contacts">
         <h2 class="footer__title" id="f-contacts">Контакты</h2>
@@ -371,8 +352,30 @@
           </p>
           <p><span class="footer__key">Email</span><a class="footer__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a></p>
           <p><span class="footer__key">Режим работы</span>пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00</p>
+          <ul class="footer__social" aria-label="Мы в соцсетях">
+            <li><a href="https://t.me/Teaboom" rel="nofollow">Telegram</a></li>
+            <li><a href="https://vk.com/teaboom" rel="nofollow">ВКонтакте</a></li>
+            <li><a href="https://www.ok.ru/teaboom" rel="nofollow">Одноклассники</a></li>
+          </ul>
         </div>
       </section>
+      <nav aria-labelledby="f-company">
+        <h2 class="footer__title" id="f-company">Компания</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/nashi-servisy">Наши сервисы</a></li>
+          <li><a href="https://teaboom.ru/page/biznes-s-nami">Бизнес с нами</a></li>
+          <li><a href="https://teaboom.ru/page/vakansii">Вакансии</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-docs">
+        <h2 class="footer__title" id="f-docs">Документы</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/dogovor">Договор-оферта</a></li>
+          <li><a href="https://teaboom.ru/page/sertifikaty">Сертификаты</a></li>
+          <li><a href="https://teaboom.ru/pages">Статьи о чае</a></li>
+          <li><a href="https://teaboom.ru/page/privacy-policy">Политика конфиденциальности</a></li>
+        </ul>
+      </nav>
       <nav aria-labelledby="f-buyers">
         <h2 class="footer__title" id="f-buyers">Покупателям</h2>
         <ul class="footer__list">
@@ -385,9 +388,10 @@
     <div class="footer__base wrap">
       <p>© Все права защищены Teaboom.ru</p>
       <p>ООО «Кассиопея», ИНН 7707798450</p>
-      <p>Демо главной и карточки для обсуждения. Эталон: <a href="https://egorov-tech.github.io/teaboom-product-card/">принятая карточка</a></p>
+      <p>Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a></p>
     </div>
   </footer>
+
 
   <script type="application/ld+json">
   {
@@ -419,6 +423,12 @@
 
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@400;500;600&amp;display=swap"></script>
+  <script src="assets/js/product-card.js" defer></script>
+</body>
+</html>
+
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
   <script src="assets/js/product-card.js" defer></script>
 </body>
 </html>

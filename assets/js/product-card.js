@@ -1,10 +1,4 @@
 /* Product page: pack switching, gallery thumbs, add-to-cart via shared TeaboomCart. */
-
-// Remember that the intro already played, so other views in this tab skip it.
-try {
-  sessionStorage.setItem("teaboom-intro", "1");
-} catch (e) {}
-
 (() => {
   "use strict";
 

@@ -234,17 +234,47 @@ ld = [
      "sameAs": ["https://t.me/Teaboom", "https://vk.com/teaboom", "https://www.ok.ru/teaboom"]},
 ]
 
+def shell(nav_home_attr, search_id, footer_note):
+    """One masthead + footer for every page — same components, page-specific attrs only."""
+    mast = (ROOT / "tools/partials/masthead.html").read_text(encoding="utf-8")
+    foot = (ROOT / "tools/partials/footer.html").read_text(encoding="utf-8")
+    mast = (
+        mast.replace("{{NAV_HOME_ATTR}}", nav_home_attr)
+        .replace("{{SEARCH_ID}}", search_id)
+        .replace("{{CATALOG}}", catalog_html)
+    )
+    foot = foot.replace("{{FOOTER_NOTE}}", footer_note)
+    return mast, foot
+
+
 tpl = (ROOT / "tools" / "index.template.html").read_text(encoding="utf-8")
-out = (tpl.replace("{{SLIDES}}", "\n".join(slide_html)).replace("{{BARS}}", bars).replace("{{N}}", f"{n:02d}")
-          .replace("{{SIDE}}", side_html).replace("{{CATALOG}}", catalog_html).replace("{{GOODS}}", "\n".join(cards))
-          .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2)))
+mast_home, foot_home = shell(
+    ' aria-current="page"',
+    "search-field",
+    'Демо главной и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+)
+out = (
+    tpl.replace("{{MASTHEAD}}", mast_home)
+    .replace("{{FOOTER}}", foot_home)
+    .replace("{{SLIDES}}", "\n".join(slide_html))
+    .replace("{{BARS}}", bars)
+    .replace("{{N}}", f"{n:02d}")
+    .replace("{{SIDE}}", side_html)
+    .replace("{{GOODS}}", "\n".join(cards))
+    .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
+)
 assert "{{" not in out
 (ROOT / "index.html").write_text(out, encoding="utf-8")
 print("ok index", len(out))
 
-# ---------- product.html (shared shell + accepted pineapple card) ----------
+# ---------- product.html (same shell as home + pineapple PDP content) ----------
 ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
-pout = ptpl.replace("{{CATALOG}}", catalog_html)
+mast_pdp, foot_pdp = shell(
+    "",
+    "search-field-product",
+    'Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+)
+pout = ptpl.replace("{{MASTHEAD}}", mast_pdp).replace("{{FOOTER}}", foot_pdp)
 assert "{{" not in pout
 (ROOT / "product.html").write_text(pout, encoding="utf-8")
 print("ok product", len(pout))

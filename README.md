@@ -6,9 +6,11 @@
 в один продукт). Каталог, корзина и остальные страницы в этот заход не рисовались.
 
 **Главная:** https://egorov-tech.github.io/teaboom-home/
-**Карточка в этой же системе:** https://egorov-tech.github.io/teaboom-home/product.html
-**Эталон (не менять):** https://egorov-tech.github.io/teaboom-product-card/
-([репозиторий эталона](https://github.com/egorov-tech/teaboom-product-card))
+**Карточка в этой же системе:** https://egorov-tech.github.io/teaboom-home/product.html  
+(одна оболочка: `tools/partials/masthead.html` + `footer.html` на обеих страницах)
+
+**Исторический эталон вёрстки карточки (отдельный репозиторий, для демо не используем):**  
+https://egorov-tech.github.io/teaboom-product-card/
 
 ## Как открыть
 

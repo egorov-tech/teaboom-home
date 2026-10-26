@@ -1,0 +1,66 @@
+<header class="masthead" data-masthead>
+    <div class="masthead__top wrap">
+      <a class="brand" href="./">
+        <img class="brand__mark" src="assets/images/logo.png" alt="" width="95" height="95">
+        <span class="brand__text">
+          <span class="brand__name">Чайный Бум</span>
+          <span class="brand__tagline">Интернет-магазин чая и посуды</span>
+        </span>
+        <span class="visually-hidden">— на главную</span>
+      </a>
+
+      <div class="masthead__contacts">
+        <a class="masthead__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>
+        <a class="masthead__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a>
+        <p class="masthead__hours">пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00</p>
+      </div>
+
+      <p class="cart" data-cart>
+        <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+        <span class="cart__label">Корзина</span>
+        <span class="cart__count" data-cart-count>0</span>
+        <span class="visually-hidden" data-cart-words>, товаров: 0</span>
+      </p>
+      <p class="visually-hidden" role="status" data-cart-status></p>
+    </div>
+
+    <div class="masthead__bottom">
+      <div class="masthead__bar wrap">
+        <nav class="menu" aria-label="Основное меню">
+          <ul class="menu__list">
+            <li><a class="menu__link" href="./"{{NAV_HOME_ATTR}}>Главная</a></li>
+            <li>
+              <button class="menu__link press" type="button" aria-expanded="false" aria-controls="catalog" data-catalog-toggle>
+                Каталог
+                <svg class="menu__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+              </button>
+            </li>
+            <li>
+              <a class="menu__link" href="https://teaboom.ru/category-podarki">
+                <svg class="menu__gift" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="12" height="8" rx="1"/><path d="M1.5 6h13M8 6v8M8 6S6.8 2.5 5 3.2 5.6 6 8 6Zm0 0s1.2-3.5 3-2.8S10.4 6 8 6Z"/></svg>
+                Подарки
+              </a>
+            </li>
+            <li><a class="menu__link" href="https://teaboom.ru/pricelist">Прайслист</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/shop_reviews/">Отзывы</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/contact">Контакты</a></li>
+          </ul>
+        </nav>
+
+        <form class="search" role="search" action="https://teaboom.ru/search" method="get">
+          <label class="visually-hidden" for="{{SEARCH_ID}}">Поиск по каталогу</label>
+          <input class="search__field" id="{{SEARCH_ID}}" type="search" name="q" placeholder="Начните вводить название товара..." autocomplete="off" enterkeyhint="search">
+          <button class="search__submit press" type="submit">Найти</button>
+        </form>
+      </div>
+
+      <div class="catalog" id="catalog" hidden data-catalog>
+        <div class="catalog__inner wrap">
+          <a class="catalog__all" href="https://teaboom.ru/category-root">Все категории</a>
+          <ul class="catalog__list">
+{{CATALOG}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
