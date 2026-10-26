@@ -2,6 +2,20 @@
 // The page is fully readable without this file; it only adds interaction.
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+  // ---------- Fonts ----------
+  // Oswald and Open Sans load once the page is up; until then the system grotesque is used.
+  const fontsHref = document.currentScript?.dataset.fonts;
+  if (fontsHref) {
+    const addFonts = () => {
+      const link = document.createElement("link");
+      link.rel = "stylesheet";
+      link.href = fontsHref;
+      document.head.append(link);
+    };
+    if (document.readyState === "complete") addFonts();
+    else window.addEventListener("load", addFonts, { once: true });
+  }
   const scrollBehavior = () => (reduceMotion.matches ? "auto" : "smooth");
 
   // ---------- Catalogue panel ----------
@@ -91,8 +105,24 @@
 
     const pad = (n) => String(n).padStart(2, "0");
 
+    // Banners after the first carry their sources in data-* until the carousel needs them.
+    const hydrate = (slide) => {
+      if (!slide) return;
+      slide.querySelectorAll("[data-srcset], [data-src]").forEach((el) => {
+        if (el.dataset.srcset) el.srcset = el.dataset.srcset;
+        if (el.dataset.src) el.src = el.dataset.src;
+        el.removeAttribute("data-srcset");
+        el.removeAttribute("data-src");
+      });
+    };
+
     const render = (i) => {
       index = i;
+      hydrate(slides[i]);
+      if (announce) {
+        hydrate(slides[(i + 1) % slides.length]);
+        hydrate(slides[(i - 1 + slides.length) % slides.length]);
+      }
       current.textContent = pad(i + 1);
       bars.forEach((bar, n) => bar.classList.toggle("is-current", n === i));
       // Only the banner on screen is reachable with Tab.
@@ -143,6 +173,10 @@
     slides.forEach((slide) => seen.observe(slide));
 
     render(0);
+    // The peeking second banner on phones is fetched once the page itself has loaded.
+    const warmNext = () => hydrate(slides[1]);
+    if (document.readyState === "complete") warmNext();
+    else window.addEventListener("load", warmNext, { once: true });
   }
 
   // ---------- Packs and prices ----------

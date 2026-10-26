@@ -10,10 +10,8 @@
   <meta name="theme-color" content="#f5d730">
   <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fonts load without blocking the first paint; the system grotesque stands in until then. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <!-- Google Fonts arrive after the page has loaded (home.js); the system grotesque stands in
+       until then, so text and the first banner never wait for a third-party font. -->
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="preload" as="image" type="image/webp" fetchpriority="high"
         imagesrcset="assets/images/banners/slide-06-480.webp 480w, assets/images/banners/slide-06.webp 910w"
@@ -217,6 +215,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/home.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
 </body>
 </html>

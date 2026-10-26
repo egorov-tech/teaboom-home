@@ -54,11 +54,14 @@ for i, src in enumerate(order, 1):
     first = i == 1
     img_attrs = 'fetchpriority="high"' if first else 'loading="lazy" decoding="async"'
     tab = "" if first else ' tabindex="-1"'
+    # Only the first banner loads with the page; the rest are fetched by home.js as the
+    # carousel reaches them (lazy loading does not hold back images in a sideways scroller).
+    pre = "" if first else "data-"
     slide_html.append(f'''          <li class="banners__slide" aria-roledescription="слайд" aria-label="{i} из {n}" data-slide>
             <a class="banners__link" href="{esc(site(href))}"{tab}>
               <picture>
-                <source srcset="assets/images/banners/slide-{src:02d}-480.webp 480w, assets/images/banners/slide-{src:02d}.webp 910w" sizes="{BANNER_SIZES}" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-{src:02d}.jpg" srcset="assets/images/banners/slide-{src:02d}-480.jpg 480w, assets/images/banners/slide-{src:02d}.jpg 910w" sizes="{BANNER_SIZES}" alt="{esc(alt)}" width="910" height="512" {img_attrs}>
+                <source {pre}srcset="assets/images/banners/slide-{src:02d}-480.webp 480w, assets/images/banners/slide-{src:02d}.webp 910w" sizes="{BANNER_SIZES}" type="image/webp">
+                <img class="banners__image" {pre}src="assets/images/banners/slide-{src:02d}.jpg" {pre}srcset="assets/images/banners/slide-{src:02d}-480.jpg 480w, assets/images/banners/slide-{src:02d}.jpg 910w" sizes="{BANNER_SIZES}" alt="{esc(alt)}" width="910" height="512" {img_attrs}>
               </picture>
             </a>
           </li>''')

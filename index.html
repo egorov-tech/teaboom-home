@@ -10,10 +10,8 @@
   <meta name="theme-color" content="#f5d730">
   <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <!-- Fonts load without blocking the first paint; the system grotesque stands in until then. -->
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <!-- Google Fonts arrive after the page has loaded (home.js); the system grotesque stands in
+       until then, so text and the first banner never wait for a third-party font. -->
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="preload" as="image" type="image/webp" fetchpriority="high"
         imagesrcset="assets/images/banners/slide-06-480.webp 480w, assets/images/banners/slide-06.webp 910w"
@@ -397,88 +395,88 @@
           <li class="banners__slide" aria-roledescription="слайд" aria-label="2 из 12" data-slide>
             <a class="banners__link" href="https://t.me/Teaboom" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-01-480.webp 480w, assets/images/banners/slide-01.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-01.jpg" srcset="assets/images/banners/slide-01-480.jpg 480w, assets/images/banners/slide-01.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Подпишитесь на наш канал и будьте в курсе! Telegram-канал Teaboom на экране телефона" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-01-480.webp 480w, assets/images/banners/slide-01.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-01.jpg" data-srcset="assets/images/banners/slide-01-480.jpg 480w, assets/images/banners/slide-01.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Подпишитесь на наш канал и будьте в курсе! Telegram-канал Teaboom на экране телефона" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="3 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/shipping/" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-02-480.webp 480w, assets/images/banners/slide-02.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-02.jpg" srcset="assets/images/banners/slide-02-480.jpg 480w, assets/images/banners/slide-02.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Оформите заказ до 14:00 и получите доставку в вечернее время" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-02-480.webp 480w, assets/images/banners/slide-02.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-02.jpg" data-srcset="assets/images/banners/slide-02-480.jpg 480w, assets/images/banners/slide-02.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Оформите заказ до 14:00 и получите доставку в вечернее время" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="4 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/shipping/#shipping_1" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-03-480.webp 480w, assets/images/banners/slide-03.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-03.jpg" srcset="assets/images/banners/slide-03-480.jpg 480w, assets/images/banners/slide-03.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Бесплатная доставка при заказе на сумму 3500 рублей в пределах МКАД" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-03-480.webp 480w, assets/images/banners/slide-03.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-03.jpg" data-srcset="assets/images/banners/slide-03-480.jpg 480w, assets/images/banners/slide-03.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Бесплатная доставка при заказе на сумму 3500 рублей в пределах МКАД" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="5 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/shipping/#shipping_5" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-04-480.webp 480w, assets/images/banners/slide-04.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-04.jpg" srcset="assets/images/banners/slide-04-480.jpg 480w, assets/images/banners/slide-04.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Самовывоз — бесплатно! Метро Октябрьское Поле и Панфиловская, ул. Народного Ополчения, д. 47" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-04-480.webp 480w, assets/images/banners/slide-04.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-04.jpg" data-srcset="assets/images/banners/slide-04-480.jpg 480w, assets/images/banners/slide-04.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Самовывоз — бесплатно! Метро Октябрьское Поле и Панфиловская, ул. Народного Ополчения, д. 47" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="6 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/search?q=габа" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-05-480.webp 480w, assets/images/banners/slide-05.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-05.jpg" srcset="assets/images/banners/slide-05-480.jpg 480w, assets/images/banners/slide-05.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Оригинальный габа чай из Тайваня и Вьетнама" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-05-480.webp 480w, assets/images/banners/slide-05.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-05.jpg" data-srcset="assets/images/banners/slide-05-480.jpg 480w, assets/images/banners/slide-05.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Оригинальный габа чай из Тайваня и Вьетнама" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="7 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/category-matcha" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-07-480.webp 480w, assets/images/banners/slide-07.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-07.jpg" srcset="assets/images/banners/slide-07-480.jpg 480w, assets/images/banners/slide-07.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Разноцветный матча чай и аксессуары. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-07-480.webp 480w, assets/images/banners/slide-07.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-07.jpg" data-srcset="assets/images/banners/slide-07-480.jpg 480w, assets/images/banners/slide-07.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Разноцветный матча чай и аксессуары. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="8 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/search?q=ку%20цяо" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-08-480.webp 480w, assets/images/banners/slide-08.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-08.jpg" srcset="assets/images/banners/slide-08-480.jpg 480w, assets/images/banners/slide-08.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Ку цяо — гречишный чай. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-08-480.webp 480w, assets/images/banners/slide-08.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-08.jpg" data-srcset="assets/images/banners/slide-08-480.jpg 480w, assets/images/banners/slide-08.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Ку цяо — гречишный чай. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="9 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/category-travyanoj-chaj" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-09-480.webp 480w, assets/images/banners/slide-09.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-09.jpg" srcset="assets/images/banners/slide-09-480.jpg 480w, assets/images/banners/slide-09.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Полезный чай из душистых трав. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-09-480.webp 480w, assets/images/banners/slide-09.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-09.jpg" data-srcset="assets/images/banners/slide-09-480.jpg 480w, assets/images/banners/slide-09.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Полезный чай из душистых трав. Хит сезона" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="10 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/category-posuda-i-aksessuary" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-10-480.webp 480w, assets/images/banners/slide-10.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-10.jpg" srcset="assets/images/banners/slide-10-480.jpg 480w, assets/images/banners/slide-10.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Посуда и аксессуары" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-10-480.webp 480w, assets/images/banners/slide-10.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-10.jpg" data-srcset="assets/images/banners/slide-10-480.jpg 480w, assets/images/banners/slide-10.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Посуда и аксессуары" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="11 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/category-kofe" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-11-480.webp 480w, assets/images/banners/slide-11.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-11.jpg" srcset="assets/images/banners/slide-11-480.jpg 480w, assets/images/banners/slide-11.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Вкусный кофе" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-11-480.webp 480w, assets/images/banners/slide-11.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-11.jpg" data-srcset="assets/images/banners/slide-11-480.jpg 480w, assets/images/banners/slide-11.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Вкусный кофе" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
           <li class="banners__slide" aria-roledescription="слайд" aria-label="12 из 12" data-slide>
             <a class="banners__link" href="https://teaboom.ru/category-sladosti" tabindex="-1">
               <picture>
-                <source srcset="assets/images/banners/slide-12-480.webp 480w, assets/images/banners/slide-12.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
-                <img class="banners__image" src="assets/images/banners/slide-12.jpg" srcset="assets/images/banners/slide-12-480.jpg 480w, assets/images/banners/slide-12.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Сладости" width="910" height="512" loading="lazy" decoding="async">
+                <source data-srcset="assets/images/banners/slide-12-480.webp 480w, assets/images/banners/slide-12.webp 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" type="image/webp">
+                <img class="banners__image" data-src="assets/images/banners/slide-12.jpg" data-srcset="assets/images/banners/slide-12-480.jpg 480w, assets/images/banners/slide-12.jpg 910w" sizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw" alt="Сладости" width="910" height="512" loading="lazy" decoding="async">
               </picture>
             </a>
           </li>
@@ -1032,6 +1030,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/home.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
 </body>
 </html>
