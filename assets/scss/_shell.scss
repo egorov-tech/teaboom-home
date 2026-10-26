@@ -1,10 +1,68 @@
 @use "tokens" as *;
 
 .masthead {
-  position: relative;
-  z-index: 10;
-  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
   border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow var(--ease), background var(--ease);
+
+  // Phones/tablets: shrink to brand + cart so the basket stays reachable while shopping.
+  @media (max-width: #{$bp-split - 1px}) {
+    &.is-compact {
+      box-shadow: 0 8px 24px rgb(27 27 27 / 8%);
+      background: color-mix(in srgb, var(--paper) 96%, transparent);
+
+      .masthead__contacts {
+        display: none;
+      }
+
+      .masthead__top {
+        padding-block: calc(var(--step-2) + env(safe-area-inset-top, 0px)) var(--step-2);
+        gap: var(--step-2);
+      }
+
+      .masthead__bottom {
+        max-height: 0;
+        border-top-width: 0;
+        opacity: 0;
+        overflow: hidden;
+        pointer-events: none;
+        transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out),
+          border-top-width 220ms var(--ease-out);
+      }
+
+      .brand__mark {
+        width: 34px;
+        height: 34px;
+      }
+
+      .brand__name {
+        font-size: 18px;
+      }
+
+      .cart {
+        min-height: 40px;
+        padding-inline: var(--step-3);
+        border-color: var(--brand-deep);
+        background: var(--brand);
+      }
+
+      .cart__count {
+        background: var(--ink);
+        color: var(--paper);
+      }
+    }
+
+    &:not(.is-compact) .masthead__bottom {
+      max-height: 200px;
+      opacity: 1;
+      transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out);
+    }
+  }
 
   &__top {
     display: flex;
@@ -12,6 +70,7 @@
     align-items: center;
     gap: var(--step-3) var(--step-6);
     padding-block: var(--step-4);
+    padding-top: calc(var(--step-4) + env(safe-area-inset-top, 0px));
   }
 
   &__contacts {

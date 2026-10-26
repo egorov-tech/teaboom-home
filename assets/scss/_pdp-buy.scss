@@ -8,3 +8,13 @@
 .price {
   margin-top: clamp(24px, 3vw, 32px);
 }
+
+// Phones: keep «В корзину» pinned above the home indicator while reading packs/reviews.
+@media (max-width: #{$bp-wide - 1px}) {
+  .buy .cta {
+    position: sticky;
+    bottom: calc(var(--step-3) + env(safe-area-inset-bottom, 0px));
+    z-index: 8;
+    box-shadow: 0 10px 28px rgb(27 27 27 / 14%);
+  }
+}

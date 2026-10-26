@@ -18,6 +18,29 @@
   }
   const scrollBehavior = () => (reduceMotion.matches ? "auto" : "smooth");
 
+  // ---------- Sticky compact masthead (mobile/tablet) ----------
+  const masthead = document.querySelector("[data-masthead]");
+  if (masthead) {
+    const compactMq = window.matchMedia("(max-width: 1059px)");
+    let ticking = false;
+
+    const syncCompact = () => {
+      const on = compactMq.matches && window.scrollY > 36;
+      masthead.classList.toggle("is-compact", on);
+      ticking = false;
+    };
+
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(syncCompact);
+    };
+
+    syncCompact();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    compactMq.addEventListener("change", syncCompact);
+  }
+
   // ---------- Catalogue panel ----------
   const toggle = document.querySelector("[data-catalog-toggle]");
   const panel = document.querySelector("[data-catalog]");
@@ -307,9 +330,24 @@
     );
     frames.forEach((frame) => seen.observe(frame));
 
+    const markSwiped = () => gallery.classList.add("is-swiped");
+    track.addEventListener(
+      "scroll",
+      () => {
+        if (track.scrollLeft > 12) markSwiped();
+      },
+      { passive: true }
+    );
+    prev?.addEventListener("click", markSwiped);
+    next?.addEventListener("click", markSwiped);
+    dots.forEach((dot) => dot.addEventListener("click", markSwiped));
+
     autoplay = bindAutoplay(gallery, {
       interval: Number(gallery.dataset.autoplay) || 3500,
-      next: () => render(index + 1),
+      next: () => {
+        markSwiped();
+        render(index + 1);
+      },
     });
   });
 

@@ -39,7 +39,7 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  scroll-padding-top: var(--step-4);
+  scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px));
 }
 
 body {
@@ -193,10 +193,57 @@ body::before {
   }
 }
 .masthead {
-  position: relative;
-  z-index: 10;
-  background: var(--paper);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: color-mix(in srgb, var(--paper) 92%, transparent);
   border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: box-shadow var(--ease), background var(--ease);
+}
+@media (max-width: 1059px) {
+  .masthead.is-compact {
+    box-shadow: 0 8px 24px rgba(27, 27, 27, 0.08);
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+  }
+  .masthead.is-compact .masthead__contacts {
+    display: none;
+  }
+  .masthead.is-compact .masthead__top {
+    padding-block: calc(var(--step-2) + env(safe-area-inset-top, 0px)) var(--step-2);
+    gap: var(--step-2);
+  }
+  .masthead.is-compact .masthead__bottom {
+    max-height: 0;
+    border-top-width: 0;
+    opacity: 0;
+    overflow: hidden;
+    pointer-events: none;
+    transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out), border-top-width 220ms var(--ease-out);
+  }
+  .masthead.is-compact .brand__mark {
+    width: 34px;
+    height: 34px;
+  }
+  .masthead.is-compact .brand__name {
+    font-size: 18px;
+  }
+  .masthead.is-compact .cart {
+    min-height: 40px;
+    padding-inline: var(--step-3);
+    border-color: var(--brand-deep);
+    background: var(--brand);
+  }
+  .masthead.is-compact .cart__count {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .masthead:not(.is-compact) .masthead__bottom {
+    max-height: 200px;
+    opacity: 1;
+    transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out);
+  }
 }
 .masthead__top {
   display: flex;
@@ -204,6 +251,7 @@ body::before {
   align-items: center;
   gap: var(--step-3) var(--step-6);
   padding-block: var(--step-4);
+  padding-top: calc(var(--step-4) + env(safe-area-inset-top, 0px));
 }
 .masthead__contacts {
   display: flex;
@@ -1071,7 +1119,7 @@ body::before {
   scroll-behavior: smooth;
   scrollbar-width: none;
   -ms-overflow-style: none;
-  touch-action: pan-y pinch-zoom;
+  touch-action: pan-x pan-y pinch-zoom;
 }
 .good__track::-webkit-scrollbar {
   display: none;
@@ -1080,6 +1128,12 @@ body::before {
   flex: 0 0 100%;
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+@media (max-width: 599px) {
+  .good__frame {
+    flex-basis: 86%;
+    margin-right: 6px;
+  }
 }
 .good__image {
   width: 100%;
@@ -1090,7 +1144,8 @@ body::before {
   position: absolute;
   top: 50%;
   z-index: 2;
-  display: none;
+  display: grid;
+  place-items: center;
   width: 28px;
   height: 28px;
   padding: 0;
@@ -1100,11 +1155,20 @@ body::before {
   color: var(--ink);
   transform: translateY(-50%);
   cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--ease);
 }
-@media (hover: hover) {
+@media (max-width: 599px) {
+  .good__nav[data-gallery-next] {
+    opacity: 0.9;
+    pointer-events: auto;
+  }
+}
+@media (hover: hover) and (min-width: 600px) {
   .good__gallery:hover .good__nav, .good__gallery:focus-within .good__nav {
-    display: grid;
-    place-items: center;
+    opacity: 1;
+    pointer-events: auto;
   }
 }
 .good__nav:active {
@@ -1120,6 +1184,36 @@ body::before {
   width: 14px;
   height: 14px;
 }
+.good__swipe {
+  position: absolute;
+  right: 6px;
+  bottom: 18px;
+  z-index: 2;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--ink) 72%, transparent);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+  animation: swipe-nudge 1.6s var(--ease-out) infinite;
+}
+@media (max-width: 599px) {
+  .good__swipe {
+    display: inline-flex;
+  }
+}
+.good__gallery.is-swiped .good__swipe {
+  display: none;
+  animation: none;
+}
+.good__swipe svg {
+  flex: none;
+}
 .good__dots {
   position: absolute;
   left: 0;
@@ -1128,21 +1222,29 @@ body::before {
   z-index: 2;
   display: flex;
   justify-content: center;
-  gap: 4px;
+  gap: 5px;
   pointer-events: none;
 }
 .good__dots button {
   pointer-events: auto;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   padding: 0;
   border: 0;
   border-radius: 50%;
   background: var(--line-strong);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
   cursor: pointer;
+}
+@media (max-width: 599px) {
+  .good__dots button {
+    width: 8px;
+    height: 8px;
+  }
 }
 .good__dots button[aria-current=true] {
   background: var(--ink);
+  transform: scale(1.15);
 }
 .good__badge {
   position: absolute;
@@ -1155,11 +1257,6 @@ body::before {
   font-size: 12px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
-}
-@media (prefers-reduced-motion: reduce) {
-  .good__track {
-    scroll-behavior: auto;
-  }
 }
 .good__head {
   grid-area: head;
@@ -1214,7 +1311,23 @@ body::before {
   display: grid;
   gap: var(--step-3);
 }
+@media (prefers-reduced-motion: reduce) {
+  .good__track {
+    scroll-behavior: auto;
+  }
+  .good__swipe {
+    animation: none;
+  }
+}
 
+@keyframes swipe-nudge {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
 .about {
   display: grid;
   gap: var(--step-5) var(--step-7);

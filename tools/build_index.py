@@ -177,6 +177,10 @@ for idx, p in enumerate(products, 1):
               </div>
               <button class="good__nav" type="button" data-gallery-prev aria-label="Предыдущее фото">{ARROW}<path d="M12.5 4.5 7 10l5.5 5.5"/></svg></button>
               <button class="good__nav" type="button" data-gallery-next aria-label="Следующее фото">{ARROW}<path d="M7.5 4.5 13 10l-5.5 5.5"/></svg></button>
+              <p class="good__swipe" data-gallery-hint aria-hidden="true">
+                <svg viewBox="0 0 24 16" width="24" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 8h14M15 4l4 4-4 4M9 4 5 8l4 4"/></svg>
+                <span>листайте</span>
+              </p>
               <div class="good__dots" data-gallery-dots>
 {dots}
               </div>

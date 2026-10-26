@@ -72,7 +72,7 @@
     scroll-behavior: smooth;
     scrollbar-width: none;
     -ms-overflow-style: none;
-    touch-action: pan-y pinch-zoom;
+    touch-action: pan-x pan-y pinch-zoom;
 
     &::-webkit-scrollbar {
       display: none;
@@ -83,6 +83,12 @@
     flex: 0 0 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
+
+    // Phones: next frame peeks so swipe is obvious without reading a hint.
+    @media (max-width: #{$bp-wide - 1px}) {
+      flex-basis: 86%;
+      margin-right: 6px;
+    }
   }
 
   // Shop photos come in three proportions; a square white field keeps every row level.
@@ -96,7 +102,8 @@
     position: absolute;
     top: 50%;
     z-index: 2;
-    display: none;
+    display: grid;
+    place-items: center;
     width: 28px;
     height: 28px;
     padding: 0;
@@ -106,12 +113,23 @@
     color: var(--ink);
     transform: translateY(-50%);
     cursor: pointer;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--ease);
 
-    @media (hover: hover) {
+    // Narrow screens: keep the next arrow visible as a swipe cue (phones + narrow windows).
+    @media (max-width: #{$bp-wide - 1px}) {
+      &[data-gallery-next] {
+        opacity: 0.9;
+        pointer-events: auto;
+      }
+    }
+
+    @media (hover: hover) and (min-width: $bp-wide) {
       .good__gallery:hover &,
       .good__gallery:focus-within & {
-        display: grid;
-        place-items: center;
+        opacity: 1;
+        pointer-events: auto;
       }
     }
 
@@ -133,6 +151,38 @@
     }
   }
 
+  &__swipe {
+    position: absolute;
+    right: 6px;
+    bottom: 18px;
+    z-index: 2;
+    display: none;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--ink) 72%, transparent);
+    color: var(--paper);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    pointer-events: none;
+    animation: swipe-nudge 1.6s var(--ease-out) infinite;
+
+    @media (max-width: #{$bp-wide - 1px}) {
+      display: inline-flex;
+    }
+
+    .good__gallery.is-swiped & {
+      display: none;
+      animation: none;
+    }
+
+    svg {
+      flex: none;
+    }
+  }
+
   &__dots {
     position: absolute;
     left: 0;
@@ -141,21 +191,28 @@
     z-index: 2;
     display: flex;
     justify-content: center;
-    gap: 4px;
+    gap: 5px;
     pointer-events: none;
 
     button {
       pointer-events: auto;
-      width: 6px;
-      height: 6px;
+      width: 7px;
+      height: 7px;
       padding: 0;
       border: 0;
       border-radius: 50%;
       background: var(--line-strong);
+      box-shadow: 0 0 0 1px rgb(255 255 255 / 70%);
       cursor: pointer;
+
+      @media (max-width: #{$bp-wide - 1px}) {
+        width: 8px;
+        height: 8px;
+      }
 
       &[aria-current="true"] {
         background: var(--ink);
+        transform: scale(1.15);
       }
     }
   }
@@ -171,12 +228,6 @@
     font-size: 12px;
     font-weight: 700;
     font-variant-numeric: tabular-nums;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    &__track {
-      scroll-behavior: auto;
-    }
   }
 
   &__head {
@@ -239,6 +290,27 @@
     grid-area: buy;
     display: grid;
     gap: var(--step-3);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__track {
+      scroll-behavior: auto;
+    }
+
+    &__swipe {
+      animation: none;
+    }
+  }
+}
+
+@keyframes swipe-nudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+
+  50% {
+    transform: translateX(4px);
   }
 }
 
