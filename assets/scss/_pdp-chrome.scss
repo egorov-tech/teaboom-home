@@ -3,73 +3,101 @@
 // Opening sequence on the product page only: leaf draws, then the page settles.
 // Menu/search/cart live in _shell.scss — do not duplicate them here.
 
+// Timeline (once per tab): leaf grows in 0–400ms, strokes draw by ~950ms, the halves fill
+// and the shop name fades in, then the layer leaves at 1150–1450ms. Before, the layer faded
+// out at 560ms while the strokes were still drawing, so almost nothing was seen.
 .steep {
   position: fixed;
   inset: 0;
   z-index: 50; // above sticky masthead for the handoff from home
   display: grid;
-  place-items: center;
+  place-content: center;
+  justify-items: center;
+  gap: var(--step-4);
   background: var(--canvas);
-  animation: steep-out 260ms ease 560ms both;
+  pointer-events: none;
+  animation: steep-out 300ms var(--ease-out) 1150ms both;
 
   &__leaf {
-    width: clamp(72px, 9vw, 104px);
+    width: clamp(96px, 16vw, 132px);
     height: auto;
-    fill: none;
     stroke-linecap: round;
-    animation: steep-leaf 620ms cubic-bezier(0.3, 0, 0.2, 1) both;
+    stroke-linejoin: round;
+    overflow: visible;
+    animation: steep-leaf 400ms var(--ease-out) both;
   }
 
   &__half,
   &__vein,
   &__rib {
+    fill: none;
     stroke: var(--tea);
-    stroke-width: 2;
+    stroke-width: 2.4;
     stroke-dasharray: 130;
     stroke-dashoffset: 130;
-    animation: steep-draw 560ms ease forwards;
+    animation: steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+  }
+
+  // Each half closes along the vein, so a fill paints exactly one side of the leaf.
+  &__half {
+    fill: var(--tea);
+    fill-opacity: 0;
+    animation:
+      steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards,
+      steep-fill 300ms ease-out 820ms forwards;
   }
 
   &__vein {
     stroke: var(--brand-deep);
-    animation-delay: 120ms;
+    stroke-width: 2.8;
+    animation-delay: 160ms;
   }
 
   &__half--left {
-    animation-delay: 40ms;
+    animation-delay: 60ms, 820ms;
   }
 
   &__half--right {
-    animation-delay: 100ms;
+    animation-delay: 120ms, 860ms;
   }
 
   &__rib {
-    stroke-width: 1.5;
+    stroke: var(--brand);
+    stroke-width: 1.8;
     stroke-dasharray: 40;
     stroke-dashoffset: 40;
   }
 
   &__rib--l1 {
-    animation-delay: 240ms;
+    animation-delay: 300ms;
   }
 
   &__rib--r1 {
-    animation-delay: 280ms;
+    animation-delay: 340ms;
   }
 
   &__rib--l2 {
-    animation-delay: 320ms;
+    animation-delay: 380ms;
   }
 
   &__rib--r2 {
-    animation-delay: 360ms;
+    animation-delay: 420ms;
+  }
+
+  &__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 26px);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    animation: steep-name 360ms var(--ease-out) 620ms both;
   }
 }
 
 .masthead,
 .masthead__bottom,
 .page {
-  animation: settle 420ms ease 520ms both;
+  animation: settle 420ms var(--ease-out) 1150ms both;
 }
 
 @keyframes steep-draw {
@@ -78,14 +106,31 @@
   }
 }
 
+@keyframes steep-fill {
+  to {
+    fill-opacity: 0.9;
+  }
+}
+
 @keyframes steep-leaf {
   from {
-    transform: scale(0.82) rotate(-6deg);
+    transform: scale(0.8) rotate(-8deg);
     opacity: 0;
   }
   to {
     transform: scale(1) rotate(0);
     opacity: 1;
+  }
+}
+
+@keyframes steep-name {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
 

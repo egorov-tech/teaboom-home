@@ -21,8 +21,9 @@
 
   <script>
     // First open of the product in this tab plays the leaf; later visits stay warm.
+    // ?intro in the address replays it on demand (handy when showing the demo).
     try {
-      if (sessionStorage.getItem("teaboom-intro")) {
+      if (sessionStorage.getItem("teaboom-intro") && !/[?&]intro\b/.test(location.search)) {
         document.documentElement.classList.add("is-warm");
       }
     } catch (e) {}
@@ -31,14 +32,15 @@
 <body>
   <div class="steep" data-steep aria-hidden="true">
     <svg class="steep__leaf" viewBox="0 0 64 88" width="64" height="88" role="presentation" focusable="false">
-      <path class="steep__vein" d="M32 84V22" />
       <path class="steep__half steep__half--left" d="M32 84C6 62 6 26 32 6" />
       <path class="steep__half steep__half--right" d="M32 84c26-22 26-58 0-78" />
+      <path class="steep__vein" d="M32 84V22" />
       <path class="steep__rib steep__rib--l1" d="M32 62C22 58 17 48 17 39" />
       <path class="steep__rib steep__rib--l2" d="M32 44c-7-3-11-11-11-18" />
       <path class="steep__rib steep__rib--r1" d="M32 62c10-4 15-14 15-23" />
       <path class="steep__rib steep__rib--r2" d="M32 44c7-3 11-11 11-18" />
     </svg>
+    <span class="steep__name">Чайный Бум</span>
   </div>
 
   <a class="skip-link" href="#main">Перейти к содержимому</a>
