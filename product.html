@@ -20,10 +20,13 @@
   <link rel="stylesheet" href="assets/css/product.css">
 
   <script>
-    // First open of the product in this tab plays the leaf; later visits stay warm.
-    // ?intro in the address replays it on demand (handy when showing the demo).
+    // The leaf plays on every arrival at the product page (link, typed address).
+    // A reload or Back/Forward is not an arrival, so the page shows at once.
+    // ?intro forces it anyway (handy when showing the demo).
     try {
-      if (sessionStorage.getItem("teaboom-intro") && !/[?&]intro\b/.test(location.search)) {
+      var nav = performance.getEntriesByType("navigation")[0];
+      var type = nav ? nav.type : "navigate";
+      if ((type === "reload" || type === "back_forward") && !/[?&]intro\b/.test(location.search)) {
         document.documentElement.classList.add("is-warm");
       }
     } catch (e) {}
