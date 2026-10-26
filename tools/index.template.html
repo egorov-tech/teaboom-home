@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Купить чай в Москве по доступной цене — интернет-магазин чая «Чайный Бум»</title>
+  <meta name="description" content="Интернет-магазин «Чайный Бум» предлагает продажу чая, кофе и аксессуаров по всей России и СНГ по доступной цене. Телефон для заказов: +7 (495) 796-79-74.">
+  <!-- Demo of the teaboom.ru home page for review: keep it out of search entirely. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5d730">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Fonts load without blocking the first paint; the system grotesque stands in until then. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
+  <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+        imagesrcset="assets/images/banners/slide-06-480.webp 480w, assets/images/banners/slide-06.webp 910w"
+        imagesizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw">
+  <link rel="stylesheet" href="assets/css/main.css">
+
+  <script type="application/ld+json">
+{{JSONLD}}
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+  <header class="masthead">
+    <div class="masthead__top wrap">
+      <a class="brand" href="./">
+        <img class="brand__mark" src="assets/images/logo.png" alt="" width="95" height="95">
+        <span class="brand__text">
+          <span class="brand__name">Чайный Бум</span>
+          <span class="brand__tagline">Интернет-магазин чая и посуды</span>
+        </span>
+        <span class="visually-hidden">— на главную</span>
+      </a>
+
+      <div class="masthead__contacts">
+        <a class="masthead__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>
+        <a class="masthead__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a>
+        <p class="masthead__hours">пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00</p>
+      </div>
+
+      <p class="cart" data-cart>
+        <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+        <span class="cart__label">Корзина</span>
+        <span class="cart__count" data-cart-count>0</span>
+        <span class="visually-hidden" data-cart-words>, товаров: 0</span>
+      </p>
+      <p class="visually-hidden" role="status" data-cart-status></p>
+    </div>
+
+    <div class="masthead__bottom">
+      <div class="masthead__bar wrap">
+        <nav class="menu" aria-label="Основное меню">
+          <ul class="menu__list">
+            <li><a class="menu__link" href="./" aria-current="page">Главная</a></li>
+            <li>
+              <button class="menu__link press" type="button" aria-expanded="false" aria-controls="catalog" data-catalog-toggle>
+                Каталог
+                <svg class="menu__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+              </button>
+            </li>
+            <li>
+              <a class="menu__link" href="https://teaboom.ru/category-podarki">
+                <svg class="menu__gift" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="12" height="8" rx="1"/><path d="M1.5 6h13M8 6v8M8 6S6.8 2.5 5 3.2 5.6 6 8 6Zm0 0s1.2-3.5 3-2.8S10.4 6 8 6Z"/></svg>
+                Подарки
+              </a>
+            </li>
+            <li><a class="menu__link" href="https://teaboom.ru/pricelist">Прайслист</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/shop_reviews/">Отзывы</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/contact">Контакты</a></li>
+          </ul>
+        </nav>
+
+        <form class="search" role="search" action="https://teaboom.ru/search" method="get">
+          <label class="visually-hidden" for="search-field">Поиск по каталогу</label>
+          <input class="search__field" id="search-field" type="search" name="q" placeholder="Начните вводить название товара..." autocomplete="off" enterkeyhint="search">
+          <button class="search__submit press" type="submit">Найти</button>
+        </form>
+      </div>
+
+      <div class="catalog" id="catalog" hidden data-catalog>
+        <div class="catalog__inner wrap">
+          <a class="catalog__all" href="https://teaboom.ru/category-root">Все категории</a>
+          <ul class="catalog__list">
+{{CATALOG}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <h1 class="visually-hidden">Интернет-магазин чая в Москве «Чайный Бум»</h1>
+
+    <div class="front wrap">
+      <nav class="shelf" aria-labelledby="shelf-title">
+        <h2 class="shelf__title" id="shelf-title">Категории</h2>
+        <ul class="shelf__list">
+{{SIDE}}
+        </ul>
+      </nav>
+
+      <section class="banners" aria-roledescription="карусель" aria-label="Новости и предложения магазина" data-banners>
+        <ul class="banners__track" data-track>
+{{SLIDES}}
+        </ul>
+        <div class="banners__controls">
+          <button class="banners__arrow press" type="button" data-prev aria-label="Предыдущий баннер">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>
+          </button>
+          <button class="banners__arrow press" type="button" data-next aria-label="Следующий баннер">
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
+          </button>
+          <p class="banners__count" aria-hidden="true"><span data-current>01</span> <span class="banners__total">/ {{N}}</span></p>
+          <p class="visually-hidden" aria-live="polite" data-status></p>
+          <div class="banners__bars" aria-hidden="true" data-bars>{{BARS}}</div>
+        </div>
+      </section>
+    </div>
+
+    <div class="wrap">
+      <ul class="perks">
+        <li class="perks__item">
+          <svg class="perks__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 11h19v16H4zM23 16h7l5 6v5h-12z"/><circle cx="11" cy="29" r="3" fill="var(--paper)"/><circle cx="29" cy="29" r="3" fill="var(--paper)"/></svg>
+          <strong class="perks__name">Бесплатная доставка</strong>
+          <span class="perks__note">При заказе от 3500 ₽</span>
+        </li>
+        <li class="perks__item">
+          <svg class="perks__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 13h26a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V12a3 3 0 0 1 3-3h21v4"/><path d="M34 19h-7a3 3 0 0 0 0 6h7z"/><circle cx="27.5" cy="22" r=".8" fill="currentColor"/></svg>
+          <strong class="perks__name">Акции и скидки</strong>
+          <span class="perks__note">Множество скидок каждый день</span>
+        </li>
+        <li class="perks__item">
+          <svg class="perks__icon" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 4 7 9v10c0 8 5.6 14.4 13 17 7.4-2.6 13-9 13-17V9z"/><path d="m14 20 4.5 4.5L27 16"/></svg>
+          <strong class="perks__name">Безопасные платежи</strong>
+          <span class="perks__note">ЮKassa</span>
+        </li>
+      </ul>
+    </div>
+
+    <section class="goods wrap" aria-labelledby="goods-title">
+      <div class="goods__head">
+        <h2 class="section-title" id="goods-title">Рекомендуем</h2>
+      </div>
+      <ul class="goods__grid">
+{{GOODS}}
+      </ul>
+    </section>
+
+    <section class="about wrap" aria-labelledby="about-title">
+      <h2 class="about__title" id="about-title">Китайцы говорят что лучше 3 дня не есть, чем один день не пить чая!</h2>
+      <div class="about__body">
+        <p>Чайная культура в России стремительно растет. Люди бросают курить сигареты, пить алкоголь, употреблять наркотики и с головой погружаются в ЧАЙ. Мы смело заявляем, что не относимся к поставщикам, преследующим в первую очередь коммерческие интересы – мы являемся приверженцами высокой чайной культуры и ставим своей целью донести до покупателя свое видение этой культуры.</p>
+        <p>Интернет-магазин чая «Чайный Бум» - это настоящая находка, как для ценителей, так и для новичков, открывающих для себя всю палитру элитного китайского чая. Какой бы чай Вы не выбрали в уникальном каталоге нашего интернет-магазина «TEABOOM.RU», он всегда будет самого лучшего качества, тщательно отобранный искусными мастерами своего дела, правильно упакованный и доставленный в кратчайшие сроки.</p>
+        <p>Секрет нашего успеха прост – мы располагаем собственными высокогорными чайными плантациями на которых работают профессионалы, прекрасно знающие свое дело. Мы до мелочей соблюдаем все правила сбора, стандарты хранения и транспортировки. Наш чай проходит тщательный контроль качества перед отправкой в Россию. Это позволяет нам гарантировать качество и свежесть. Бесспорно наш продукт подарит Вам незабываемое ощущение теплоты, гармонии и изысканного вкуса.</p>
+        <p>В нашем интернет-магазине Вы можете купить: зеленые, красные, белые, желтые чаи, все многообразие улунов и конечно же пуэры. Также не стоит оставлять без внимания и приятные добавки к чаю, такие как китайская роза, ягоды годжи, лаванда, белая хризантема и многие другие.</p>
+        <p>Каждый вид китайского чая по-своему уникален, от вкуса и аромата, до внешнего вида листьев и послевкусия. Если Вы являетесь ценителем или новичком в чайном деле, то в нашем магазине «TEABOOM.RU» Вы всегда найдете что-то новое для себя, получите ответы на интересующие вас вопросы, соприкоснетесь с чайной церемонией и культурой Китая.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__grid wrap">
+      <section aria-labelledby="f-contacts">
+        <h2 class="footer__title" id="f-contacts">Контакты</h2>
+        <div class="footer__contacts">
+          <p><span class="footer__key">Адрес</span>Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</p>
+          <p>
+            <span class="footer__key">Телефоны</span>
+            <a class="footer__phone" href="tel:+74951201551">+7 (495) 120-15-51</a><br>
+            <a class="footer__phone" href="tel:+74957967974">+7 (495) 796-79-74</a>
+          </p>
+          <p><span class="footer__key">Email</span><a class="footer__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a></p>
+          <p><span class="footer__key">Режим работы</span>пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00</p>
+          <ul class="footer__social" aria-label="Мы в соцсетях">
+            <li><a href="https://t.me/Teaboom" rel="nofollow">Telegram</a></li>
+            <li><a href="https://vk.com/teaboom" rel="nofollow">ВКонтакте</a></li>
+            <li><a href="https://www.ok.ru/teaboom" rel="nofollow">Одноклассники</a></li>
+          </ul>
+        </div>
+      </section>
+      <nav aria-labelledby="f-company">
+        <h2 class="footer__title" id="f-company">Компания</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/nashi-servisy">Наши сервисы</a></li>
+          <li><a href="https://teaboom.ru/page/biznes-s-nami">Бизнес с нами</a></li>
+          <li><a href="https://teaboom.ru/page/vakansii">Вакансии</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-docs">
+        <h2 class="footer__title" id="f-docs">Документы</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/dogovor">Договор-оферта</a></li>
+          <li><a href="https://teaboom.ru/page/sertifikaty">Сертификаты</a></li>
+          <li><a href="https://teaboom.ru/pages">Статьи о чае</a></li>
+          <li><a href="https://teaboom.ru/page/privacy-policy">Политика конфиденциальности</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-buyers">
+        <h2 class="footer__title" id="f-buyers">Покупателям</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/shipping/">Доставка</a></li>
+          <li><a href="https://teaboom.ru/payment/">Оплата</a></li>
+          <li><a href="https://teaboom.ru/page/exchange-and-refund">Обмен и возврат</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__base wrap">
+      <p>© Все права защищены Teaboom.ru</p>
+      <p>ООО «Кассиопея», ИНН 7707798450</p>
+      <p>Демо-вёрстка главной для обсуждения. Магазин работает на <a href="https://teaboom.ru/">teaboom.ru</a></p>
+    </div>
+  </footer>
+
+  <script src="assets/js/home.js" defer></script>
+</body>
+</html>

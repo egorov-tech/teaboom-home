@@ -1,0 +1,168 @@
+@use "tokens" as *;
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: var(--step-4);
+}
+
+body {
+  position: relative;
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-text);
+  font-size: clamp(15px, 0.3vw + 14.2px, 16px);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: var(--tea);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+  transition: color var(--ease);
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--ink);
+    }
+  }
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 2px solid var(--tea);
+  outline-offset: 3px;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+figure {
+  margin: 0;
+}
+
+ul,
+ol {
+  padding: 0;
+  list-style: none;
+}
+
+b,
+strong {
+  font-weight: 600;
+}
+
+// The shop's own tea-doodle pattern, kept faint so it never fights the product.
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("../images/pattern.webp") repeat;
+  background-size: 460px auto;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.wrap {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(24px, 1.6vw + 16px, 32px);
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: var(--step-2);
+  left: var(--step-2);
+  z-index: 30;
+  padding: var(--step-3) var(--step-4);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  transform: translateY(-160%);
+  transition: transform 160ms var(--ease-out);
+
+  &:focus-visible {
+    transform: none;
+    color: var(--paper);
+  }
+}
+
+// Pressable things answer the finger: one shared press state for every button.
+.press {
+  transition: transform 160ms var(--ease-out), background-color var(--ease), border-color var(--ease);
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

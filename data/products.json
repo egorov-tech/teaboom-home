@@ -1,0 +1,308 @@
+[
+ {
+  "url": "/product/dun-din-ulun-ulun-is-moroznogo-pika",
+  "img": "https://media.teaboom.ru/images/193fedfb-4ab3-46a0-a3b3-41d1115e0fe6.jpg",
+  "alt": "Дун Дин Улун (Улун с Морозного Пика)",
+  "cat_url": "/category-tajvanskij-svetlyj-ulun",
+  "cat": "Тайваньский светлый улун",
+  "name": "Дун Дин Улун (Улун с Морозного Пика)",
+  "sale": true,
+  "variants": [
+   {
+    "title": "Дун Дин Улун (Улун с Морозного Пика), 100 г",
+    "label": "100 г",
+    "sku": "01274",
+    "old": 1065.5,
+    "price": 926.7
+   },
+   {
+    "title": "Дун Дин Улун (Улун с Морозного Пика), 500 г",
+    "label": "500 г",
+    "sku": "01275",
+    "old": 5227.5,
+    "price": 4433.5
+   },
+   {
+    "title": "Дун Дин Улун (Улун с Морозного Пика), 1000 г",
+    "label": "1000 г",
+    "sku": "01276",
+    "old": 9755.0,
+    "price": 7867.0
+   },
+   {
+    "title": "Дун Дин Улун (Улун с Морозного Пика), 5000 г",
+    "label": "5000 г",
+    "sku": "01277",
+    "old": 44525.0,
+    "price": 34585.0
+   }
+  ],
+  "slug": "dun-din-ulun-ulun-is-moroznogo-pika"
+ },
+ {
+  "url": "/product/kofe-v-zernah-aromatizirovannij-tiramisu",
+  "img": "https://media.teaboom.ru/images/868f60bc-e813-4074-960f-bca29fb2b3a4.jpg",
+  "alt": "Кофе в зернах ароматизированный \"Тирамису\"",
+  "cat_url": "/category-aromatizirovannyj-kofe-v-zernah",
+  "cat": "Ароматизированный кофе в зернах",
+  "name": "Кофе в зернах ароматизированный \"Тирамису\"",
+  "sale": false,
+  "variants": [
+   {
+    "title": "Кофе в зернах ароматизированный \"Тирамису\", 100 г",
+    "label": "100 г",
+    "sku": "05475",
+    "old": null,
+    "price": 301.0
+   },
+   {
+    "title": "Кофе в зернах ароматизированный \"Тирамису\", 500 г",
+    "label": "500 г",
+    "sku": "06484",
+    "old": null,
+    "price": 1405.0
+   },
+   {
+    "title": "Кофе в зернах ароматизированный \"Тирамису\", 1000 г",
+    "label": "1000 г",
+    "sku": "06485",
+    "old": null,
+    "price": 2410.0
+   },
+   {
+    "title": "Кофе в зернах ароматизированный \"Тирамису\", 5000 г",
+    "label": "5000 г",
+    "sku": "06486",
+    "old": null,
+    "price": 11050.0
+   }
+  ],
+  "slug": "kofe-v-zernah-aromatizirovannij-tiramisu"
+ },
+ {
+  "url": "/product/kofe-v-zyornah-aromatizirovannyj-bejliz",
+  "img": "https://media.teaboom.ru/images/c6d9330c-dd96-4d98-8ad4-14f1faf41799.jpg",
+  "alt": "Кофе в зёрнах ароматизированный \"Бейлиз\"",
+  "cat_url": "/category-aromatizirovannyj-kofe-v-zernah",
+  "cat": "Ароматизированный кофе в зернах",
+  "name": "Кофе в зёрнах ароматизированный \"Бейлиз\"",
+  "sale": false,
+  "variants": [
+   {
+    "title": "Кофе в зёрнах ароматизированный \"Бейлиз\", 100 г",
+    "label": "100 г",
+    "sku": "04973",
+    "old": null,
+    "price": 301.0
+   },
+   {
+    "title": "Кофе в зёрнах ароматизированный \"Бейлиз\", 500 г",
+    "label": "500 г",
+    "sku": "06418",
+    "old": null,
+    "price": 1405.0
+   },
+   {
+    "title": "Кофе в зёрнах ароматизированный \"Бейлиз\", 1000 г",
+    "label": "1000 г",
+    "sku": "06419",
+    "old": null,
+    "price": 2410.0
+   },
+   {
+    "title": "Кофе в зёрнах ароматизированный \"Бейлиз\", 5000 г",
+    "label": "5000 г",
+    "sku": "06420",
+    "old": null,
+    "price": 11050.0
+   }
+  ],
+  "slug": "kofe-v-zyornah-aromatizirovannyj-bejliz"
+ },
+ {
+  "url": "/product/persikovij-ulun",
+  "img": "https://media.teaboom.ru/images/c635aaf6-b6e5-4c95-8abc-6c8e6aa32a07.jpg",
+  "alt": "Персиковый улун",
+  "cat_url": "/category-kitajskij-svetlyj-aromatizirovannyj-ulun",
+  "cat": "Китайский светлый ароматизированный улун",
+  "name": "Персиковый улун",
+  "sale": true,
+  "variants": [
+   {
+    "title": "Персиковый улун, 100 г",
+    "label": "100 г",
+    "sku": "01325",
+    "old": 359.2,
+    "price": 329.5
+   },
+   {
+    "title": "Персиковый улун, 500 г",
+    "label": "500 г",
+    "sku": "01326",
+    "old": 1596.0,
+    "price": 1447.5
+   },
+   {
+    "title": "Персиковый улун, 1000 г",
+    "label": "1000 г",
+    "sku": "01327",
+    "old": 2392.0,
+    "price": 2095.0
+   },
+   {
+    "title": "Персиковый улун, 5000 г",
+    "label": "5000 г",
+    "sku": "01328",
+    "old": 7710.0,
+    "price": 6475.0
+   }
+  ],
+  "slug": "persikovij-ulun"
+ },
+ {
+  "url": "/product/chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii",
+  "img": "https://media.teaboom.ru/images/9535cf7f-bbda-43f7-aade-76c7f0157c9b.jpg",
+  "alt": "Чай зелёный ароматизированный \"Сокровища Японии\"",
+  "cat_url": "/category-aromatizirovannyj-chaj-zelenyy",
+  "cat": "Ароматизированный зеленый чай",
+  "name": "Чай зелёный ароматизированный \"Сокровища Японии\"",
+  "sale": false,
+  "variants": [
+   {
+    "title": "Чай зелёный ароматизированный \"Сокровища Японии\", 100 г",
+    "label": "100 г",
+    "sku": "10012",
+    "old": null,
+    "price": 504.0
+   },
+   {
+    "title": "Чай зелёный ароматизированный \"Сокровища Японии\", 500 г",
+    "label": "500 г",
+    "sku": "10013",
+    "old": null,
+    "price": 2394.0
+   },
+   {
+    "title": "Чай зелёный ароматизированный \"Сокровища Японии\", 1000 г",
+    "label": "1000 г",
+    "sku": "10014",
+    "old": null,
+    "price": 4536.0
+   },
+   {
+    "title": "Чай зелёный ароматизированный \"Сокровища Японии\", 5000 г",
+    "label": "5000 г",
+    "sku": "10015",
+    "old": null,
+    "price": 21420.0
+   }
+  ],
+  "slug": "chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii"
+ },
+ {
+  "url": "/product/chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom",
+  "img": "https://media.teaboom.ru/images/73f25b78-434f-4d9a-ba57-7c10d39cb66d.jpg",
+  "alt": "Чай чёрный ароматизированный \"Чёрный с чабрецом\"",
+  "cat_url": "/category-aromatizirovannyj-chaj",
+  "cat": "Ароматизированный черный чай",
+  "name": "Чай чёрный ароматизированный \"Чёрный с чабрецом\"",
+  "sale": false,
+  "variants": [
+   {
+    "title": "Чай чёрный ароматизированный \"Чёрный с чабрецом\", 100 г",
+    "label": "100 г",
+    "sku": "04198",
+    "old": null,
+    "price": 335.3
+   },
+   {
+    "title": "Чай чёрный ароматизированный \"Чёрный с чабрецом\", 500 г",
+    "label": "500 г",
+    "sku": "04199",
+    "old": null,
+    "price": 1476.5
+   },
+   {
+    "title": "Чай чёрный ароматизированный \"Чёрный с чабрецом\", 1000 г",
+    "label": "1000 г",
+    "sku": "04200",
+    "old": null,
+    "price": 2153.0
+   },
+   {
+    "title": "Чай чёрный ароматизированный \"Чёрный с чабрецом\", 5000 г",
+    "label": "5000 г",
+    "sku": "04201",
+    "old": null,
+    "price": 6765.0
+   }
+  ],
+  "slug": "chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom"
+ },
+ {
+  "url": "/product/chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj",
+  "img": "https://media.teaboom.ru/images/7765934c-9cc8-4953-9689-d97227ca9741.jpg",
+  "alt": "Чайник из жаропрочного стекла 600 мл \"Лотос\" с заварочной колбой",
+  "cat_url": "/category-cteklyannye-chajniki-c-kolboj",
+  "cat": "Cтеклянные чайники c колбой",
+  "name": "Чайник из жаропрочного стекла 600 мл \"Лотос\" с заварочной колбой",
+  "sale": true,
+  "variants": [
+   {
+    "title": "Чайник из жаропрочного стекла 600 мл \"Лотос\" с заварочной колбой, 1 шт",
+    "label": "1 шт",
+    "sku": "02994",
+    "old": 725.0,
+    "price": 459.0
+   },
+   {
+    "title": "Чайник из жаропрочного стекла 600 мл \"Лотос\" с заварочной колбой, 48 шт",
+    "label": "48 шт",
+    "sku": "07052",
+    "old": 30960.0,
+    "price": 22656.0
+   }
+  ],
+  "slug": "chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj"
+ },
+ {
+  "url": "/product/shu-sian-lyuj-sencha",
+  "img": "https://media.teaboom.ru/images/8fddbae6-24ba-4e0c-90f9-b427969efb3e.jpg",
+  "alt": "Шу Сян Люй Сенча (Сенча)",
+  "cat_url": "/category-kitajskij-klassicheskij-zelenyj-chaj",
+  "cat": "Китайский классический зеленый чай",
+  "name": "Шу Сян Люй Сенча (Сенча)",
+  "sale": true,
+  "variants": [
+   {
+    "title": "Шу Сян Люй Сенча (Сенча), 100 г",
+    "label": "100 г",
+    "sku": "01160",
+    "old": 322.0,
+    "price": 316.8
+   },
+   {
+    "title": "Шу Сян Люй Сенча (Сенча), 500 г",
+    "label": "500 г",
+    "sku": "01161",
+    "old": 1510.0,
+    "price": 1384.0
+   },
+   {
+    "title": "Шу Сян Люй Сенча (Сенча), 1000 г",
+    "label": "1000 г",
+    "sku": "01162",
+    "old": 2320.0,
+    "price": 1968.0
+   },
+   {
+    "title": "Шу Сян Люй Сенча (Сенча), 5000 г",
+    "label": "5000 г",
+    "sku": "01163",
+    "old": 7350.0,
+    "price": 5840.0
+   }
+  ],
+  "slug": "shu-sian-lyuj-sencha"
+ }
+]

@@ -1,0 +1,119 @@
+@use "tokens" as *;
+
+// The shop's own text about itself: a saying as the heading, the body kept to a readable measure.
+.about {
+  display: grid;
+  gap: var(--step-5) var(--step-7);
+  padding-block: var(--step-7) var(--step-8);
+
+  @media (min-width: $bp-split) {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    align-items: start;
+  }
+
+  &__title {
+    max-width: 18ch;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(26px, 2.2vw + 16px, 40px);
+    line-height: 1.15;
+    letter-spacing: 0.005em;
+
+    @media (min-width: $bp-split) {
+      position: sticky;
+      top: var(--step-5);
+    }
+  }
+
+  &__body {
+    display: grid;
+    gap: var(--step-4);
+    max-width: 68ch;
+    color: var(--ink-soft);
+  }
+}
+
+.footer {
+  background: var(--paper);
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+
+  &__grid {
+    display: grid;
+    gap: var(--step-6) var(--step-5);
+    padding-block: var(--step-7) var(--step-6);
+
+    @media (min-width: $bp-wide) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    @media (min-width: $bp-split) {
+      grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 2fr));
+    }
+  }
+
+  &__title {
+    margin-bottom: var(--step-3);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: 0.01em;
+  }
+
+  &__list a,
+  &__phone,
+  &__mail,
+  &__social a {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--step-2);
+    min-height: var(--tap);
+    color: var(--ink);
+    text-decoration: none;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--tea);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__contacts {
+    display: grid;
+    gap: var(--step-3);
+  }
+
+  &__key {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  &__phone {
+    font-weight: 700;
+  }
+
+  &__social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--step-5);
+
+    svg {
+      width: 20px;
+      height: 20px;
+      color: var(--tea);
+    }
+  }
+
+  &__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--step-2) var(--step-5);
+    padding-block: var(--step-4) var(--step-5);
+    border-top: 1px solid var(--line);
+    color: var(--muted);
+    font-size: 13px;
+  }
+}

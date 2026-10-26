@@ -1,0 +1,45 @@
+// Same system as the accepted product card: ink #1b1b1b, brand yellow #f5d730,
+// Oswald for display, Open Sans for text. Muted tones clear 4.5:1 on canvas and paper.
+
+:root {
+  --canvas: #fefcef;
+  --paper: #fff;
+  --ink: #1b1b1b;
+  --ink-soft: #4a4640;
+  --muted: #736b61;
+  --line: #e4e0d8;
+  --line-strong: #c7c1b4;
+  --brand: #f5d730;
+  --brand-lift: #ffe451;
+  --brand-deep: #e2c41c;
+  --tea: #2f5140;
+  --cut: #8f2d1a;
+  --cut-bg: #f7e9e4;
+  // Gift orange from the live menu; 3.8:1 on white, so it only colours the icon.
+  --gift: #cc6600;
+
+  --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "Open Sans", "Helvetica Neue", Arial, sans-serif;
+
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  --step-1: 4px;
+  --step-2: 8px;
+  --step-3: 12px;
+  --step-4: 16px;
+  --step-5: 24px;
+  --step-6: 32px;
+  --step-7: 48px;
+  --step-8: 72px;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --tap: 44px;
+
+  --ease: 180ms cubic-bezier(0.23, 1, 0.32, 1); // strong ease-out, same curve as --ease-out
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+$bp-wide: 600px;
+$bp-mid: 900px;
+$bp-split: 1060px;

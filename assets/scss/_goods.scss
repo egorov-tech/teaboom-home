@@ -1,0 +1,288 @@
+@use "tokens" as *;
+
+.goods {
+  padding-block: clamp(40px, 5vw, 64px) var(--step-6);
+
+  &__head {
+    margin-bottom: var(--step-5);
+  }
+
+  &__grid {
+    display: grid;
+    gap: var(--step-4);
+
+    @media (min-width: $bp-wide) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--step-5);
+    }
+
+    @media (min-width: $bp-split) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    // Cards in a row share one height, so prices and buttons line up.
+    > li {
+      display: grid;
+    }
+  }
+}
+
+// Phones: photo beside the name, packs and price below across the full width.
+.good {
+  display: grid;
+  grid-template-columns: clamp(80px, 26vw, 104px) minmax(0, 1fr);
+  grid-template-areas:
+    "media head"
+    "packs packs"
+    "buy   buy";
+  gap: var(--step-3) var(--step-4);
+  align-content: start;
+  padding: var(--step-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+
+  @media (min-width: $bp-wide) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto auto;
+    grid-template-areas:
+      "media"
+      "head"
+      "packs"
+      "buy";
+  }
+
+  &__media {
+    grid-area: media;
+    position: relative;
+    display: block;
+  }
+
+  // Shop photos come in three proportions; a square white field keeps every row level.
+  &__image {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+  }
+
+  &__badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 2px var(--step-2);
+    border-radius: var(--radius-sm);
+    background: var(--brand);
+    font-size: 12px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__head {
+    grid-area: head;
+    display: flex;
+    flex-direction: column;
+    gap: var(--step-1);
+    min-width: 0;
+  }
+
+  &__cat {
+    font-size: 13px;
+    line-height: 1.4;
+
+    a {
+      display: inline-block;
+      padding-block: 3px; // 24px tap height, the WCAG 2.2 minimum for small inline targets
+      color: var(--muted);
+      text-decoration: none;
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--tea);
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &__name {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.35;
+    overflow-wrap: break-word;
+
+    // "ароматизированный" is wider than the name column on 320px phones.
+    @media (max-width: #{$bp-wide - 1px}) {
+      hyphens: auto;
+    }
+
+    a {
+      display: block;
+      min-height: var(--tap);
+      color: var(--ink);
+      text-decoration: none;
+
+      @media (hover: hover) {
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+
+  &__packs {
+    grid-area: packs;
+  }
+
+  &__buy {
+    grid-area: buy;
+    display: grid;
+    gap: var(--step-3);
+  }
+}
+
+.pack {
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--step-2);
+  }
+
+  &__chip {
+    position: relative;
+    display: block;
+    cursor: pointer;
+  }
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 64px;
+    padding: var(--step-2) var(--step-3);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease), transform 160ms var(--ease-out);
+
+    // Brand marker for the chosen pack, as on the product card.
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      height: 3px;
+      background: var(--brand);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+  }
+
+  &__weight {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.15;
+  }
+
+  &__sum {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (hover: hover) {
+    &__chip:hover &__body {
+      border-color: var(--ink-soft);
+    }
+  }
+
+  &__chip:active &__body {
+    transform: scale(0.97);
+  }
+
+  &__input:focus-visible + &__body {
+    outline: 2px solid var(--tea);
+    outline-offset: 3px;
+  }
+
+  &__input:checked + &__body {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--step-3);
+
+  &__now {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__was {
+    color: var(--muted);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+
+    s {
+      text-decoration-thickness: 1px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__sku {
+    flex-basis: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.add {
+  width: 100%;
+  min-height: 52px;
+  padding: 0 var(--step-5);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  background: var(--brand);
+  border: 1px solid var(--brand-deep);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--brand-lift);
+    }
+  }
+
+  &.is-added {
+    background: var(--tea);
+    border-color: var(--tea);
+    color: var(--paper);
+  }
+}

@@ -1,0 +1,359 @@
+@use "tokens" as *;
+
+.masthead {
+  position: relative;
+  z-index: 10;
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+
+  &__top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--step-3) var(--step-6);
+    padding-block: var(--step-4);
+  }
+
+  &__contacts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0 var(--step-5);
+    font-size: 14px;
+
+    // Up to the desktop split, brand and cart share the first row and contacts drop below:
+    // at tablet width the three of them do not fit one line.
+    flex: 1 1 100%;
+    order: 3;
+
+    @media (min-width: $bp-split) {
+      flex: 0 1 auto;
+      order: 0;
+      margin-left: auto;
+    }
+  }
+
+  &__phone,
+  &__mail {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    text-decoration: none;
+  }
+
+  &__phone {
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+  }
+
+  &__mail {
+    color: var(--ink-soft);
+  }
+
+  @media (hover: hover) {
+    &__phone:hover,
+    &__mail:hover {
+      color: var(--tea);
+      text-decoration: underline;
+    }
+  }
+
+  &__hours {
+    flex-basis: 100%;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__bottom {
+    position: relative;
+    border-top: 1px solid var(--line);
+  }
+
+  &__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--step-2) var(--step-5);
+    padding-block: var(--step-2) var(--step-3);
+
+    @media (min-width: $bp-split) {
+      flex-wrap: nowrap;
+      padding-block: var(--step-2);
+    }
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--step-3);
+  min-height: var(--tap);
+  text-decoration: none;
+  color: inherit;
+
+  &__mark {
+    width: 46px;
+    height: 46px;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+
+  &__tagline {
+    display: none;
+    font-size: 12px;
+    color: var(--muted);
+
+    @media (min-width: $bp-wide) {
+      display: block;
+    }
+  }
+}
+
+// Demo cart: counts what was added on this page, no checkout behind it.
+.cart {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--step-2);
+  min-height: var(--tap);
+  margin-left: auto;
+  padding: 0 var(--step-4);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+
+  // Phones: icon and count only, so brand and cart share one row; the word stays for screen readers.
+  &__label {
+    @media (max-width: #{$bp-wide - 1px}) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  &__count {
+    min-width: 24px;
+    padding: 0 6px;
+    border-radius: 12px;
+    background: var(--brand);
+    font-size: 12px;
+    line-height: 22px;
+    font-variant-numeric: tabular-nums;
+    text-align: center;
+  }
+
+  &.is-filled {
+    border-color: var(--ink);
+  }
+
+  &.is-bumped &__count {
+    animation: cart-bump 360ms var(--ease-out);
+  }
+}
+
+@keyframes cart-bump {
+  40% {
+    transform: scale(1.35);
+    background: var(--tea);
+    color: var(--paper);
+  }
+}
+
+.menu {
+  // Narrow screens scroll the menu sideways instead of hiding it behind a burger.
+  flex: 1 1 100%;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media (min-width: $bp-split) {
+    flex: 0 1 auto;
+    margin-inline: 0;
+    padding-inline: 0;
+    overflow-x: visible;
+  }
+
+  &__list {
+    display: flex;
+    gap: var(--step-5);
+    white-space: nowrap;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: var(--tap);
+    padding: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    background: none;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: border-color var(--ease), color var(--ease);
+
+    &[aria-current="page"],
+    &[aria-expanded="true"] {
+      border-bottom-color: var(--brand-deep);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        border-bottom-color: var(--brand);
+      }
+    }
+  }
+
+  &__gift {
+    width: 16px;
+    height: 16px;
+    color: var(--gift);
+  }
+
+  &__chevron {
+    width: 12px;
+    height: 12px;
+    transition: transform 180ms var(--ease-out);
+  }
+
+  [aria-expanded="true"] &__chevron {
+    transform: rotate(180deg);
+  }
+}
+
+// Catalogue panel lives outside the scrolling menu so it is never clipped by it.
+.catalog {
+  position: absolute;
+  inset-inline: 0;
+  top: 100%;
+  z-index: 5;
+  background: var(--paper);
+  border-block: 1px solid var(--line);
+  box-shadow: 0 16px 24px -16px rgb(27 27 27 / 0.18);
+  // Twenty categories outgrow a phone screen; keep a strip of page visible to tap away.
+  max-height: 55vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__inner {
+    padding-block: var(--step-5) var(--step-6);
+  }
+
+  &__all {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    margin-bottom: var(--step-3);
+    font-weight: 600;
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    gap: 0 var(--step-5);
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding-block: var(--step-1);
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--tea);
+      }
+    }
+  }
+}
+
+.search {
+  display: flex;
+  flex: 1 1 100%;
+
+  @media (min-width: $bp-split) {
+    flex: 0 1 420px;
+  }
+
+  &__field {
+    flex: 1;
+    width: 0; // let flex size the field; its intrinsic width overflowed 320px screens
+    min-width: 0;
+    height: 48px;
+    padding: 0 var(--step-4);
+    font-family: inherit;
+    font-size: 16px; // 16px keeps iOS from zooming into the field
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-right: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+
+    &::placeholder {
+      color: var(--muted);
+    }
+
+    &:focus-visible {
+      outline-offset: -2px;
+    }
+  }
+
+  &__submit {
+    height: 48px;
+    padding: 0 var(--step-5);
+    font-size: 15px;
+    font-weight: 700;
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    cursor: pointer;
+
+    @media (hover: hover) {
+      &:hover {
+        background: var(--brand-lift);
+      }
+    }
+  }
+}
