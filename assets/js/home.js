@@ -18,15 +18,23 @@
   }
   const scrollBehavior = () => (reduceMotion.matches ? "auto" : "smooth");
 
-  // ---------- Sticky compact masthead (mobile/tablet) ----------
+  // ---------- Sticky compact masthead (all viewports, hysteresis against jitter) ----------
   const masthead = document.querySelector("[data-masthead]");
   if (masthead) {
-    const compactMq = window.matchMedia("(max-width: 1059px)");
+    const ENTER = 64; // become compact past this
+    const EXIT = 16; // expand again only when near the top
+    let compact = false;
     let ticking = false;
 
     const syncCompact = () => {
-      const on = compactMq.matches && window.scrollY > 36;
-      masthead.classList.toggle("is-compact", on);
+      const y = window.scrollY || window.pageYOffset || 0;
+      let next = compact;
+      if (!compact && y > ENTER) next = true;
+      if (compact && y < EXIT) next = false;
+      if (next !== compact) {
+        compact = next;
+        masthead.classList.toggle("is-compact", compact);
+      }
       ticking = false;
     };
 
@@ -38,7 +46,6 @@
 
     syncCompact();
     window.addEventListener("scroll", onScroll, { passive: true });
-    compactMq.addEventListener("change", syncCompact);
   }
 
   // ---------- Catalogue panel ----------

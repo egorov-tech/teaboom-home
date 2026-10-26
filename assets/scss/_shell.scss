@@ -1,76 +1,75 @@
 @use "tokens" as *;
 
 .masthead {
-  position: sticky;
-  top: 0;
+  position: relative;
   z-index: 30;
-  background: color-mix(in srgb, var(--paper) 92%, transparent);
-  border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  transition: box-shadow var(--ease), background var(--ease);
 
-  // Phones/tablets: shrink to brand + cart so the basket stays reachable while shopping.
-  @media (max-width: #{$bp-split - 1px}) {
-    &.is-compact {
-      box-shadow: 0 8px 24px rgb(27 27 27 / 8%);
-      background: color-mix(in srgb, var(--paper) 96%, transparent);
+  // Sticky brand + cart row. Menu/search stay in normal flow and scroll away —
+  // collapsing them with max-height caused mobile scroll jitter near the threshold.
+  &__pin {
+    position: sticky;
+    top: 0;
+    z-index: 31;
+    background: color-mix(in srgb, var(--paper) 92%, transparent);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: box-shadow var(--ease), background var(--ease);
+  }
 
-      .masthead__contacts {
-        display: none;
-      }
+  &.is-compact &__pin {
+    box-shadow: 0 8px 24px rgb(27 27 27 / 8%);
+    background: color-mix(in srgb, var(--paper) 96%, transparent);
+  }
 
-      .masthead__top {
-        padding-block: calc(var(--step-2) + env(safe-area-inset-top, 0px)) var(--step-2);
-        gap: var(--step-2);
-      }
+  &.is-compact &__top {
+    padding-block: calc(var(--step-2) + env(safe-area-inset-top, 0px)) var(--step-2);
+  }
 
-      .masthead__bottom {
-        max-height: 0;
-        border-top-width: 0;
-        opacity: 0;
-        overflow: hidden;
-        pointer-events: none;
-        transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out),
-          border-top-width 220ms var(--ease-out);
-      }
+  &.is-compact .brand__mark {
+    width: 34px;
+    height: 34px;
+  }
 
-      .brand__mark {
-        width: 34px;
-        height: 34px;
-      }
+  &.is-compact .brand__name {
+    font-size: 18px;
+  }
 
-      .brand__name {
-        font-size: 18px;
-      }
+  &.is-compact .brand__tagline {
+    display: none;
+  }
 
-      .cart {
-        min-height: 40px;
-        padding-inline: var(--step-3);
-        border-color: var(--brand-deep);
-        background: var(--brand);
-      }
+  &.is-compact .cart {
+    min-height: 40px;
+    padding-inline: var(--step-3);
+    border-color: var(--brand-deep);
+    background: var(--brand);
+  }
 
-      .cart__count {
-        background: var(--ink);
-        color: var(--paper);
-      }
-    }
+  &.is-compact .cart__count {
+    background: var(--ink);
+    color: var(--paper);
+  }
 
-    &:not(.is-compact) .masthead__bottom {
-      max-height: 200px;
-      opacity: 1;
-      transition: max-height 220ms var(--ease-out), opacity 160ms var(--ease-out);
-    }
+  // Desktop: fade contacts in the pin without dropping the row height.
+  &.is-compact &__contacts--desk {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    max-width: 0;
+    margin: 0;
+    overflow: hidden;
   }
 
   &__top {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     gap: var(--step-3) var(--step-6);
     padding-block: var(--step-4);
     padding-top: calc(var(--step-4) + env(safe-area-inset-top, 0px));
+    min-height: calc(64px + env(safe-area-inset-top, 0px));
+    transition: padding var(--ease);
   }
 
   &__contacts {
@@ -80,15 +79,25 @@
     gap: 0 var(--step-5);
     font-size: 14px;
 
-    // Up to the desktop split, brand and cart share the first row and contacts drop below:
-    // at tablet width the three of them do not fit one line.
-    flex: 1 1 100%;
-    order: 3;
-
-    @media (min-width: $bp-split) {
-      flex: 0 1 auto;
-      order: 0;
+    &--desk {
+      display: none;
+      flex: 1 1 auto;
       margin-left: auto;
+      transition: opacity var(--ease), max-width var(--ease), visibility var(--ease);
+
+      @media (min-width: $bp-split) {
+        display: flex;
+        flex-wrap: nowrap;
+      }
+    }
+
+    &--mobile {
+      padding-block: var(--step-2) var(--step-1);
+      border-bottom: 1px solid var(--line);
+
+      @media (min-width: $bp-split) {
+        display: none;
+      }
     }
   }
 

@@ -1,4 +1,10 @@
 /* Product page: pack switching, gallery thumbs, add-to-cart via shared TeaboomCart. */
+
+// Remember the leaf intro for this tab so a second open stays warm.
+try {
+  sessionStorage.setItem("teaboom-intro", "1");
+} catch (e) {}
+
 (() => {
   "use strict";
 
