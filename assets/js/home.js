@@ -89,6 +89,66 @@
     });
   });
 
+  // Autoplay helper: advances while visible, pauses on hover/focus/touch and reduced-motion.
+  const bindAutoplay = (root, { interval, next, paused }) => {
+    if (reduceMotion.matches || !interval || interval < 1200) return { stop() {} };
+
+    let timer = 0;
+    let visible = false;
+    let held = false;
+
+    const clear = () => {
+      window.clearInterval(timer);
+      timer = 0;
+    };
+
+    const tick = () => {
+      if (!visible || held || document.hidden || paused?.()) return;
+      next();
+    };
+
+    const arm = () => {
+      clear();
+      if (visible && !held && !document.hidden) timer = window.setInterval(tick, interval);
+    };
+
+    const hold = () => {
+      held = true;
+      clear();
+    };
+
+    const release = () => {
+      held = false;
+      arm();
+    };
+
+    root.addEventListener("pointerenter", hold);
+    root.addEventListener("pointerleave", release);
+    root.addEventListener("focusin", hold);
+    root.addEventListener("focusout", (event) => {
+      if (!root.contains(event.relatedTarget)) release();
+    });
+    root.addEventListener("pointerdown", hold);
+    document.addEventListener("visibilitychange", arm);
+
+    const inView = new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+        arm();
+      },
+      { threshold: 0.35 }
+    );
+    inView.observe(root);
+
+    return {
+      stop() {
+        clear();
+        inView.disconnect();
+      },
+      nudge: arm,
+    };
+  };
+
   // ---------- Banner carousel ----------
   const banners = document.querySelector("[data-banners]");
 
@@ -102,6 +162,7 @@
     const bars = [...banners.querySelectorAll("[data-bars] span")];
     let index = 0;
     let announce = false;
+    let autoplay;
 
     const pad = (n) => String(n).padStart(2, "0");
 
@@ -140,6 +201,7 @@
       announce = true;
       track.scrollTo({ left: slides[target].offsetLeft - slides[0].offsetLeft, behavior: scrollBehavior() });
       render(target);
+      autoplay?.nudge();
     };
 
     prev.addEventListener("click", () => goTo(index - 1));
@@ -177,9 +239,14 @@
     const warmNext = () => hydrate(slides[1]);
     if (document.readyState === "complete") warmNext();
     else window.addEventListener("load", warmNext, { once: true });
+
+    autoplay = bindAutoplay(banners, {
+      interval: Number(banners.dataset.autoplay) || 5000,
+      next: () => goTo(index + 1),
+    });
   }
 
-  // ---------- Product-card photo swipe (home grid) ----------
+  // ---------- Product-card photo swipe + autoplay (home grid) ----------
   document.querySelectorAll("[data-gallery]").forEach((gallery) => {
     const track = gallery.querySelector("[data-gallery-track]");
     const frames = [...gallery.querySelectorAll("[data-gallery-frame]")];
@@ -189,6 +256,7 @@
     if (!track || frames.length < 2) return;
 
     let index = 0;
+    let autoplay;
 
     const render = (i) => {
       index = (i + frames.length) % frames.length;
@@ -200,6 +268,7 @@
         if (n === index) dot.setAttribute("aria-current", "true");
         else dot.removeAttribute("aria-current");
       });
+      autoplay?.nudge();
     };
 
     const go = (i, event) => {
@@ -237,6 +306,11 @@
       { root: track, threshold: 0.6 }
     );
     frames.forEach((frame) => seen.observe(frame));
+
+    autoplay = bindAutoplay(gallery, {
+      interval: Number(gallery.dataset.autoplay) || 3500,
+      next: () => render(index + 1),
+    });
   });
 
   // ---------- Packs and prices ----------

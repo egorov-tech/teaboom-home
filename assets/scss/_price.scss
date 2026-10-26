@@ -1,0 +1,85 @@
+@use "tokens" as *;
+
+// PriceBlock: compact on home tiles (.tag), expanded on the product page (.price).
+.tag {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 var(--step-3);
+
+  &__now {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__was {
+    color: var(--muted);
+    font-size: 15px;
+    font-variant-numeric: tabular-nums;
+
+    s {
+      text-decoration-thickness: 1px;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__sku {
+    flex-basis: 100%;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.price {
+  &__line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--step-2) var(--step-3);
+  }
+
+  &__now {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(34px, 4vw, 46px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__was {
+    font-size: 16px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+
+    s {
+      text-decoration-thickness: 1px;
+    }
+  }
+
+  &__cut {
+    padding: 3px var(--step-2);
+    border-radius: var(--radius-sm);
+    background: var(--cut-bg);
+    color: var(--cut);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__rate {
+    margin-top: var(--step-2);
+    font-size: 13px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+}

@@ -86,8 +86,12 @@ try {
   const galleryKey = root.querySelector("[data-gallery-key]");
   const galleryCaption = root.querySelector("[data-gallery-caption]");
   const galleryItems = Array.from(root.querySelectorAll("[data-gallery-item]"));
+  const media = root.querySelector(".product__media");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let galleryIndex = 0;
+  let galleryTimer = 0;
 
-  const showGalleryItem = (button) => {
+  const showGalleryItem = (button, { fromAuto } = {}) => {
     if (!photo || !button) return;
 
     const jpg = button.dataset.src;
@@ -104,11 +108,42 @@ try {
     galleryItems.forEach((item) => {
       item.setAttribute("aria-current", item === button ? "true" : "false");
     });
+    galleryIndex = galleryItems.indexOf(button);
+    if (!fromAuto) armGallery();
+  };
+
+  const clearGallery = () => {
+    window.clearInterval(galleryTimer);
+    galleryTimer = 0;
+  };
+
+  const armGallery = () => {
+    clearGallery();
+    if (reduceMotion.matches || galleryItems.length < 2) return;
+    galleryTimer = window.setInterval(() => {
+      if (document.hidden) return;
+      const next = galleryItems[(galleryIndex + 1) % galleryItems.length];
+      showGalleryItem(next, { fromAuto: true });
+    }, 4000);
   };
 
   galleryItems.forEach((button) => {
     button.addEventListener("click", () => showGalleryItem(button));
   });
+
+  if (media && galleryItems.length > 1) {
+    media.addEventListener("pointerenter", clearGallery);
+    media.addEventListener("pointerleave", armGallery);
+    media.addEventListener("focusin", clearGallery);
+    media.addEventListener("focusout", (event) => {
+      if (!media.contains(event.relatedTarget)) armGallery();
+    });
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) clearGallery();
+      else armGallery();
+    });
+    armGallery();
+  }
 
   let resetTimer = null;
   form.addEventListener("submit", (event) => {
@@ -123,7 +158,7 @@ try {
 
     window.TeaboomCart?.add({
       photo,
-      label: `${name}, ${pack?.dataset.grams || pack?.value || ""} г — добавлено в корзину.`,
+      label: `${name}, ${pack?.dataset.label || pack?.value || ""} — добавлено в корзину.`,
     });
 
     window.clearTimeout(resetTimer);

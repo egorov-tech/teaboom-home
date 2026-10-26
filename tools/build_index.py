@@ -132,7 +132,7 @@ for idx, p in enumerate(products, 1):
     chips = []
     for j, v in enumerate(p["variants"]):
         old_attr = f' data-old="{v["old"]:g}"' if v["old"] else ""
-        chips.append(f'''              <label class="pack__chip">
+        chips.append(f'''              <label class="pack">
                 <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-label="{esc(v["label"])}"{" checked" if j == 0 else ""}>
                 <span class="pack__body">
                   <span class="pack__weight">{esc(v["label"])}</span>
@@ -171,7 +171,7 @@ for idx, p in enumerate(products, 1):
                 f"{current} data-gallery-dot></button>"
             )
         dots = "\n".join(dot_bits)
-        media = f'''            <div class="good__media good__gallery" data-gallery>
+        media = f'''            <div class="good__media good__gallery" data-gallery data-autoplay="3500">
               <div class="good__track" data-gallery-track>
 {chr(10).join(frames)}
               </div>
@@ -195,9 +195,9 @@ for idx, p in enumerate(products, 1):
               <p class="good__cat"><a href="{SITE}{p["cat_url"]}">{esc(p["cat"])}</a></p>
               <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{esc(p["name"])}</a></h3>
             </div>
-            <fieldset class="good__packs">
+            <fieldset class="good__packs packs packs--compact">
               <legend class="visually-hidden">Фасовка: {esc(p["name"])}</legend>
-              <div class="pack__grid">
+              <div class="packs__grid">
 {chr(10).join(chips)}
               </div>
             </fieldset>

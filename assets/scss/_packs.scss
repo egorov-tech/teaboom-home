@@ -1,0 +1,140 @@
+@use "tokens" as *;
+
+// PackPicker: one chip system for home tiles (compact) and the product page (full).
+.packs {
+  &__legend {
+    padding: 0;
+    margin-bottom: var(--step-3);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--step-2);
+  }
+
+  &:not(.packs--compact) &__grid {
+    @media (min-width: 420px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+}
+
+.pack {
+  position: relative;
+  display: block;
+  height: 100%;
+  cursor: pointer;
+
+  &__input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: 0;
+    opacity: 0;
+  }
+
+  &__body {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2px;
+    height: 100%;
+    min-height: 76px;
+    padding: var(--step-3);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease), background var(--ease), transform 160ms var(--ease-out);
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      height: 3px;
+      background: var(--brand);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      opacity: 0;
+      transition: opacity var(--ease);
+    }
+  }
+
+  &__weight {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+
+    i {
+      margin-left: 3px;
+      font-style: normal;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  }
+
+  &__sum {
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__save {
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    color: var(--tea);
+    font-variant-numeric: tabular-nums;
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  @media (hover: hover) {
+    &:hover &__body {
+      border-color: var(--ink-soft);
+    }
+  }
+
+  &:active &__body {
+    transform: scale(0.97);
+  }
+
+  &__input:focus-visible + &__body {
+    outline: 2px solid var(--tea);
+    outline-offset: 3px;
+  }
+
+  &__input:checked + &__body {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+// Home product tiles: denser chips so eight cards stay scannable on a phone.
+.packs--compact {
+  .pack__body {
+    min-height: 64px;
+    padding: var(--step-2) var(--step-3);
+  }
+
+  .pack__weight {
+    font-size: 18px;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+}

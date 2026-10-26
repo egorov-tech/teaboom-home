@@ -122,7 +122,7 @@
 
     <main id="main" tabindex="-1">
       <article class="product">
-        <div class="product__media">
+        <div class="product__media" data-autoplay="4000">
           <figure class="shot">
             <picture>
               <source data-gallery-webp srcset="assets/images/products/ananasovij-ulun.webp" type="image/webp">
@@ -205,13 +205,13 @@
           </p>
 
           <form class="buy" novalidate>
-            <fieldset class="packs">
+            <fieldset class="packs" data-packs>
               <legend class="packs__legend">Фасовка</legend>
 
               <div class="packs__grid">
                 <label class="pack">
                   <input class="pack__input" type="radio" name="pack" value="100"
-                         data-sku="01306" data-price="326.40" data-old-price="349.20" data-grams="100" checked>
+                         data-sku="01306" data-price="326.40" data-old-price="349.20" data-grams="100" data-label="100 г" checked>
                   <span class="pack__body">
                     <span class="pack__weight">100<i>г</i></span>
                     <span class="pack__sum" data-pack-sum>326,40 ₽</span>
@@ -221,7 +221,7 @@
 
                 <label class="pack">
                   <input class="pack__input" type="radio" name="pack" value="500"
-                         data-sku="01307" data-price="1432" data-old-price="1646" data-grams="500">
+                         data-sku="01307" data-price="1432" data-old-price="1646" data-grams="500" data-label="500 г">
                   <span class="pack__body">
                     <span class="pack__weight">500<i>г</i></span>
                     <span class="pack__sum" data-pack-sum>1 432 ₽</span>
@@ -231,7 +231,7 @@
 
                 <label class="pack">
                   <input class="pack__input" type="radio" name="pack" value="1000"
-                         data-sku="01308" data-price="2064" data-old-price="2592" data-grams="1000">
+                         data-sku="01308" data-price="2064" data-old-price="2592" data-grams="1000" data-label="1000 г">
                   <span class="pack__body">
                     <span class="pack__weight">1000<i>г</i></span>
                     <span class="pack__sum" data-pack-sum>2 064 ₽</span>
@@ -241,7 +241,7 @@
 
                 <label class="pack">
                   <input class="pack__input" type="radio" name="pack" value="5000"
-                         data-sku="01309" data-price="6320" data-old-price="8710" data-grams="5000">
+                         data-sku="01309" data-price="6320" data-old-price="8710" data-grams="5000" data-label="5000 г">
                   <span class="pack__body">
                     <span class="pack__weight">5000<i>г</i></span>
                     <span class="pack__sum" data-pack-sum>6 320 ₽</span>
