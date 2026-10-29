@@ -892,11 +892,11 @@ body::before {
   transition: opacity var(--ease);
 }
 .pack__weight {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 22px;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
+  font-family: var(--font-text);
+  font-weight: 600;
+  font-size: 17px;
+  line-height: 1.2;
+  letter-spacing: 0;
 }
 .pack__weight i {
   margin-left: 3px;
@@ -943,9 +943,8 @@ body::before {
   padding: var(--step-2) var(--step-3);
 }
 .packs--compact .pack__weight {
-  font-size: 18px;
-  line-height: 1.15;
-  letter-spacing: 0;
+  font-size: 15px;
+  line-height: 1.25;
 }
 
 .tag {
@@ -1091,6 +1090,79 @@ body::before {
   border-top: 1px solid var(--line);
   color: var(--muted);
   font-size: 13px;
+}
+
+.totop-rail {
+  position: sticky;
+  bottom: calc(var(--step-4) + env(safe-area-inset-bottom, 0px));
+  z-index: 25;
+  height: 0;
+  margin-bottom: var(--step-3);
+  pointer-events: none;
+}
+
+.totop {
+  --p: 0;
+  --ring: 138.23;
+  position: absolute;
+  right: clamp(12px, 3vw, 32px);
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  border-radius: 50%;
+  box-shadow: 0 6px 20px rgba(27, 27, 27, 0.14);
+  cursor: pointer;
+  pointer-events: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px) scale(0.92);
+  transition: opacity 140ms ease-out, transform 140ms ease-out, background-color var(--ease), visibility 0s linear 140ms;
+}
+.totop.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), background-color var(--ease), visibility 0s;
+}
+.totop.is-shown:active {
+  transform: scale(0.94);
+}
+@media (hover: hover) {
+  .totop:hover {
+    background: var(--brand);
+  }
+}
+.totop:focus-visible {
+  outline-offset: 4px;
+}
+.totop__ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+  fill: none;
+  stroke-width: 2;
+}
+.totop__track {
+  stroke: var(--line);
+}
+.totop__progress {
+  stroke: var(--tea);
+  stroke-linecap: round;
+  stroke-dasharray: var(--ring);
+  stroke-dashoffset: calc(var(--ring) * (1 - var(--p)));
+}
+.totop__arrow {
+  position: relative;
+  width: 20px;
+  height: 20px;
 }
 
 .page {

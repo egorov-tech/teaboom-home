@@ -485,4 +485,48 @@
       }, 1600);
     });
   });
+  // ---------- Back to top ----------
+  // Appears once the visitor is past the second product card (two cards on phones, the
+  // first row on desktop) or, on the product page, past the buy block with its sticky
+  // «В корзину». The ring shows how far down the page they are.
+  const totop = document.querySelector("[data-totop]");
+  if (totop) {
+    const marker =
+      document.querySelector("[data-totop-after]") ||
+      document.querySelectorAll("[data-good]")[1] ||
+      document.querySelector(".buy") ||
+      document.querySelector("main");
+    let shown = false;
+    let queued = false;
+
+    const sync = () => {
+      queued = false;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
+      totop.style.setProperty("--p", progress.toFixed(3));
+      const past = marker ? marker.getBoundingClientRect().bottom < 0 : window.scrollY > window.innerHeight;
+      if (past !== shown) {
+        shown = past;
+        totop.classList.toggle("is-shown", shown);
+      }
+    };
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (queued) return;
+        queued = true;
+        window.requestAnimationFrame(sync);
+      },
+      { passive: true }
+    );
+    window.addEventListener("resize", sync, { passive: true });
+    sync();
+
+    totop.addEventListener("click", (event) => {
+      window.scrollTo({ top: 0, behavior: scrollBehavior() });
+      // Keyboard activation (detail 0): put focus back at the top so Tab continues from there.
+      if (event.detail === 0) masthead?.querySelector(".brand")?.focus({ preventScroll: true });
+    });
+  }
 })();

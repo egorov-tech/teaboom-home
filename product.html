@@ -406,7 +406,18 @@
     </main>
   </div>
 
-<footer class="footer">
+<!-- Back-to-top: sticks to the bottom of the screen and stops right above the footer. -->
+  <div class="totop-rail">
+    <button class="totop press" type="button" aria-label="Наверх" data-totop>
+      <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle class="totop__track" cx="24" cy="24" r="22" />
+        <circle class="totop__progress" cx="24" cy="24" r="22" />
+      </svg>
+      <svg class="totop__arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 15.5V4.5M5 9.5l5-5 5 5"/></svg>
+    </button>
+  </div>
+
+  <footer class="footer">
     <div class="footer__grid wrap">
       <section aria-labelledby="f-contacts">
         <h2 class="footer__title" id="f-contacts">Контакты</h2>

@@ -68,12 +68,14 @@
     }
   }
 
+  // Weight is set in the text face: Oswald is kept for prices and headings only, so the pack
+  // never reads as a second price next to the main one.
   &__weight {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 22px;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+    font-family: var(--font-text);
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 1.2;
+    letter-spacing: 0;
 
     i {
       margin-left: 3px;
@@ -133,8 +135,7 @@
   }
 
   .pack__weight {
-    font-size: 18px;
-    line-height: 1.15;
-    letter-spacing: 0;
+    font-size: 15px;
+    line-height: 1.25;
   }
 }
