@@ -18,6 +18,26 @@
           <p class="masthead__hours">пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00</p>
         </div>
 
+        <!-- Compact-only tools: search and phone stay reachable while the menu has scrolled away. -->
+        <div class="quick" data-quick>
+          <button class="quick__icon quick__toggle press" type="button" aria-expanded="false" aria-controls="{{SEARCH_ID}}-quick-form" aria-label="Поиск по каталогу" data-quick-toggle>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m12.7 12.7 4.3 4.3"/></svg>
+          </button>
+          <form class="quick__search" id="{{SEARCH_ID}}-quick-form" role="search" action="https://teaboom.ru/search" method="get" data-quick-search>
+            <label class="visually-hidden" for="{{SEARCH_ID}}-quick">Поиск по каталогу</label>
+            <svg class="quick__glass" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m12.7 12.7 4.3 4.3"/></svg>
+            <input class="quick__field" id="{{SEARCH_ID}}-quick" type="search" name="q" placeholder="Чай или артикул" autocomplete="off" enterkeyhint="search">
+            <button class="quick__submit press" type="submit">Найти</button>
+            <button class="quick__close press" type="button" aria-label="Закрыть поиск" data-quick-close>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+            </button>
+          </form>
+          <a class="quick__phone" href="tel:+74951201551">
+            <svg class="quick__phone-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.6 2.8 8.3 6.6 6.6 8a10.6 10.6 0 0 0 5.4 5.4l1.4-1.7 3.8 1.7-.6 2.8a1.6 1.6 0 0 1-1.6 1.2A14.4 14.4 0 0 1 1.8 4a1.6 1.6 0 0 1 1.2-1.6z"/></svg>
+            <span class="quick__number">+7 (495) 120-15-51</span>
+          </a>
+        </div>
+
         <p class="cart" data-cart>
           <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
           <span class="cart__label">Корзина</span>

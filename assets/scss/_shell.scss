@@ -60,10 +60,10 @@
     }
   }
 
-  // Desktop compact: contacts fade but keep their place, so the bar does not reflow.
+  // Compact: the contacts block gives way to the quick tools (search + phone). The bar keeps
+  // its fixed height, so swapping what is inside it never moves the page.
   &.is-compact &__contacts--desk {
-    opacity: 0;
-    visibility: hidden;
+    display: none;
   }
 
   &__phone,
@@ -149,6 +149,25 @@
 
   .brand__tagline {
     opacity: 0;
+  }
+
+  // Up to desktop the compact cart keeps icon and count; the word stays for screen readers.
+  .cart__label {
+    @media (max-width: #{$bp-split - 1px}) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+
+  // Phones: the leaf mark alone carries the brand, freeing room for search and call.
+  .brand__text {
+    @media (max-width: #{$bp-wide - 1px}) {
+      display: none;
+    }
   }
 
   .cart {
@@ -445,5 +464,223 @@
         background: var(--brand-lift);
       }
     }
+  }
+}
+
+// ---------- Quick tools in the compact header ----------
+// ≥1060: search field + phone number; 600–1059: search field + call icon;
+// <760: search icon (opens the field over the bar) + call icon. Below 760px an inline field
+// would be too narrow to read the placeholder.
+$bp-quick: 760px;
+
+.quick {
+  display: none;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--step-3);
+  min-width: 0;
+
+  .masthead.is-compact & {
+    display: flex;
+    animation: quick-in 200ms var(--ease-out);
+  }
+
+  &__icon,
+  &__phone {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: var(--tap);
+    height: var(--tap);
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+    }
+  }
+
+  // Search opens as a field from 600px up, so the toggle is only for phones.
+  &__toggle {
+    @media (min-width: $bp-quick) {
+      display: none;
+    }
+  }
+
+  &__search {
+    position: relative;
+    display: none;
+    align-items: center;
+    flex: 1 1 auto;
+    max-width: 460px;
+    min-width: 0;
+    height: 42px;
+    padding-left: 36px;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    transition: border-color var(--ease), box-shadow var(--ease);
+
+    @media (min-width: $bp-quick) {
+      display: flex;
+    }
+
+    &:focus-within {
+      border-color: var(--tea);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tea) 18%, transparent);
+    }
+  }
+
+  &__glass {
+    position: absolute;
+    left: 11px;
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  &__field {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    height: 100%;
+    padding: 0 var(--step-2) 0 0;
+    font-family: inherit;
+    font-size: 16px; // keeps iOS from zooming into the field
+    color: var(--ink);
+    background: transparent;
+    border: 0;
+    outline: none;
+
+    &::placeholder {
+      color: var(--muted);
+    }
+
+    &::-webkit-search-cancel-button {
+      display: none;
+    }
+  }
+
+  &__submit {
+    flex: none;
+    height: 34px;
+    margin-right: 3px;
+    padding: 0 var(--step-3);
+    font-size: 14px;
+    font-weight: 700;
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+
+    @media (hover: hover) {
+      &:hover {
+        background: var(--brand-lift);
+      }
+    }
+  }
+
+  &__close {
+    display: none;
+  }
+
+  // Desktop: the number itself, the way people expect to read it in a shop header.
+  &__phone {
+    @media (min-width: $bp-split) {
+      display: inline-flex;
+      gap: var(--step-2);
+      width: auto;
+      padding: 0 var(--step-2);
+      border-color: transparent;
+      background: none;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      white-space: nowrap;
+
+      @media (hover: hover) {
+        &:hover {
+          color: var(--tea);
+          border-color: transparent;
+        }
+      }
+    }
+  }
+
+  &__phone-icon {
+    color: var(--tea);
+  }
+
+  &__number {
+    @media (max-width: #{$bp-split - 1px}) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+  }
+}
+
+// Phones: the search field opens over the whole bar, with its own close button.
+.masthead.is-searching {
+  @media (max-width: #{$bp-quick - 1px}) {
+    .quick__search {
+      position: absolute;
+      inset: calc(50% - 22px) var(--gutter) auto;
+      z-index: 2;
+      display: flex;
+      max-width: none;
+      height: 44px;
+      box-shadow: 0 6px 20px rgb(27 27 27 / 10%);
+      animation: quick-in 180ms var(--ease-out);
+    }
+
+    .quick__close {
+      display: grid;
+      place-items: center;
+      flex: none;
+      width: 40px;
+      height: 40px;
+      margin-left: 2px;
+      color: var(--ink-soft);
+      background: none;
+      border: 0;
+      cursor: pointer;
+
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .brand,
+    .quick__toggle,
+    .quick__phone,
+    .cart {
+      visibility: hidden;
+    }
+  }
+}
+
+@keyframes quick-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
   }
 }

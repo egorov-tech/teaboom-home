@@ -141,13 +141,13 @@
   }
 }
 
+// Movement only, no fade: the opaque leaf layer already hides the page, and a page that
+// paints at opacity 0 never gets a Largest Contentful Paint recorded (Lighthouse: NO_LCP).
 @keyframes settle {
   from {
-    opacity: 0;
     transform: translateY(12px);
   }
   to {
-    opacity: 1;
     transform: none;
   }
 }

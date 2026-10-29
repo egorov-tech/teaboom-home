@@ -20,6 +20,38 @@
 
   // ---------- Sticky compact masthead (all viewports, hysteresis against jitter) ----------
   const masthead = document.querySelector("[data-masthead]");
+
+  // Phones: the compact header's search icon opens the field over the bar.
+  const quickToggle = masthead?.querySelector("[data-quick-toggle]");
+  const quickForm = masthead?.querySelector("[data-quick-search]");
+  const quickClose = masthead?.querySelector("[data-quick-close]");
+  const quickField = quickForm?.querySelector("input");
+
+  function closeQuickSearch({ returnFocus = false } = {}) {
+    if (!masthead?.classList.contains("is-searching")) return;
+    masthead.classList.remove("is-searching");
+    quickToggle?.setAttribute("aria-expanded", "false");
+    if (returnFocus) quickToggle?.focus({ preventScroll: true });
+  }
+
+  if (quickToggle && quickForm) {
+    quickToggle.addEventListener("click", () => {
+      masthead.classList.add("is-searching");
+      quickToggle.setAttribute("aria-expanded", "true");
+      // preventScroll: the field sits in the sticky bar, and a plain focus() makes the browser
+      // scroll the page to clear scroll-padding-top.
+      quickField?.focus({ preventScroll: true });
+    });
+    quickClose?.addEventListener("click", () => closeQuickSearch({ returnFocus: true }));
+    quickForm.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeQuickSearch({ returnFocus: true });
+    });
+    // Leaving the opened field (tap elsewhere, Tab out) folds it back.
+    quickForm.addEventListener("focusout", (event) => {
+      if (!quickForm.contains(event.relatedTarget)) closeQuickSearch();
+    });
+  }
+
   if (masthead) {
     const ENTER = 64; // become compact past this
     const EXIT = 16; // expand again only when near the top
@@ -34,6 +66,7 @@
       if (next !== compact) {
         compact = next;
         masthead.classList.toggle("is-compact", compact);
+        if (!compact) closeQuickSearch();
       }
       ticking = false;
     };

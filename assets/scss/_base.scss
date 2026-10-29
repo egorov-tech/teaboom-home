@@ -8,8 +8,18 @@
 
 html {
   -webkit-text-size-adjust: 100%;
-  // Room for the sticky compact masthead when jumping to in-page targets.
-  scroll-padding-top: calc(72px + env(safe-area-inset-top, 0px));
+}
+
+// Room for the sticky compact header when the browser scrolls to a target or a focused
+// element. Set on content, not as scroll-padding on <html>: with scroll-padding, focusing
+// anything inside the sticky header itself made the browser scroll the whole page.
+:where(main, .masthead__bottom, footer) :where(a, button, input, select, textarea, summary, [tabindex]),
+:where(main, [id]) {
+  scroll-margin-top: calc(var(--pin-h) + var(--step-2) + env(safe-area-inset-top, 0px));
+}
+
+.masthead :where(*) {
+  scroll-margin-top: 0;
 }
 
 body {
