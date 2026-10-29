@@ -979,14 +979,16 @@ body::before {
   color: var(--ink-soft);
   font-variant-numeric: tabular-nums;
 }
-.pack__save {
-  font-size: 11px;
-  letter-spacing: 0.03em;
-  color: var(--tea);
+.pack__rate {
+  font-size: 13px;
+  line-height: 1.35;
+  color: var(--muted);
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
-.pack__save:empty {
-  display: none;
+.pack__rate--best {
+  color: var(--tea);
+  font-weight: 600;
 }
 @media (hover: hover) {
   .pack:hover .pack__body {
@@ -1011,9 +1013,6 @@ body::before {
 .packs--compact .pack__body {
   min-height: 64px;
   padding: var(--step-2) clamp(8px, 1.2vw, 12px);
-}
-.packs--compact .pack__save {
-  white-space: nowrap;
 }
 .packs--compact .pack__weight {
   font-size: 15px;
@@ -1043,15 +1042,6 @@ body::before {
   text-decoration-thickness: 1px;
 }
 .tag__was[hidden] {
-  display: none;
-}
-.tag__rate {
-  flex-basis: 100%;
-  font-size: 13px;
-  color: var(--ink-soft);
-  font-variant-numeric: tabular-nums;
-}
-.tag__rate[hidden] {
   display: none;
 }
 .tag__sku {

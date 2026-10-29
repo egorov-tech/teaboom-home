@@ -425,21 +425,12 @@
     const wasValue = good.querySelector("[data-was-value]");
     const cut = good.querySelector("[data-cut]");
     const sku = good.querySelector("[data-sku]");
-    const rate = good.querySelector("[data-rate]");
 
     const show = (input) => {
       const price = Number(input.dataset.price);
       const old = input.dataset.old ? Number(input.dataset.old) : null;
       now.textContent = money(price);
       sku.textContent = input.value;
-      // Price per 100 g (per piece for teaware); hidden when it would just repeat the price.
-      if (rate) {
-        const qty = Number(input.dataset.qty);
-        const grams = input.dataset.unit === "г";
-        const per = grams ? 100 : 1;
-        rate.hidden = qty === per;
-        rate.textContent = `${money(Math.round((price / qty) * per * 100) / 100)} за ${grams ? "100 г" : "1 шт"}`;
-      }
       if (old) {
         wasValue.textContent = money(old);
         was.hidden = false;

@@ -91,14 +91,18 @@
     font-variant-numeric: tabular-nums;
   }
 
-  &__save {
-    font-size: 11px;
-    letter-spacing: 0.03em;
-    color: var(--tea);
+  // Price per 100 g: small and muted, with its unit, so it compares packs without reading as
+  // the price of the pack. The cheapest one per 100 g is set in tea green.
+  &__rate {
+    font-size: 13px;
+    line-height: 1.35;
+    color: var(--muted);
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
 
-    &:empty {
-      display: none;
+    &--best {
+      color: var(--tea);
+      font-weight: 600;
     }
   }
 
@@ -134,9 +138,6 @@
     padding: var(--step-2) clamp(8px, 1.2vw, 12px);
   }
 
-  .pack__save {
-    white-space: nowrap;
-  }
 
   .pack__weight {
     font-size: 15px;

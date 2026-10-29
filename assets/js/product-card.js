@@ -14,7 +14,6 @@
     price: root.querySelector('[data-out="price"]'),
     oldPrice: root.querySelector('[data-out="old-price"]'),
     discount: root.querySelector('[data-out="discount"]'),
-    unitPrice: root.querySelector('[data-out="unit-price"]'),
   };
 
   const form = root.querySelector(".buy");
@@ -41,19 +40,23 @@
 
   const ratePer100g = (pack) => (pack.price / pack.grams) * 100;
 
+  // Chips show price per 100 g; the cheapest one is marked as the best value.
   const renderPacks = () => {
-    const baseRate = ratePer100g(read(packs[0]));
+    const rates = packs.map((input) => ratePer100g(read(input)));
+    const best = Math.min(...rates);
+    const bestIsCheaper = best < rates[0] - 0.005;
 
-    packs.forEach((input) => {
-      const pack = read(input);
-      const sum = input.parentNode.querySelector("[data-pack-sum]");
-      const save = input.parentNode.querySelector("[data-pack-save]");
-
-      if (sum) sum.textContent = formatPrice(pack.price);
-
-      if (save) {
-        const benefit = Math.round((1 - ratePer100g(pack) / baseRate) * 100);
-        save.textContent = benefit > 0 ? `выгода ${benefit}%` : "";
+    packs.forEach((input, i) => {
+      const rate = input.parentNode.querySelector("[data-pack-rate]");
+      if (!rate) return;
+      const isBest = bestIsCheaper && rates[i] === best;
+      rate.textContent = `${wholeFormat.format(Math.round(rates[i]))}\u00a0₽/100\u00a0г`;
+      rate.classList.toggle("pack__rate--best", isBest);
+      if (isBest) {
+        const note = document.createElement("span");
+        note.className = "visually-hidden";
+        note.textContent = ", выгоднее всего";
+        rate.append(note);
       }
     });
   };
@@ -64,10 +67,6 @@
     out.price.textContent = formatPrice(pack.price);
     out.oldPrice.textContent = formatPrice(pack.oldPrice);
     out.discount.textContent = `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%`;
-    out.unitPrice.textContent = formatPrice(ratePer100g(pack));
-    // For the 100 g pack the rate would only repeat the price.
-    const rateLine = out.unitPrice.closest("[data-rate-line]");
-    if (rateLine) rateLine.hidden = pack.grams === 100;
   };
 
   renderPacks();
