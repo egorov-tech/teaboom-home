@@ -13,6 +13,8 @@
   --tea: #2f5140;
   --cut: #8f2d1a;
   --cut-bg: #f7e9e4;
+  --value: #1e6b3a;
+  --value-bg: #e2f3e7;
   --gift: #cc6600;
   --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
   --font-text: "Open Sans", "Helvetica Neue", Arial, sans-serif;
@@ -988,7 +990,12 @@ body::before {
   white-space: nowrap;
 }
 .pack__rate--best {
-  color: var(--tea);
+  align-self: flex-start;
+  margin-left: -6px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--value-bg);
+  color: var(--value);
   font-weight: 600;
 }
 @media (hover: hover) {

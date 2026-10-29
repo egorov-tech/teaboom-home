@@ -15,6 +15,9 @@
   --tea: #2f5140;
   --cut: #8f2d1a;
   --cut-bg: #f7e9e4;
+  // Best value per 100 g: a clearly green pill (5.7:1), lighter than --tea, which read as black at 13px.
+  --value: #1e6b3a;
+  --value-bg: #e2f3e7;
   // Gift orange from the live menu; 3.8:1 on white, so it only colours the icon.
   --gift: #cc6600;
 

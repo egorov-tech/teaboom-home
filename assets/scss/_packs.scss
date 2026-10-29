@@ -92,7 +92,7 @@
   }
 
   // Price per 100 g: small and muted, with its unit, so it compares packs without reading as
-  // the price of the pack. The cheapest one per 100 g is set in tea green.
+  // the price of the pack. The cheapest one per 100 g gets a green pill.
   &__rate {
     font-size: 13px;
     line-height: 1.35;
@@ -100,8 +100,14 @@
     font-variant-numeric: tabular-nums;
     white-space: nowrap;
 
+    // The cheapest per 100 g sits in a soft green pill — visible at a glance, no extra words.
     &--best {
-      color: var(--tea);
+      align-self: flex-start;
+      margin-left: -6px;
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      background: var(--value-bg);
+      color: var(--value);
       font-weight: 600;
     }
   }
