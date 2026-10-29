@@ -1034,6 +1034,9 @@ body::before {
   letter-spacing: -0.01em;
   font-variant-numeric: tabular-nums;
 }
+.tag__now.is-sale {
+  color: var(--cut);
+}
 .tag__was {
   color: var(--muted);
   font-size: 15px;
@@ -1065,6 +1068,9 @@ body::before {
   line-height: 1;
   letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
+}
+.price__now.is-sale {
+  color: var(--cut);
 }
 .price__was {
   font-size: 16px;

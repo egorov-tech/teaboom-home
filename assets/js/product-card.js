@@ -65,6 +65,7 @@
     const pack = read(input);
     out.sku.textContent = pack.sku;
     out.price.textContent = formatPrice(pack.price);
+    out.price.classList.toggle("is-sale", pack.oldPrice > pack.price);
     out.oldPrice.textContent = formatPrice(pack.oldPrice);
     out.discount.textContent = `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%`;
   };

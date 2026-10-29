@@ -230,7 +230,7 @@ for idx, p in enumerate(products, 1):
             <div class="good__buy">
               <p class="tag" aria-live="polite">
                 <span class="visually-hidden">Цена:</span>
-                <span class="tag__now" data-now>{money(v0["price"])}</span>
+                <span class="tag__now{" is-sale" if v0["old"] else ""}" data-now>{money(v0["price"])}</span>
                 <span class="tag__was" data-was{was_hidden}><span class="visually-hidden">без скидки</span> <s data-was-value>{was_val}</s></span>
                 <span class="tag__sku">арт. <span data-sku>{v0["sku"]}</span></span>
               </p>

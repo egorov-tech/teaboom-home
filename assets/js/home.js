@@ -430,6 +430,7 @@
       const price = Number(input.dataset.price);
       const old = input.dataset.old ? Number(input.dataset.old) : null;
       now.textContent = money(price);
+      now.classList.toggle("is-sale", Boolean(old));
       sku.textContent = input.value;
       if (old) {
         wasValue.textContent = money(old);
