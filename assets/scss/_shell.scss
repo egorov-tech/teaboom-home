@@ -684,3 +684,83 @@ $bp-quick: 760px;
     transform: translateY(-4px);
   }
 }
+
+// Compact header below 760px: search, call and cart are one tight group of equal, borderless
+// icon buttons (the native shop-app pattern), right after the logo — not three differently
+// styled boxes spread across the bar. The cart count becomes a badge and shows only when
+// something is in the cart.
+.masthead.is-compact {
+  @media (max-width: #{$bp-quick - 1px}) {
+    .masthead__top {
+      column-gap: var(--step-2); // 8px between 44px targets — the touch-spacing minimum
+    }
+
+    .brand {
+      margin-right: auto;
+    }
+
+    .quick {
+      flex: none;
+      gap: var(--step-2);
+    }
+
+    .quick__icon,
+    .quick__phone,
+    .cart {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: var(--tap);
+      height: var(--tap);
+      min-height: 0;
+      margin: 0;
+      padding: 0;
+      color: var(--ink);
+      background: transparent;
+      border: 0;
+      border-radius: 50%;
+      transition: background-color var(--ease), transform 160ms var(--ease-out);
+
+      &:active {
+        background: var(--canvas);
+      }
+
+      @media (hover: hover) {
+        &:hover {
+          background: var(--canvas);
+        }
+      }
+    }
+
+    .quick__icon svg,
+    .quick__phone svg,
+    .cart__icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .quick__phone-icon {
+      color: var(--ink);
+    }
+
+    .cart__count {
+      position: absolute;
+      top: 3px;
+      right: 1px;
+      min-width: 18px;
+      height: 18px;
+      padding: 0 5px;
+      border-radius: 9px;
+      background: var(--brand);
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 18px;
+      box-shadow: 0 0 0 2px var(--paper);
+    }
+
+    .cart:not(.is-filled) .cart__count {
+      display: none;
+    }
+  }
+}
