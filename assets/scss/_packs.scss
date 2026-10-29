@@ -131,7 +131,11 @@
 .packs--compact {
   .pack__body {
     min-height: 64px;
-    padding: var(--step-2) var(--step-3);
+    padding: var(--step-2) clamp(8px, 1.2vw, 12px);
+  }
+
+  .pack__save {
+    white-space: nowrap;
   }
 
   .pack__weight {

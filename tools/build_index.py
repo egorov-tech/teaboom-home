@@ -126,19 +126,44 @@ ARROW = (
     '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
 )
+def pack_qty(label):
+    """'500 г' -> (500, 'г'), '48 шт' -> (48, 'шт')."""
+    num, unit = label.split()[:2]
+    return float(num), unit
+
+
+def unit_rate(v):
+    """Price per 100 g for weighed packs, per 1 piece otherwise."""
+    qty, unit = pack_qty(v["label"])
+    return v["price"] / qty * (100 if unit == "г" else 1)
+
+
+def rate_text(v):
+    qty, unit = pack_qty(v["label"])
+    per = "за 100 г" if unit == "г" else "за 1 шт"
+    same = (unit == "г" and qty == 100) or (unit != "г" and qty == 1)
+    return f"{money(round(unit_rate(v), 2))} {per}", same
+
+
 for idx, p in enumerate(products, 1):
     pid = f"good-{idx}"
     v0 = p["variants"][0]
+    base_rate = unit_rate(v0)
     chips = []
     for j, v in enumerate(p["variants"]):
         old_attr = f' data-old="{v["old"]:g}"' if v["old"] else ""
+        qty, unit = pack_qty(v["label"])
+        # Chips carry the weight only; a pack that is cheaper per 100 g (per piece) than the
+        # smallest one gets a short "выгоднее" note. Prices live once, in the price line.
+        save = round((1 - unit_rate(v) / base_rate) * 100)
+        save_html = f'\n                  <span class="pack__save">выгода {save}%</span>' if save > 0 else ""
         chips.append(f'''              <label class="pack">
-                <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-label="{esc(v["label"])}"{" checked" if j == 0 else ""}>
+                <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-qty="{qty:g}" data-unit="{unit}" data-label="{esc(v["label"])}"{" checked" if j == 0 else ""}>
                 <span class="pack__body">
-                  <span class="pack__weight">{esc(v["label"])}</span>
-                  <span class="pack__sum">{money(v["price"])}</span>
+                  <span class="pack__weight">{esc(v["label"])}</span>{save_html}
                 </span>
               </label>''')
+    rate0, rate0_same = rate_text(v0)
     badge = f'<span class="good__badge" data-cut>−{cut(v0["old"], v0["price"])}%</span>' if v0["old"] else '<span class="good__badge" data-cut hidden></span>'
     was_hidden = "" if v0["old"] else " hidden"
     was_val = money(v0["old"]) if v0["old"] else ""
@@ -210,6 +235,7 @@ for idx, p in enumerate(products, 1):
                 <span class="visually-hidden">Цена:</span>
                 <span class="tag__now" data-now>{money(v0["price"])}</span>
                 <span class="tag__was" data-was{was_hidden}><span class="visually-hidden">без скидки</span> <s data-was-value>{was_val}</s></span>
+                <span class="tag__rate" data-rate{" hidden" if rate0_same else ""}>{rate0}</span>
                 <span class="tag__sku">арт. <span data-sku>{v0["sku"]}</span></span>
               </p>
               <button class="add press" type="button" data-add>В корзину</button>

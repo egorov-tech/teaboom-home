@@ -53,7 +53,7 @@
 
       if (save) {
         const benefit = Math.round((1 - ratePer100g(pack) / baseRate) * 100);
-        save.textContent = benefit > 0 ? `выгоднее на ${benefit}%` : "";
+        save.textContent = benefit > 0 ? `выгода ${benefit}%` : "";
       }
     });
   };
@@ -65,6 +65,9 @@
     out.oldPrice.textContent = formatPrice(pack.oldPrice);
     out.discount.textContent = `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%`;
     out.unitPrice.textContent = formatPrice(ratePer100g(pack));
+    // For the 100 g pack the rate would only repeat the price.
+    const rateLine = out.unitPrice.closest("[data-rate-line]");
+    if (rateLine) rateLine.hidden = pack.grams === 100;
   };
 
   renderPacks();

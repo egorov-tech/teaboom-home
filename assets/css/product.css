@@ -1011,7 +1011,10 @@ body::before {
 
 .packs--compact .pack__body {
   min-height: 64px;
-  padding: var(--step-2) var(--step-3);
+  padding: var(--step-2) clamp(8px, 1.2vw, 12px);
+}
+.packs--compact .pack__save {
+  white-space: nowrap;
 }
 .packs--compact .pack__weight {
   font-size: 15px;
@@ -1041,6 +1044,15 @@ body::before {
   text-decoration-thickness: 1px;
 }
 .tag__was[hidden] {
+  display: none;
+}
+.tag__rate {
+  flex-basis: 100%;
+  font-size: 13px;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.tag__rate[hidden] {
   display: none;
 }
 .tag__sku {

@@ -30,6 +30,18 @@
     }
   }
 
+  // The one place a tile shows price per 100 g (per piece for teaware).
+  &__rate {
+    flex-basis: 100%;
+    font-size: 13px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
   &__sku {
     flex-basis: 100%;
     font-size: 12px;
