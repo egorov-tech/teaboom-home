@@ -218,7 +218,6 @@ for idx, p in enumerate(products, 1):
           <article class="good" aria-labelledby="{pid}-name" data-good data-slug="{esc(p["slug"])}">
 {media}
             <div class="good__head">
-              <p class="good__cat"><a href="{SITE}{p["cat_url"]}">{esc(p["cat"])}</a></p>
               <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{esc(p["name"])}</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">

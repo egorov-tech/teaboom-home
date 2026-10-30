@@ -1605,22 +1605,6 @@ body::before {
   gap: var(--step-1);
   min-width: 0;
 }
-.good__cat {
-  font-size: 13px;
-  line-height: 1.4;
-}
-.good__cat a {
-  display: inline-block;
-  padding-block: 3px;
-  color: var(--muted);
-  text-decoration: none;
-}
-@media (hover: hover) {
-  .good__cat a:hover {
-    color: var(--tea);
-    text-decoration: underline;
-  }
-}
 .good__name {
   font-size: 16px;
   font-weight: 600;

@@ -251,25 +251,6 @@
     min-width: 0;
   }
 
-  &__cat {
-    font-size: 13px;
-    line-height: 1.4;
-
-    a {
-      display: inline-block;
-      padding-block: 3px; // 24px tap height, the WCAG 2.2 minimum for small inline targets
-      color: var(--muted);
-      text-decoration: none;
-
-      @media (hover: hover) {
-        &:hover {
-          color: var(--tea);
-          text-decoration: underline;
-        }
-      }
-    }
-  }
-
   &__name {
     font-size: 16px;
     font-weight: 600;
