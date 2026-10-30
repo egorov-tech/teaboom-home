@@ -68,8 +68,8 @@ slides = [
     ("/category-sladosti", "Сладости"),
 ]
 n = len(slides)
-BANNER_SIZES = "(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw"
-GOOD_SIZES = "(min-width: 1060px) 260px, (min-width: 600px) 45vw, 104px"
+BANNER_SIZES = "(min-width: 1200px) 1104px, 92vw"
+GOOD_SIZES = "(min-width: 1060px) 260px, (min-width: 600px) 45vw, 88vw"
 # The site opens on the Telegram banner; the demo opens on a tea (Анчан, "Хит сезона"),
 # the rest keep the site's order. Files keep the site's numbering.
 order = [6, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]
@@ -92,20 +92,20 @@ for i, src in enumerate(order, 1):
           </li>''')
 bars = '<span class="is-current"></span>' + "<span></span>" * (n - 1)
 
-# ---------- side categories ----------
+# ---------- category tiles (the shop's own nine from the home page side menu) ----------
 side = [("Красный чай", "category-krasnyj-chaj"), ("Кофе", "category-kofe"), ("Черный чай", "category-chernyy_tea"),
         ("Сладости", "category-sladosti"), ("Посуда и аксессуары", "category-posuda-i-aksessuary"),
         ("Зеленый чай", "category-zelenyj-chaj"), ("Пуэр", "category-puer"), ("Улун", "category-ulun"),
         ("Белый чай", "category-belyj-chaj")]
-side_html = "\n".join(f'''            <li>
-              <a class="shelf__link" href="{SITE}/{slug}">
-                <picture>
-                  <source srcset="assets/images/categories/{slug}.webp" type="image/webp">
-                  <img class="shelf__thumb" src="assets/images/categories/{slug}.jpg" alt="" width="56" height="56" decoding="async"{' loading="lazy"' if k >= 3 else ''}>
-                </picture>
-                {esc(name)}
-              </a>
-            </li>''' for k, (name, slug) in enumerate(side))
+cats_html = "\n".join(f'''        <li class="cats__item">
+          <a class="cats__link" href="{SITE}/{slug}">
+            <picture>
+              <source srcset="assets/images/categories/{slug}.webp 112w, assets/images/categories/{slug}-tile.webp 360w" sizes="(min-width: 1060px) 200px, 40px" type="image/webp">
+              <img class="cats__image" src="assets/images/categories/{slug}-tile.jpg" srcset="assets/images/categories/{slug}.jpg 112w, assets/images/categories/{slug}-tile.jpg 360w" sizes="(min-width: 1060px) 200px, 40px" alt="" width="360" height="360" loading="lazy" decoding="async">
+            </picture>
+            <span class="cats__name">{esc(name)}</span>
+          </a>
+        </li>''' for name, slug in side)
 
 # ---------- catalogue dropdown ----------
 catalog = [("Подарки", "category-podarki"), ("Матча", "category-matcha"), ("Черный чай", "category-chernyy_tea"),
@@ -280,7 +280,7 @@ out = (
     .replace("{{SLIDES}}", "\n".join(slide_html))
     .replace("{{BARS}}", bars)
     .replace("{{N}}", f"{n:02d}")
-    .replace("{{SIDE}}", side_html)
+    .replace("{{CATS}}", cats_html)
     .replace("{{GOODS}}", "\n".join(cards))
     .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
 )

@@ -93,7 +93,13 @@
 
   // Price per 100 g: small and muted, with its unit, so it compares packs without reading as
   // the price of the pack. The cheapest one per 100 g gets a green pill.
+  // Every rate line has the pill's box (padding pulled back with a negative margin), so weights
+  // and rates sit on the same two lines in all chips, highlighted or not.
   &__rate {
+    align-self: flex-start;
+    margin-left: -6px;
+    padding: 1px 6px;
+    border-radius: var(--radius-sm);
     font-size: 13px;
     line-height: 1.35;
     color: var(--muted);
@@ -102,10 +108,6 @@
 
     // The cheapest per 100 g sits in a soft green pill — visible at a glance, no extra words.
     &--best {
-      align-self: flex-start;
-      margin-left: -6px;
-      padding: 1px 6px;
-      border-radius: var(--radius-sm);
       background: var(--value-bg);
       color: var(--value);
       font-weight: 600;

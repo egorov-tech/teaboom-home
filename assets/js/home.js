@@ -136,10 +136,21 @@
     });
   }
 
-  // ---------- Sideways strips (menu, categories) ----------
+  // ---------- Sideways menu strip (narrow screens) ----------
   // Browsers leave a half-visible item where it is when it gets focus; slide the strip so the
   // focused item is fully on screen, keeping the strip's own side padding.
-  document.querySelectorAll(".menu, .shelf__list").forEach((strip) => {
+  // data-more="start|end|both" drives the edge fade that tells the menu scrolls sideways.
+  document.querySelectorAll(".menu").forEach((strip) => {
+    const syncFade = () => {
+      const max = strip.scrollWidth - strip.clientWidth;
+      const atStart = strip.scrollLeft <= 2;
+      const atEnd = strip.scrollLeft >= max - 2;
+      strip.dataset.more = max <= 2 ? "" : atStart ? "end" : atEnd ? "start" : "both";
+    };
+    strip.addEventListener("scroll", syncFade, { passive: true });
+    window.addEventListener("resize", syncFade, { passive: true });
+    syncFade();
+
     strip.addEventListener("focusin", (event) => {
       if (strip.scrollWidth <= strip.clientWidth) return;
       const item = event.target.getBoundingClientRect();
@@ -287,6 +298,12 @@
     prev.addEventListener("click", () => goTo(index - 1));
     next.addEventListener("click", () => goTo(index + 1));
 
+    // A width change (rotation, resized window) keeps the old scroll offset in pixels and
+    // leaves the strip parked between two banners; snap it back onto the current one.
+    new ResizeObserver(() => {
+      track.scrollTo({ left: slides[index].offsetLeft - slides[0].offsetLeft, behavior: "auto" });
+    }).observe(track);
+
     banners.addEventListener("keydown", (event) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
@@ -357,6 +374,11 @@
       event?.stopPropagation();
       render(i);
     };
+
+    // Same as the banners: after a width change, park the strip on the current photo.
+    new ResizeObserver(() => {
+      track.scrollTo({ left: frames[index].offsetLeft - frames[0].offsetLeft, behavior: "auto" });
+    }).observe(track);
 
     prev?.addEventListener("click", (event) => go(index - 1, event));
     next?.addEventListener("click", (event) => go(index + 1, event));

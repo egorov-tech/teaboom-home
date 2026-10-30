@@ -27,14 +27,17 @@
   }
 }
 
-// Phones: photo beside the name, packs and price below across the full width.
+// Photo first, then the name, packs and price — the same order at every width (phones too:
+// the client asked for the large photo on top, as on wider screens and at competitors).
 .good {
   display: grid;
-  grid-template-columns: clamp(80px, 26vw, 104px) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto 1fr auto auto;
   grid-template-areas:
-    "media head"
-    "packs packs"
-    "buy   buy";
+    "media"
+    "head"
+    "packs"
+    "buy";
   gap: var(--step-3) var(--step-4);
   align-content: start;
   padding: var(--step-4);
@@ -42,15 +45,6 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
 
-  @media (min-width: $bp-wide) {
-    grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto 1fr auto auto;
-    grid-template-areas:
-      "media"
-      "head"
-      "packs"
-      "buy";
-  }
 
   &__media {
     grid-area: media;
@@ -59,7 +53,7 @@
     min-width: 0;
   }
 
-  // Multi-photo peek without leaving the home grid (same idea as marketplace carousels).
+  // Several photos in one tile, swiped in place (same idea as marketplace carousels).
   &__gallery {
     position: relative;
   }
@@ -83,12 +77,8 @@
     flex: 0 0 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always;
-
-    // Phones: next frame peeks so swipe is obvious without reading a hint.
-    @media (max-width: #{$bp-wide - 1px}) {
-      flex-basis: 86%;
-      margin-right: 6px;
-    }
+    // One photo at a time, centred: a peeking neighbour read as a misaligned slide. Dots, the
+    // arrow and the «листайте» hint already say the photos can be swiped.
   }
 
   // Shop photos come in three proportions; a square white field keeps every row level.
@@ -96,6 +86,11 @@
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: contain;
+
+    // Phones: a 4:3 field keeps the photo large without making each tile a full screen tall.
+    @media (max-width: #{$bp-wide - 1px}) {
+      aspect-ratio: 4 / 3;
+    }
   }
 
   &__nav {

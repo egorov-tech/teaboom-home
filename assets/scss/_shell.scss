@@ -303,11 +303,33 @@
     display: none;
   }
 
+  // Edge fade where more items wait: the cue that the strip scrolls sideways.
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+
+  &[data-more="end"] {
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
+  &[data-more="start"] {
+    --fade: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
+  &[data-more="both"] {
+    --fade: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
   @media (min-width: $bp-split) {
     flex: 0 1 auto;
     margin-inline: 0;
     padding-inline: 0;
     overflow-x: visible;
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   &__list {

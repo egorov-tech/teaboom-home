@@ -15,7 +15,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="preload" as="image" type="image/webp" fetchpriority="high"
         imagesrcset="assets/images/banners/slide-06-480.webp 480w, assets/images/banners/slide-06.webp 910w"
-        imagesizes="(min-width: 1060px) 820px, (min-width: 600px) calc(100vw - 64px), 88vw">
+        imagesizes="(min-width: 1200px) 1104px, 92vw">
   <link rel="stylesheet" href="assets/css/main.css">
 
   <script type="application/ld+json">
@@ -32,13 +32,6 @@
     <h1 class="visually-hidden">Интернет-магазин чая в Москве «Чайный Бум»</h1>
 
     <div class="front wrap">
-      <nav class="shelf" aria-labelledby="shelf-title">
-        <h2 class="shelf__title" id="shelf-title">Категории</h2>
-        <ul class="shelf__list">
-{{SIDE}}
-        </ul>
-      </nav>
-
       <section class="banners" aria-roledescription="карусель" aria-label="Новости и предложения магазина" data-banners data-autoplay="5000">
         <ul class="banners__track" data-track>
 {{SLIDES}}
@@ -60,6 +53,20 @@
         </div>
       </section>
     </div>
+
+    <!-- Category navigation as photo tiles under the slider: the shop's own nine plus the full catalogue. -->
+    <nav class="cats wrap" aria-labelledby="cats-title">
+      <h2 class="section-title cats__title" id="cats-title">Категории</h2>
+      <ul class="cats__grid">
+{{CATS}}
+        <li class="cats__item cats__item--all">
+          <a class="cats__link cats__link--all" href="https://teaboom.ru/category-root">
+            <svg class="cats__all-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true" focusable="false"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+            <span class="cats__name">Все категории</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
 
     <div class="wrap">
       <ul class="perks">
