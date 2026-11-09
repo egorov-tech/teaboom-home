@@ -239,10 +239,19 @@ for idx, p in enumerate(products, 1):
         w, h = Image.open(jpg).size
         lazy = "" if (idx == 1 and fi == 0) else ' loading="lazy"'
         alt = esc(p["alt"] if fi == 0 else f'{p["alt"]} — фото {fi + 1}')
+        # Widths the tile really needs: 280 / 400 for phones and tablets, the largest for
+        # desktop Retina. Photos shared with the product page have a 640 copy; use it instead
+        # of their 970 px original.
+        big = f"{stem}-640" if (ROOT / f"assets/images/products/{stem}-640.jpg").exists() else stem
+        big_w = Image.open(ROOT / f"assets/images/products/{big}.jpg").size[0]
+        webp_set = f"assets/images/products/{stem}-280.webp 280w, assets/images/products/{stem}-400.webp 400w, assets/images/products/{big}.webp {big_w}w"
+        jpg_set = f"assets/images/products/{stem}-280.jpg 280w, assets/images/products/{stem}-400.jpg 400w, assets/images/products/{big}.jpg {big_w}w"
+        # Extra gallery photos wait for the first touch of the card (home.js hydrates them).
+        pre = "data-" if fi > 0 else ""
         frames.append(f'''              <a class="good__frame" href="{PRODUCT_PAGE}" tabindex="-1" aria-hidden="true" data-gallery-frame>
                 <picture>
-                  <source srcset="assets/images/products/{stem}-280.webp 280w, assets/images/products/{stem}.webp 600w" sizes="{GOOD_SIZES}" type="image/webp">
-                  <img class="good__image" src="assets/images/products/{stem}.jpg" srcset="assets/images/products/{stem}-280.jpg 280w, assets/images/products/{stem}.jpg 600w" sizes="{GOOD_SIZES}" alt="{alt}" width="{w}" height="{h}"{lazy} decoding="async">
+                  <source {pre}srcset="{webp_set}" sizes="{GOOD_SIZES}" type="image/webp">
+                  <img class="good__image" {pre}src="assets/images/products/{stem}-400.jpg" {pre}srcset="{jpg_set}" sizes="{GOOD_SIZES}" alt="{alt}" width="{w}" height="{h}"{lazy} decoding="async">
                 </picture>
               </a>''')
 

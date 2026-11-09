@@ -469,6 +469,21 @@
     let index = 0;
     let autoplay;
 
+    // Only the first photo loads with the page; the rest arrive once the card is touched,
+    // hovered or focused (lazy loading does not hold back images in a sideways scroller).
+    const hydrate = () => {
+      gallery.querySelectorAll("[data-srcset], [data-src]").forEach((el) => {
+        if (el.dataset.srcset) el.srcset = el.dataset.srcset;
+        if (el.dataset.src) el.src = el.dataset.src;
+        el.removeAttribute("data-srcset");
+        el.removeAttribute("data-src");
+      });
+    };
+    ["pointerenter", "touchstart", "focusin"].forEach((type) =>
+      gallery.addEventListener(type, hydrate, { once: true, passive: true })
+    );
+    track.addEventListener("scroll", hydrate, { once: true, passive: true });
+
     const render = (i) => {
       index = (i + frames.length) % frames.length;
       track.scrollTo({
