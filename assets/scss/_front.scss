@@ -12,12 +12,17 @@
   &__track {
     position: relative; // slide offsetLeft is measured against the track
     display: flex;
+    align-items: stretch; // CMS + painted slides share one row height (no jump on swipe)
     gap: var(--step-3); // explicit seam between banners so images don’t glue together
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
+
+    @media (min-width: $bp-tablet) {
+      height: clamp(340px, 34vw, 420px);
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -26,16 +31,24 @@
 
   // Full-width slide; the track gap keeps neighbouring images from reading as one stitch.
   &__slide {
+    display: flex;
     flex: 0 0 100%;
     min-width: 100%;
     scroll-snap-align: start;
     scroll-snap-stop: always; // a fast swipe moves one banner, never parks between two
   }
 
+  // Painted legacy slide (text baked into the JPG) until CMS photos replace it.
   &__link {
+    position: relative;
     display: block;
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    aspect-ratio: 910 / 512;
     border-radius: var(--radius-md);
     overflow: hidden;
+    background: var(--slide-bg, var(--night));
 
     &:focus-visible {
       outline-offset: -4px;
@@ -43,44 +56,123 @@
     }
   }
 
-  &__image {
-    width: 100%;
-    aspect-ratio: 910 / 512;
-    object-fit: cover;
-    background: var(--line);
+  // When a CMS card makes the row taller than 910×512, do NOT stretch painted JPGs to that
+  // height (cover would crop baked-in text; fill/unset would squash). Keep the native ratio,
+  // centre the card in the taller slide; gutters show the slide’s night field.
+  &__track:has(.banner) &__slide {
+    align-items: center;
+    background: var(--night);
+    border-radius: var(--radius-md);
   }
 
+  &__track:has(.banner) &__slide > .banner {
+    align-self: stretch;
+    min-height: 100%;
+  }
+
+  &__track:has(.banner) &__link {
+    flex: none;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: auto;
+    align-self: center;
+  }
+
+  &__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    // Box is already 910×512 — cover fills without crop or squash of the JPG.
+    object-fit: contain;
+    object-position: center center;
+  }
+
+  // п. 14: dots + pause. Arrows/counter gone; Left/Right still work from the keyboard.
   &__controls {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--step-2);
     margin-top: var(--step-3);
+    width: fit-content;
+    max-width: 100%;
+    margin-inline: auto;
+    padding: 4px 8px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 28px;
   }
 
-  &__arrow {
+  &__dots {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 0;
+    min-width: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+  }
+
+  &__dot {
+    position: relative;
+    flex: none;
+    width: 24px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--line-strong);
+      transform: translate(-50%, -50%);
+      transition: transform var(--ease), background-color var(--ease);
+    }
+
+    &[aria-current="true"]::before {
+      background: var(--ink);
+      transform: translate(-50%, -50%) scale(1.2);
+    }
+
+    @media (hover: hover) {
+      &:hover::before {
+        background: var(--ink-soft);
+      }
+    }
+  }
+
+  &__play {
     display: grid;
     place-items: center;
-    width: 48px;
-    height: 48px;
+    flex: none;
+    width: 44px;
+    height: 44px;
+    color: var(--ink);
     background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-md);
+    border: 0;
+    border-radius: 50%;
     cursor: pointer;
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
     }
 
     @media (hover: hover) {
       &:hover {
         border-color: var(--ink);
       }
-    }
-
-    &:disabled {
-      opacity: 0.4;
-      cursor: default;
     }
 
     &[hidden] {
@@ -98,42 +190,177 @@
     display: block;
   }
 
-  &__count {
-    min-width: 64px;
-    margin-left: var(--step-2);
-    font-family: var(--font-display);
-    font-size: 16px;
-    letter-spacing: 0.04em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__total {
-    color: var(--muted);
-  }
-
-  // Position bars are a picture of the counter, not controls.
-  &__bars {
-    display: none;
-    flex: 1;
-    gap: 4px;
-
-    @media (min-width: $bp-wide) {
-      display: flex;
+  // At 320 px all twelve dots must remain visible: an invisible horizontal scroller
+  // makes part of the carousel navigation look as if it disappeared. The pause target
+  // stays 44 px; only dot hit areas tighten by 2 px on this edge case.
+  @media (max-width: 359px) {
+    &__controls {
+      padding-inline: 0;
+      gap: 4px;
     }
 
-    span {
-      flex: 1;
-      height: 3px;
-      max-width: 40px;
-      border-radius: 2px;
-      background: var(--line-strong);
-      transition: background-color var(--ease);
-
-      &.is-current {
-        background: var(--ink);
-      }
+    &__dot {
+      width: 18px;
     }
   }
+}
+
+// ---------- CMS dark banner (п. 11, вариант B) ----------
+// Fields: image, title, sticker, CTA label, link, background. Desktop ⅓ text / ⅔ photo;
+// phone: photo on top, copy under. Pattern = shop doodle, inverted onto --night.
+.banner {
+  --banner-bg: var(--night);
+
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  // Same box as the painted 910×512 slides that share the carousel row: a shorter card
+  // would crop the copy baked into their JPGs.
+  height: 100%;
+  min-height: 340px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  color: #fff;
+  text-decoration: none;
+  background: var(--banner-bg);
+
+  &:focus-visible {
+    outline-offset: -4px;
+    outline-width: 3px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: url("../images/pattern.webp") repeat;
+    background-size: 420px auto;
+    opacity: 0.10;
+    filter: invert(1) brightness(1.15);
+    pointer-events: none;
+  }
+
+  &__text {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 24px;
+    padding: 32px clamp(20px, 3vw, 40px);
+  }
+
+  &__tag {
+    padding: 4px 12px;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
+    color: var(--ink);
+    font: 600 14px/1.4 var(--font-text);
+    letter-spacing: 0.02em;
+  }
+
+  &__title {
+    margin: 0;
+    max-width: 18ch;
+    font: 500 clamp(26px, 2.6vw, 38px) / 1.2 var(--font-display);
+    letter-spacing: 0.005em;
+    color: #fff;
+    text-wrap: balance;
+  }
+
+  &__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 var(--step-5);
+    border-radius: var(--radius-md);
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    color: var(--ink);
+    font: 700 15px var(--font-text);
+    transition: background-color var(--ease), transform 160ms var(--ease-out);
+  }
+
+  @media (hover: hover) {
+    &:hover .banner__cta {
+      background: var(--brand-lift);
+    }
+  }
+
+  &:active .banner__cta {
+    transform: scale(0.97);
+  }
+
+  &__photo {
+    position: relative;
+    z-index: 1;
+    min-height: 100%;
+  }
+
+  // The photo fills its ⅔ column (Ксения 08.11: text ⅓, picture the rest). Upload a wide
+  // shot (≈16:9) with the subject centred: cover then trims only a sliver top and bottom.
+  &__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 60% 50%;
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 24%);
+    mask-image: linear-gradient(to right, transparent 0, #000 24%);
+  }
+
+  // Shop cutouts (white studio photo): keep the object whole on the night field.
+  &--cutout .banner__photo img {
+    object-fit: contain;
+    object-position: center;
+    padding: var(--step-5);
+  }
+
+  @media (max-width: #{$bp-tablet - 1px}) {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(180px, 38vw) auto;
+    aspect-ratio: auto;
+    min-height: 0;
+    height: auto;
+    width: 100%;
+
+    .banner__photo {
+      order: -1;
+      min-height: 180px;
+    }
+
+    .banner__photo img {
+      width: 100%;
+      object-fit: cover;
+      -webkit-mask-image: linear-gradient(to top, transparent 0, #000 40px);
+      mask-image: linear-gradient(to top, transparent 0, #000 40px);
+      object-position: 62% 45%;
+    }
+
+    .banner__text {
+      padding: 20px 24px 24px;
+      gap: 20px;
+    }
+
+    .banner__title {
+      max-width: none;
+      font-size: 26px;
+    }
+
+    .banner__cta {
+      width: 100%;
+    }
+  }
+}
+
+// CMS card fills the stretch slide.
+.banners__slide > .banner {
+  flex: 1;
+  width: 100%;
 }
 
 // Shop promises: one white panel, three columns split by hairlines (stacked rows on phones).
@@ -207,13 +434,13 @@
   }
 
   &__grid {
+    // п. 21: two tiles through tablet; three mid, five desktop.
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--step-2);
+    gap: var(--step-3);
 
-    @media (min-width: $bp-wide) {
+    @media (min-width: $bp-tablet) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--step-3);
     }
 
     @media (min-width: $bp-split) {
@@ -225,8 +452,8 @@
   &__item {
     display: grid;
 
-    // Tablets: nine categories fill three rows exactly; «Все категории» takes the fourth whole.
-    @media (min-width: $bp-wide) and (max-width: #{$bp-split - 1px}) {
+    // Mid width: nine categories fill three rows; «Все категории» takes the fourth whole.
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-split - 1px}) {
       &--all {
         grid-column: 1 / -1;
       }
@@ -234,11 +461,13 @@
   }
 
   &__link {
+    // Phone / tablet: image on top, name under (п. 21). Desktop keeps the same stack.
     display: flex;
-    align-items: center;
-    gap: var(--step-3);
-    min-height: 56px;
-    padding: var(--step-2) var(--step-3) var(--step-2) var(--step-2);
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--step-2);
+    min-height: 0;
+    padding: var(--step-3);
     color: var(--ink);
     text-decoration: none;
     background: var(--paper);
@@ -246,17 +475,22 @@
     border-radius: var(--radius-md);
     transition: border-color var(--ease);
 
+    @media (max-width: #{$bp-phone - 1px}) {
+      border-radius: var(--radius-lg);
+    }
+
     picture {
       flex: none;
       overflow: hidden;
-      border-radius: var(--radius-sm);
-    }
+      // Full width of the tile (п. 21 «крупная картинка»): cancel link padding around the photo.
+      margin: calc(var(--step-3) * -1) calc(var(--step-3) * -1) 0;
+      width: calc(100% + var(--step-3) * 2);
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      background: var(--canvas);
 
-    @media (min-width: $bp-split) {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--step-2);
-      padding: var(--step-3);
+      @media (max-width: #{$bp-phone - 1px}) {
+        border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+      }
     }
 
     @media (hover: hover) {
@@ -272,46 +506,37 @@
 
     &--all {
       justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 100%;
       background: var(--canvas);
       border-style: dashed;
       border-color: var(--line-strong);
-
-      @media (min-width: $bp-split) {
-        align-items: center;
-        text-align: center;
-      }
     }
   }
 
   &__image {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    object-position: center;
+    background: var(--canvas);
     transition: transform 220ms var(--ease-out);
-
-    @media (min-width: $bp-split) {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 1 / 1;
-    }
   }
 
   &__all-icon {
     flex: none;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     color: var(--tea);
-
-    @media (min-width: $bp-split) {
-      width: 28px;
-      height: 28px;
-    }
   }
 
   &__name {
     font-weight: 600;
     font-size: 14px;
     line-height: 1.3;
+    text-align: center;
     hyphens: auto;
 
     @media (min-width: $bp-split) {

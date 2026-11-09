@@ -8,21 +8,39 @@
   }
 
   &__grid {
+    // п. 20: two cards in a row through tablet; four from desktop.
     display: grid;
-    gap: var(--step-4);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--step-3);
 
-    @media (min-width: $bp-wide) {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: var(--step-5);
+    @media (min-width: $bp-tablet) {
+      gap: var(--step-4);
     }
 
     @media (min-width: $bp-split) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--step-5);
     }
 
     // Cards in a row share one height, so prices and buttons line up.
     > li {
       display: grid;
+    }
+
+    // Better still: every card in a row shares the same four tracks (photo, name, packs,
+    // buy), so the pack chips and prices sit on one line even when one name or old price
+    // wraps and the next does not.
+    @supports (grid-template-rows: subgrid) {
+      > li {
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+        row-gap: 0;
+      }
+
+      .good {
+        grid-row: span 4;
+        grid-template-rows: subgrid;
+      }
     }
   }
 }
@@ -40,10 +58,21 @@
     "buy";
   gap: var(--step-3) var(--step-4);
   align-content: start;
-  padding: var(--step-4);
+  padding: var(--step-3);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
+
+  @media (max-width: #{$bp-phone - 1px}) {
+    gap: var(--step-2);
+    padding: var(--step-3);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset;
+  }
+
+  @media (min-width: $bp-tablet) {
+    padding: var(--step-4);
+  }
 
 
   &__media {
@@ -51,6 +80,20 @@
     position: relative;
     display: block;
     min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    // Full width of the card: cancel the card padding around the photo (п. 13 «крупнее»).
+    margin: calc(var(--step-3) * -1) calc(var(--step-3) * -1) 0;
+    width: calc(100% + var(--step-3) * 2);
+
+    @media (max-width: #{$bp-phone - 1px}) {
+      border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    }
+
+    @media (min-width: $bp-tablet) {
+      margin: calc(var(--step-4) * -1) calc(var(--step-4) * -1) 0;
+      width: calc(100% + var(--step-4) * 2);
+    }
   }
 
   // Several photos in one tile, swiped in place (same idea as marketplace carousels).
@@ -74,23 +117,24 @@
   }
 
   &__frame {
+    display: block;
     flex: 0 0 100%;
+    overflow: hidden;
     scroll-snap-align: start;
     scroll-snap-stop: always;
     // One photo at a time, centred: a peeking neighbour read as a misaligned slide. Dots, the
     // arrow and the «листайте» hint already say the photos can be swiped.
   }
 
-  // Shop photos come in three proportions; a square white field keeps every row level.
+  // п. 13: larger square photo, edge-to-edge of the card (old shop density).
+  // Studio shots are square-on-square with white margins — cover alone can't crop them,
+  // so a light zoom (parent clips) fills the tile until п. 10 replaces the assets.
   &__image {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: contain;
-
-    // Phones: a 4:3 field keeps the photo large without making each tile a full screen tall.
-    @media (max-width: #{$bp-wide - 1px}) {
-      aspect-ratio: 4 / 3;
-    }
+    object-fit: cover;
+    object-position: center;
+    background: var(--canvas);
   }
 
   &__nav {
@@ -112,15 +156,12 @@
     pointer-events: none;
     transition: opacity var(--ease);
 
-    // Narrow screens: keep the next arrow visible as a swipe cue (phones + narrow windows).
-    @media (max-width: #{$bp-wide - 1px}) {
-      &[data-gallery-next] {
-        opacity: 0.9;
-        pointer-events: auto;
-      }
+    // Phones / narrow: dots + swipe only — arrows stay off the photo (Monday plan).
+    @media (max-width: #{$bp-tablet - 1px}) {
+      display: none;
     }
 
-    @media (hover: hover) and (min-width: $bp-wide) {
+    @media (hover: hover) and (min-width: $bp-tablet) {
       .good__gallery:hover &,
       .good__gallery:focus-within & {
         opacity: 1;
@@ -164,8 +205,9 @@
     pointer-events: none;
     animation: swipe-nudge 1.6s var(--ease-out) infinite;
 
-    @media (max-width: #{$bp-wide - 1px}) {
-      display: inline-flex;
+    // Hidden with arrows on phones; dots already cue the gallery.
+    @media (max-width: #{$bp-tablet - 1px}) {
+      display: none;
     }
 
     .good__gallery.is-swiped & {
@@ -252,6 +294,11 @@
     line-height: 1.35;
     overflow-wrap: break-word;
 
+    @media (max-width: #{$bp-phone - 1px}) {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
     // "ароматизированный" is wider than the name column on 320px phones.
     @media (max-width: #{$bp-wide - 1px}) {
       hyphens: auto;
@@ -262,6 +309,11 @@
       min-height: var(--tap);
       color: var(--ink);
       text-decoration: none;
+
+      @media (max-width: #{$bp-tablet - 1px}) {
+        min-height: 0;
+        padding-block: 2px;
+      }
 
       @media (hover: hover) {
         &:hover {
@@ -278,7 +330,15 @@
   &__buy {
     grid-area: buy;
     display: grid;
+    // Price on top, the button pinned to the bottom of the shared row track: a wrapped old
+    // price in one card must not push its button below the neighbour's.
+    grid-template-rows: 1fr auto;
+    align-items: start;
     gap: var(--step-3);
+
+    @media (max-width: #{$bp-tablet - 1px}) {
+      gap: var(--step-2);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

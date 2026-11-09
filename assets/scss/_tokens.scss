@@ -20,12 +20,18 @@
   --value-bg: #e2f3e7;
   // Gift orange from the live menu; 3.8:1 on white, so it only colours the icon.
   --gift: #cc6600;
+  // Dark banner chrome (п. 11, вариант B): night panel behind the pale inverted pattern.
+  --night: #2a2632;
 
   --font-display: "Oswald", "Helvetica Neue", Arial, sans-serif;
   --font-text: "Open Sans", "Helvetica Neue", Arial, sans-serif;
 
   --radius-sm: 3px;
   --radius-md: 6px;
+  --radius-lg: 16px;
+  // Phone floating chrome (iOS-style capsule bars): inset from the screen edges.
+  --chrome-inset: 12px;
+  --chrome-radius: 24px;
 
   --step-1: 4px;
   --step-2: 8px;
@@ -42,11 +48,16 @@
   --pin-h: 78px;
   --pin-trim: 20px;
   --tap: 44px;
+  // Mobile tab bar (п. 19); page padding clears it + iPhone home indicator.
+  --dock-h: 56px;
 
   --ease: 180ms cubic-bezier(0.23, 1, 0.32, 1); // strong ease-out, same curve as --ease-out
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
 
+// Phone shell (<760): compact header tools + bottom dock. Tablet grid edge: 768.
+$bp-phone: 760px;
+$bp-tablet: 768px;
 $bp-wide: 600px;
 $bp-mid: 900px;
 $bp-split: 1060px;

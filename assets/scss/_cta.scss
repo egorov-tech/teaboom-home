@@ -3,12 +3,16 @@
 // Shared primary buy action: home grid (.add) and product page (.cta).
 .add,
 .cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 52px;
   padding: 0 var(--step-5);
   font-family: var(--font-text);
   font-size: 15px;
   font-weight: 700;
+  line-height: 1.2;
   letter-spacing: 0.02em;
   color: var(--ink);
   background: var(--brand);
@@ -32,6 +36,23 @@
     background: var(--tea);
     border-color: var(--tea);
     color: var(--paper);
+  }
+}
+
+// Home two-up tiles (~160–220px): desktop 52×15 CTA looks oversized and sharp vs the card.
+.add {
+  @media (max-width: #{$bp-tablet - 1px}) {
+    min-height: 44px;
+    padding: 0 12px;
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    border-radius: 12px;
+  }
+
+  @media (max-width: #{$bp-phone - 1px}) {
+    min-height: 44px;
+    font-size: 13px;
+    border-radius: 12px;
   }
 }
 

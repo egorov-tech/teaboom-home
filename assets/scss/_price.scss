@@ -15,6 +15,15 @@
     letter-spacing: -0.01em;
     font-variant-numeric: tabular-nums;
 
+    // Two-up tiles: 28px Oswald eats the card; keep the accent, drop the billboard size.
+    @media (max-width: #{$bp-tablet - 1px}) {
+      font-size: 22px;
+    }
+
+    @media (max-width: #{$bp-phone - 1px}) {
+      font-size: 20px;
+    }
+
     // On sale items the current price carries the accent, as on the live site: the eye lands
     // on it first and the other numbers fall back.
     &.is-sale {

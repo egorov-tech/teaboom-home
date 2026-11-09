@@ -55,10 +55,22 @@
   if (masthead) {
     const ENTER = 64; // become compact past this
     const EXIT = 16; // expand again only when near the top
+    // Phone chrome is already a short floating capsule (logo + search + cart). Shrinking it
+    // on scroll only jittered the layout — keep compact for tablet/desktop sticky bars.
+    const phoneShell = window.matchMedia(`(max-width: ${760 - 1}px)`);
     let compact = false;
     let ticking = false;
 
     const syncCompact = () => {
+      if (phoneShell.matches) {
+        if (compact) {
+          compact = false;
+          masthead.classList.remove("is-compact");
+          closeQuickSearch();
+        }
+        ticking = false;
+        return;
+      }
       const y = window.scrollY || window.pageYOffset || 0;
       let next = compact;
       if (!compact && y > ENTER) next = true;
@@ -79,6 +91,109 @@
 
     syncCompact();
     window.addEventListener("scroll", onScroll, { passive: true });
+    phoneShell.addEventListener("change", syncCompact);
+  }
+
+  // ---------- Mobile dock + catalog sheet (п. 19) ----------
+  const dockCatalog = document.querySelector("[data-dock-catalog]");
+  const dockSheet = document.querySelector("[data-dock-sheet]");
+  const dockClose = document.querySelector("[data-dock-close]");
+
+  if (dockCatalog && dockSheet && typeof dockSheet.showModal === "function") {
+    let returnFocus = false;
+    let closing = false;
+    const sheetPanel = dockSheet.querySelector(".sheet__panel");
+    let closeTimer;
+    let closeEnd;
+
+    const clearClose = () => {
+      window.clearTimeout(closeTimer);
+      if (closeEnd) sheetPanel?.removeEventListener("animationend", closeEnd);
+      closeEnd = null;
+    };
+
+    const finishClose = () => {
+      clearClose();
+      if (!closing && !dockSheet.classList.contains("is-closing")) {
+        if (dockSheet.open) dockSheet.close();
+        return;
+      }
+      closing = false;
+      dockSheet.classList.remove("is-closing");
+      if (dockSheet.open) dockSheet.close();
+    };
+
+    const closeSheetAnimated = ({ focusToggle = false } = {}) => {
+      if (!dockSheet.open || closing) return;
+      returnFocus = focusToggle;
+      if (reduceMotion.matches) {
+        dockSheet.close();
+        return;
+      }
+      closing = true;
+      dockSheet.classList.add("is-closing");
+      closeEnd = (event) => {
+        if (event.target !== sheetPanel) return;
+        finishClose();
+      };
+      sheetPanel?.addEventListener("animationend", closeEnd);
+      // Fallback if animationend is skipped (display:none mid-flight).
+      closeTimer = window.setTimeout(() => {
+        if (closing) finishClose();
+      }, 320);
+    };
+
+    const setDockOpen = (open, { focusToggle = false } = {}) => {
+      dockCatalog.setAttribute("aria-expanded", String(open));
+      dockCatalog.classList.toggle("is-active", open);
+      if (open) {
+        if (closing) {
+          clearClose();
+          dockSheet.classList.remove("is-closing");
+          closing = false;
+        }
+        if (!dockSheet.open) dockSheet.showModal();
+      } else if (dockSheet.open) {
+        closeSheetAnimated({ focusToggle });
+      }
+    };
+
+    dockCatalog.addEventListener("click", () => {
+      setDockOpen(!(dockSheet.open && !closing));
+    });
+
+    dockClose?.addEventListener("click", () => setDockOpen(false));
+
+    dockSheet.addEventListener("click", (event) => {
+      if (event.target === dockSheet) setDockOpen(false);
+    });
+
+    dockSheet.addEventListener("close", () => {
+      clearClose();
+      dockSheet.classList.remove("is-closing");
+      closing = false;
+      dockCatalog.setAttribute("aria-expanded", "false");
+      dockCatalog.classList.remove("is-active");
+      if (returnFocus) {
+        dockCatalog.focus({ preventScroll: true });
+        returnFocus = false;
+      }
+    });
+
+    // Escape: animate out, then restore focus to the dock button.
+    dockSheet.addEventListener("cancel", (event) => {
+      event.preventDefault();
+      setDockOpen(false, { focusToggle: true });
+    });
+
+    // A hidden modal still makes the page inert. Close it when the desktop menu replaces it.
+    window.matchMedia("(min-width: 760px)").addEventListener("change", (event) => {
+      if (event.matches && dockSheet.open) {
+        returnFocus = false;
+        finishClose();
+        document.querySelector("[data-catalog-toggle]")?.focus({ preventScroll: true });
+      }
+    });
   }
 
   // ---------- Catalogue panel ----------
@@ -240,22 +355,17 @@
     };
   };
 
-  // ---------- Banner carousel ----------
+  // ---------- Banner carousel (п. 14: dots + swipe + pause; arrows via keyboard only) ----------
   const banners = document.querySelector("[data-banners]");
 
   if (banners) {
     const track = banners.querySelector("[data-track]");
     const slides = [...track.querySelectorAll("[data-slide]")];
-    const prev = banners.querySelector("[data-prev]");
-    const next = banners.querySelector("[data-next]");
-    const current = banners.querySelector("[data-current]");
     const status = banners.querySelector("[data-status]");
-    const bars = [...banners.querySelectorAll("[data-bars] span")];
+    const dots = [...banners.querySelectorAll("[data-dot]")];
     let index = 0;
     let announce = false;
     let autoplay;
-
-    const pad = (n) => String(n).padStart(2, "0");
 
     // Banners after the first carry their sources in data-* until the carousel needs them.
     const hydrate = (slide) => {
@@ -275,18 +385,20 @@
         hydrate(slides[(i + 1) % slides.length]);
         hydrate(slides[(i - 1 + slides.length) % slides.length]);
       }
-      current.textContent = pad(i + 1);
-      bars.forEach((bar, n) => bar.classList.toggle("is-current", n === i));
+      dots.forEach((dot, n) => {
+        if (n === i) dot.setAttribute("aria-current", "true");
+        else dot.removeAttribute("aria-current");
+      });
       // Only the banner on screen is reachable with Tab.
       slides.forEach((slide, n) => {
         const link = slide.querySelector("a");
+        if (!link) return;
         if (n === i) link.removeAttribute("tabindex");
         else link.setAttribute("tabindex", "-1");
       });
-      if (announce) status.textContent = `Баннер ${i + 1} из ${slides.length}`;
+      if (announce && status) status.textContent = `Баннер ${i + 1} из ${slides.length}`;
     };
 
-    // Arrows wrap around, so neither of them ever turns disabled under the keyboard focus.
     const goTo = (i) => {
       const target = (i + slides.length) % slides.length;
       announce = true;
@@ -295,8 +407,9 @@
       autoplay?.nudge();
     };
 
-    prev.addEventListener("click", () => goTo(index - 1));
-    next.addEventListener("click", () => goTo(index + 1));
+    dots.forEach((dot, n) => {
+      dot.addEventListener("click", () => goTo(n));
+    });
 
     // A width change (rotation, resized window) keeps the old scroll offset in pixels and
     // leaves the strip parked between two banners; snap it back onto the current one.
@@ -332,7 +445,7 @@
     slides.forEach((slide) => seen.observe(slide));
 
     render(0);
-    // The peeking second banner on phones is fetched once the page itself has loaded.
+    // Warm the next slide once the page itself has loaded.
     const warmNext = () => hydrate(slides[1]);
     if (document.readyState === "complete") warmNext();
     else window.addEventListener("load", warmNext, { once: true });

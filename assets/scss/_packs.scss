@@ -146,9 +146,30 @@
     padding: var(--step-2) clamp(8px, 1.2vw, 12px);
   }
 
-
   .pack__weight {
     font-size: 15px;
     line-height: 1.25;
+  }
+
+  // Two-up tiles (<768): weight only — sum and ₽/100 г move noise out of the chip.
+  @media (max-width: #{$bp-tablet - 1px}) {
+    .pack__body {
+      min-height: 44px;
+      padding: var(--step-2);
+      justify-content: center;
+    }
+
+    .pack__rate {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .pack__weight {
+      font-size: 14px;
+    }
   }
 }

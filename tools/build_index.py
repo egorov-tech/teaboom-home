@@ -53,6 +53,8 @@ def gallery_stems(p):
 
 
 # ---------- banners (text transcribed from the images, see CONTENT.md) ----------
+# Painted slides still carry text in the JPG. CMS-shaped ones (п. 11) split fields:
+# image · title · sticker · CTA · link · background — dark layout, clean photo.
 slides = [
     ("https://t.me/Teaboom", "Подпишитесь на наш канал и будьте в курсе! Telegram-канал Teaboom на экране телефона"),
     ("/shipping/", "Оформите заказ до 14:00 и получите доставку в вечернее время"),
@@ -67,31 +69,90 @@ slides = [
     ("/category-kofe", "Вкусный кофе"),
     ("/category-sladosti", "Сладости"),
 ]
+# Demo CMS samples (clean photos, no baked-in type). Keys = shop slide numbers.
+cms = {
+    6: {
+        "href": "/search?q=анчан",
+        "sticker": "Хит сезона",
+        "title": "Анчан — синий чай из Таиланда",
+        "cta": "Смотреть анчан",
+        "bg": "#2a2632",
+        "alt": "Стеклянный чайник с синим анчаном на деревянном срезе",
+        "sources": (
+            'assets/images/banners/anchan-wide-480.webp 480w, assets/images/banners/anchan-wide.webp 910w',
+            'assets/images/banners/anchan-wide-480.jpg 480w, assets/images/banners/anchan-wide.jpg 910w',
+            "assets/images/banners/anchan-wide.jpg",
+            910,
+            512,
+        ),
+    },
+}
+# Per-image fields for existing artwork; no crop of baked-in text.
+slide_backgrounds = {
+    1: "#0786c7", 2: "#152b29", 3: "#e4cc0c", 4: "#ffffff",
+    5: "#e4e4e4", 7: "#111111", 8: "#fce484", 9: "#cccccc",
+    10: "#101010", 11: "#242424", 12: "#84543c",
+}
 n = len(slides)
 BANNER_SIZES = "(min-width: 1200px) 1104px, 92vw"
-GOOD_SIZES = "(min-width: 1060px) 260px, (min-width: 600px) 45vw, 88vw"
+CMS_SIZES = "(min-width: 1200px) 736px, (min-width: 768px) 66vw, 92vw"
+GOOD_SIZES = "(min-width: 1060px) 260px, 45vw"
 # The site opens on the Telegram banner; the demo opens on a tea (Анчан, "Хит сезона"),
 # the rest keep the site's order. Files keep the site's numbering.
 order = [6, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]
 slide_html = []
 for i, src in enumerate(order, 1):
-    href, alt = slides[src - 1]
     first = i == 1
     img_attrs = 'fetchpriority="high"' if first else 'loading="lazy" decoding="async"'
     tab = "" if first else ' tabindex="-1"'
     # Only the first banner loads with the page; the rest are fetched by home.js as the
     # carousel reaches them (lazy loading does not hold back images in a sideways scroller).
     pre = "" if first else "data-"
-    slide_html.append(f'''          <li class="banners__slide" aria-roledescription="слайд" aria-label="{i} из {n}" data-slide>
-            <a class="banners__link" href="{esc(site(href))}"{tab}>
+    if src in cms:
+        c = cms[src]
+        webp_set, jpg_set, jpg_src, w, h = c["sources"]
+        # Product photos are single-file; banner anchan has srcset widths.
+        if " " in webp_set:
+            webp_attr = f'{pre}srcset="{webp_set}" sizes="{CMS_SIZES}"'
+            jpg_attr = f'{pre}srcset="{jpg_set}" sizes="{CMS_SIZES}"'
+        else:
+            webp_attr = f'{pre}srcset="{webp_set}"'
+            jpg_attr = ""
+        mod = f' {c["mod"]}' if c.get("mod") else ""
+        slide_html.append(f'''          <li class="banners__slide" aria-roledescription="слайд" aria-label="{i} из {n}" data-slide>
+            <a class="banner{mod}" href="{esc(site(c["href"]))}" style="--banner-bg: {esc(c["bg"])}"{tab}>
+              <div class="banner__text">
+                <span class="banner__tag">{esc(c["sticker"])}</span>
+                <span class="banner__title">{esc(c["title"])}</span>
+                <span class="banner__cta">{esc(c["cta"])}</span>
+              </div>
+              <div class="banner__photo">
+                <picture>
+                  <source {webp_attr} type="image/webp">
+                  <img {pre}src="{jpg_src}" {jpg_attr} alt="{esc(c["alt"])}" width="{w}" height="{h}" {img_attrs}>
+                </picture>
+              </div>
+            </a>
+          </li>''')
+    else:
+        href, alt = slides[src - 1]
+        slide_html.append(f'''          <li class="banners__slide" aria-roledescription="слайд" aria-label="{i} из {n}" data-slide>
+            <a class="banners__link" href="{esc(site(href))}" style="--slide-bg: {slide_backgrounds[src]}"{tab}>
               <picture>
                 <source {pre}srcset="assets/images/banners/slide-{src:02d}-480.webp 480w, assets/images/banners/slide-{src:02d}.webp 910w" sizes="{BANNER_SIZES}" type="image/webp">
                 <img class="banners__image" {pre}src="assets/images/banners/slide-{src:02d}.jpg" {pre}srcset="assets/images/banners/slide-{src:02d}-480.jpg 480w, assets/images/banners/slide-{src:02d}.jpg 910w" sizes="{BANNER_SIZES}" alt="{esc(alt)}" width="910" height="512" {img_attrs}>
               </picture>
             </a>
           </li>''')
-bars = '<span class="is-current"></span>' + "<span></span>" * (n - 1)
+def banner_dot(i):
+    current = ' aria-current="true"' if i == 1 else ""
+    return (
+        f'            <button class="banners__dot" type="button" data-dot '
+        f'aria-label="Баннер {i} из {n}"{current}></button>'
+    )
 
+
+banner_dots = "\n".join(banner_dot(i) for i in range(1, n + 1))
 # ---------- category tiles (the shop's own nine from the home page side menu) ----------
 side = [("Красный чай", "category-krasnyj-chaj"), ("Кофе", "category-kofe"), ("Черный чай", "category-chernyy_tea"),
         ("Сладости", "category-sladosti"), ("Посуда и аксессуары", "category-posuda-i-aksessuary"),
@@ -100,8 +161,8 @@ side = [("Красный чай", "category-krasnyj-chaj"), ("Кофе", "catego
 cats_html = "\n".join(f'''        <li class="cats__item">
           <a class="cats__link" href="{SITE}/{slug}">
             <picture>
-              <source srcset="assets/images/categories/{slug}.webp 112w, assets/images/categories/{slug}-tile.webp 360w" sizes="(min-width: 1060px) 200px, 40px" type="image/webp">
-              <img class="cats__image" src="assets/images/categories/{slug}-tile.jpg" srcset="assets/images/categories/{slug}.jpg 112w, assets/images/categories/{slug}-tile.jpg 360w" sizes="(min-width: 1060px) 200px, 40px" alt="" width="360" height="360" loading="lazy" decoding="async">
+              <source srcset="assets/images/categories/{slug}.webp 112w, assets/images/categories/{slug}-tile.webp 360w" sizes="(min-width: 1060px) 200px, (min-width: 768px) 30vw, 42vw" type="image/webp">
+              <img class="cats__image" src="assets/images/categories/{slug}-tile.jpg" srcset="assets/images/categories/{slug}.jpg 112w, assets/images/categories/{slug}-tile.jpg 360w" sizes="(min-width: 1060px) 200px, (min-width: 768px) 30vw, 42vw" alt="" width="360" height="360" loading="lazy" decoding="async">
             </picture>
             <span class="cats__name">{esc(name)}</span>
           </a>
@@ -118,6 +179,8 @@ catalog = [("Подарки", "category-podarki"), ("Матча", "category-matc
            ("Связанный чай", "category-svyazannyj-chaj"), ("Кофе", "category-kofe"), ("Сиропы и топпинги", "category-siropy-i-toppingi"),
            ("Сладости", "category-sladosti"), ("Посуда и аксессуары", "category-posuda-i-aksessuary")]
 catalog_html = "\n".join(f'            <li><a class="catalog__link" href="{SITE}/{slug}">{esc(name)}</a></li>' for name, slug in catalog)
+# Dock sheet: relative URLs (п. 19), same list as the desktop catalogue.
+catalog_rel_html = "\n".join(f'            <li><a class="catalog__link" href="/{slug}">{esc(name)}</a></li>' for name, slug in catalog)
 
 # ---------- products ----------
 cards = []
@@ -255,30 +318,37 @@ ld = [
      "sameAs": ["https://t.me/Teaboom", "https://vk.com/teaboom", "https://www.ok.ru/teaboom"]},
 ]
 
-def shell(nav_home_attr, search_id, footer_note):
-    """One masthead + footer for every page — same components, page-specific attrs only."""
+def shell(nav_home_attr, search_id, footer_note, dock_home_attr=""):
+    """One masthead + footer + dock for every page — same components, page-specific attrs only."""
     mast = (ROOT / "tools/partials/masthead.html").read_text(encoding="utf-8")
     foot = (ROOT / "tools/partials/footer.html").read_text(encoding="utf-8")
+    dock = (ROOT / "tools/partials/dock.html").read_text(encoding="utf-8")
     mast = (
         mast.replace("{{NAV_HOME_ATTR}}", nav_home_attr)
         .replace("{{SEARCH_ID}}", search_id)
         .replace("{{CATALOG}}", catalog_html)
     )
     foot = foot.replace("{{FOOTER_NOTE}}", footer_note)
-    return mast, foot
+    dock = (
+        dock.replace("{{DOCK_HOME_ATTR}}", dock_home_attr)
+        .replace("{{CATALOG}}", catalog_rel_html)
+    )
+    return mast, foot, dock
 
 
 tpl = (ROOT / "tools" / "index.template.html").read_text(encoding="utf-8")
-mast_home, foot_home = shell(
+mast_home, foot_home, dock_home = shell(
     ' aria-current="page"',
     "search-field",
     'Демо главной и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+    ' aria-current="page"',
 )
 out = (
     tpl.replace("{{MASTHEAD}}", mast_home)
     .replace("{{FOOTER}}", foot_home)
+    .replace("{{DOCK}}", dock_home)
     .replace("{{SLIDES}}", "\n".join(slide_html))
-    .replace("{{BARS}}", bars)
+    .replace("{{DOTS}}", banner_dots)
     .replace("{{N}}", f"{n:02d}")
     .replace("{{CATS}}", cats_html)
     .replace("{{GOODS}}", "\n".join(cards))
@@ -290,12 +360,16 @@ print("ok index", len(out))
 
 # ---------- product.html (same shell as home + pineapple PDP content) ----------
 ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
-mast_pdp, foot_pdp = shell(
+mast_pdp, foot_pdp, dock_pdp = shell(
     "",
     "search-field-product",
     'Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
 )
-pout = ptpl.replace("{{MASTHEAD}}", mast_pdp).replace("{{FOOTER}}", foot_pdp)
+pout = (
+    ptpl.replace("{{MASTHEAD}}", mast_pdp)
+    .replace("{{FOOTER}}", foot_pdp)
+    .replace("{{DOCK}}", dock_pdp)
+)
 assert "{{" not in pout
 (ROOT / "product.html").write_text(pout, encoding="utf-8")
 print("ok product", len(pout))

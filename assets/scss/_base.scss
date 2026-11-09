@@ -102,6 +102,7 @@ strong {
 }
 
 // The shop's own tea-doodle pattern, kept faint so it never fights the product.
+// A touch stronger on phones — without desktop chrome the page otherwise read as blank paper.
 body::before {
   content: "";
   position: fixed;
@@ -111,6 +112,11 @@ body::before {
   background-size: 460px auto;
   opacity: 0.3;
   pointer-events: none;
+
+  @media (max-width: #{$bp-phone - 1px}) {
+    opacity: 0.42;
+    background-size: 320px auto;
+  }
 }
 
 .wrap {

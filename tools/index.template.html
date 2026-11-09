@@ -14,8 +14,8 @@
        until then, so text and the first banner never wait for a third-party font. -->
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="preload" as="image" type="image/webp" fetchpriority="high"
-        imagesrcset="assets/images/banners/slide-06-480.webp 480w, assets/images/banners/slide-06.webp 910w"
-        imagesizes="(min-width: 1200px) 1104px, 92vw">
+        imagesrcset="assets/images/banners/anchan-wide-480.webp 480w, assets/images/banners/anchan-wide.webp 910w"
+        imagesizes="(min-width: 1200px) 736px, (min-width: 768px) 66vw, 92vw">
   <link rel="stylesheet" href="assets/css/main.css">
 
   <script type="application/ld+json">
@@ -37,19 +37,12 @@
 {{SLIDES}}
         </ul>
         <div class="banners__controls">
-          <button class="banners__arrow press" type="button" data-prev aria-label="Предыдущий баннер">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12.5 4.5 7 10l5.5 5.5"/></svg>
-          </button>
-          <button class="banners__arrow press" type="button" data-next aria-label="Следующий баннер">
-            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.5 4.5 13 10l-5.5 5.5"/></svg>
-          </button>
-          <button class="banners__arrow banners__play press" type="button" data-play hidden aria-label="Остановить автопрокрутку баннеров">
+          <div class="banners__dots" role="group" aria-label="Слайды баннера" data-dots>{{DOTS}}</div>
+          <button class="banners__play press" type="button" data-play hidden aria-label="Остановить автопрокрутку баннеров">
             <svg class="banners__icon-pause" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false"><rect x="5.5" y="4.5" width="3" height="11" rx="1"/><rect x="11.5" y="4.5" width="3" height="11" rx="1"/></svg>
             <svg class="banners__icon-play" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M7 4.8v10.4a.8.8 0 0 0 1.2.7l8.2-5.2a.8.8 0 0 0 0-1.4L8.2 4.1A.8.8 0 0 0 7 4.8Z"/></svg>
           </button>
-          <p class="banners__count" aria-hidden="true"><span data-current>01</span> <span class="banners__total">/ {{N}}</span></p>
           <p class="visually-hidden" aria-live="polite" data-status></p>
-          <div class="banners__bars" aria-hidden="true" data-bars>{{BARS}}</div>
         </div>
       </section>
     </div>
@@ -110,6 +103,7 @@
   </main>
 
   {{FOOTER}}
+  {{DOCK}}
 
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>

@@ -18,6 +18,27 @@
 
   const form = root.querySelector(".buy");
   const cta = root.querySelector("[data-add-to-cart]");
+  const buyAction = root.querySelector("[data-buy-action]");
+  const buySlot = root.querySelector("[data-buy-slot]");
+  const mobileBuy = window.matchMedia("(max-width: 759px)");
+  // Observe the stable in-flow slot, never the button that changes position.
+  const updateBuyPosition = () => {
+    const box = buySlot.getBoundingClientRect();
+    const headerBottom = document.querySelector("[data-masthead]")?.getBoundingClientRect().bottom || 80;
+    const dockTop = document.querySelector("[data-dock]")?.getBoundingClientRect().top || innerHeight;
+    const visible = box.top >= headerBottom + 8 && box.bottom <= dockTop - 8;
+    buyAction.classList.toggle("is-pinned", mobileBuy.matches && !visible);
+  };
+  let buyFrame = 0;
+  const scheduleBuyPosition = () => {
+    if (buyFrame) return;
+    buyFrame = requestAnimationFrame(() => { buyFrame = 0; updateBuyPosition(); });
+  };
+  window.addEventListener("scroll", scheduleBuyPosition, { passive: true });
+  window.addEventListener("resize", scheduleBuyPosition);
+  mobileBuy.addEventListener("change", scheduleBuyPosition);
+  new ResizeObserver(scheduleBuyPosition).observe(root);
+  updateBuyPosition();
 
   const wholeFormat = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
   const centsFormat = new Intl.NumberFormat("ru-RU", {
@@ -65,6 +86,10 @@
     const pack = read(input);
     out.sku.textContent = pack.sku;
     out.price.textContent = formatPrice(pack.price);
+    const buyPrice = root.querySelector("[data-buy-price]");
+    buyPrice.textContent = formatPrice(pack.price);
+    buyPrice.classList.toggle("is-sale", pack.oldPrice > pack.price);
+    root.querySelector("[data-buy-pack]").textContent = input.dataset.label;
     out.price.classList.toggle("is-sale", pack.oldPrice > pack.price);
     out.oldPrice.textContent = formatPrice(pack.oldPrice);
     out.discount.textContent = `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%`;
