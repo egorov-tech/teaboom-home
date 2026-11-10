@@ -100,6 +100,19 @@
     margin-inline: auto;
     padding: 4px 8px;
     // Ксения 10.11: no plate behind the dots and pause — they sit right on the page.
+    // Owner 10.11: quieter until wanted — half strength, full on hover or keyboard focus.
+    // Touch screens have no hover, so they stay a touch stronger: pause must stay findable.
+    opacity: 0.7;
+    transition: opacity var(--ease);
+
+    @media (hover: hover) {
+      opacity: 0.45;
+    }
+  }
+
+  &:hover &__controls,
+  &__controls:focus-within {
+    opacity: 1;
   }
 
   &__dots {
