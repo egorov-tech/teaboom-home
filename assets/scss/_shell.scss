@@ -945,6 +945,12 @@ $bp-quick: 760px;
       gap: 0;
     }
 
+    // The toggle that opened the search would keep its 44 px and squeeze the field (the
+    // placeholder got cut on 360 px screens); the field has its own magnifier.
+    .quick__toggle {
+      display: none;
+    }
+
     .quick__search {
       position: static;
       display: flex;

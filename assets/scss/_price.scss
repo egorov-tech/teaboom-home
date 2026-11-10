@@ -1,13 +1,37 @@
 @use "tokens" as *;
 
 // PriceBlock: compact on home tiles (.tag), expanded on the product page (.price).
+// Every price keeps its own place (Антон 10.11): the old price always right of the current
+// one, the price per 100 g always on the line below — with or without a discount.
 .tag {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
   align-items: baseline;
-  gap: 0 var(--step-3);
+  gap: 2px var(--step-2);
+
+  @media (max-width: #{$bp-wide - 1px}) {
+    column-gap: 6px;
+  }
+
+  // Below 360 px the pair cannot share a line in a two-up tile: the old price drops under
+  // the current one, the price per 100 g stays last.
+  @media (max-width: 359px) {
+    grid-template-columns: auto;
+
+    .tag__was {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .tag__rate {
+      grid-row: 3;
+    }
+  }
 
   &__now {
+    grid-column: 1;
+    grid-row: 1;
     font-family: var(--font-display);
     font-weight: 600;
     font-size: 28px;
@@ -20,8 +44,10 @@
       font-size: 22px;
     }
 
+    // Phones: shrinks with the screen so the old price still fits on the same line
+    // (the widest pair, «4 433,50 ₽ 5 227,50 ₽», needs ~134 px at 360).
     @media (max-width: #{$bp-phone - 1px}) {
-      font-size: 20px;
+      font-size: clamp(17px, 4.8vw, 20px);
     }
 
     // On sale items the current price carries the accent, as on the live site: the eye lands
@@ -32,9 +58,21 @@
   }
 
   &__was {
+    grid-column: 2;
+    grid-row: 1;
     color: var(--muted);
     font-size: 15px;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+
+    // Two-up tiles: small enough to stay beside the price.
+    @media (max-width: #{$bp-tablet - 1px}) {
+      font-size: 12px;
+    }
+
+    @media (max-width: 399px) {
+      font-size: 11px;
+    }
 
     s {
       text-decoration-thickness: 1px;
@@ -47,13 +85,14 @@
 
   // п. 24: price per 100 g of the chosen pack — one quiet line instead of four in the chips.
   &__rate {
-    flex-basis: 100%;
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-self: start;
     font-size: 13px;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
 
     &.is-best {
-      flex-basis: auto;
       margin-top: 2px;
       padding: 1px 6px;
       border-radius: var(--radius-sm);
