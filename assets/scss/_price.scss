@@ -47,7 +47,7 @@
     // Phones: shrinks with the screen so the old price still fits on the same line
     // (the widest pair, «4 433,50 ₽ 5 227,50 ₽», needs ~134 px at 360).
     @media (max-width: #{$bp-phone - 1px}) {
-      font-size: clamp(17px, 4.8vw, 20px);
+      font-size: clamp(16px, 4.5vw, 20px);
     }
 
     // On sale items the current price carries the accent, as on the live site: the eye lands

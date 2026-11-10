@@ -1313,7 +1313,7 @@ body::before {
 }
 @media (max-width: 759px) {
   .tag__now {
-    font-size: clamp(17px, 4.8vw, 20px);
+    font-size: clamp(16px, 4.5vw, 20px);
   }
 }
 .tag__now.is-sale {
