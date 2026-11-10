@@ -9,7 +9,7 @@
     position: fixed;
     left: var(--chrome-inset);
     right: var(--chrome-inset);
-    bottom: max(var(--chrome-inset), env(safe-area-inset-bottom, 0px));
+    bottom: max(var(--chrome-edge), env(safe-area-inset-bottom, 0px));
     z-index: 40;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -119,8 +119,8 @@
     display: flex;
     flex-direction: column;
     width: calc(100% - (var(--chrome-inset) * 2));
-    max-height: min(720px, calc(100dvh - var(--dock-h) - var(--chrome-inset) * 3 - env(safe-area-inset-bottom, 0px)));
-    margin: 0 var(--chrome-inset) calc(var(--dock-h) + var(--chrome-inset) * 2 + env(safe-area-inset-bottom, 0px));
+    max-height: min(720px, calc(100dvh - var(--dock-h) - var(--chrome-edge) - var(--chrome-inset) * 2 - env(safe-area-inset-bottom, 0px)));
+    margin: 0 var(--chrome-inset) calc(var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px));
     background: var(--paper);
     border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
     border-radius: var(--chrome-radius);
@@ -308,7 +308,7 @@
 .footer {
   @media (max-width: #{$bp-phone - 1px}) {
     padding-bottom: calc(
-      var(--dock-h) + (var(--chrome-inset) * 2) + env(safe-area-inset-bottom, 0px) + var(--purchase-clearance, 0px)
+      var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + var(--purchase-clearance, 0px)
     );
   }
 }
@@ -316,7 +316,7 @@
 .totop-rail {
   @media (max-width: #{$bp-phone - 1px}) {
     bottom: calc(
-      var(--dock-h) + (var(--chrome-inset) * 2) + env(safe-area-inset-bottom, 0px) + 12px
+      var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + 12px
     );
   }
 }

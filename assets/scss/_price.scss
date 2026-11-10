@@ -45,11 +45,22 @@
     }
   }
 
-  &__sku {
+  // п. 24: price per 100 g of the chosen pack — one quiet line instead of four in the chips.
+  &__rate {
     flex-basis: 100%;
-    font-size: 12px;
+    font-size: 13px;
     color: var(--muted);
     font-variant-numeric: tabular-nums;
+
+    &.is-best {
+      flex-basis: auto;
+      margin-top: 2px;
+      padding: 1px 6px;
+      border-radius: var(--radius-sm);
+      background: var(--value-bg);
+      color: var(--value);
+      font-weight: 600;
+    }
   }
 }
 

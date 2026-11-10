@@ -575,6 +575,7 @@
     const wasValue = good.querySelector("[data-was-value]");
     const cut = good.querySelector("[data-cut]");
     const sku = good.querySelector("[data-sku]");
+    const rate = good.querySelector("[data-rate-line]");
 
     const show = (input) => {
       const price = Number(input.dataset.price);
@@ -582,6 +583,12 @@
       now.textContent = money(price);
       now.classList.toggle("is-sale", Boolean(old));
       sku.textContent = input.value;
+      if (rate) {
+        const isBest = input.hasAttribute("data-best");
+        rate.firstChild.nodeValue = input.dataset.rate;
+        rate.classList.toggle("is-best", isBest);
+        rate.querySelector("[data-best-note]").hidden = !isBest;
+      }
       if (old) {
         wasValue.textContent = money(old);
         was.hidden = false;

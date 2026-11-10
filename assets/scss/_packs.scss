@@ -141,8 +141,10 @@
 
 // Home product tiles: denser chips so eight cards stay scannable on a phone.
 .packs--compact {
+  // п. 24: tiles show the weight only at every width, so the chip is one line high — the same
+  // proportions as on phones (a two-line box left an empty block on desktop).
   .pack__body {
-    min-height: 64px;
+    min-height: 44px;
     padding: var(--step-2) clamp(8px, 1.2vw, 12px);
   }
 

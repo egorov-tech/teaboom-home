@@ -22,7 +22,8 @@
   --radius-md: 6px;
   --radius-lg: 16px;
   --chrome-inset: 12px;
-  --chrome-radius: 24px;
+  --chrome-edge: 5px;
+  --chrome-radius: 12px;
   --step-1: 4px;
   --step-2: 8px;
   --step-3: 12px;
@@ -898,10 +899,10 @@ body::before {
     display: none;
   }
   .masthead {
-    top: max(var(--chrome-inset), env(safe-area-inset-top, 0px));
+    top: max(var(--chrome-edge), env(safe-area-inset-top, 0px));
     width: calc(100% - var(--chrome-inset) * 2);
     height: var(--pin-h);
-    margin: max(var(--chrome-inset), env(safe-area-inset-top, 0px)) var(--chrome-inset) 0;
+    margin: max(var(--chrome-edge), env(safe-area-inset-top, 0px)) var(--chrome-inset) 0;
     overflow: visible;
     border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
     border-radius: var(--chrome-radius);
@@ -909,7 +910,7 @@ body::before {
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 10px 28px rgba(27, 27, 27, 0.1);
   }
   .masthead.is-compact {
-    top: max(var(--chrome-inset), env(safe-area-inset-top, 0px));
+    top: max(var(--chrome-edge), env(safe-area-inset-top, 0px));
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.65) inset, 0 10px 28px rgba(27, 27, 27, 0.1);
   }
   .masthead.is-compact .masthead__top,
@@ -1242,7 +1243,7 @@ body::before {
 }
 
 .packs--compact .pack__body {
-  min-height: 64px;
+  min-height: 44px;
   padding: var(--step-2) clamp(8px, 1.2vw, 12px);
 }
 .packs--compact .pack__weight {
@@ -1306,11 +1307,20 @@ body::before {
 .tag__was[hidden] {
   display: none;
 }
-.tag__sku {
+.tag__rate {
   flex-basis: 100%;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+}
+.tag__rate.is-best {
+  flex-basis: auto;
+  margin-top: 2px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--value-bg);
+  color: var(--value);
+  font-weight: 600;
 }
 
 .price__line {
@@ -1439,7 +1449,7 @@ body::before {
   padding: 4px 8px;
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 28px;
+  border-radius: var(--chrome-radius);
 }
 .banners__dots {
   display: flex;
@@ -1829,6 +1839,7 @@ body::before {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--step-3);
+  column-gap: 5px;
 }
 @media (min-width: 768px) {
   .goods__grid {
@@ -2066,6 +2077,12 @@ body::before {
   flex-direction: column;
   gap: var(--step-1);
   min-width: 0;
+}
+.good__sku {
+  margin: 0 0 2px;
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
 }
 .good__name {
   font-size: 16px;
@@ -2320,7 +2337,7 @@ body::before {
     position: fixed;
     left: var(--chrome-inset);
     right: var(--chrome-inset);
-    bottom: max(var(--chrome-inset), env(safe-area-inset-bottom, 0px));
+    bottom: max(var(--chrome-edge), env(safe-area-inset-bottom, 0px));
     z-index: 40;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2414,8 +2431,8 @@ body::before {
   display: flex;
   flex-direction: column;
   width: calc(100% - var(--chrome-inset) * 2);
-  max-height: min(720px, 100dvh - var(--dock-h) - var(--chrome-inset) * 3 - env(safe-area-inset-bottom, 0px));
-  margin: 0 var(--chrome-inset) calc(var(--dock-h) + var(--chrome-inset) * 2 + env(safe-area-inset-bottom, 0px));
+  max-height: min(720px, 100dvh - var(--dock-h) - var(--chrome-edge) - var(--chrome-inset) * 2 - env(safe-area-inset-bottom, 0px));
+  margin: 0 var(--chrome-inset) calc(var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px));
   background: var(--paper);
   border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
   border-radius: var(--chrome-radius);
@@ -2570,12 +2587,12 @@ body::before {
 }
 @media (max-width: 759px) {
   .footer {
-    padding-bottom: calc(var(--dock-h) + var(--chrome-inset) * 2 + env(safe-area-inset-bottom, 0px) + var(--purchase-clearance, 0px));
+    padding-bottom: calc(var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + var(--purchase-clearance, 0px));
   }
 }
 
 @media (max-width: 759px) {
   .totop-rail {
-    bottom: calc(var(--dock-h) + var(--chrome-inset) * 2 + env(safe-area-inset-bottom, 0px) + 12px);
+    bottom: calc(var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + 12px);
   }
 }

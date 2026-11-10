@@ -101,7 +101,7 @@
     padding: 4px 8px;
     background: var(--paper);
     border: 1px solid var(--line);
-    border-radius: 28px;
+    border-radius: var(--chrome-radius); // same rounding as the header and dock
   }
 
   &__dots {

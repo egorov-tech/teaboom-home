@@ -802,10 +802,10 @@ $bp-quick: 760px;
   }
 
   .masthead {
-    top: max(var(--chrome-inset), env(safe-area-inset-top, 0px));
+    top: max(var(--chrome-edge), env(safe-area-inset-top, 0px));
     width: calc(100% - (var(--chrome-inset) * 2));
     height: var(--pin-h);
-    margin: max(var(--chrome-inset), env(safe-area-inset-top, 0px)) var(--chrome-inset) 0;
+    margin: max(var(--chrome-edge), env(safe-area-inset-top, 0px)) var(--chrome-inset) 0;
     overflow: visible; // cart badge must paint outside the capsule edge
     border: 1px solid color-mix(in srgb, var(--line-strong) 55%, transparent);
     border-radius: var(--chrome-radius);
@@ -815,7 +815,7 @@ $bp-quick: 760px;
       0 10px 28px rgb(27 27 27 / 10%);
     // Sticky offset already includes the inset; do not slide/shrink on scroll.
     &.is-compact {
-      top: max(var(--chrome-inset), env(safe-area-inset-top, 0px));
+      top: max(var(--chrome-edge), env(safe-area-inset-top, 0px));
       box-shadow:
         0 1px 0 rgb(255 255 255 / 65%) inset,
         0 10px 28px rgb(27 27 27 / 10%);

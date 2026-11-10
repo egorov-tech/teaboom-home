@@ -12,6 +12,8 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--step-3);
+    // п. 20 (Ксения 10.11): on phones the two cards sit 5 px apart — the screen is narrow.
+    column-gap: 5px;
 
     @media (min-width: $bp-tablet) {
       gap: var(--step-4);
@@ -286,6 +288,14 @@
     flex-direction: column;
     gap: var(--step-1);
     min-width: 0;
+  }
+
+  // п. 24: the article sits between the photo and the name, away from the prices.
+  &__sku {
+    margin: 0 0 2px;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
   }
 
   &__name {
