@@ -99,9 +99,7 @@
     max-width: 100%;
     margin-inline: auto;
     padding: 4px 8px;
-    background: var(--paper);
-    border: 1px solid var(--line);
-    border-radius: var(--chrome-radius); // same rounding as the header and dock
+    // Ксения 10.11: no plate behind the dots and pause — they sit right on the page.
   }
 
   &__dots {
@@ -159,7 +157,7 @@
     width: 44px;
     height: 44px;
     color: var(--ink);
-    background: var(--paper);
+    background: none;
     border: 0;
     border-radius: 50%;
     cursor: pointer;
