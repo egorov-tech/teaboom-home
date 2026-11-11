@@ -44,6 +44,11 @@
       font-size: 22px;
     }
 
+    // Three-up tiles (768–1059): a step between phone and desktop.
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-split - 1px}) {
+      font-size: 24px;
+    }
+
     // Phones: shrinks with the screen so the old price still fits on the same line
     // (the widest pair, «4 433,50 ₽ 5 227,50 ₽», needs ~134 px at 360).
     @media (max-width: #{$bp-phone - 1px}) {
@@ -68,6 +73,10 @@
     // Two-up tiles: small enough to stay beside the price.
     @media (max-width: #{$bp-tablet - 1px}) {
       font-size: 12px;
+    }
+
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-split - 1px}) {
+      font-size: 13px;
     }
 
     @media (max-width: 399px) {

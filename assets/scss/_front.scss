@@ -510,7 +510,9 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
-    @media (min-width: $bp-split) {
+    // From 900 px all ten tiles fit five in a row (Антон 11.11: on scaled monitors and
+    // narrower windows the three-column tablet grid showed huge pictures).
+    @media (min-width: $bp-mid) {
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: var(--step-4);
     }
@@ -520,7 +522,7 @@
     display: grid;
 
     // Mid width: nine categories fill three rows; «Все категории» takes the fourth whole.
-    @media (min-width: $bp-tablet) and (max-width: #{$bp-split - 1px}) {
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-mid - 1px}) {
       &--all {
         grid-column: 1 / -1;
       }

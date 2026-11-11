@@ -15,7 +15,9 @@
     // п. 20 (Ксения 10.11): on phones the two cards sit 5 px apart — the screen is narrow.
     column-gap: 5px;
 
+    // Three in a row between tablet and desktop instead of two oversized cards (Антон 11.11).
     @media (min-width: $bp-tablet) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: var(--step-4);
     }
 

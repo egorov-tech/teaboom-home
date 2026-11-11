@@ -96,7 +96,7 @@ slide_backgrounds = {
 n = len(slides)
 BANNER_SIZES = "(min-width: 1200px) 1104px, 92vw"
 CMS_SIZES = "(min-width: 1200px) 736px, (min-width: 768px) 66vw, 92vw"
-GOOD_SIZES = "(min-width: 1060px) 260px, 45vw"
+GOOD_SIZES = "(min-width: 1060px) 260px, (min-width: 768px) 31vw, 45vw"
 # The site opens on the Telegram banner; the demo opens on a tea (Анчан, "Хит сезона"),
 # the rest keep the site's order. Files keep the site's numbering.
 order = [6, 1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12]
@@ -161,7 +161,7 @@ side = [("Красный чай", "category-krasnyj-chaj"), ("Кофе", "catego
 cats_html = "\n".join(f'''        <li class="cats__item">
           <a class="cats__link" href="{SITE}/{slug}">
             <picture>
-              <source srcset="assets/images/categories/{slug}.webp 112w, assets/images/categories/{slug}-tile.webp 360w" sizes="(min-width: 1060px) 200px, (min-width: 768px) 30vw, 42vw" type="image/webp">
+              <source srcset="assets/images/categories/{slug}.webp 112w, assets/images/categories/{slug}-tile.webp 360w" sizes="(min-width: 900px) 18vw, (min-width: 768px) 30vw, 42vw" type="image/webp">
               <img class="cats__image" src="assets/images/categories/{slug}-tile.jpg" srcset="assets/images/categories/{slug}.jpg 112w, assets/images/categories/{slug}-tile.jpg 360w" sizes="(min-width: 1060px) 200px, (min-width: 768px) 30vw, 42vw" alt="" width="360" height="360" loading="lazy" decoding="async">
             </picture>
             <span class="cats__name">{esc(name)}</span>
