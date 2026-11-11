@@ -282,10 +282,6 @@ for idx, p in enumerate(products, 1):
               <div class="good__track" data-gallery-track>
 {chr(10).join(frames)}
               </div>
-              <p class="good__swipe" data-gallery-hint aria-hidden="true">
-                <svg viewBox="0 0 24 16" width="24" height="16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 8h14M15 4l4 4-4 4M9 4 5 8l4 4"/></svg>
-                <span>листайте</span>
-              </p>
               <div class="good__dots" data-gallery-dots>
 {dots}
               </div>

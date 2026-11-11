@@ -617,8 +617,6 @@
     const track = gallery.querySelector("[data-gallery-track]");
     const frames = [...gallery.querySelectorAll("[data-gallery-frame]")];
     const dots = [...gallery.querySelectorAll("[data-gallery-dot]")];
-    const prev = gallery.querySelector("[data-gallery-prev]");
-    const next = gallery.querySelector("[data-gallery-next]");
     if (!track || frames.length < 2) return;
 
     let index = 0;
@@ -663,8 +661,6 @@
       track.scrollTo({ left: frames[index].offsetLeft - frames[0].offsetLeft, behavior: "auto" });
     }).observe(track);
 
-    prev?.addEventListener("click", (event) => go(index - 1, event));
-    next?.addEventListener("click", (event) => go(index + 1, event));
     dots.forEach((dot, n) => {
       dot.addEventListener("click", (event) => go(n, event));
     });
@@ -693,25 +689,10 @@
     );
     frames.forEach((frame) => seen.observe(frame));
 
-    const markSwiped = () => gallery.classList.add("is-swiped");
-    track.addEventListener(
-      "scroll",
-      () => {
-        if (track.scrollLeft > 12) markSwiped();
-      },
-      { passive: true }
-    );
-    prev?.addEventListener("click", markSwiped);
-    next?.addEventListener("click", markSwiped);
-    dots.forEach((dot) => dot.addEventListener("click", markSwiped));
-
     // Product photos change only by hand; autoplay stays opt-in through data-autoplay.
     autoplay = bindAutoplay(gallery, {
       interval: Number(gallery.dataset.autoplay) || 0,
-      next: () => {
-        markSwiped();
-        render(index + 1);
-      },
+      next: () => render(index + 1),
     });
   });
 

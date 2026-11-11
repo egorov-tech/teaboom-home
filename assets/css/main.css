@@ -2118,36 +2118,6 @@ body::before {
   object-position: center;
   background: var(--canvas);
 }
-.good__swipe {
-  position: absolute;
-  right: 6px;
-  bottom: 18px;
-  z-index: 2;
-  display: none;
-  align-items: center;
-  gap: 4px;
-  padding: 3px 8px;
-  border-radius: 999px;
-  background: color-mix(in srgb, var(--ink) 72%, transparent);
-  color: var(--paper);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  pointer-events: none;
-  animation: swipe-nudge 1.6s var(--ease-out) infinite;
-}
-@media (max-width: 767px) {
-  .good__swipe {
-    display: none;
-  }
-}
-.good__gallery.is-swiped .good__swipe {
-  display: none;
-  animation: none;
-}
-.good__swipe svg {
-  flex: none;
-}
 .good__dots {
   position: absolute;
   left: 0;
@@ -2280,19 +2250,8 @@ body::before {
   .good__track {
     scroll-behavior: auto;
   }
-  .good__swipe {
-    animation: none;
-  }
 }
 
-@keyframes swipe-nudge {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(4px);
-  }
-}
 .about {
   display: grid;
   gap: var(--step-5) var(--step-7);
