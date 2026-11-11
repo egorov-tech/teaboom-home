@@ -182,6 +182,11 @@
       animation: banners-pager-fill var(--pager-ms, 5000ms) linear forwards;
     }
 
+    // Hover/focus hold: freeze fill mid-way (do not restart the keyframes).
+    &[aria-current="true"].is-progressing.is-progress-paused::after {
+      animation-play-state: paused;
+    }
+
     @media (hover: hover) {
       &:hover::before {
         background: var(--ink-soft);

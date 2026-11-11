@@ -1604,6 +1604,9 @@ body::before {
 .banners__dot[aria-current=true].is-progressing::after {
   animation: banners-pager-fill var(--pager-ms, 5000ms) linear forwards;
 }
+.banners__dot[aria-current=true].is-progressing.is-progress-paused::after {
+  animation-play-state: paused;
+}
 @media (hover: hover) {
   .banners__dot:hover::before {
     background: var(--ink-soft);

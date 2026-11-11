@@ -356,10 +356,11 @@
     });
   });
 
-  // Autoplay helper: advances while visible, pauses on hover/focus/touch, off with reduced
-  // motion. `control` is a visible pause/resume button — WCAG 2.2.2 needs one for anything
-  // that moves on its own for longer than five seconds.
-  const bindAutoplay = (root, { interval, next, paused, control, onChange } = {}) => {
+  // Autoplay helper: pauses on hover/focus/touch and when the tab is hidden; off with
+  // reduced motion. `control` is the visible pause/resume (WCAG 2.2.2).
+  // requireVisible (default true): product galleries stay quiet off-screen.
+  // Banners pass false — slide + progress keep going while the user scrolls the page.
+  const bindAutoplay = (root, { interval, next, paused, control, onChange, requireVisible = true } = {}) => {
     if (reduceMotion.matches || !interval || interval < 1200) {
       return {
         stop() {},
@@ -369,24 +370,39 @@
     }
 
     let timer = 0;
-    let visible = false;
+    let visible = !requireVisible;
     let held = false;
     let stopped = false;
+    // Wall-clock remaining so a hold/tab-hide resumes mid-cycle instead of restarting.
+    let remaining = interval;
+    let startedAt = 0;
 
-    const clear = () => {
-      window.clearInterval(timer);
-      timer = 0;
+    const stopTimer = ({ preserve = false } = {}) => {
+      if (timer) {
+        window.clearTimeout(timer);
+        timer = 0;
+      }
+      if (preserve && startedAt) {
+        remaining = Math.max(0, remaining - (performance.now() - startedAt));
+      }
+      startedAt = 0;
     };
 
-    const tick = () => {
-      if (!visible || held || document.hidden || paused?.()) return;
-      next();
-    };
-
-    const arm = () => {
-      clear();
-      if (visible && !held && !stopped && !document.hidden) timer = window.setInterval(tick, interval);
-      onChange?.({ stopped, held, visible });
+    const arm = ({ reset = false } = {}) => {
+      stopTimer({ preserve: !reset });
+      if (reset) remaining = interval;
+      const canRun =
+        (!requireVisible || visible) && !held && !stopped && !document.hidden && !paused?.();
+      if (canRun) {
+        startedAt = performance.now();
+        timer = window.setTimeout(() => {
+          timer = 0;
+          startedAt = 0;
+          remaining = interval;
+          next();
+        }, remaining || interval);
+      }
+      onChange?.({ stopped, held, visible, remaining, interval, running: Boolean(timer) });
     };
 
     if (control) {
@@ -394,23 +410,27 @@
         control.setAttribute("aria-label", stopped ? "Включить автопрокрутку баннеров" : "Остановить автопрокрутку баннеров");
         control.classList.toggle("is-stopped", stopped);
         root.classList.toggle("is-autoplay-off", stopped);
-        onChange?.({ stopped, held, visible });
+        onChange?.({ stopped, held, visible, remaining, interval, running: Boolean(timer) });
       };
       control.hidden = false;
       control.addEventListener("click", () => {
         stopped = !stopped;
+        if (!stopped) remaining = interval;
         sync();
-        arm();
+        arm({ reset: !stopped });
       });
       sync();
     }
 
     const hold = () => {
+      if (held) return;
       held = true;
-      clear();
+      stopTimer({ preserve: true });
+      onChange?.({ stopped, held, visible, remaining, interval, running: false });
     };
 
     const release = () => {
+      if (!held) return;
       held = false;
       arm();
     };
@@ -422,23 +442,35 @@
       if (!root.contains(event.relatedTarget)) release();
     });
     root.addEventListener("pointerdown", hold);
-    document.addEventListener("visibilitychange", arm);
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) stopTimer({ preserve: true });
+      else arm();
+      onChange?.({ stopped, held, visible, remaining, interval, running: Boolean(timer) });
+    });
 
-    const inView = new IntersectionObserver(
-      ([entry]) => {
-        visible = Boolean(entry?.isIntersecting);
-        arm();
-      },
-      { threshold: 0.35 }
-    );
-    inView.observe(root);
+    let inView = null;
+    if (requireVisible) {
+      inView = new IntersectionObserver(
+        ([entry]) => {
+          const nextVisible = Boolean(entry?.isIntersecting);
+          if (nextVisible === visible) return;
+          visible = nextVisible;
+          if (!visible) stopTimer({ preserve: true });
+          else arm();
+        },
+        { threshold: 0.35 }
+      );
+      inView.observe(root);
+    }
+
+    arm({ reset: true });
 
     return {
       stop() {
-        clear();
-        inView.disconnect();
+        stopTimer();
+        inView?.disconnect();
       },
-      nudge: arm,
+      nudge: () => arm({ reset: true }),
       isStopped: () => stopped,
     };
   };
@@ -470,12 +502,27 @@
     };
 
     const restartProgress = () => {
-      dots.forEach((dot) => dot.classList.remove("is-progressing"));
+      dots.forEach((dot) => dot.classList.remove("is-progressing", "is-progress-paused"));
       const current = dots[index];
       if (!current || autoplay?.isStopped?.() || reduceMotion.matches) return;
-      // Force a fresh animation on the active pill.
+      // Force a fresh animation on the active pill (only on slide change — not on scroll).
       void current.offsetWidth;
       current.classList.add("is-progressing");
+    };
+
+    // Hover/focus/tab-hide: freeze the CSS fill in place. Scroll must never restart it.
+    const syncProgressPause = ({ held, stopped } = {}) => {
+      const current = dots[index];
+      if (!current) return;
+      if (stopped || reduceMotion.matches) {
+        current.classList.remove("is-progressing", "is-progress-paused");
+        return;
+      }
+      current.classList.toggle("is-progress-paused", Boolean(held) || document.hidden);
+      if (!current.classList.contains("is-progressing")) {
+        void current.offsetWidth;
+        current.classList.add("is-progressing");
+      }
     };
 
     const render = (i) => {
@@ -558,7 +605,9 @@
       interval,
       next: () => goTo(index + 1),
       control: banners.querySelector("[data-play]"),
-      onChange: () => restartProgress(),
+      // Keep ticking off-screen so the pill does not reset when the user scrolls back.
+      requireVisible: false,
+      onChange: syncProgressPause,
     });
     restartProgress();
   }
