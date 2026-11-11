@@ -799,16 +799,11 @@
     });
   });
   // ---------- Back to top ----------
-  // Appears once the visitor is past the second product card (two cards on phones, the
-  // first row on desktop) or, on the product page, past the buy block with its sticky
-  // «В корзину». The ring shows how far down the page they are.
+  // Appears when the main menu scrolls away (desktop) or after ¾ of a screen (phones, where
+  // the dock stays). The ring shows how far down the page they are.
   const totop = document.querySelector("[data-totop]");
   if (totop) {
-    const marker =
-      document.querySelector("[data-totop-after]") ||
-      document.querySelectorAll("[data-good]")[1] ||
-      document.querySelector(".buy") ||
-      document.querySelector("main");
+    const menuBar = document.querySelector(".masthead__bar");
     let shown = false;
     let queued = false;
 
@@ -817,11 +812,13 @@
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
       totop.style.setProperty("--p", progress.toFixed(3));
-      // Show it early (Артём 11.11): after about three quarters of a screen, or once the
-      // marker block is gone — whichever comes first.
-      const past =
-        window.scrollY > window.innerHeight * 0.75 ||
-        (marker ? marker.getBoundingClientRect().bottom < 0 : false);
+      // Антон 11.11: one navigation tool leaves, the other arrives — on desktop the arrow
+      // shows the moment the main menu scrolls out of view. Phones have no top menu (the dock
+      // is always there), so they keep the three-quarters-of-a-screen rule.
+      // "Gone" = slid under the sticky header, not just off the top edge.
+      const past = menuBar && menuBar.offsetParent
+        ? menuBar.getBoundingClientRect().bottom <= (masthead ? masthead.getBoundingClientRect().bottom : 0)
+        : window.scrollY > window.innerHeight * 0.75;
       if (past !== shown) {
         shown = past;
         totop.classList.toggle("is-shown", shown);
