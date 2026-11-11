@@ -195,6 +195,14 @@ def pack_qty(label):
     return float(num), unit
 
 
+def show_label(label):
+    """'1000 г' -> '1 кг', '5000 г' -> '5 кг'; smaller weights and pieces stay as they are."""
+    qty, unit = pack_qty(label)
+    if unit == "г" and qty >= 1000 and qty % 1000 == 0:
+        return f"{qty / 1000:g}{NB}кг"
+    return label.replace(" ", NB)
+
+
 def unit_rate(v):
     """Price per 100 g for weighed packs, per 1 piece otherwise."""
     qty, unit = pack_qty(v["label"])
@@ -217,9 +225,9 @@ for idx, p in enumerate(products, 1):
         is_best = r == best_rate and best_rate < base_rate - 0.005
         best_attr = ' data-best' if is_best else ""
         chips.append(f'''              <label class="pack">
-                <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-qty="{qty:g}" data-unit="{unit}" data-label="{esc(v["label"])}" data-rate="{esc(rate_label)}"{best_attr}{" checked" if j == 0 else ""}>
+                <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-qty="{qty:g}" data-unit="{unit}" data-label="{esc(show_label(v["label"]))}" data-rate="{esc(rate_label)}"{best_attr}{" checked" if j == 0 else ""}>
                 <span class="pack__body">
-                  <span class="pack__weight">{esc(v["label"])}</span>
+                  <span class="pack__weight">{esc(show_label(v["label"]))}</span>
                 </span>
               </label>''')
         if j == 0:
