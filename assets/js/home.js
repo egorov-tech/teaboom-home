@@ -817,7 +817,11 @@
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(1, window.scrollY / max) : 0;
       totop.style.setProperty("--p", progress.toFixed(3));
-      const past = marker ? marker.getBoundingClientRect().bottom < 0 : window.scrollY > window.innerHeight;
+      // Show it early (Артём 11.11): after about three quarters of a screen, or once the
+      // marker block is gone — whichever comes first.
+      const past =
+        window.scrollY > window.innerHeight * 0.75 ||
+        (marker ? marker.getBoundingClientRect().bottom < 0 : false);
       if (past !== shown) {
         shown = past;
         totop.classList.toggle("is-shown", shown);
