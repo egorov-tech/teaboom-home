@@ -422,7 +422,14 @@
   &__list {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+    // Every row as tall as the tallest one (Ксения 11.11): a two-line name no longer
+    // makes its row taller than the rest.
+    grid-auto-rows: 1fr;
     gap: 0 var(--step-5);
+
+    > li {
+      display: grid;
+    }
   }
 
   &__link {

@@ -511,9 +511,17 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--grid-gap-y) var(--grid-gap-x); // shared with the products grid
+    // All rows as tall as the tallest (Ксения 11.11): a two-line name such as «Посуда
+    // и аксессуары» no longer makes its row taller than the next one.
+    grid-auto-rows: 1fr;
 
     @media (min-width: $bp-tablet) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    // Mid width: three equal rows of tiles, then the slim «Все категории» strip.
+    @media (min-width: $bp-tablet) and (max-width: #{$bp-mid - 1px}) {
+      grid-template-rows: repeat(3, 1fr) auto;
     }
 
     // From 900 px all ten tiles fit five in a row (Антон 11.11: on scaled monitors and

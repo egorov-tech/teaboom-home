@@ -15,7 +15,10 @@
     }
 
     @media (min-width: $bp-split) {
-      grid-template-columns: minmax(0, 4fr) repeat(3, minmax(0, 2fr));
+      // Contacts get 3 parts, link columns 2 each: «Политика конфиденциальности» fits
+      // one line (link columns never narrower than their longest link), so every footer
+      // link is one row of the same height.
+      grid-template-columns: minmax(0, 3fr) repeat(3, minmax(max-content, 2fr));
     }
   }
 
