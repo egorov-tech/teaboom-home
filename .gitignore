@@ -2,3 +2,4 @@
 Library/
 node_modules/
 CLAUDE-HANDOFF.md
+*.css.map

@@ -24,7 +24,7 @@
   --radius-lg: 16px;
   --chrome-inset: 12px;
   --chrome-edge: 5px;
-  --chrome-radius: 16px;
+  --chrome-radius: 12px;
   --step-1: 4px;
   --step-2: 8px;
   --step-3: 12px;
@@ -498,12 +498,10 @@ body::before {
   scrollbar-width: none;
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu::-webkit-scrollbar {
   display: none;
-}
-.menu {
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -2502,5 +2500,3 @@ body::before {
     bottom: calc(var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + 12px);
   }
 }
-
-/*# sourceMappingURL=product.css.map */
