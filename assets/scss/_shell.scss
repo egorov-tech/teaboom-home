@@ -389,6 +389,7 @@
 }
 
 // Catalogue panel lives outside the scrolling menu so it is never clipped by it.
+// Open/close motion via .reveal (bindReveal in home.js) — not an instant [hidden] swap.
 .catalog {
   position: absolute;
   inset-inline: 0;
@@ -660,7 +661,7 @@ $bp-quick: 760px;
   }
 }
 
-// Phones: the search field opens over the whole bar, with its own close button.
+// Phones / compact tablet: the search field opens over the bar, with its own close button.
 .masthead.is-searching {
   @media (max-width: #{$bp-quick - 1px}) {
     .quick__search {
@@ -671,7 +672,7 @@ $bp-quick: 760px;
       max-width: none;
       height: 44px;
       box-shadow: 0 6px 20px rgb(27 27 27 / 10%);
-      animation: quick-in 180ms var(--ease-out);
+      animation: search-fade 200ms var(--ease-out);
     }
 
     .quick__close {
@@ -696,7 +697,9 @@ $bp-quick: 760px;
     .quick__toggle,
     .quick__phone,
     .cart {
-      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms var(--ease-out);
     }
   }
 }
@@ -705,6 +708,13 @@ $bp-quick: 760px;
   from {
     opacity: 0;
     transform: translateY(-4px);
+  }
+}
+
+// Search open: opacity only — no translate, so the magnifier does not jump.
+@keyframes search-fade {
+  from {
+    opacity: 0;
   }
 }
 
@@ -892,11 +902,10 @@ $bp-quick: 760px;
     background: transparent;
     border: 0;
     border-radius: 50%;
-    transition: background-color var(--ease), transform 160ms var(--ease-out);
+    transition: background-color var(--ease);
 
     &:active {
       background: var(--canvas);
-      transform: scale(0.96);
     }
   }
 
@@ -945,10 +954,17 @@ $bp-quick: 760px;
       gap: 0;
     }
 
-    // The toggle that opened the search would keep its 44 px and squeeze the field (the
-    // placeholder got cut on 360 px screens); the field has its own magnifier.
+    // Hide the toggle without a layout thrash — the overlay already covers the bar.
     .quick__toggle {
-      display: none;
+      position: absolute;
+      width: 0;
+      height: 0;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transform: none;
     }
 
     .quick__search {
@@ -959,14 +975,16 @@ $bp-quick: 760px;
       height: 100%;
       padding-left: 34px;
       border: 0;
-      border-radius: calc(var(--chrome-radius) - 8px);
+      border-radius: calc(var(--chrome-radius) - 4px);
       background: var(--canvas);
       box-shadow: none;
-      animation: quick-in 180ms var(--ease-out);
+      animation: search-fade 200ms var(--ease-out);
     }
 
     .quick__glass {
       left: 10px;
+      // Stay put while the field fades in — no inherited transform animation.
+      transform: none;
     }
 
     .quick__submit {
@@ -974,7 +992,7 @@ $bp-quick: 760px;
       margin-right: 2px;
       padding: 0 12px;
       font-size: 13px;
-      border-radius: 999px;
+      border-radius: calc(var(--chrome-radius) - 4px);
       white-space: nowrap;
     }
 
@@ -991,6 +1009,7 @@ $bp-quick: 760px;
       border: 0;
       border-radius: 50%;
       cursor: pointer;
+      transition: background-color var(--ease);
 
       svg {
         width: 18px;
@@ -999,13 +1018,15 @@ $bp-quick: 760px;
 
       &:active {
         background: color-mix(in srgb, var(--ink) 8%, transparent);
+        transform: none;
       }
     }
 
     .brand,
-    .quick__toggle,
     .cart {
-      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 160ms var(--ease-out);
     }
   }
 }

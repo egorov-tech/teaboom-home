@@ -88,25 +88,23 @@
     object-position: center center;
   }
 
-  // п. 14: dots + pause. Arrows/counter gone; Left/Right still work from the keyboard.
+  // Pager: dots + pause — active slide is a stadium pill; fill grows by width (not scaleX),
+  // so both ends stay round (scaleX was flattening the leading edge).
   &__controls {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--step-2);
+    gap: 4px;
     margin-top: var(--step-3);
     width: fit-content;
     max-width: 100%;
     margin-inline: auto;
-    padding: 4px 8px;
-    // Ксения 10.11: no plate behind the dots and pause — they sit right on the page.
-    // Owner 10.11: quieter until wanted — half strength, full on hover or keyboard focus.
-    // Touch screens have no hover, so they stay a touch stronger: pause must stay findable.
-    opacity: 0.7;
+    padding: 2px 2px;
+    opacity: 0.75;
     transition: opacity var(--ease);
 
     @media (hover: hover) {
-      opacity: 0.45;
+      opacity: 0.5;
     }
   }
 
@@ -118,6 +116,7 @@
   &__dots {
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
     justify-content: center;
     gap: 0;
     min-width: 0;
@@ -130,30 +129,57 @@
   }
 
   &__dot {
+    --pager-pill-w: 22px;
+    --pager-pill-h: 6px;
     position: relative;
     flex: none;
-    width: 24px;
+    width: 18px;
     height: 44px;
     padding: 0;
     border: 0;
     background: none;
     cursor: pointer;
 
+    // Idle: small grey circle.
     &::before {
       content: "";
       position: absolute;
       inset: 50% auto auto 50%;
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--line-strong);
       transform: translate(-50%, -50%);
-      transition: transform var(--ease), background-color var(--ease);
+      transition: width 180ms var(--ease-out), height 180ms var(--ease-out), border-radius 180ms var(--ease-out),
+        background-color var(--ease);
     }
 
-    &[aria-current="true"]::before {
-      background: var(--ink);
-      transform: translate(-50%, -50%) scale(1.2);
+    // Active: elongated track; ::after grows left→right while autoplay runs.
+    &[aria-current="true"] {
+      width: 30px;
+
+      &::before {
+        width: var(--pager-pill-w);
+        height: var(--pager-pill-h);
+        border-radius: calc(var(--pager-pill-h) / 2);
+        background: var(--line-strong);
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: calc(50% - (var(--pager-pill-h) / 2));
+        left: calc(50% - (var(--pager-pill-w) / 2));
+        width: 0;
+        height: var(--pager-pill-h);
+        border-radius: calc(var(--pager-pill-h) / 2);
+        background: var(--ink);
+        pointer-events: none;
+      }
+    }
+
+    &[aria-current="true"].is-progressing::after {
+      animation: banners-pager-fill var(--pager-ms, 5000ms) linear forwards;
     }
 
     @media (hover: hover) {
@@ -163,11 +189,17 @@
     }
   }
 
+  // When autoplay is off, the active pill stays fully filled (no running bar).
+  &.is-autoplay-off &__dot[aria-current="true"]::after {
+    animation: none;
+    width: var(--pager-pill-w);
+  }
+
   &__play {
     display: grid;
     place-items: center;
     flex: none;
-    width: 44px;
+    width: 40px;
     height: 44px;
     color: var(--ink);
     background: none;
@@ -176,14 +208,8 @@
     cursor: pointer;
 
     svg {
-      width: 18px;
-      height: 18px;
-    }
-
-    @media (hover: hover) {
-      &:hover {
-        border-color: var(--ink);
-      }
+      width: 16px;
+      height: 16px;
     }
 
     &[hidden] {
@@ -201,18 +227,43 @@
     display: block;
   }
 
-  // At 320 px all twelve dots must remain visible: an invisible horizontal scroller
-  // makes part of the carousel navigation look as if it disappeared. The pause target
-  // stays 44 px; only dot hit areas tighten by 2 px on this edge case.
+  // At 320 px keep every dot on one row; shrink hit areas a touch.
   @media (max-width: 359px) {
     &__controls {
       padding-inline: 0;
-      gap: 4px;
+      gap: 2px;
     }
 
     &__dot {
-      width: 18px;
+      --pager-pill-w: 18px;
+      --pager-pill-h: 5px;
+      width: 14px;
+
+      &[aria-current="true"] {
+        width: 24px;
+      }
     }
+
+    &__play {
+      width: 32px;
+    }
+  }
+}
+
+@keyframes banners-pager-fill {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: var(--pager-pill-w);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banners__dot[aria-current="true"].is-progressing::after {
+    animation: none;
+    width: var(--pager-pill-w);
   }
 }
 

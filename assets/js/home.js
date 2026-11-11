@@ -18,6 +18,61 @@
   }
   const scrollBehavior = () => (reduceMotion.matches ? "auto" : "smooth");
 
+  // ---------- Reveal: shared open/close for dropdown panels ----------
+  // Panel keeps [hidden] only when fully closed. Open: unhide → .is-open.
+  // Close: .is-closing → wait for transition → [hidden]. One helper for every dropdown.
+  const bindReveal = (panel, { duration = 220 } = {}) => {
+    let closing = false;
+    let timer = 0;
+
+    const finishClose = () => {
+      window.clearTimeout(timer);
+      closing = false;
+      panel.classList.remove("is-closing", "is-open");
+      panel.hidden = true;
+    };
+
+    const open = () => {
+      if (closing) {
+        window.clearTimeout(timer);
+        closing = false;
+        panel.classList.remove("is-closing");
+      }
+      panel.hidden = false;
+      if (reduceMotion.matches) {
+        panel.classList.add("is-open");
+        return;
+      }
+      panel.classList.remove("is-open");
+      // Double rAF so the browser paints the closed state before transitioning in.
+      window.requestAnimationFrame(() => {
+        window.requestAnimationFrame(() => panel.classList.add("is-open"));
+      });
+    };
+
+    const close = () => {
+      if (panel.hidden || closing) return;
+      if (reduceMotion.matches || !panel.classList.contains("is-open")) {
+        finishClose();
+        return;
+      }
+      closing = true;
+      panel.classList.remove("is-open");
+      panel.classList.add("is-closing");
+      const onEnd = (event) => {
+        if (event.target !== panel) return;
+        panel.removeEventListener("transitionend", onEnd);
+        finishClose();
+      };
+      panel.addEventListener("transitionend", onEnd);
+      timer = window.setTimeout(finishClose, duration + 80);
+    };
+
+    const isOpen = () => !panel.hidden && !closing;
+
+    return { open, close, isOpen };
+  };
+
   // ---------- Sticky compact masthead (all viewports, hysteresis against jitter) ----------
   const masthead = document.querySelector("[data-masthead]");
 
@@ -36,11 +91,16 @@
 
   if (quickToggle && quickForm) {
     quickToggle.addEventListener("click", () => {
+      // Drop :active scale on the icon before the bar morphs — otherwise the glass jumps.
+      quickToggle.style.transform = "none";
       masthead.classList.add("is-searching");
       quickToggle.setAttribute("aria-expanded", "true");
       // preventScroll: the field sits in the sticky bar, and a plain focus() makes the browser
       // scroll the page to clear scroll-padding-top.
-      quickField?.focus({ preventScroll: true });
+      window.requestAnimationFrame(() => {
+        quickField?.focus({ preventScroll: true });
+        quickToggle.style.removeProperty("transform");
+      });
     });
     quickClose?.addEventListener("click", () => closeQuickSearch({ returnFocus: true }));
     quickForm.addEventListener("keydown", (event) => {
@@ -196,27 +256,45 @@
     });
   }
 
-  // ---------- Catalogue panel ----------
+  // ---------- Catalogue panel (desktop dropdown via bindReveal) ----------
   const toggle = document.querySelector("[data-catalog-toggle]");
   const panel = document.querySelector("[data-catalog]");
 
   if (toggle && panel) {
+    const reveal = bindReveal(panel);
+    let openAtY = 0;
     const setOpen = (open, { returnFocus = false } = {}) => {
       toggle.setAttribute("aria-expanded", String(open));
-      panel.hidden = !open;
-      if (!open && returnFocus) toggle.focus();
+      if (open) {
+        openAtY = window.scrollY || window.pageYOffset || 0;
+        reveal.open();
+      } else {
+        reveal.close();
+        if (returnFocus) toggle.focus();
+      }
     };
 
     toggle.addEventListener("click", () => {
-      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+      setOpen(!reveal.isOpen());
     });
 
+    // Desktop: scrolling down with the dropdown open dismisses it (same as leaving the menu).
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (!reveal.isOpen()) return;
+        const y = window.scrollY || window.pageYOffset || 0;
+        if (y > openAtY + 12) setOpen(false);
+      },
+      { passive: true }
+    );
+
     document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape" && !panel.hidden) setOpen(false, { returnFocus: true });
+      if (event.key === "Escape" && reveal.isOpen()) setOpen(false, { returnFocus: true });
     });
 
     document.addEventListener("click", (event) => {
-      if (panel.hidden) return;
+      if (!reveal.isOpen()) return;
       if (!panel.contains(event.target) && !toggle.contains(event.target)) setOpen(false);
     });
 
@@ -226,14 +304,14 @@
     const afterToggle = toggle.closest("li").nextElementSibling?.querySelector("a");
 
     toggle.addEventListener("keydown", (event) => {
-      if (event.key === "Tab" && !event.shiftKey && !panel.hidden) {
+      if (event.key === "Tab" && !event.shiftKey && reveal.isOpen()) {
         event.preventDefault();
-        links[0].focus();
+        links[0]?.focus();
       }
     });
 
     panel.addEventListener("keydown", (event) => {
-      if (event.key !== "Tab") return;
+      if (event.key !== "Tab" || !links.length) return;
       if (event.shiftKey && document.activeElement === links[0]) {
         event.preventDefault();
         toggle.focus();
@@ -281,8 +359,14 @@
   // Autoplay helper: advances while visible, pauses on hover/focus/touch, off with reduced
   // motion. `control` is a visible pause/resume button — WCAG 2.2.2 needs one for anything
   // that moves on its own for longer than five seconds.
-  const bindAutoplay = (root, { interval, next, paused, control }) => {
-    if (reduceMotion.matches || !interval || interval < 1200) return { stop() {}, nudge() {} };
+  const bindAutoplay = (root, { interval, next, paused, control, onChange } = {}) => {
+    if (reduceMotion.matches || !interval || interval < 1200) {
+      return {
+        stop() {},
+        nudge() {},
+        isStopped: () => true,
+      };
+    }
 
     let timer = 0;
     let visible = false;
@@ -302,12 +386,15 @@
     const arm = () => {
       clear();
       if (visible && !held && !stopped && !document.hidden) timer = window.setInterval(tick, interval);
+      onChange?.({ stopped, held, visible });
     };
 
     if (control) {
       const sync = () => {
         control.setAttribute("aria-label", stopped ? "Включить автопрокрутку баннеров" : "Остановить автопрокрутку баннеров");
         control.classList.toggle("is-stopped", stopped);
+        root.classList.toggle("is-autoplay-off", stopped);
+        onChange?.({ stopped, held, visible });
       };
       control.hidden = false;
       control.addEventListener("click", () => {
@@ -352,10 +439,11 @@
         inView.disconnect();
       },
       nudge: arm,
+      isStopped: () => stopped,
     };
   };
 
-  // ---------- Banner carousel (п. 14: dots + swipe + pause; arrows via keyboard only) ----------
+  // ---------- Banner carousel (dots + swipe + pause; progress pill on active) ----------
   const banners = document.querySelector("[data-banners]");
 
   if (banners) {
@@ -363,9 +451,12 @@
     const slides = [...track.querySelectorAll("[data-slide]")];
     const status = banners.querySelector("[data-status]");
     const dots = [...banners.querySelectorAll("[data-dot]")];
+    const interval = Number(banners.dataset.autoplay) || 5000;
     let index = 0;
     let announce = false;
     let autoplay;
+
+    banners.style.setProperty("--pager-ms", `${interval}ms`);
 
     // Banners after the first carry their sources in data-* until the carousel needs them.
     const hydrate = (slide) => {
@@ -378,6 +469,15 @@
       });
     };
 
+    const restartProgress = () => {
+      dots.forEach((dot) => dot.classList.remove("is-progressing"));
+      const current = dots[index];
+      if (!current || autoplay?.isStopped?.() || reduceMotion.matches) return;
+      // Force a fresh animation on the active pill.
+      void current.offsetWidth;
+      current.classList.add("is-progressing");
+    };
+
     const render = (i) => {
       index = i;
       hydrate(slides[i]);
@@ -387,7 +487,10 @@
       }
       dots.forEach((dot, n) => {
         if (n === i) dot.setAttribute("aria-current", "true");
-        else dot.removeAttribute("aria-current");
+        else {
+          dot.removeAttribute("aria-current");
+          dot.classList.remove("is-progressing");
+        }
       });
       // Only the banner on screen is reachable with Tab.
       slides.forEach((slide, n) => {
@@ -397,6 +500,7 @@
         else link.setAttribute("tabindex", "-1");
       });
       if (announce && status) status.textContent = `Баннер ${i + 1} из ${slides.length}`;
+      restartProgress();
     };
 
     const goTo = (i) => {
@@ -451,10 +555,12 @@
     else window.addEventListener("load", warmNext, { once: true });
 
     autoplay = bindAutoplay(banners, {
-      interval: Number(banners.dataset.autoplay) || 5000,
+      interval,
       next: () => goTo(index + 1),
       control: banners.querySelector("[data-play]"),
+      onChange: () => restartProgress(),
     });
+    restartProgress();
   }
 
   // ---------- Product-card photo swipe + autoplay (home grid) ----------

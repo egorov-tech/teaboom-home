@@ -1,0 +1,45 @@
+@use "tokens" as *;
+
+// Shared open/close for dropdowns and sheets.
+// Markup: panel starts with [hidden]; JS toggles .is-open / .is-closing (see bindReveal).
+.reveal {
+  opacity: 0;
+  transform: translateY(-8px);
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out),
+    visibility 0s linear 220ms;
+
+  &.is-open {
+    opacity: 1;
+    transform: none;
+    visibility: visible;
+    pointer-events: auto;
+    transition:
+      opacity 220ms var(--ease-out),
+      transform 220ms var(--ease-out),
+      visibility 0s;
+  }
+
+  &.is-closing {
+    opacity: 0;
+    transform: translateY(-6px);
+    visibility: hidden;
+    pointer-events: none;
+    transition:
+      opacity 180ms var(--ease-out),
+      transform 180ms var(--ease-out),
+      visibility 0s linear 180ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal.is-open,
+  .reveal.is-closing {
+    transition: none;
+    transform: none;
+  }
+}

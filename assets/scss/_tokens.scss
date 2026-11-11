@@ -32,7 +32,9 @@
   // Phone floating chrome (iOS-style capsule bars): inset from the screen edges.
   --chrome-inset: 12px; // side gap of the phone capsules
   --chrome-edge: 5px; // gap above the header capsule and below the dock (п. 18–19, 10.11)
-  --chrome-radius: 12px;
+  // Half of --dock-h/--pin-h would be a full capsule; 16 keeps the iOS soft-bar look
+  // without looking clipped at the leading edge (12 felt squared-off on the left).
+  --chrome-radius: 16px;
 
   --step-1: 4px;
   --step-2: 8px;
