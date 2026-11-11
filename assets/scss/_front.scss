@@ -133,8 +133,14 @@
     --pager-pill-h: 6px;
     position: relative;
     flex: none;
-    width: 18px;
+    // 24 px is the minimum touch target (WCAG 2.5.8); the visible dot stays small.
+    width: 24px;
     height: 44px;
+
+    // 360–374 px phones: twelve 24 px targets plus pause do not fit in one row.
+    @media (max-width: 374px) {
+      width: 18px;
+    }
     padding: 0;
     border: 0;
     background: none;
@@ -497,14 +503,14 @@
   padding-block: var(--step-3) var(--step-6);
 
   &__title {
-    margin-bottom: var(--step-4);
+    margin-bottom: var(--grid-head);
   }
 
   &__grid {
     // п. 21: two tiles through tablet; three mid, five desktop.
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--step-3);
+    gap: var(--grid-gap-y) var(--grid-gap-x); // shared with the products grid
 
     @media (min-width: $bp-tablet) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -514,7 +520,6 @@
     // narrower windows the three-column tablet grid showed huge pictures).
     @media (min-width: $bp-mid) {
       grid-template-columns: repeat(5, minmax(0, 1fr));
-      gap: var(--step-4);
     }
   }
 

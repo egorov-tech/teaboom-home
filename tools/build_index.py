@@ -19,6 +19,11 @@ def esc(s):
     return html.escape(s, quote=True)
 
 
+def tile_name(name):
+    # Soft hyphen in the one word too long for a 320 px card; CSS honours it only there.
+    return esc(name).replace("ароматизирован", "ароматизиро\u00adван")
+
+
 def money(v):
     whole = abs(v - round(v)) < 1e-9
     s = f"{v:,.0f}" if whole else f"{v:,.2f}"
@@ -297,7 +302,7 @@ for idx, p in enumerate(products, 1):
 {media}
             <div class="good__head">
               <p class="good__sku">арт. <span data-sku>{v0["sku"]}</span></p>
-              <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{esc(p["name"])}</a></h3>
+              <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{tile_name(p["name"])}</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
               <legend class="visually-hidden">Фасовка: {esc(p["name"])}</legend>
@@ -349,6 +354,10 @@ def shell(nav_home_attr, search_id, footer_note, dock_home_attr=""):
         dock.replace("{{DOCK_HOME_ATTR}}", dock_home_attr)
         .replace("{{CATALOG}}", catalog_rel_html)
     )
+    # The partial keeps the shop's relative links (Ксения: «все ссылки относительные»), as the
+    # backend will use it. The demo lives on another domain, so the built page points them at
+    # teaboom.ru — and «/» at the demo's own home — otherwise every dock link is a 404.
+    dock = dock.replace('href="/"', 'href="./"').replace('href="/', f'href="{SITE}/')
     return mast, foot, dock
 
 

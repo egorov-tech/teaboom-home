@@ -4,26 +4,30 @@
   padding-block: clamp(40px, 5vw, 64px) var(--step-6);
 
   &__head {
-    margin-bottom: var(--step-5);
+    margin-bottom: var(--grid-head);
   }
 
   &__grid {
     // п. 20: two cards in a row through tablet; four from desktop.
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--step-3);
-    // п. 20 (Ксения 10.11): on phones the two cards sit 5 px apart — the screen is narrow.
-    column-gap: 5px;
+    gap: var(--grid-gap-y) var(--grid-gap-x); // shared with the categories grid
 
     // Three in a row between tablet and desktop instead of two oversized cards (Антон 11.11).
     @media (min-width: $bp-tablet) {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: var(--step-4);
     }
 
     @media (min-width: $bp-split) {
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: var(--step-5);
+    }
+
+    // Nine cards fill 3 × 3 rows on tablet; on two and four columns the ninth would sit
+    // alone in its row, so it is shown only there. The shop sets the count in the admin.
+    @media (max-width: #{$bp-tablet - 1px}), (min-width: $bp-split) {
+      > li:nth-child(9) {
+        display: none;
+      }
     }
 
     // Cards in a row share one height, so prices and buttons line up.
@@ -259,6 +263,24 @@
     @media (max-width: #{$bp-phone - 1px}) {
       font-size: 14px;
       line-height: 1.3;
+    }
+
+    // Names break between words only, without hyphens (Антон), so the longest word —
+    // «ароматизированный», 151 px in Open Sans 600 at 14 px — must fit the phone card whole.
+    hyphens: none;
+
+    @media (max-width: 409px) {
+      font-size: 13px;
+    }
+
+    @media (max-width: 374px) {
+      font-size: 12px;
+    }
+
+    // 320 px: the card is narrower than that word even at 12 px. The build puts a soft
+    // hyphen into it, honoured only here — a hyphen beats a cut without one.
+    @media (max-width: 359px) {
+      hyphens: manual;
     }
 
     a {

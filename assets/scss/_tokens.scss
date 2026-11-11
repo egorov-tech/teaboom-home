@@ -45,6 +45,12 @@
 
   --gutter: clamp(16px, 4vw, 48px);
 
+  // One rhythm for the tile grids (categories and products): same gaps at every width.
+  // Phones: tiles 5 px apart side by side (Ксения, п. 20), rows 12 px; from tablet 16 px.
+  --grid-gap-x: 5px;
+  --grid-gap-y: var(--step-3);
+  --grid-head: var(--step-4); // section title → its grid
+
   // Sticky header: full height and how much of it slides off screen in compact mode.
   --pin-h: 78px;
   --pin-trim: 20px;
@@ -62,3 +68,10 @@ $bp-tablet: 768px;
 $bp-wide: 600px;
 $bp-mid: 900px;
 $bp-split: 1060px;
+
+:root {
+  @media (min-width: $bp-tablet) {
+    --grid-gap-x: var(--step-4);
+    --grid-gap-y: var(--step-4);
+  }
+}
