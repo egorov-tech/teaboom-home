@@ -1395,14 +1395,15 @@ body::before {
   grid-column: 1/-1;
   grid-row: 2;
   justify-self: start;
+  margin: 2px 0 0 -6px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
   font-size: 13px;
   color: var(--muted);
   font-variant-numeric: tabular-nums;
+  transition: background-color var(--ease), color var(--ease);
 }
 .tag__rate.is-best {
-  margin-top: 2px;
-  padding: 1px 6px;
-  border-radius: var(--radius-sm);
   background: var(--value-bg);
   color: var(--value);
   font-weight: 600;
