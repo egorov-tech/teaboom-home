@@ -1,0 +1,56 @@
+@use "tokens" as *;
+
+// One pager dot for every gallery on the site (banner slider, product-tile photos, later the
+// product page): a 6 px grey circle; the current one stretches into a pill.
+// The caller sets the hit-area size; $active is the pill colour — the banner keeps a grey
+// track and fills it with its autoplay progress, still galleries get a solid ink pill.
+@mixin pager-dot($active: var(--ink), $pill-w: 22px, $pill-h: 6px) {
+  --pager-pill-w: #{$pill-w};
+  --pager-pill-h: #{$pill-h};
+  position: relative;
+  flex: none;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line-strong);
+    transform: translate(-50%, -50%);
+    transition: width 180ms var(--ease-out), height 180ms var(--ease-out), border-radius 180ms var(--ease-out),
+      background-color var(--ease);
+  }
+
+  &[aria-current="true"] {
+    width: 30px;
+
+    &::before {
+      width: var(--pager-pill-w);
+      height: var(--pager-pill-h);
+      border-radius: calc(var(--pager-pill-h) / 2);
+      background: $active;
+    }
+  }
+
+  @media (hover: hover) {
+    &:not([aria-current="true"]):hover::before {
+      background: var(--ink-soft);
+    }
+  }
+}
+
+// The row of dots sits quiet and comes forward when the gallery is hovered or focused.
+@mixin pager-quiet {
+  opacity: 0.75;
+  transition: opacity var(--ease);
+
+  @media (hover: hover) {
+    opacity: 0.5;
+  }
+}

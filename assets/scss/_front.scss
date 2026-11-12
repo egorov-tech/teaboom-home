@@ -1,4 +1,5 @@
 @use "tokens" as *;
+@use "pager";
 
 // First screen: the shop's banners across the full content width (as the client asked,
 // like competitors); popular categories follow as photo tiles in their own section.
@@ -100,12 +101,7 @@
     max-width: 100%;
     margin-inline: auto;
     padding: 2px 2px;
-    opacity: 0.75;
-    transition: opacity var(--ease);
-
-    @media (hover: hover) {
-      opacity: 0.5;
-    }
+    @include pager.pager-quiet;
   }
 
   &:hover &__controls,
@@ -129,48 +125,19 @@
   }
 
   &__dot {
-    --pager-pill-w: 22px;
-    --pager-pill-h: 6px;
-    position: relative;
-    flex: none;
     // 24 px is the minimum touch target (WCAG 2.5.8); the visible dot stays small.
     width: 24px;
     height: 44px;
+    // Shared dot (_pager.scss); the active pill is a grey track that autoplay fills.
+    @include pager.pager-dot($active: var(--line-strong));
 
     // 360–374 px phones: twelve 24 px targets plus pause do not fit in one row.
     @media (max-width: 374px) {
       width: 18px;
     }
-    padding: 0;
-    border: 0;
-    background: none;
-    cursor: pointer;
 
-    // Idle: small grey circle.
-    &::before {
-      content: "";
-      position: absolute;
-      inset: 50% auto auto 50%;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--line-strong);
-      transform: translate(-50%, -50%);
-      transition: width 180ms var(--ease-out), height 180ms var(--ease-out), border-radius 180ms var(--ease-out),
-        background-color var(--ease);
-    }
-
-    // Active: elongated track; ::after grows left→right while autoplay runs.
+    // Active: ::after grows left→right while autoplay runs.
     &[aria-current="true"] {
-      width: 30px;
-
-      &::before {
-        width: var(--pager-pill-w);
-        height: var(--pager-pill-h);
-        border-radius: calc(var(--pager-pill-h) / 2);
-        background: var(--line-strong);
-      }
-
       &::after {
         content: "";
         position: absolute;
@@ -191,12 +158,6 @@
     // Hover/focus hold: freeze fill mid-way (do not restart the keyframes).
     &[aria-current="true"].is-progressing.is-progress-paused::after {
       animation-play-state: paused;
-    }
-
-    @media (hover: hover) {
-      &:hover::before {
-        background: var(--ink-soft);
-      }
     }
   }
 

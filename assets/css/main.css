@@ -1582,21 +1582,16 @@ body::before {
   display: none;
 }
 .banners__dot {
+  width: 24px;
+  height: 44px;
   --pager-pill-w: 22px;
   --pager-pill-h: 6px;
   position: relative;
   flex: none;
-  width: 24px;
-  height: 44px;
   padding: 0;
   border: 0;
   background: none;
   cursor: pointer;
-}
-@media (max-width: 374px) {
-  .banners__dot {
-    width: 18px;
-  }
 }
 .banners__dot::before {
   content: "";
@@ -1618,6 +1613,16 @@ body::before {
   border-radius: calc(var(--pager-pill-h) / 2);
   background: var(--line-strong);
 }
+@media (hover: hover) {
+  .banners__dot:not([aria-current=true]):hover::before {
+    background: var(--ink-soft);
+  }
+}
+@media (max-width: 374px) {
+  .banners__dot {
+    width: 18px;
+  }
+}
 .banners__dot[aria-current=true]::after {
   content: "";
   position: absolute;
@@ -1634,11 +1639,6 @@ body::before {
 }
 .banners__dot[aria-current=true].is-progressing.is-progress-paused::after {
   animation-play-state: paused;
-}
-@media (hover: hover) {
-  .banners__dot:hover::before {
-    background: var(--ink-soft);
-  }
 }
 .banners.is-autoplay-off .banners__dot[aria-current=true]::after {
   animation: none;
@@ -2128,12 +2128,22 @@ body::before {
   justify-content: center;
   gap: 0;
   pointer-events: none;
+  opacity: 0.75;
+  transition: opacity var(--ease);
+}
+@media (hover: hover) {
+  .good__dots {
+    opacity: 0.5;
+  }
 }
 .good__dots button {
-  position: relative;
-  pointer-events: auto;
   width: 24px;
   height: 24px;
+  pointer-events: auto;
+  --pager-pill-w: 22px;
+  --pager-pill-h: 6px;
+  position: relative;
+  flex: none;
   padding: 0;
   border: 0;
   background: none;
@@ -2143,23 +2153,29 @@ body::before {
   content: "";
   position: absolute;
   inset: 50% auto auto 50%;
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--line-strong);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
   transform: translate(-50%, -50%);
-  transition: transform var(--ease), background-color var(--ease);
+  transition: width 180ms var(--ease-out), height 180ms var(--ease-out), border-radius 180ms var(--ease-out), background-color var(--ease);
 }
-@media (max-width: 599px) {
-  .good__dots button::before {
-    width: 8px;
-    height: 8px;
-  }
+.good__dots button[aria-current=true] {
+  width: 30px;
 }
 .good__dots button[aria-current=true]::before {
+  width: var(--pager-pill-w);
+  height: var(--pager-pill-h);
+  border-radius: calc(var(--pager-pill-h) / 2);
   background: var(--ink);
-  transform: translate(-50%, -50%) scale(1.15);
+}
+@media (hover: hover) {
+  .good__dots button:not([aria-current=true]):hover::before {
+    background: var(--ink-soft);
+  }
+}
+.good:hover .good__dots, .good:focus-within .good__dots {
+  opacity: 1;
 }
 .good__badge {
   position: absolute;
