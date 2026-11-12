@@ -156,17 +156,43 @@
     justify-content: center;
     gap: 0;
     pointer-events: none;
-    // Same dots and the same quiet row as the banner slider (_pager.scss); photos here do
-    // not autoplay, so the current pill is solid.
+    // Same quiet row as the banner slider (_pager.scss): muted, full on hover or focus.
+    // The dots themselves stay round — tile photos change only by hand, no autoplay.
     @include pager.pager-quiet;
-
 
     // 24×24 hit area (WCAG 2.2 target size) around a small drawn dot.
     button {
+      position: relative;
+      pointer-events: auto;
       width: 24px;
       height: 24px;
-      pointer-events: auto;
-      @include pager.pager-dot;
+      padding: 0;
+      border: 0;
+      background: none;
+      cursor: pointer;
+
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 50% auto auto 50%;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--line-strong);
+        box-shadow: 0 0 0 1px rgb(255 255 255 / 70%);
+        transform: translate(-50%, -50%);
+        transition: transform var(--ease), background-color var(--ease);
+
+        @media (max-width: #{$bp-wide - 1px}) {
+          width: 8px;
+          height: 8px;
+        }
+      }
+
+      &[aria-current="true"]::before {
+        background: var(--ink);
+        transform: translate(-50%, -50%) scale(1.15);
+      }
     }
   }
 

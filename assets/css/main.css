@@ -2137,13 +2137,10 @@ body::before {
   }
 }
 .good__dots button {
+  position: relative;
+  pointer-events: auto;
   width: 24px;
   height: 24px;
-  pointer-events: auto;
-  --pager-pill-w: 22px;
-  --pager-pill-h: 6px;
-  position: relative;
-  flex: none;
   padding: 0;
   border: 0;
   background: none;
@@ -2153,26 +2150,23 @@ body::before {
   content: "";
   position: absolute;
   inset: 50% auto auto 50%;
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: var(--line-strong);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.7);
   transform: translate(-50%, -50%);
-  transition: width 180ms var(--ease-out), height 180ms var(--ease-out), border-radius 180ms var(--ease-out), background-color var(--ease);
+  transition: transform var(--ease), background-color var(--ease);
 }
-.good__dots button[aria-current=true] {
-  width: 30px;
+@media (max-width: 599px) {
+  .good__dots button::before {
+    width: 8px;
+    height: 8px;
+  }
 }
 .good__dots button[aria-current=true]::before {
-  width: var(--pager-pill-w);
-  height: var(--pager-pill-h);
-  border-radius: calc(var(--pager-pill-h) / 2);
   background: var(--ink);
-}
-@media (hover: hover) {
-  .good__dots button:not([aria-current=true]):hover::before {
-    background: var(--ink-soft);
-  }
+  transform: translate(-50%, -50%) scale(1.15);
 }
 .good:hover .good__dots, .good:focus-within .good__dots {
   opacity: 1;
