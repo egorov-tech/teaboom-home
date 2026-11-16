@@ -133,5 +133,19 @@
     select.addEventListener("change", sync);
     select.addEventListener("sync", sync);
     sync();
+
+    // The button keeps the width of its longest option (all labels sit, invisible, in the same
+    // grid cell as the value), so picking a shorter one never shifts what stands beside it.
+    const face = document.createElement("span");
+    face.className = "select__face";
+    value.replaceWith(face);
+    face.append(value);
+    options.forEach((o) => {
+      const ghost = document.createElement("span");
+      ghost.className = "select__ghost";
+      ghost.setAttribute("aria-hidden", "true");
+      ghost.textContent = o.textContent;
+      face.append(ghost);
+    });
   });
 })();

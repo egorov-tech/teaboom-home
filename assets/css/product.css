@@ -2226,7 +2226,8 @@ body::before {
 }
 @media (min-width: 900px) {
   .specs {
-    columns: 2;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     column-gap: clamp(40px, 5vw, 72px);
   }
 }
@@ -2236,7 +2237,6 @@ body::before {
   gap: var(--step-3);
   padding: var(--step-3) 0;
   border-bottom: 1px solid var(--line);
-  break-inside: avoid;
   font-size: 14px;
   overflow-wrap: break-word;
 }
@@ -2252,6 +2252,14 @@ body::before {
 .specs__row dd {
   margin: 0;
   color: var(--ink);
+}
+.specs__row:last-child {
+  border-bottom: 0;
+}
+@media (min-width: 900px) {
+  .specs__row:nth-last-child(2) {
+    border-bottom: 0;
+  }
 }
 
 .delivery {
@@ -2311,14 +2319,15 @@ body::before {
   gap: var(--step-4) 0;
   margin: var(--step-3) 0 0;
 }
-@media (min-width: 400px) {
+@media (min-width: 560px) {
   .brew__facts {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 .brew__fact {
   display: flex;
-  flex-direction: column-reverse;
+  flex-direction: column;
+  justify-content: flex-start;
   gap: 2px;
   padding: 0 var(--step-3);
 }
@@ -2331,13 +2340,14 @@ body::before {
 .brew__fact:nth-child(3) {
   border-left: 0;
 }
-@media (min-width: 400px) {
+@media (min-width: 560px) {
   .brew__fact:nth-child(3) {
     padding-left: var(--step-3);
     border-left: 1px solid var(--line);
   }
 }
 .brew__fact dt {
+  order: 1;
   color: var(--muted);
   font-size: 13px;
 }

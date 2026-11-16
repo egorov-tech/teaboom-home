@@ -2358,6 +2358,16 @@ body::before {
 .select__button[aria-expanded=true] {
   border-color: var(--ink);
 }
+.select__face {
+  display: grid;
+  text-align: left;
+}
+.select__face > * {
+  grid-area: 1/1;
+}
+.select__ghost {
+  visibility: hidden;
+}
 .select__chevron {
   flex: none;
   width: 12px;

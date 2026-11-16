@@ -44,6 +44,20 @@
     }
   }
 
+  // Value and invisible copies of every option share one cell: the widest sets the width.
+  &__face {
+    display: grid;
+    text-align: left;
+
+    > * {
+      grid-area: 1 / 1;
+    }
+  }
+
+  &__ghost {
+    visibility: hidden;
+  }
+
   &__chevron {
     flex: none;
     width: 12px;
