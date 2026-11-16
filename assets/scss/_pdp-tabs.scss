@@ -46,14 +46,13 @@
 // п. 23: description, specs, reviews, delivery. One markup: tabs on phones (product-card.js
 // adds .is-tabbed), the same sections one under another on wider screens and without JS.
 .details {
-  margin-top: clamp(32px, 4vw, 48px);
+  // The product grid's own gap spaces it from the purchase block — no extra margin.
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
 
   @media (min-width: $bp-split) {
     grid-column: 1 / -1;
-    margin-top: 0;
   }
 
   &__tabs {

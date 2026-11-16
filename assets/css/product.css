@@ -2074,7 +2074,6 @@ body::before {
 }
 
 .details {
-  margin-top: clamp(32px, 4vw, 48px);
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--radius-md);
@@ -2082,7 +2081,6 @@ body::before {
 @media (min-width: 1060px) {
   .details {
     grid-column: 1/-1;
-    margin-top: 0;
   }
 }
 .details__tabs {
