@@ -2044,11 +2044,6 @@ body::before {
   margin-top: var(--step-3);
   font-size: 15px;
 }
-@media (min-width: 760px) {
-  .rating {
-    display: none;
-  }
-}
 .rating__stars {
   color: var(--brand-deep);
   letter-spacing: 0.08em;

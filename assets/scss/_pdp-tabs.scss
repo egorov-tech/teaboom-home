@@ -1,8 +1,8 @@
 @use "tokens" as *;
 @use "strip";
 
-// п. 22 (phones): rating under the title — only for a product with reviews. The count is a
-// link into the reviews tab. Wider screens keep the reviews section as it was (Sheet: «телефон»).
+// п. 22: rating under the title — only for a product with reviews. The count is a link to
+// the reviews (opens the tab on phones). Sheet says «телефон»; Артём 16.11: show on every width.
 .rating {
   display: flex;
   flex-wrap: wrap;
@@ -10,10 +10,6 @@
   gap: var(--step-2) var(--step-3);
   margin-top: var(--step-3);
   font-size: 15px;
-
-  @media (min-width: $bp-phone) {
-    display: none;
-  }
 
   &__stars {
     color: var(--brand-deep);
