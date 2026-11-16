@@ -1620,13 +1620,6 @@ body::before {
   height: 20px;
 }
 
-.page {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: clamp(24px, 3vw, 40px) var(--gutter) var(--step-8);
-}
-
 .breadcrumbs {
   margin-bottom: clamp(24px, 3.4vw, 44px);
   font-size: 13px;
@@ -1684,6 +1677,13 @@ body::before {
 }
 .breadcrumbs [aria-current] {
   color: var(--ink-soft);
+}
+
+.page {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(24px, 3vw, 40px) var(--gutter) var(--step-8);
 }
 
 .product {

@@ -25,10 +25,16 @@
 
     // Nine cards fill 3 × 3 rows on tablet; on two and four columns the ninth would sit
     // alone in its row, so it is shown only there. The shop sets the count in the admin.
+    // Home grid only (.goods section): the category page shows every product it lists.
     @media (max-width: #{$bp-tablet - 1px}), (min-width: $bp-split) {
-      > li:nth-child(9) {
+      .goods > & > li:nth-child(9) {
         display: none;
       }
+    }
+
+    // Category pages hide the tiles of other pages (category.js).
+    > li[hidden] {
+      display: none;
     }
 
     // Cards in a row share one height, so prices and buttons line up.

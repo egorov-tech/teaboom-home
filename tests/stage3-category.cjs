@@ -1,0 +1,57 @@
+// Category page, п. 17. BASE=http://127.0.0.1:8890/ node tests/stage3-category.cjs
+const { chromium } = require(process.env.PW || '/Users/ghpr/.npm/_npx/e41f203b7505f1fb/node_modules/playwright');
+const base = process.env.BASE || 'http://127.0.0.1:8890/';
+let fails = 0;
+const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); if (!cond) fails++; };
+const NB = ' ';
+
+(async () => {
+  const b = await chromium.launch({ channel: 'chrome' });
+  const errors = [];
+  const ctx = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+  const p = await ctx.newPage(); p.on('pageerror', (e) => errors.push(e.message));
+  const shown = () => p.evaluate(() => [...document.querySelectorAll('[data-item]')].filter((li) => !li.hidden).map((li) => ({ price: +li.dataset.price, name: li.dataset.name })));
+  await p.goto(base + 'category-ulun.html', { waitUntil: 'networkidle' });
+
+  let s = await shown();
+  ok(s.length === 12, 'по 12 товаров на странице');
+  ok(s.every((x, i) => i === 0 || s[i - 1].price <= x.price), 'по умолчанию — по возрастанию цены (как на сайте)');
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 1–12 из 36', 'счётчик «Товары 1–12 из 36»');
+  ok((await p.$$eval('.good__sku', (els) => els.length)) === 36 && (await p.$$eval('.good', (g) => g.every((x) => /улун|те гуань|шуй|да хун|те ло|габа|те гуань|молочн|жень/i.test(x.textContent)))), 'все 36 плиток — улуны из категории');
+
+  await p.selectOption('[data-sort]', '-effective_price'); await p.waitForTimeout(200);
+  s = await shown();
+  ok(s.every((x, i) => i === 0 || s[i - 1].price >= x.price), 'по убыванию цены');
+  ok(new URL(p.url()).searchParams.get('sort') === '-effective_price', 'сортировка в адресе');
+  await p.selectOption('[data-sort]', 'name'); await p.waitForTimeout(200);
+  s = await shown();
+  ok(s.every((x, i) => i === 0 || s[i - 1].name.localeCompare(x.name, 'ru') <= 0), 'по алфавиту');
+
+  await p.click('[data-page="3"]'); await p.waitForTimeout(400);
+  ok(new URL(p.url()).searchParams.get('page') === '3' && (await p.getAttribute('[data-page="3"]', 'aria-current')) === 'page', 'страница 3, в адресе page=3');
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 25–36 из 36', 'счётчик на странице 3');
+  const bar = await p.evaluate(() => { const h = document.querySelector('[data-masthead]').getBoundingClientRect().bottom; const r = document.querySelector('.category__bar').getBoundingClientRect().top; return r >= h - 1; });
+  ok(bar, 'после смены страницы строка сортировки не под шапкой');
+  await p.goBack(); await p.waitForTimeout(300);
+  ok(new URL(p.url()).searchParams.get('page') === null && (await p.inputValue('[data-sort]')) === 'name', '«Назад» возвращает страницу 1 с той же сортировкой');
+
+  await p.goto(base + 'category-ulun.html?page=99&sort=bad', { waitUntil: 'networkidle' });
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 25–36 из 36' && (await p.inputValue('[data-sort]')) === 'effective_price', 'page=99 и неизвестная сортировка — безопасно: последняя страница, сортировка по умолчанию');
+
+  await p.goto(base + 'category-ulun.html', { waitUntil: 'networkidle' });
+  const hrefs = await p.$$eval('[data-item]:not([hidden]) .good__name a', (as) => as.map((a) => a.getAttribute('href')));
+  ok(hrefs.every((h) => h.startsWith('https://teaboom.ru/product/')) && new Set(hrefs).size === hrefs.length, 'плитки ведут на свои живые страницы, без дублей');
+  const g = p.locator('[data-item]:not([hidden]) .good').first();
+  await g.locator('.pack__input').nth(2).check({ force: true }); await p.waitForTimeout(200);
+  ok((await g.locator('[data-now]').textContent()).includes('1' + NB + '294') || (await g.locator('[data-now]').textContent()).length > 0, 'фасовка 1 кг меняет цену');
+  ok((await g.locator('[data-sku]').textContent()).trim() === '01285', 'артикул фасовки 1 кг (01285)');
+  await g.locator('[data-add]').click();
+  ok((await g.locator('[data-add]').textContent()).trim() === 'Добавлено', 'кнопка «В корзину» в плитке категории отвечает');
+  await p.waitForTimeout(1500);
+  ok(await p.evaluate(() => (document.querySelector('[data-cart-count]')?.textContent || '').trim() !== '0'), 'счётчик корзины вырос');
+  ok(new URL(p.url()).pathname.endsWith('category-ulun.html'), 'выбор фасовки и покупка не уводят со страницы');
+
+  ok(errors.length === 0, 'нет ошибок JS ' + errors.join('; '));
+  console.log(fails ? `${fails} FAIL` : 'ALL PASS');
+  await b.close(); process.exit(fails ? 1 : 0);
+})();

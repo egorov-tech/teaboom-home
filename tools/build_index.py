@@ -542,11 +542,13 @@ def render_pdp_ld(p):
     return json.dumps(ld, ensure_ascii=False, indent=2)
 
 
-def render_tile(idx, p):
+def render_tile(idx, p, live_links=False):
     """One product tile for the home grid (and later the category page) + its JSON-LD item."""
     pid = f"good-{idx}"
     v0 = p["variants"][0]
-    page = p.get("pdp", {}).get("page", PRODUCT_PAGE)
+    # Home keeps its demo links (accepted); the category sends a product without a demo page
+    # to its live teaboom.ru page.
+    page = p.get("pdp", {}).get("page") or (site(p["url"]) if live_links else PRODUCT_PAGE)
     badge = f'<span class="good__badge" data-cut>−{cut(v0["old"], v0["price"])}%</span>' if v0["old"] else '<span class="good__badge" data-cut hidden></span>'
 
     stems = gallery_stems(p)
@@ -632,6 +634,89 @@ def render_tile(idx, p):
     return card, ld_item
 
 
+# ---------- demo navigation ----------
+# Pages the demo has locally: links to their live address open the demo page instead, so the
+# team can walk home → category → product. Filters and the remaining pages stay on the shop.
+LOCAL = {f"{SITE}/category-ulun": "category-ulun.html"}
+
+
+def demo_links(html_text):
+    for live, local in LOCAL.items():
+        html_text = html_text.replace(f'href="{live}"', f'href="{local}"')
+    return html_text
+
+
+# ---------- category page (п. 17) ----------
+categories = json.load(open(ROOT / "data/categories.json", encoding="utf-8"))
+
+
+def render_category(c, mast, foot, dock):
+    """Breadcrumbs → H1 → subcategories → count · filters · sorting → the accepted tile grid →
+    pages → the category text. Sorting and pages run in category.js over the demo set."""
+    per = c["per_page"]
+    own = {p["slug"]: p for p in products}
+    items = [own.get(p["slug"], p) for p in c["products"]]
+    cards, ld_items = [], []
+    for idx, p in enumerate(items, 1):
+        card, ld_item = render_tile(idx, p, live_links=True)
+        v0 = p["variants"][0]
+        hidden = "" if idx <= per else " hidden"
+        card = card.replace("        <li>", f'        <li data-item data-order="{idx}" data-price="{v0["price"]:g}" data-name="{esc(p["name"].lower())}"{hidden}>', 1)
+        cards.append(card)
+        ld_items.append(ld_item)
+    pages = (len(items) + per - 1) // per
+    crumbs = ('      <ol class="breadcrumbs__list" data-strip>\n        <li class="breadcrumbs__item"><a href="./">Начало</a></li>\n'
+              + "".join(f'        <li class="breadcrumbs__item"><a href="{site(u)}">{esc(n)}</a></li>\n' for n, u in c["breadcrumbs"])
+              + f'        <li class="breadcrumbs__item"><span aria-current="page">{esc(c["title"])}</span></li>\n      </ol>')
+    subcats = "\n".join(f'          <li><a class="category__subcat" href="{site(u)}">{esc(n)}</a></li>' for n, u in c["subcats"])
+    subcats = f'''      <nav class="category__subcats" aria-label="Подкатегории">
+        <ul data-strip>
+{subcats}
+        </ul>
+      </nav>'''
+    sorting = "\n".join(f'            <option value="{v}"{" selected" if i == 0 else ""}>{esc(n)}</option>' for i, (v, n) in enumerate(c["sorting"]))
+    cur = ' aria-current="page"'
+    nums = "\n".join(
+        f'          <li><a class="pager__link" href="?page={n}" data-page="{n}"{cur if n == 1 else ""}>{n}</a></li>'
+        for n in range(1, pages + 1))
+    pager = f'''      <nav class="pager" aria-label="Страницы каталога">
+        <ul class="pager__list">
+{nums}
+        </ul>
+        <p class="pager__note">В демо — первые {len(items)} улунов. <a href="{site(c["live"])}?start={pages + 1}">Страницы {pages + 1}–{c["site_pages"]} — на teaboom.ru</a></p>
+      </nav>'''
+    seo = c["seo"]
+    body = []
+    for b in seo[1:]:
+        if "p" in b:
+            body.append(f"        <p>{typo(b['p'])}</p>")
+        elif "h" in b:
+            body.append(f"        <h3>{typo(b['h'])}</h3>")
+        else:
+            body.append("        <ul>\n" + "\n".join(f"          <li>{typo(x)}</li>" for x in b["ul"]) + "\n        </ul>")
+    seo_html = f'''    <section class="about wrap" aria-labelledby="seo-title">
+      <h2 class="about__title" id="seo-title">{esc(seo[0]["h"])}</h2>
+      <div class="about__body">
+{chr(10).join(body)}
+      </div>
+    </section>'''
+    ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": c["title"], "itemListElement": ld_items}]
+    tpl = (ROOT / "tools" / "category.template.html").read_text(encoding="utf-8")
+    first = f"Товары 1–{min(per, len(items))} из {len(items)}"
+    out = (
+        tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
+        .replace("{{SEO_TITLE}}", esc(c["seo_title"]))
+        .replace("{{META_DESC}}", esc(f'{c["title"]}: {len(items)} сортов в демо, фасовки от 100 г, цена от {money(min(p["variants"][0]["price"] for p in items)).replace(NB, " ")}.'))
+        .replace("{{PER_PAGE}}", str(per))
+        .replace("{{CRUMBS}}", crumbs).replace("{{H1}}", esc(c["title"])).replace("{{SUBCATS}}", subcats)
+        .replace("{{COUNT}}", first).replace("{{FILTERS}}", site(c["filters"]) + "#filters").replace("{{SORTING}}", sorting)
+        .replace("{{GOODS}}", "\n".join(cards)).replace("{{PAGER}}", pager).replace("{{SEO}}", seo_html)
+        .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
+    )
+    assert "{{" not in out, c["page"]
+    return out
+
+
 def shell(nav_home_attr, search_id, footer_note, dock_home_attr=""):
     """One masthead + footer + dock for every page — same components, page-specific attrs only."""
     mast = (ROOT / "tools/partials/masthead.html").read_text(encoding="utf-8")
@@ -673,7 +758,7 @@ def main():
     mast_home, foot_home, dock_home = shell(
         ' aria-current="page"',
         "search-field",
-        'Демо главной и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+        'Демо главной, <a href="category-ulun.html">категории</a> и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
         ' aria-current="page"',
     )
     out = (
@@ -688,7 +773,7 @@ def main():
         .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
     )
     assert "{{" not in out
-    (ROOT / "index.html").write_text(out, encoding="utf-8")
+    (ROOT / "index.html").write_text(demo_links(out), encoding="utf-8")
     print("ok index", len(out))
 
     # ---------- product pages (same shell as home; content from data/products.json) ----------
@@ -698,6 +783,13 @@ def main():
         "search-field-product",
         'Демо одной системы: <a href="./">главная</a> и карточки товара. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
     )
+    for c in categories:
+        page_html = render_category(c, *shell(
+            "", "search-field-category",
+            'Демо: <a href="./">главная</a>, категория и карточки товара. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>'))
+        (ROOT / c["page"]).write_text(demo_links(page_html), encoding="utf-8")
+        print("ok", c["page"], len(page_html))
+
     for pdp in (p for p in products if "pdp" in p):
         d = pdp["pdp"]
         pv0 = pdp["variants"][0]
@@ -729,7 +821,7 @@ def main():
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
         )
         assert "{{" not in pout, d["page"]
-        (ROOT / d["page"]).write_text(pout, encoding="utf-8")
+        (ROOT / d["page"]).write_text(demo_links(pout), encoding="utf-8")
         print("ok", d["page"], len(pout))
 
 
