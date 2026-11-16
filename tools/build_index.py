@@ -188,8 +188,6 @@ catalog_html = "\n".join(f'            <li><a class="catalog__link" href="{SITE}
 catalog_rel_html = "\n".join(f'            <li><a class="catalog__link" href="/{slug}">{esc(name)}</a></li>' for name, slug in catalog)
 
 # ---------- products ----------
-cards = []
-ld_items = []
 ARROW = (
     '<svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" '
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
@@ -214,32 +212,94 @@ def unit_rate(v):
     return v["price"] / qty * (100 if unit == "г" else 1)
 
 
-for idx, p in enumerate(products, 1):
-    pid = f"good-{idx}"
-    v0 = p["variants"][0]
-    base_rate = unit_rate(v0)
+def rate_info(p):
+    """Per-pack price per 100 g (or per piece) and which pack is the best value."""
+    base_rate = unit_rate(p["variants"][0])
     best_rate = min(unit_rate(v) for v in p["variants"])
-    chips = []
-    for j, v in enumerate(p["variants"]):
-        old_attr = f' data-old="{v["old"]:g}"' if v["old"] else ""
-        qty, unit = pack_qty(v["label"])
-        # п. 24: chips carry the weight only (as on phones); the price per 100 g of the chosen
-        # pack is one line under the price, green when that pack is the best value.
+    out = []
+    for v in p["variants"]:
+        _, unit = pack_qty(v["label"])
         r = unit_rate(v)
-        rate_label = f"{money(round(r))} за 100{NB}г" if unit == "г" else f"{money(round(r))} за шт"
-        is_best = r == best_rate and best_rate < base_rate - 0.005
-        best_attr = ' data-best' if is_best else ""
-        chips.append(f'''              <label class="pack">
-                <input class="pack__input" type="radio" name="{pid}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-qty="{qty:g}" data-unit="{unit}" data-label="{esc(show_label(v["label"]))}" data-rate="{esc(rate_label)}"{best_attr}{" checked" if j == 0 else ""}>
+        label = f"{money(round(r))} за 100{NB}г" if unit == "г" else f"{money(round(r))} за шт"
+        out.append((label, r == best_rate and best_rate < base_rate - 0.005))
+    return out
+
+
+def num(v):
+    """Price for a data attribute: 326.40, 1432 (the format the product page always used)."""
+    return f"{v:g}" if abs(v - round(v)) < 1e-9 else f"{v:.2f}"
+
+
+def render_packs(p, mode, group="pack"):
+    """Pack chips. «tile» — home/category card (weight only); «pdp» — product page (with rate).
+
+    The two keep their own data attributes: home.js and product-card.js read them.
+    """
+    chips = []
+    for j, (v, (rate_label, is_best)) in enumerate(zip(p["variants"], rate_info(p))):
+        qty, unit = pack_qty(v["label"])
+        shown = show_label(v["label"])
+        checked = " checked" if j == 0 else ""
+        if mode == "tile":
+            # п. 24: chips carry the weight only (as on phones); the price per 100 g of the chosen
+            # pack is one line under the price, green when that pack is the best value.
+            old_attr = f' data-old="{v["old"]:g}"' if v["old"] else ""
+            best_attr = ' data-best' if is_best else ""
+            chips.append(f'''              <label class="pack">
+                <input class="pack__input" type="radio" name="{group}-pack" value="{v["sku"]}" data-price="{v["price"]:g}"{old_attr} data-qty="{qty:g}" data-unit="{unit}" data-label="{esc(shown)}" data-rate="{esc(rate_label)}"{best_attr}{checked}>
                 <span class="pack__body">
-                  <span class="pack__weight">{esc(show_label(v["label"]))}</span>
+                  <span class="pack__weight">{esc(shown)}</span>
                 </span>
               </label>''')
-        if j == 0:
-            first_rate, first_best = rate_label, is_best
+        else:
+            amount, unit_shown = shown.split(NB)
+            old_attr = f' data-old-price="{num(v["old"])}"' if v["old"] else ""
+            chips.append(f'''                <label class="pack">
+                  <input class="pack__input" type="radio" name="{group}" value="{qty:g}"
+                         data-sku="{v["sku"]}" data-price="{num(v["price"])}"{old_attr} data-grams="{qty:g}" data-label="{esc(shown)}"{checked}>
+                  <span class="pack__body">
+                    <span class="pack__weight">{esc(amount)}<i>{esc(unit_shown)}</i></span>
+                    <span class="pack__rate" data-pack-rate></span>
+                  </span>
+                </label>''')
+    return ("\n" if mode == "tile" else "\n\n").join(chips)
+
+
+def render_price(p, mode):
+    """Price of the first (checked) pack. JS keeps it in step when another pack is chosen."""
+    v0 = p["variants"][0]
+    sale = " is-sale" if v0["old"] else ""
+    if mode == "tile":
+        first_rate, first_best = rate_info(p)[0]
+        was_hidden = "" if v0["old"] else " hidden"
+        was_val = money(v0["old"]) if v0["old"] else ""
+        return f'''              <p class="tag" aria-live="polite">
+                <span class="visually-hidden">Цена:</span>
+                <span class="tag__now{sale}" data-now>{money(v0["price"])}</span>
+                <span class="tag__was" data-was{was_hidden}><span class="visually-hidden">без скидки</span> <s data-was-value>{was_val}</s></span>
+                <span class="tag__rate{" is-best" if first_best else ""}" data-rate-line>{first_rate}<span class="visually-hidden" data-best-note{"" if first_best else " hidden"}>, выгоднее всего</span></span>
+              </p>'''
+    hidden = "" if v0["old"] else " hidden"
+    was = money(v0["old"]) if v0["old"] else ""
+    cut_txt = f"−{cut(v0['old'], v0['price'])}%" if v0["old"] else ""
+    return f'''            <div class="price" aria-live="polite" aria-atomic="true">
+              <p class="price__line">
+                <span class="visually-hidden">Цена:</span>
+                <span class="price__now{sale}" data-out="price">{money(v0["price"])}</span>
+                <span class="price__was"{hidden}>
+                  <span class="visually-hidden">Старая цена:</span>
+                  <s data-out="old-price">{was}</s>
+                </span>
+                <span class="price__cut" data-out="discount"{hidden}>{cut_txt}</span>
+              </p>
+            </div>'''
+
+
+def render_tile(idx, p):
+    """One product tile for the home grid (and later the category page) + its JSON-LD item."""
+    pid = f"good-{idx}"
+    v0 = p["variants"][0]
     badge = f'<span class="good__badge" data-cut>−{cut(v0["old"], v0["price"])}%</span>' if v0["old"] else '<span class="good__badge" data-cut hidden></span>'
-    was_hidden = "" if v0["old"] else " hidden"
-    was_val = money(v0["old"]) if v0["old"] else ""
 
     stems = gallery_stems(p)
     frames = []
@@ -293,7 +353,7 @@ for idx, p in enumerate(products, 1):
               {badge}
             </div>'''
 
-    cards.append(f'''        <li>
+    card = (f'''        <li>
           <article class="good" aria-labelledby="{pid}-name" data-good data-slug="{esc(p["slug"])}">
 {media}
             <div class="good__head">
@@ -303,22 +363,17 @@ for idx, p in enumerate(products, 1):
             <fieldset class="good__packs packs packs--compact">
               <legend class="visually-hidden">Фасовка: {esc(p["name"])}</legend>
               <div class="packs__grid">
-{chr(10).join(chips)}
+{render_packs(p, "tile", group=pid)}
               </div>
             </fieldset>
             <div class="good__buy">
-              <p class="tag" aria-live="polite">
-                <span class="visually-hidden">Цена:</span>
-                <span class="tag__now{" is-sale" if v0["old"] else ""}" data-now>{money(v0["price"])}</span>
-                <span class="tag__was" data-was{was_hidden}><span class="visually-hidden">без скидки</span> <s data-was-value>{was_val}</s></span>
-                <span class="tag__rate{" is-best" if first_best else ""}" data-rate-line>{first_rate}<span class="visually-hidden" data-best-note{"" if first_best else " hidden"}>, выгоднее всего</span></span>
-              </p>
+{render_price(p, "tile")}
               <button class="add press" type="button" data-add>В корзину</button>
             </div>
           </article>
         </li>''')
     prices = [v["price"] for v in p["variants"]]
-    ld_items.append({
+    ld_item = ({
         "@type": "ListItem", "position": idx,
         "item": {
             "@type": "Product", "name": p["name"], "url": SITE + p["url"], "image": p["img"] if str(p["img"]).startswith("http") else SITE + "/" + str(p["img"]).lstrip("/"),
@@ -326,14 +381,8 @@ for idx, p in enumerate(products, 1):
             "offers": {"@type": "AggregateOffer", "priceCurrency": "RUB", "lowPrice": f"{min(prices):.2f}", "highPrice": f"{max(prices):.2f}", "offerCount": len(prices)},
         },
     })
+    return card, ld_item
 
-ld = [
-    {"@context": "https://schema.org", "@type": "ItemList", "name": "Рекомендуем", "itemListElement": ld_items},
-    {"@context": "https://schema.org", "@type": "Organization", "name": "Teaboom.ru", "url": "https://teaboom.ru/",
-     "logo": "https://teaboom.ru/static/eetheme/assets/images/logo.png", "telephone": "+74951201551", "email": "info@teaboom.ru",
-     "address": {"@type": "PostalAddress", "addressLocality": "Москва", "streetAddress": "ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1", "addressCountry": "RU"},
-     "sameAs": ["https://t.me/Teaboom", "https://vk.com/teaboom", "https://www.ok.ru/teaboom"]},
-]
 
 def shell(nav_home_attr, search_id, footer_note, dock_home_attr=""):
     """One masthead + footer + dock for every page — same components, page-specific attrs only."""
@@ -357,40 +406,67 @@ def shell(nav_home_attr, search_id, footer_note, dock_home_attr=""):
     return mast, foot, dock
 
 
-tpl = (ROOT / "tools" / "index.template.html").read_text(encoding="utf-8")
-mast_home, foot_home, dock_home = shell(
-    ' aria-current="page"',
-    "search-field",
-    'Демо главной и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
-    ' aria-current="page"',
-)
-out = (
-    tpl.replace("{{MASTHEAD}}", mast_home)
-    .replace("{{FOOTER}}", foot_home)
-    .replace("{{DOCK}}", dock_home)
-    .replace("{{SLIDES}}", "\n".join(slide_html))
-    .replace("{{DOTS}}", banner_dots)
-    .replace("{{N}}", f"{n:02d}")
-    .replace("{{CATS}}", cats_html)
-    .replace("{{GOODS}}", "\n".join(cards))
-    .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
-)
-assert "{{" not in out
-(ROOT / "index.html").write_text(out, encoding="utf-8")
-print("ok index", len(out))
+def main():
+    cards, ld_items = [], []
+    for idx, p in enumerate(products, 1):
+        card, ld_item = render_tile(idx, p)
+        cards.append(card)
+        ld_items.append(ld_item)
 
-# ---------- product.html (same shell as home + pineapple PDP content) ----------
-ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
-mast_pdp, foot_pdp, dock_pdp = shell(
-    "",
-    "search-field-product",
-    'Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
-)
-pout = (
-    ptpl.replace("{{MASTHEAD}}", mast_pdp)
-    .replace("{{FOOTER}}", foot_pdp)
-    .replace("{{DOCK}}", dock_pdp)
-)
-assert "{{" not in pout
-(ROOT / "product.html").write_text(pout, encoding="utf-8")
-print("ok product", len(pout))
+    ld = [
+        {"@context": "https://schema.org", "@type": "ItemList", "name": "Рекомендуем", "itemListElement": ld_items},
+        {"@context": "https://schema.org", "@type": "Organization", "name": "Teaboom.ru", "url": "https://teaboom.ru/",
+         "logo": "https://teaboom.ru/static/eetheme/assets/images/logo.png", "telephone": "+74951201551", "email": "info@teaboom.ru",
+         "address": {"@type": "PostalAddress", "addressLocality": "Москва", "streetAddress": "ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1", "addressCountry": "RU"},
+         "sameAs": ["https://t.me/Teaboom", "https://vk.com/teaboom", "https://www.ok.ru/teaboom"]},
+    ]
+
+    tpl = (ROOT / "tools" / "index.template.html").read_text(encoding="utf-8")
+    mast_home, foot_home, dock_home = shell(
+        ' aria-current="page"',
+        "search-field",
+        'Демо главной и <a href="product.html">карточки товара</a> для обсуждения. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+        ' aria-current="page"',
+    )
+    out = (
+        tpl.replace("{{MASTHEAD}}", mast_home)
+        .replace("{{FOOTER}}", foot_home)
+        .replace("{{DOCK}}", dock_home)
+        .replace("{{SLIDES}}", "\n".join(slide_html))
+        .replace("{{DOTS}}", banner_dots)
+        .replace("{{N}}", f"{n:02d}")
+        .replace("{{CATS}}", cats_html)
+        .replace("{{GOODS}}", "\n".join(cards))
+        .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
+    )
+    assert "{{" not in out
+    (ROOT / "index.html").write_text(out, encoding="utf-8")
+    print("ok index", len(out))
+
+    # ---------- product.html (same shell as home + pineapple PDP content) ----------
+    ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
+    mast_pdp, foot_pdp, dock_pdp = shell(
+        "",
+        "search-field-product",
+        'Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+    )
+    pdp = next(p for p in products if p["slug"] == "ananasovij-ulun")
+    pv0 = pdp["variants"][0]
+    pout = (
+        ptpl.replace("{{MASTHEAD}}", mast_pdp)
+        .replace("{{FOOTER}}", foot_pdp)
+        .replace("{{DOCK}}", dock_pdp)
+        .replace("{{PDP_PACKS}}", render_packs(pdp, "pdp"))
+        .replace("{{PDP_PRICE}}", render_price(pdp, "pdp"))
+        .replace("{{PDP_SKU}}", esc(pv0["sku"]))
+        .replace("{{PDP_BUY_PACK}}", esc(show_label(pv0["label"])))
+        .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
+        .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
+    )
+    assert "{{" not in pout
+    (ROOT / "product.html").write_text(pout, encoding="utf-8")
+    print("ok product", len(pout))
+
+
+if __name__ == "__main__":
+    main()

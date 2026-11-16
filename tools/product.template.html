@@ -142,7 +142,7 @@
           </p>
 
           <p class="product__ids">
-            <span class="product__sku">Артикул <b data-out="sku">01306</b></span>
+            <span class="product__sku">Артикул <b data-out="sku">{{PDP_SKU}}</b></span>
             <span class="product__stock">В наличии</span>
           </p>
 
@@ -151,61 +151,17 @@
               <legend class="packs__legend">Фасовка</legend>
 
               <div class="packs__grid">
-                <label class="pack">
-                  <input class="pack__input" type="radio" name="pack" value="100"
-                         data-sku="01306" data-price="326.40" data-old-price="349.20" data-grams="100" data-label="100 г" checked>
-                  <span class="pack__body">
-                    <span class="pack__weight">100<i>г</i></span>
-                    <span class="pack__rate" data-pack-rate></span>
-                  </span>
-                </label>
-
-                <label class="pack">
-                  <input class="pack__input" type="radio" name="pack" value="500"
-                         data-sku="01307" data-price="1432" data-old-price="1646" data-grams="500" data-label="500 г">
-                  <span class="pack__body">
-                    <span class="pack__weight">500<i>г</i></span>
-                    <span class="pack__rate" data-pack-rate></span>
-                  </span>
-                </label>
-
-                <label class="pack">
-                  <input class="pack__input" type="radio" name="pack" value="1000"
-                         data-sku="01308" data-price="2064" data-old-price="2592" data-grams="1000" data-label="1 кг">
-                  <span class="pack__body">
-                    <span class="pack__weight">1<i>кг</i></span>
-                    <span class="pack__rate" data-pack-rate></span>
-                  </span>
-                </label>
-
-                <label class="pack">
-                  <input class="pack__input" type="radio" name="pack" value="5000"
-                         data-sku="01309" data-price="6320" data-old-price="8710" data-grams="5000" data-label="5 кг">
-                  <span class="pack__body">
-                    <span class="pack__weight">5<i>кг</i></span>
-                    <span class="pack__rate" data-pack-rate></span>
-                  </span>
-                </label>
+{{PDP_PACKS}}
               </div>
             </fieldset>
 
-            <div class="price" aria-live="polite" aria-atomic="true">
-              <p class="price__line">
-                <span class="visually-hidden">Цена:</span>
-                <span class="price__now is-sale" data-out="price">326,40 ₽</span>
-                <span class="price__was">
-                  <span class="visually-hidden">Старая цена:</span>
-                  <s data-out="old-price">349,20 ₽</s>
-                </span>
-                <span class="price__cut" data-out="discount">−7%</span>
-              </p>
-            </div>
+{{PDP_PRICE}}
 
             <div class="buy__slot" data-buy-slot>
               <div class="buy__action" data-buy-action>
                 <div class="buy__summary">
-                  <span data-buy-pack>100 г</span>
-                  <strong class="is-sale" data-buy-price>326,40 ₽</strong>
+                  <span data-buy-pack>{{PDP_BUY_PACK}}</span>
+                  <strong{{PDP_BUY_SALE}} data-buy-price>{{PDP_BUY_PRICE}}</strong>
                 </div>
                 <button class="cta" type="submit" data-add-to-cart>
                   <span class="cta__label">В корзину</span>
@@ -317,6 +273,7 @@
   }
   </script>
 
+  <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@400;500;600&amp;display=swap"></script>
   <script src="assets/js/product-card.js" defer></script>

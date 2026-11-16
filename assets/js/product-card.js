@@ -40,17 +40,7 @@
   new ResizeObserver(scheduleBuyPosition).observe(root);
   updateBuyPosition();
 
-  const wholeFormat = new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 });
-  const centsFormat = new Intl.NumberFormat("ru-RU", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-
-  const formatPrice = (value) => {
-    const amount = Math.round(value * 100) / 100;
-    const formatter = amount % 1 === 0 ? wholeFormat : centsFormat;
-    return `${formatter.format(amount)}\u00a0₽`;
-  };
+  const { money: formatPrice, whole } = window.TeaboomFormat;
 
   const read = (input) => ({
     sku: input.dataset.sku,
@@ -71,7 +61,7 @@
       const rate = input.parentNode.querySelector("[data-pack-rate]");
       if (!rate) return;
       const isBest = bestIsCheaper && rates[i] === best;
-      rate.textContent = `${wholeFormat.format(Math.round(rates[i]))}\u00a0₽/100\u00a0г`;
+      rate.textContent = `${whole(Math.round(rates[i]))}\u00a0₽/100\u00a0г`;
       rate.classList.toggle("pack__rate--best", isBest);
       if (isBest) {
         const note = document.createElement("span");
@@ -90,9 +80,13 @@
     buyPrice.textContent = formatPrice(pack.price);
     buyPrice.classList.toggle("is-sale", pack.oldPrice > pack.price);
     root.querySelector("[data-buy-pack]").textContent = input.dataset.label;
-    out.price.classList.toggle("is-sale", pack.oldPrice > pack.price);
-    out.oldPrice.textContent = formatPrice(pack.oldPrice);
-    out.discount.textContent = `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%`;
+    // A pack without an old price shows no strike-through and no discount.
+    const sale = pack.oldPrice > pack.price;
+    out.price.classList.toggle("is-sale", sale);
+    out.oldPrice.closest(".price__was").hidden = !sale;
+    out.discount.hidden = !sale;
+    out.oldPrice.textContent = sale ? formatPrice(pack.oldPrice) : "";
+    out.discount.textContent = sale ? `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%` : "";
   };
 
   renderPacks();

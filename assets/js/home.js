@@ -697,13 +697,7 @@
   });
 
   // ---------- Packs and prices ----------
-  const money = (value) =>
-    new Intl.NumberFormat("ru-RU", {
-      style: "currency",
-      currency: "RUB",
-      minimumFractionDigits: Number.isInteger(value) ? 0 : 2,
-      maximumFractionDigits: 2,
-    }).format(value);
+  const { money } = window.TeaboomFormat;
 
   document.querySelectorAll("[data-good]").forEach((good) => {
     const now = good.querySelector("[data-now]");
