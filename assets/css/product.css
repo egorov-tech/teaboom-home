@@ -1775,7 +1775,9 @@ body::before {
 }
 
 .photos {
+  --shot-pad: clamp(14px, 2vw, 22px);
   position: relative;
+  container-type: inline-size;
   background: var(--paper);
   border: 1px solid var(--line);
 }
@@ -1794,9 +1796,14 @@ body::before {
   scroll-snap-align: start;
 }
 .photos__dots {
+  position: absolute;
+  top: calc(100cqw - var(--shot-pad) - 30px);
+  left: 0;
+  right: 0;
+  z-index: 1;
   display: flex;
   justify-content: center;
-  padding-bottom: var(--step-2);
+  pointer-events: none;
   opacity: 0.75;
   transition: opacity var(--ease);
 }
@@ -1849,7 +1856,7 @@ body::before {
 .shot {
   position: relative;
   margin: 0;
-  padding: clamp(14px, 2vw, 22px);
+  padding: var(--shot-pad, clamp(14px, 2vw, 22px));
 }
 .shot__image {
   width: 100%;

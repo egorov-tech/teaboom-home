@@ -114,7 +114,10 @@
 // п. 15: one frame for one photo; two and more — a strip that swipes on phones (dots) and
 // follows the thumbnails on desktop. gallery.js drives both, as for the home tiles.
 .photos {
+  --shot-pad: clamp(14px, 2vw, 22px);
   position: relative;
+  // Lets the dots sit on the photo's bottom edge (the photo is a square: width − padding).
+  container-type: inline-size;
   background: var(--paper);
   border: 1px solid var(--line);
 
@@ -135,10 +138,17 @@
     }
   }
 
+  // On the photo's bottom edge, as on the home tiles — above the caption and clear of the
+  // pinned buy bar on the first screen.
   &__dots {
+    position: absolute;
+    top: calc(100cqw - var(--shot-pad) - 30px);
+    left: 0;
+    right: 0;
+    z-index: 1;
     display: flex;
     justify-content: center;
-    padding-bottom: var(--step-2);
+    pointer-events: none;
     @include pager.pager-quiet;
 
     button {
@@ -159,7 +169,7 @@
 .shot {
   position: relative;
   margin: 0;
-  padding: clamp(14px, 2vw, 22px);
+  padding: var(--shot-pad, clamp(14px, 2vw, 22px));
 
   &__image {
     width: 100%;
