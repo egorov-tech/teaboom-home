@@ -253,3 +253,146 @@
     text-underline-offset: 3px;
   }
 }
+
+// «Как заваривать» — the shop's «Советы к применению»: four facts. One photo: under it on
+// desktop (the photo column is the shorter one). Several photos: the thumbnails already fill
+// that column, so it follows the purchase block (.brew--aside). Narrower screens: after purchase.
+.brew {
+  padding-top: var(--step-4);
+  border-top: 1px solid var(--line);
+
+  &--aside {
+    margin-top: var(--step-6);
+  }
+
+  &:not(&--aside) {
+    @media (min-width: $bp-split) {
+      grid-column: 1;
+      grid-row: 2;
+      align-self: start;
+    }
+  }
+
+  &__title {
+    font: 500 18px/1.2 var(--font-display);
+  }
+
+  &__facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--step-4) 0;
+    margin: var(--step-3) 0 0;
+
+    @media (min-width: 400px) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  // Value first to the eye, label under it; hairlines between the facts.
+  &__fact {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 2px;
+    padding: 0 var(--step-3);
+
+    &:first-child,
+    &:nth-child(3) {
+      padding-left: 0;
+    }
+
+    & + & {
+      border-left: 1px solid var(--line);
+    }
+
+    &:nth-child(3) {
+      border-left: 0;
+
+      @media (min-width: 400px) {
+        padding-left: var(--step-3);
+        border-left: 1px solid var(--line);
+      }
+    }
+
+    dt {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    dd {
+      margin: 0;
+      color: var(--ink);
+      font: 500 clamp(18px, 1vw + 12px, 22px)/1.15 var(--font-display);
+      font-variant-numeric: tabular-nums;
+    }
+  }
+}
+
+// Short delivery facts under «В корзину» (from /shipping/); the full terms are a section below.
+.promise {
+  margin-top: var(--step-5);
+
+  &__list {
+    display: grid;
+    gap: var(--step-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.4;
+
+    li {
+      position: relative;
+      padding-left: var(--step-5);
+
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0.5em;
+        left: 4px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--tea);
+      }
+    }
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    margin-top: var(--step-1);
+    padding-left: var(--step-5);
+    color: var(--tea);
+    font-size: 14px;
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+}
+
+// Описание: the text on the left, «Вкус» and «Полезные свойства» beside it from 900 px.
+.about-tea {
+  display: grid;
+  gap: var(--step-5);
+
+  @media (min-width: $bp-mid) {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    column-gap: clamp(32px, 4vw, 64px);
+  }
+
+  .prose {
+    max-width: none;
+  }
+
+  &__aside {
+    > h3:first-child {
+      margin-top: 0;
+    }
+
+    @media (min-width: $bp-mid) {
+      padding-left: clamp(24px, 3vw, 40px);
+      border-left: 1px solid var(--line);
+    }
+  }
+}

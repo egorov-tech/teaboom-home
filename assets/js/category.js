@@ -41,6 +41,7 @@
 
   const render = ({ sort, page }) => {
     select.value = sort;
+    select.dispatchEvent(new Event("sync"));
     const ordered = [...items].sort(compare[sort]);
     ordered.forEach((li) => list.append(li));
     ordered.forEach((li, i) => {

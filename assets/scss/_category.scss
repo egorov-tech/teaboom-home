@@ -113,7 +113,8 @@
     @media (max-width: #{$bp-phone - 1px}) {
       flex: 1 1 0;
 
-      span {
+      // Only the label's own text — not the value inside the dropdown button.
+      > span {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -121,7 +122,8 @@
         clip-path: inset(50%);
       }
 
-      select {
+      select,
+      .select {
         width: 100%;
       }
     }

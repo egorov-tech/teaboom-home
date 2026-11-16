@@ -21,6 +21,9 @@
 
   @media (min-width: $bp-split) {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
+    // Row 1 is the photo; whatever the purchase column has extra goes to row 2, so
+    // «Как заваривать» sits right under the photo.
+    grid-template-rows: auto 1fr;
     align-items: start;
     column-gap: clamp(56px, 6vw, 88px);
     row-gap: clamp(28px, 3vw, 40px);
@@ -43,6 +46,12 @@
 
   &__info {
     max-width: 580px;
+
+    // Desktop: the purchase column runs beside both the photo and «Как заваривать» under it.
+    @media (min-width: $bp-split) {
+      grid-column: 2;
+      grid-row: 1 / span 2;
+    }
   }
 
   &__category {

@@ -413,6 +413,38 @@ def render_pdp_media(p):
         </div>'''
 
 
+BREW_KEYS = [("Количество", "Количество"), ("Объём", "Объём воды"), ("Температура воды", "Температура"),
+             ("Время заваривания", "Время")]
+
+
+def render_brew(p, aside=False):
+    """«Как заваривать»: the shop's «Советы к применению» from the product page — four facts.
+    Desktop: under the photo; narrower: after the purchase block."""
+    specs = dict(p["pdp"]["specs"])
+    facts = [(label, specs[key]) for key, label in BREW_KEYS if key in specs]
+    if not facts:
+        return ""
+    items = "\n".join(f'            <div class="brew__fact"><dt>{esc(l)}</dt><dd>{units(esc(v))}</dd></div>' for l, v in facts)
+    cls = "brew brew--aside" if aside else "brew"
+    return f'''        <section class="{cls}" aria-labelledby="brew-title">
+          <h2 class="brew__title" id="brew-title">Как заваривать</h2>
+          <dl class="brew__facts">
+{items}
+          </dl>
+        </section>'''
+
+
+def render_promise():
+    """Short delivery facts under «В корзину» (from /shipping/); the full terms are a section below."""
+    items = "\n".join(f"            <li>{typo(x)}</li>" for x in service["promise"])
+    return f'''          <div class="promise">
+            <ul class="promise__list">
+{items}
+            </ul>
+            <a class="promise__more" href="#delivery">Доставка и оплата</a>
+          </div>'''
+
+
 def render_rating(p):
     """п. 22: only for a product that has reviews; the count opens the reviews tab."""
     rs = p["pdp"]["reviews"]
@@ -465,14 +497,18 @@ def render_details(p):
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
             <h2 class="details__title">Описание</h2>
-            <div class="prose">
+            <div class="about-tea">
+              <div class="prose">
 {desc}
-              <h3>Вкус</h3>
-              <p>{typo(d["taste"])}</p>
-              <h3>Полезные свойства</h3>
-              <ul>
+              </div>
+              <div class="prose about-tea__aside">
+                <h3>Вкус</h3>
+                <p>{typo(d["taste"])}</p>
+                <h3>Полезные свойства</h3>
+                <ul>
 {benefits}
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>
 
@@ -793,6 +829,7 @@ def main():
     for pdp in (p for p in products if "pdp" in p):
         d = pdp["pdp"]
         pv0 = pdp["variants"][0]
+        multi_photo = len(d["photos"]) > 1
         low = min(v["price"] for v in pdp["variants"])
         packs_txt = ", ".join(show_label(v["label"]).replace(NB, " ") for v in pdp["variants"])
         pout = (
@@ -818,6 +855,8 @@ def main():
             .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
             .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
             .replace("{{DETAILS}}", render_details(pdp))
+            .replace("{{BREW}}", "" if multi_photo else render_brew(pdp))
+            .replace("{{PROMISE}}", render_promise() + ("\n" + render_brew(pdp, aside=True) if multi_photo else ""))
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
         )
         assert "{{" not in pout, d["page"]
