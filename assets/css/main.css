@@ -502,11 +502,11 @@ body::before {
 
 .menu {
   flex: 1 1 100%;
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  margin-inline: calc(var(--gutter) * -1);
-  padding-inline: var(--gutter);
   --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu::-webkit-scrollbar {
@@ -1196,11 +1196,8 @@ body::before {
 .packs__legend {
   padding: 0;
   margin-bottom: var(--step-3);
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 12px;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 13px;
   color: var(--muted);
 }
 .packs__grid {

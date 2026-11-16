@@ -74,5 +74,26 @@ class Price(unittest.TestCase):
         self.assertIn("is-sale", tile)
 
 
+class Reviews(unittest.TestCase):
+    def test_plural(self):
+        got = [b.reviews_label(n).replace(NB, " ") for n in (1, 2, 5, 11, 21, 22, 112)]
+        self.assertEqual(got, ["1 отзыв", "2 отзыва", "5 отзывов", "11 отзывов", "21 отзыв", "22 отзыва", "112 отзывов"])
+
+    def test_score_and_date(self):
+        self.assertEqual(b.score(5), "5,0")
+        self.assertEqual(b.score(4.5), "4,5")
+        self.assertEqual(b.ru_date("2022-02-28"), f"28{NB}февраля 2022")
+
+    def test_no_reviews_no_rating(self):
+        self.assertEqual(b.render_rating(ANANAS), "")
+        self.assertNotIn("aggregateRating", b.render_pdp_ld(ANANAS))
+
+    def test_typography(self):
+        self.assertEqual(b.typo("Сбербанк — курьеру"), f"Сбербанк{NB}— курьеру")
+        self.assertEqual(b.typo("у м. Октябрьское"), f"у м.{NB}Октябрьское")
+        self.assertEqual(b.typo("1 кг, 5 кг"), f"1{NB}кг, 5{NB}кг")
+        self.assertEqual(b.typo("<script>"), "&lt;script&gt;")
+
+
 if __name__ == "__main__":
     unittest.main()

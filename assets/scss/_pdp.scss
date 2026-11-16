@@ -1,4 +1,6 @@
 @use "tokens" as *;
+@use "strip";
+@use "pager";
 
 // Product detail sits in the same width rhythm as .wrap on the home page.
 .page {
@@ -19,6 +21,17 @@
     gap: var(--step-1) var(--step-3);
     padding: 0;
     list-style: none;
+
+    // Phones: seven levels in one line that scrolls, never a «/» at the start of a line.
+    @media (max-width: #{$bp-phone - 1px}) {
+      flex-wrap: nowrap;
+      white-space: nowrap;
+      @include strip.side-strip;
+    }
+  }
+
+  &__item {
+    flex: none;
   }
 
   &__item + &__item::before {
@@ -46,6 +59,11 @@
   display: grid;
   gap: clamp(40px, 5vw, 64px);
 
+  // Grid items may shrink below their content: the tab row and breadcrumbs scroll inside.
+  > * {
+    min-width: 0;
+  }
+
   @media (min-width: $bp-split) {
     grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
     align-items: start;
@@ -58,6 +76,10 @@
     display: grid;
     gap: var(--step-3);
 
+    > * {
+      min-width: 0;
+    }
+
     // Stacked layouts: cap the photo so price and CTA stay near the top.
     @media (min-width: $bp-wide) and (max-width: #{$bp-split - 1px}) {
       max-width: 400px;
@@ -69,9 +91,7 @@
   }
 
   &__category {
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+    font-size: 13px;
 
     a {
       color: var(--ink-soft);
@@ -136,18 +156,64 @@
   }
 }
 
-.shot {
+// п. 15: one frame for one photo; two and more — a strip that swipes on phones (dots) and
+// follows the thumbnails on desktop. gallery.js drives both, as for the home tiles.
+.photos {
   position: relative;
   background: var(--paper);
   border: 1px solid var(--line);
+
+  &__track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    > .shot {
+      flex: 0 0 100%;
+      scroll-snap-align: start;
+    }
+  }
+
+  &__dots {
+    display: flex;
+    justify-content: center;
+    padding-bottom: var(--step-2);
+    @include pager.pager-quiet;
+
+    button {
+      @include pager.photo-dot;
+    }
+
+    @media (min-width: $bp-phone) {
+      display: none;
+    }
+  }
+
+  &:hover &__dots,
+  &:focus-within &__dots {
+    opacity: 1;
+  }
+}
+
+.shot {
+  position: relative;
+  margin: 0;
   padding: clamp(14px, 2vw, 22px);
 
   &__image {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
+    // Whole product on its white ground, also for photos that are not square.
+    object-fit: contain;
   }
 
+  // Captions are an example for the team (a CMS field would feed them), not shop content.
   &__caption {
     display: flex;
     flex-wrap: wrap;
@@ -160,11 +226,7 @@
     color: var(--ink-soft);
 
     &-key {
-      font-family: var(--font-display);
-      font-weight: 500;
-      font-size: 11px;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
+      font-weight: 600;
       color: var(--muted);
     }
   }
@@ -177,6 +239,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
+
+  // Thumbnails are the desktop control; phones swipe with dots instead (п. 15).
+  @media (max-width: #{$bp-phone - 1px}) {
+    display: none;
+  }
 
   &__btn {
     display: block;
@@ -211,59 +278,14 @@
   }
 }
 
-// Reviews: one quiet panel. Summary on top, reviews as columns split by hairlines —
-// no stack of identical shadowed cards.
+// Reviews inside the details panel: heading and «leave a review» on one line, the reviews
+// as columns split by hairlines — no stack of identical shadowed cards.
 .reviews {
-  margin-top: clamp(32px, 4vw, 48px);
-  padding: clamp(20px, 3vw, 32px);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-
-  @media (min-width: $bp-split) {
-    grid-column: 1 / -1;
-  }
-
   &__head {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--step-4) var(--step-6);
-  }
-
-  &__title {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: clamp(24px, 1.4vw + 18px, 30px);
-    line-height: 1.1;
-  }
-
-  &__summary {
-    display: flex;
-    align-items: center;
-    gap: var(--step-3);
-  }
-
-  &__value {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 40px;
-    line-height: 1;
-    letter-spacing: -0.02em;
-    font-variant-numeric: tabular-nums;
-  }
-
-  &__meta {
-    display: grid;
-    gap: 2px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  &__stars {
-    font-size: 15px;
-    letter-spacing: 0.12em;
-    color: var(--ink);
   }
 
   &__write {
@@ -294,20 +316,15 @@
     }
   }
 
-  // Honest label: the shop has no reviews for this product yet.
-  &__sample {
+  // The shop's own words for a product without reviews.
+  &__empty {
     margin-top: var(--step-4);
-    padding: var(--step-2) var(--step-3);
-    border-left: 3px solid var(--line-strong);
-    background: var(--canvas);
     color: var(--muted);
-    font-size: 13px;
-    line-height: 1.45;
   }
 
   &__list {
     display: grid;
-    margin: var(--step-5) 0 0;
+    margin: var(--step-4) 0 0;
     padding: 0;
     list-style: none;
 
@@ -398,60 +415,5 @@
   &__date {
     font-size: 12px;
     color: var(--muted);
-  }
-}
-
-.about {
-  margin-top: clamp(28px, 3.4vw, 40px);
-  padding-top: clamp(20px, 2.6vw, 28px);
-  border-top: 2px solid var(--brand);
-
-  @media (min-width: $bp-split) {
-    grid-column: 1 / -1;
-    margin-top: 0;
-    display: grid;
-    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1fr);
-    column-gap: clamp(56px, 6vw, 88px);
-    align-items: start;
-  }
-
-  &__title {
-    font-family: var(--font-display);
-    font-weight: 500;
-    font-size: 15px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  &__text {
-    margin-top: var(--step-3);
-    max-width: 52ch;
-    color: var(--ink-soft);
-    font-size: 15px;
-  }
-
-  &__specs {
-    margin-top: var(--step-5);
-
-    @media (min-width: $bp-split) {
-      margin-top: 0;
-    }
-  }
-
-  &__row {
-    display: grid;
-    grid-template-columns: minmax(96px, 0.5fr) minmax(0, 1fr);
-    gap: var(--step-3) var(--step-4);
-    padding: var(--step-3) 0;
-    border-top: 1px solid var(--line);
-    font-size: 14px;
-
-    dt {
-      color: var(--muted);
-    }
-
-    dd {
-      color: var(--ink-soft);
-    }
   }
 }

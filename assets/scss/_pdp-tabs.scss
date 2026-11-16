@@ -1,0 +1,260 @@
+@use "tokens" as *;
+@use "strip";
+
+// п. 22 (phones): rating under the title — only for a product with reviews. The count is a
+// link into the reviews tab. Wider screens keep the reviews section as it was (Sheet: «телефон»).
+.rating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--step-2) var(--step-3);
+  margin-top: var(--step-3);
+  font-size: 15px;
+
+  @media (min-width: $bp-phone) {
+    display: none;
+  }
+
+  &__stars {
+    color: var(--brand-deep);
+    letter-spacing: 0.08em;
+  }
+
+  &__value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    color: var(--ink-soft);
+    text-decoration: underline;
+    text-decoration-color: var(--line-strong);
+    text-underline-offset: 3px;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        text-decoration-color: currentColor;
+      }
+    }
+  }
+}
+
+// п. 23: description, specs, reviews, delivery. One markup: tabs on phones (product-card.js
+// adds .is-tabbed), the same sections one under another on wider screens and without JS.
+.details {
+  margin-top: clamp(32px, 4vw, 48px);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+
+  @media (min-width: $bp-split) {
+    grid-column: 1 / -1;
+    margin-top: 0;
+  }
+
+  &__tabs {
+    display: flex;
+    gap: 0 var(--step-5);
+    padding: 0 var(--step-4);
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    @include strip.side-strip;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__tab {
+    position: relative;
+    flex: none;
+    min-height: 48px;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--muted);
+    font: 600 15px/1.2 var(--font-text);
+    cursor: pointer;
+    transition: color var(--ease);
+
+    // The same yellow mark as the chosen pack and the dock's current item.
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto 0 0;
+      height: 3px;
+      border-radius: 2px 2px 0 0;
+      background: var(--brand);
+      transform: scaleX(0);
+      transition: transform 200ms var(--ease-out);
+    }
+
+    &[aria-selected="true"] {
+      color: var(--ink);
+
+      &::after {
+        transform: scaleX(1);
+      }
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+      }
+    }
+
+    &:focus-visible {
+      outline-offset: -2px;
+    }
+  }
+
+  &__count {
+    color: var(--muted);
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__panel {
+    padding: clamp(16px, 2.4vw, 28px) clamp(16px, 3vw, 32px) clamp(20px, 3vw, 32px);
+    // A link to #reviews lands below the sticky header (and the tab row on phones).
+    scroll-margin-top: calc(var(--pin-h) + var(--step-4));
+
+    & + & {
+      border-top: 1px solid var(--line);
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__title {
+    margin-bottom: var(--step-4);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(22px, 1.2vw + 16px, 28px);
+    line-height: 1.1;
+  }
+
+  .reviews__head &__title {
+    margin-bottom: 0;
+  }
+
+  // Tabs name the panels on phones: the headings stay for screen readers only.
+  &.is-tabbed &__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  &.is-tabbed &__panel {
+    border-top: 0;
+    scroll-margin-top: calc(var(--pin-h) + 64px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    &__tab::after {
+      transition: none;
+    }
+  }
+}
+
+.prose {
+  max-width: 68ch;
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.6;
+
+  > * + * {
+    margin-top: var(--step-3);
+  }
+
+  h3 {
+    margin-top: var(--step-5);
+    color: var(--ink);
+    font: 500 18px/1.2 var(--font-display);
+  }
+
+  ul {
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+}
+
+// Specs: name — value rows split by hairlines; two columns from 900 px.
+.specs {
+  margin: 0;
+
+  @media (min-width: $bp-mid) {
+    columns: 2;
+    column-gap: clamp(40px, 5vw, 72px);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: var(--step-3);
+    padding: var(--step-3) 0;
+    border-bottom: 1px solid var(--line);
+    break-inside: avoid;
+    font-size: 14px;
+    overflow-wrap: break-word;
+
+    @media (min-width: $bp-mid) {
+      gap: var(--step-4);
+      font-size: 15px;
+    }
+
+    dt {
+      color: var(--muted);
+    }
+
+    dd {
+      margin: 0;
+      color: var(--ink);
+    }
+  }
+}
+
+.delivery {
+  display: grid;
+  gap: var(--step-6);
+  color: var(--ink-soft);
+  font-size: 15px;
+  line-height: 1.55;
+
+  @media (min-width: $bp-mid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(40px, 5vw, 72px);
+  }
+
+  h3 {
+    color: var(--ink);
+    font: 500 18px/1.2 var(--font-display);
+  }
+
+  ul {
+    display: grid;
+    gap: var(--step-2);
+    margin-top: var(--step-3);
+    padding-left: 1.2em;
+    list-style: disc;
+  }
+
+  &__more {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    margin-top: var(--step-2);
+    color: var(--tea);
+    font-weight: 600;
+    text-underline-offset: 3px;
+  }
+}

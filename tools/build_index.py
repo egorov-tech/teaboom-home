@@ -3,7 +3,7 @@
 Run from anywhere: python3 tools/build_index.py
 Needs Pillow (reads product photo sizes for width/height).
 """
-import json, html, pathlib
+import json, html, pathlib, re
 
 from PIL import Image
 
@@ -295,10 +295,258 @@ def render_price(p, mode):
             </div>'''
 
 
+# ---------- product page (п. 15, 22, 23) ----------
+service = json.load(open(ROOT / "data/service.json", encoding="utf-8"))
+PDP_SIZES = "(min-width: 1060px) 520px, calc(100vw - 32px)"
+MONTHS = ["января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа",
+          "сентября", "октября", "ноября", "декабря"]
+
+
+def plural(n, one, few, many):
+    """1 отзыв · 2 отзыва · 5 отзывов · 11 отзывов · 21 отзыв."""
+    if n % 10 == 1 and n % 100 != 11:
+        return one
+    if 2 <= n % 10 <= 4 and not 12 <= n % 100 <= 14:
+        return few
+    return many
+
+
+def typo(text):
+    """Escaped prose with Russian typesetting: a dash never opens a line, «м. Октябрьское»,
+    «ул. Народного», «№ 1» stay together."""
+    s = esc(text)
+    s = s.replace(" — ", NB + "— ")
+    s = re.sub(r"(^|\s)(м\.|ул\.|д\.|г\.|№) ", lambda m: m.group(1) + m.group(2) + NB, s)
+    return units(s)
+
+
+def units(text):
+    """Keep a number with its unit: «5 кг», «500 мл», «2 ч. л.» never break apart."""
+    return re.sub(r"(\d) (г|кг|мл|мин|ч\.)", lambda m: m.group(1) + NB + m.group(2), text)
+
+
+def reviews_label(n):
+    return f"{n}{NB}{plural(n, 'отзыв', 'отзыва', 'отзывов')}"
+
+
+def ru_date(iso):
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{d}{NB}{MONTHS[m - 1]} {y}"
+
+
+def score(x):
+    """5 → «5,0», 4.5 → «4,5»."""
+    return f"{x:.1f}".replace(".", ",")
+
+
+def stars(r):
+    full = int(round(r))
+    return "★" * full + "☆" * (5 - full)
+
+
+def photo_sources(stem):
+    """srcset for the big product photo: a 640 copy when we have one, then the original."""
+    base = ROOT / "assets/images/products"
+    w, h = Image.open(base / f"{stem}.jpg").size
+    if (base / f"{stem}-640.jpg").exists():
+        webp = f"assets/images/products/{stem}-640.webp 640w, assets/images/products/{stem}.webp {w}w"
+        jpg = f"assets/images/products/{stem}-640.jpg 640w, assets/images/products/{stem}.jpg {w}w"
+    else:
+        webp = f"assets/images/products/{stem}.webp {w}w"
+        jpg = f"assets/images/products/{stem}.jpg {w}w"
+    return webp, jpg, w, h
+
+
+def render_pdp_media(p):
+    """п. 15: one photo — just the photo. Two and more — swipe with dots on phones,
+    thumbnails on desktop. Same gallery module as the home tiles; no autoplay."""
+    d = p["pdp"]
+    photos = d["photos"]
+    multi = len(photos) > 1
+    frames = []
+    for i, ph in enumerate(photos):
+        webp, jpg, w, h = photo_sources(ph["stem"])
+        pre = "data-" if i else ""
+        load = 'fetchpriority="high"' if i == 0 else 'loading="lazy" decoding="async"'
+        caption = ""
+        if ph.get("caption"):
+            caption = f'''
+              <figcaption class="shot__caption">
+                <span class="shot__caption-key">{esc(ph["key"])}</span>
+                <span>{esc(ph["caption"])}</span>
+              </figcaption>'''
+        attrs = ' data-gallery-frame' if multi else ""
+        hidden = f' aria-label="Фото {i + 1} из {len(photos)}"' if multi else ""
+        frames.append(f'''            <figure class="shot"{attrs}{hidden}>
+              <picture>
+                <source {pre}srcset="{webp}" sizes="{PDP_SIZES}" type="image/webp">
+                <img class="shot__image" {pre}src="assets/images/products/{ph["stem"]}.jpg" {pre}srcset="{jpg}" sizes="{PDP_SIZES}" alt="{esc(ph["alt"])}" width="{w}" height="{h}" {load}>
+              </picture>{caption}
+            </figure>''')
+    if not multi:
+        return f'''        <div class="product__media">
+          <div class="photos">
+{frames[0]}
+          </div>
+        </div>'''
+    cur = ' aria-current="true"'
+    dots = "\n".join(
+        f'            <button type="button" aria-label="Фото {i} из {len(photos)}"{cur if i == 1 else ""} data-gallery-dot></button>'
+        for i in range(1, len(photos) + 1))
+    thumbs = "\n".join(f'''          <li>
+            <button class="gallery__btn" type="button" aria-label="{esc(ph["alt"])}"{cur if i == 0 else ""} data-gallery-thumb>
+              <img class="gallery__thumb" src="assets/images/products/{ph["stem"]}-280.webp" alt="" width="120" height="120" loading="lazy">
+            </button>
+          </li>''' for i, ph in enumerate(photos))
+    return f'''        <div class="product__media" data-gallery>
+          <div class="photos">
+            <div class="photos__track" data-gallery-track>
+{chr(10).join(frames)}
+            </div>
+            <div class="photos__dots" data-gallery-dots>
+{dots}
+            </div>
+          </div>
+          <ul class="gallery" role="list" aria-label="Фотографии товара">
+{thumbs}
+          </ul>
+        </div>'''
+
+
+def render_rating(p):
+    """п. 22: only for a product that has reviews; the count opens the reviews tab."""
+    rs = p["pdp"]["reviews"]
+    if not rs:
+        return ""
+    avg = sum(r["rating"] for r in rs) / len(rs)
+    return f'''
+          <p class="rating">
+            <span class="rating__stars" aria-hidden="true">{stars(avg)}</span>
+            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>{score(avg)}<span class="visually-hidden"> из 5</span></span>
+            <a class="rating__link" href="#reviews" data-tab-link="reviews">{reviews_label(len(rs))}</a>
+          </p>'''
+
+
+def render_details(p):
+    """п. 23: Описание · Характеристики · Отзывы · Доставка и оплата. Tabs on phones (JS),
+    the same sections one under another on wider screens and without JS."""
+    d = p["pdp"]
+    rs = d["reviews"]
+    desc = "\n".join(f"                <p>{typo(x)}</p>" for x in d["description"])
+    benefits = "\n".join(f"                  <li>{esc(x)}</li>" for x in d["benefits"])
+    specs = "\n".join(
+        f'                <div class="specs__row"><dt>{esc(k)}</dt><dd>{units(esc(v))}</dd></div>' for k, v in d["specs"])
+    if rs:
+        items = "\n".join(f'''                <li class="review">
+                  <p class="review__rating"><span aria-hidden="true">{stars(r["rating"])}</span><span class="visually-hidden">Оценка {r["rating"]} из 5</span></p>
+                  <blockquote class="review__text">{esc(r["text"])}</blockquote>
+                  <div class="review__who">
+                    <span class="review__avatar" aria-hidden="true">{esc(r["author"][0])}</span>
+                    <span class="review__author">{esc(r["author"])}</span>
+                    <time class="review__date" datetime="{r["date"]}">{ru_date(r["date"])}</time>
+                  </div>
+                </li>''' for r in rs)
+        reviews_body = f'''              <ul class="reviews__list">
+{items}
+              </ul>'''
+    else:
+        reviews_body = '              <p class="reviews__empty">Ещё никто не оставлял отзывов. Будьте первым!</p>'
+    write = site(d["source"]["url"].replace(SITE, ""))
+    delivery = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["delivery"])
+    payment = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["payment"])
+    count = f' <span class="details__count">{len(rs)}</span>' if rs else ""
+    return f'''        <section class="details" aria-label="О товаре" data-details>
+          <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs data-strip hidden>
+            <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
+            <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
+            <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы{count}</button>
+            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
+          </div>
+
+          <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
+            <h2 class="details__title">Описание</h2>
+            <div class="prose">
+{desc}
+              <h3>Вкус</h3>
+              <p>{typo(d["taste"])}</p>
+              <h3>Полезные свойства</h3>
+              <ul>
+{benefits}
+              </ul>
+            </div>
+          </div>
+
+          <div class="details__panel" id="specs" role="tabpanel" aria-labelledby="tab-specs" data-panel>
+            <h2 class="details__title">Характеристики</h2>
+            <dl class="specs">
+{specs}
+            </dl>
+          </div>
+
+          <div class="details__panel" id="reviews" role="tabpanel" aria-labelledby="tab-reviews" data-panel>
+            <div class="reviews">
+              <div class="reviews__head">
+                <h2 class="details__title">Отзывы</h2>
+                <a class="reviews__write press" href="{esc(write)}#reviews_for_product">Оставить отзыв</a>
+              </div>
+{reviews_body}
+            </div>
+          </div>
+
+          <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
+            <h2 class="details__title">Доставка и оплата</h2>
+            <div class="delivery">
+              <div>
+                <h3>Доставка</h3>
+                <ul>
+{delivery}
+                </ul>
+                <a class="delivery__more" href="{SITE}/shipping/">Все способы доставки</a>
+              </div>
+              <div>
+                <h3>Оплата</h3>
+                <ul>
+{payment}
+                </ul>
+                <a class="delivery__more" href="{SITE}/payment/">Все способы оплаты</a>
+              </div>
+            </div>
+          </div>
+        </section>'''
+
+
+def render_crumbs(p):
+    items = ['        <li class="breadcrumbs__item"><a href="./">Начало</a></li>']
+    items += [f'        <li class="breadcrumbs__item"><a href="{site(u)}">{esc(n)}</a></li>' for n, u in p["pdp"]["breadcrumbs"]]
+    items.append(f'        <li class="breadcrumbs__item"><span aria-current="page">{esc(p["name"])}</span></li>')
+    return '      <ol class="breadcrumbs__list" data-strip>\n' + "\n".join(items) + "\n      </ol>"
+
+
+def render_pdp_ld(p):
+    d = p["pdp"]
+    prices = [v["price"] for v in p["variants"]]
+    ld = {
+        "@context": "https://schema.org", "@type": "Product", "name": p["name"],
+        "category": p["cat"], "description": d["description"][0], "image": [p["img"]],
+        "sku": p["variants"][0]["sku"], "brand": {"@type": "Brand", "name": "Teaboom"},
+        "offers": {"@type": "AggregateOffer", "priceCurrency": "RUB", "lowPrice": f"{min(prices):.2f}",
+                   "highPrice": f"{max(prices):.2f}", "offerCount": len(prices)},
+    }
+    if d["reviews"]:
+        rs = d["reviews"]
+        ld["aggregateRating"] = {"@type": "AggregateRating", "ratingValue": f"{sum(r['rating'] for r in rs) / len(rs):.1f}",
+                                 "reviewCount": len(rs), "bestRating": "5"}
+        ld["review"] = [{"@type": "Review", "author": {"@type": "Person", "name": r["author"]}, "datePublished": r["date"],
+                         "reviewRating": {"@type": "Rating", "ratingValue": r["rating"], "bestRating": 5},
+                         "reviewBody": r["text"]} for r in rs]
+    return json.dumps(ld, ensure_ascii=False, indent=2)
+
+
 def render_tile(idx, p):
     """One product tile for the home grid (and later the category page) + its JSON-LD item."""
     pid = f"good-{idx}"
     v0 = p["variants"][0]
+    page = p.get("pdp", {}).get("page", PRODUCT_PAGE)
     badge = f'<span class="good__badge" data-cut>−{cut(v0["old"], v0["price"])}%</span>' if v0["old"] else '<span class="good__badge" data-cut hidden></span>'
 
     stems = gallery_stems(p)
@@ -321,7 +569,7 @@ def render_tile(idx, p):
         jpg_set = f"assets/images/products/{stem}-280.jpg 280w, assets/images/products/{stem}-400.jpg 400w, assets/images/products/{big}.jpg {big_w}w"
         # Extra gallery photos wait for the first touch of the card (home.js hydrates them).
         pre = "data-" if fi > 0 else ""
-        frames.append(f'''              <a class="good__frame" href="{PRODUCT_PAGE}" tabindex="-1" aria-hidden="true" data-gallery-frame>
+        frames.append(f'''              <a class="good__frame" href="{page}" tabindex="-1" aria-hidden="true" data-gallery-frame>
                 <picture>
                   <source {pre}srcset="{webp_set}" sizes="{GOOD_SIZES}" type="image/webp">
                   <img class="good__image" {pre}src="assets/images/products/{stem}-400.jpg" {pre}srcset="{jpg_set}" sizes="{GOOD_SIZES}" alt="{alt}" width="{w}" height="{h}"{lazy} decoding="async">
@@ -358,7 +606,7 @@ def render_tile(idx, p):
 {media}
             <div class="good__head">
               <p class="good__sku">арт. <span data-sku>{v0["sku"]}</span></p>
-              <h3 class="good__name" id="{pid}-name"><a href="{PRODUCT_PAGE}">{tile_name(p["name"])}</a></h3>
+              <h3 class="good__name" id="{pid}-name"><a href="{page}">{tile_name(p["name"])}</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
               <legend class="visually-hidden">Фасовка: {esc(p["name"])}</legend>
@@ -443,29 +691,46 @@ def main():
     (ROOT / "index.html").write_text(out, encoding="utf-8")
     print("ok index", len(out))
 
-    # ---------- product.html (same shell as home + pineapple PDP content) ----------
+    # ---------- product pages (same shell as home; content from data/products.json) ----------
     ptpl = (ROOT / "tools" / "product.template.html").read_text(encoding="utf-8")
     mast_pdp, foot_pdp, dock_pdp = shell(
         "",
         "search-field-product",
-        'Демо одной системы: <a href="./">главная</a> и эта карточка. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
+        'Демо одной системы: <a href="./">главная</a> и карточки товара. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>',
     )
-    pdp = next(p for p in products if p["slug"] == "ananasovij-ulun")
-    pv0 = pdp["variants"][0]
-    pout = (
-        ptpl.replace("{{MASTHEAD}}", mast_pdp)
-        .replace("{{FOOTER}}", foot_pdp)
-        .replace("{{DOCK}}", dock_pdp)
-        .replace("{{PDP_PACKS}}", render_packs(pdp, "pdp"))
-        .replace("{{PDP_PRICE}}", render_price(pdp, "pdp"))
-        .replace("{{PDP_SKU}}", esc(pv0["sku"]))
-        .replace("{{PDP_BUY_PACK}}", esc(show_label(pv0["label"])))
-        .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
-        .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
-    )
-    assert "{{" not in pout
-    (ROOT / "product.html").write_text(pout, encoding="utf-8")
-    print("ok product", len(pout))
+    for pdp in (p for p in products if "pdp" in p):
+        d = pdp["pdp"]
+        pv0 = pdp["variants"][0]
+        low = min(v["price"] for v in pdp["variants"])
+        packs_txt = ", ".join(show_label(v["label"]).replace(NB, " ") for v in pdp["variants"])
+        pout = (
+            ptpl.replace("{{MASTHEAD}}", mast_pdp)
+            .replace("{{FOOTER}}", foot_pdp)
+            .replace("{{DOCK}}", dock_pdp)
+            .replace("{{SEO_TITLE}}", esc(d["seo_title"]))
+            .replace("{{META_DESC}}", esc(f'{pdp["name"]}. {d["summary"]} Фасовки {packs_txt}, цена от {money(low).replace(NB, " ")}.'))
+            .replace("{{OG_TITLE}}", esc(d["og_title"]))
+            .replace("{{OG_DESC}}", esc(d["summary"]))
+            .replace("{{OG_IMAGE}}", esc(pdp["img"]))
+            .replace("{{CRUMBS}}", render_crumbs(pdp))
+            .replace("{{MEDIA}}", render_pdp_media(pdp))
+            .replace("{{LABEL_URL}}", esc(site(d["label"][1])))
+            .replace("{{LABEL}}", esc(d["label"][0]))
+            .replace("{{H1}}", esc(pdp["name"]))
+            .replace("{{RATING}}", render_rating(pdp))
+            .replace("{{SUMMARY}}", typo(d["summary"]))
+            .replace("{{PDP_PACKS}}", render_packs(pdp, "pdp"))
+            .replace("{{PDP_PRICE}}", render_price(pdp, "pdp"))
+            .replace("{{PDP_SKU}}", esc(pv0["sku"]))
+            .replace("{{PDP_BUY_PACK}}", esc(show_label(pv0["label"])))
+            .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
+            .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
+            .replace("{{DETAILS}}", render_details(pdp))
+            .replace("{{JSONLD}}", render_pdp_ld(pdp))
+        )
+        assert "{{" not in pout, d["page"]
+        (ROOT / d["page"]).write_text(pout, encoding="utf-8")
+        print("ok", d["page"], len(pout))
 
 
 if __name__ == "__main__":

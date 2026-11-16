@@ -1,4 +1,5 @@
 @use "tokens" as *;
+@use "strip";
 
 .masthead {
   // The bar keeps one height in both states. Compact mode only slides it up by --pin-trim
@@ -294,35 +295,10 @@
 .menu {
   // Narrow screens scroll the menu sideways instead of hiding it behind a burger.
   flex: 1 1 100%;
-  min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
   margin-inline: calc(var(--gutter) * -1);
   padding-inline: var(--gutter);
-
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  // Edge fade where more items wait: the cue that the strip scrolls sideways.
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
-
-  &[data-more="end"] {
-    -webkit-mask-image: var(--fade);
-    mask-image: var(--fade);
-  }
-
-  &[data-more="start"] {
-    --fade: linear-gradient(to left, #000 calc(100% - 56px), transparent);
-    -webkit-mask-image: var(--fade);
-    mask-image: var(--fade);
-  }
-
-  &[data-more="both"] {
-    --fade: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
-    -webkit-mask-image: var(--fade);
-    mask-image: var(--fade);
-  }
+  // Edge fade where more items wait: the cue that the strip scrolls sideways (_strip.scss).
+  @include strip.side-strip;
 
   @media (min-width: $bp-split) {
     flex: 0 1 auto;

@@ -1,0 +1,33 @@
+@use "tokens" as *;
+
+// A row that scrolls sideways on narrow screens (the menu, product tabs, breadcrumbs).
+// home.js sets data-more="start|end|both" on [data-strip] / .menu; the faded edge is the cue
+// that more items wait behind it.
+@mixin side-strip {
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+
+  &[data-more="end"] {
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
+  &[data-more="start"] {
+    --fade: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+
+  &[data-more="both"] {
+    --fade: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
+    -webkit-mask-image: var(--fade);
+    mask-image: var(--fade);
+  }
+}

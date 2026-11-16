@@ -333,7 +333,7 @@
   // Browsers leave a half-visible item where it is when it gets focus; slide the strip so the
   // focused item is fully on screen, keeping the strip's own side padding.
   // data-more="start|end|both" drives the edge fade that tells the menu scrolls sideways.
-  document.querySelectorAll(".menu").forEach((strip) => {
+  document.querySelectorAll(".menu, [data-strip]").forEach((strip) => {
     const syncFade = () => {
       const max = strip.scrollWidth - strip.clientWidth;
       const atStart = strip.scrollLeft <= 2;
@@ -612,89 +612,7 @@
     restartProgress();
   }
 
-  // ---------- Product-card photo swipe + autoplay (home grid) ----------
-  document.querySelectorAll("[data-gallery]").forEach((gallery) => {
-    const track = gallery.querySelector("[data-gallery-track]");
-    const frames = [...gallery.querySelectorAll("[data-gallery-frame]")];
-    const dots = [...gallery.querySelectorAll("[data-gallery-dot]")];
-    if (!track || frames.length < 2) return;
-
-    let index = 0;
-    let autoplay;
-
-    // Only the first photo loads with the page; the rest arrive once the card is touched,
-    // hovered or focused (lazy loading does not hold back images in a sideways scroller).
-    const hydrate = () => {
-      gallery.querySelectorAll("[data-srcset], [data-src]").forEach((el) => {
-        if (el.dataset.srcset) el.srcset = el.dataset.srcset;
-        if (el.dataset.src) el.src = el.dataset.src;
-        el.removeAttribute("data-srcset");
-        el.removeAttribute("data-src");
-      });
-    };
-    ["pointerenter", "touchstart", "focusin"].forEach((type) =>
-      gallery.addEventListener(type, hydrate, { once: true, passive: true })
-    );
-    track.addEventListener("scroll", hydrate, { once: true, passive: true });
-
-    const render = (i) => {
-      index = (i + frames.length) % frames.length;
-      track.scrollTo({
-        left: frames[index].offsetLeft - frames[0].offsetLeft,
-        behavior: scrollBehavior(),
-      });
-      dots.forEach((dot, n) => {
-        if (n === index) dot.setAttribute("aria-current", "true");
-        else dot.removeAttribute("aria-current");
-      });
-      autoplay?.nudge();
-    };
-
-    const go = (i, event) => {
-      event?.preventDefault();
-      event?.stopPropagation();
-      render(i);
-    };
-
-    // Same as the banners: after a width change, park the strip on the current photo.
-    new ResizeObserver(() => {
-      track.scrollTo({ left: frames[index].offsetLeft - frames[0].offsetLeft, behavior: "auto" });
-    }).observe(track);
-
-    dots.forEach((dot, n) => {
-      dot.addEventListener("click", (event) => go(n, event));
-    });
-
-    gallery.addEventListener("keydown", (event) => {
-      if (!gallery.contains(document.activeElement)) return;
-      if (event.key === "ArrowRight") go(index + 1, event);
-      else if (event.key === "ArrowLeft") go(index - 1, event);
-    });
-
-    const seen = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          const i = frames.indexOf(entry.target);
-          if (i >= 0 && i !== index) {
-            index = i;
-            dots.forEach((dot, n) => {
-              if (n === index) dot.setAttribute("aria-current", "true");
-              else dot.removeAttribute("aria-current");
-            });
-          }
-        });
-      },
-      { root: track, threshold: 0.6 }
-    );
-    frames.forEach((frame) => seen.observe(frame));
-
-    // Product photos change only by hand; autoplay stays opt-in through data-autoplay.
-    autoplay = bindAutoplay(gallery, {
-      interval: Number(gallery.dataset.autoplay) || 0,
-      next: () => render(index + 1),
-    });
-  });
+  // Product-card photo swipe lives in gallery.js (shared with the product page).
 
   // ---------- Packs and prices ----------
   const { money } = window.TeaboomFormat;
