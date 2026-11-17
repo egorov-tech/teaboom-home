@@ -59,37 +59,70 @@
     });
   });
 
-  // ---------- Phone mask (+7) for checkout and later account ----------
-  // Digits only under the hood; the field shows «+7 (999) 123-45-67». 8… becomes 7….
+  // ---------- Phone mask for checkout and account: CIS codes + any international ----------
+  // The site accepts «+7 … или другой международный номер». Known codes get their own mask:
+  // +7 (RU, KZ) → +7 (999) 123-45-67; +375 (BY) / +380 (UA) → +375 (29) 123-45-67;
+  // any other «+code» stays free-form, 10–15 digits (E.164). A leading 8 is the Russian 8 → +7.
+  const MASKS = [
+    { code: "7", len: 11, groups: [3, 3, 2, 2] },
+    { code: "375", len: 12, groups: [2, 3, 2, 2] },
+    { code: "380", len: 12, groups: [2, 3, 2, 2] },
+  ];
+  const PREFIX = { RU: "7", KZ: "7", BY: "375", UA: "380" };
+
   const phoneDigits = (raw) => {
-    let d = String(raw || "").replace(/\D/g, "");
-    if (d.startsWith("8")) d = `7${d.slice(1)}`;
-    if (d && !d.startsWith("7")) d = `7${d}`;
-    return d.slice(0, 11);
+    const s = String(raw || "").trim();
+    let d = s.replace(/\D/g, "");
+    if (!s.startsWith("+") && d.startsWith("8")) d = `7${d.slice(1)}`;
+    if (!s.startsWith("+") && d && !/^(7|375|380)/.test(d)) d = `7${d}`;
+    return d.slice(0, 15);
   };
+
+  const maskOf = (d) => MASKS.find((m) => d.startsWith(m.code));
 
   const formatPhone = (raw) => {
     const d = phoneDigits(raw);
-    const local = d.slice(1);
-    let out = "+7";
-    if (local.length) out += ` (${local.slice(0, 3)}`;
-    if (local.length >= 3) out += ")";
-    if (local.length > 3) out += ` ${local.slice(3, 6)}`;
-    if (local.length > 6) out += `-${local.slice(6, 8)}`;
-    if (local.length > 8) out += `-${local.slice(8, 10)}`;
+    if (!d) return String(raw || "").trim().startsWith("+") ? "+" : "";
+    const m = maskOf(d);
+    if (!m) return `+${d}`; // other countries: as typed, digits only
+    const local = d.slice(m.code.length, m.len);
+    let out = `+${m.code}`;
+    let pos = 0;
+    m.groups.forEach((size, i) => {
+      if (pos >= local.length) return;
+      const part = local.slice(pos, pos + size);
+      if (i === 0) out += ` (${part}${part.length === size ? ")" : ""}`;
+      else out += `${i === 1 ? " " : "-"}${part}`;
+      pos += size;
+    });
     return out;
   };
 
+  const phoneOk = (raw) => {
+    const d = phoneDigits(raw);
+    const m = maskOf(d);
+    return m ? d.length === m.len : d.length >= 10 && d.length <= 15;
+  };
+
   document.querySelectorAll("input[data-phone]").forEach((input) => {
+    const country = input.form?.querySelector("[name='invoice-country']");
+    const prefix = () => `+${PREFIX[country?.value] || "7"} `;
+    const isBare = () => phoneDigits(input.value).length <= 3 && /^\+\d*\s*\(?$/.test(input.value.trim());
     input.addEventListener("focus", () => {
-      if (!input.value.trim()) input.value = "+7 (";
+      if (!input.value.trim()) input.value = prefix();
     });
-    input.addEventListener("input", () => {
-      const next = formatPhone(input.value);
-      input.value = next === "+7" ? "+7 (" : next;
+    input.addEventListener("input", (e) => {
+      // Let backspace through a closing bracket instead of re-adding it.
+      if (e.inputType && e.inputType.startsWith("delete")) return;
+      input.value = formatPhone(input.value) || "";
     });
     input.addEventListener("blur", () => {
-      if (phoneDigits(input.value).length <= 1) input.value = "";
+      if (isBare()) input.value = "";
+      else input.value = formatPhone(input.value);
+    });
+    // Country changed and the phone is still empty or only a code: follow the country.
+    country?.addEventListener("change", () => {
+      if (!input.value.trim() || isBare()) input.value = document.activeElement === input ? prefix() : "";
     });
   });
 
@@ -108,12 +141,9 @@
     if (v && (input.type === "email" || input.autocomplete === "username") && !EMAIL.test(v)) {
       return "Проверьте email: нужен адрес вида name@mail.ru";
     }
-    if (v && input.dataset.phone) {
-      const d = phoneDigits(v);
-      if (d.length !== 11) return "Проверьте телефон: нужен номер вида +7 (999) 123-45-67";
-    } else if (v && input.type === "tel") {
-      const digits = v.replace(/\D/g, "").length;
-      if (digits < 10 || digits > 15) return "Проверьте телефон: нужен номер вида +7 999 123-45-67";
+    // data-phone is an empty attribute: test its presence, not its value.
+    if (v && input.type === "tel" && !phoneOk(v)) {
+      return "Проверьте номер: например, +7 (999) 123-45-67 или +375 (29) 123-45-67";
     }
     if (input.dataset.sameAs) {
       const other = document.getElementById(input.dataset.sameAs);

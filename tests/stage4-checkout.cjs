@@ -98,7 +98,26 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
       await c.close();
     }
 
-    ok(errors.length === 0, '26: без ошибок JS' + (errors.length ? ' — ' + errors.join(' | ') : ''));
+    // Phone mask: CIS codes and any international number (the site: «+7 … или другой международный номер»).
+  {
+    const c = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+    const p = await c.newPage(); p.on('pageerror', (e) => errors.push('phone: ' + e.message));
+    await p.goto(base + 'checkout.html?demo', { waitUntil: 'networkidle' });
+    const typeIn = async (v) => { await p.fill('#phone', ''); await p.locator('#phone').click(); await p.keyboard.press('Meta+A'); await p.keyboard.press('Backspace'); await p.keyboard.type(v, { delay: 5 }); await p.locator('#email').click(); return p.inputValue('#phone'); };
+    const errOf = () => p.evaluate(() => { const e = document.getElementById('phone-error'); return e.hidden ? '' : e.textContent.trim(); });
+    ok(await typeIn('89991234567') === '+7 (999) 123-45-67' && !(await errOf()), '26: телефон — «8 999…» → +7 (999) 123-45-67');
+    ok(await typeIn('+375291234567') === '+375 (29) 123-45-67' && !(await errOf()), '26: Белоруссия — +375 (29) 123-45-67');
+    ok(await typeIn('+380671234567') === '+380 (67) 123-45-67' && !(await errOf()), '26: Украина — +380 (67) 123-45-67');
+    ok(await typeIn('+77011234567') === '+7 (701) 123-45-67' && !(await errOf()), '26: Казахстан — +7 (701) 123-45-67');
+    ok(await typeIn('+4915123456789') === '+4915123456789' && !(await errOf()), '26: другие страны — международный номер без маски');
+    await p.fill('#phone', ''); await p.selectOption('#country', 'BY'); await p.locator('#phone').focus();
+    ok((await p.inputValue('#phone')).trim() === '+375', '26: страна «Белоруссия» — пустое поле начинается с +375');
+    await p.keyboard.type('29123', { delay: 5 }); await p.locator('#email').click();
+    ok((await errOf()).startsWith('Проверьте номер'), '26: неполный номер — подсказка с примерами');
+    await c.close();
+  }
+
+  ok(errors.length === 0, '26: без ошибок JS' + (errors.length ? ' — ' + errors.join(' | ') : ''));
   } finally {
     await b.close();
   }
