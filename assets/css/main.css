@@ -2641,7 +2641,7 @@ body::before {
 @media (min-width: 1060px) {
   .category__layout {
     display: grid;
-    grid-template-columns: 272px minmax(0, 1fr);
+    grid-template-columns: 312px minmax(0, 1fr);
     gap: var(--step-6);
     align-items: start;
     margin-top: var(--step-5);
@@ -2693,12 +2693,13 @@ body::before {
 
 @media (min-width: 1060px) {
   .facets {
-    position: static;
+    position: sticky;
+    top: var(--facets-top, calc(var(--pin-h) - var(--pin-trim) + var(--step-4)));
     display: block;
     width: auto;
     max-width: none;
     margin: 0;
-    padding: 20px 20px var(--step-4);
+    padding: var(--step-4) 20px var(--step-2);
     color: inherit;
     background: var(--paper);
     border: 1px solid var(--line);
@@ -2749,7 +2750,6 @@ body::before {
 .facets__head {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: var(--step-3);
   padding: var(--step-4) var(--step-4) var(--step-3) var(--step-5);
   border-bottom: 1px solid var(--line);
@@ -2761,8 +2761,33 @@ body::before {
   }
 }
 .facets__heading {
-  margin: 0;
+  margin: 0 auto 0 0;
   font: 500 22px/1.2 var(--font-display);
+}
+@media (min-width: 1060px) {
+  .facets__heading {
+    font-size: 20px;
+  }
+}
+.facets__clear {
+  display: none;
+  min-height: 32px;
+  padding: 0;
+  font: 600 13px/1 var(--font-text);
+  color: var(--tea);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.facets__clear[hidden] {
+  display: none !important;
+}
+@media (min-width: 1060px) {
+  .facets__clear {
+    display: inline-block;
+  }
 }
 .facets__close {
   display: grid;
@@ -2784,7 +2809,7 @@ body::before {
   flex: 1 1 auto;
   overflow: auto;
   overscroll-behavior: contain;
-  padding: var(--step-2) var(--step-5) var(--step-4);
+  padding: var(--step-1) var(--step-5) var(--step-4);
 }
 @media (min-width: 1060px) {
   .facets__body {
@@ -2795,7 +2820,7 @@ body::before {
 .facets__group {
   min-width: 0;
   margin: 0;
-  padding: var(--step-4) 0 var(--step-3);
+  padding: var(--step-3) 0 var(--step-2);
   border: 0;
 }
 .facets__group + .facets__group {
@@ -2805,17 +2830,33 @@ body::before {
   float: left;
   width: 100%;
   padding: 0;
-  margin-bottom: var(--step-2);
+  margin-bottom: var(--step-1);
   font: 600 14px/20px var(--font-text);
   color: var(--ink);
 }
 .facets__list {
   clear: both;
   display: grid;
-  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
+}
+.facets__list > li[hidden] {
+  display: none;
+}
+.facets__more {
+  min-height: 32px;
+  padding: 0 0 0 30px;
+  font: 600 13px/1 var(--font-text);
+  color: var(--tea);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.facets__more[hidden] {
+  display: none;
 }
 .facets__foot {
   display: grid;
@@ -2827,9 +2868,7 @@ body::before {
 }
 @media (min-width: 1060px) {
   .facets__foot {
-    grid-template-columns: 1fr;
-    padding: var(--step-3) 0 0;
-    background: none;
+    display: none;
   }
 }
 .facets__reset, .facets__show {
@@ -2853,11 +2892,6 @@ body::before {
   background: var(--brand);
   border: 1px solid var(--brand-deep);
 }
-@media (min-width: 1060px) {
-  .facets__show {
-    display: none;
-  }
-}
 
 @keyframes facets-up {
   from {
@@ -2879,11 +2913,10 @@ body::before {
 .facet {
   position: relative;
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
+  grid-template-columns: 18px minmax(0, 1fr) 3ch;
   align-items: center;
-  gap: 10px;
-  min-height: 36px;
-  padding: 6px 0;
+  column-gap: 12px;
+  min-height: 32px;
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
@@ -2924,12 +2957,14 @@ body::before {
 }
 .facet__label {
   min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .facet__count {
-  min-width: 3ch;
+  justify-self: end;
   font-size: 13px;
   color: var(--muted);
-  text-align: right;
   font-variant-numeric: tabular-nums;
 }
 @media (hover: hover) {
@@ -2940,6 +2975,9 @@ body::before {
 .facet.is-off {
   color: var(--muted);
   cursor: default;
+}
+.facet.is-off .facet__count {
+  visibility: hidden;
 }
 .facet.is-off .facet__box {
   background: var(--canvas);

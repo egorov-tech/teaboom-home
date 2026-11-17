@@ -228,7 +228,7 @@
 .category__layout {
   @media (min-width: $bp-split) {
     display: grid;
-    grid-template-columns: 272px minmax(0, 1fr);
+    grid-template-columns: 312px minmax(0, 1fr);
     gap: var(--step-6);
     align-items: start;
     margin-top: var(--step-5);
@@ -279,23 +279,26 @@
   }
 }
 
+// Filters panel. ≥1060: a compact column on paper that fits under the sticky header on a
+// laptop screen (≈700 px tall), so it can stay pinned while the grid scrolls. Below 1060: the
+// same panel opens as a sheet from the «Фильтры» button.
 .facets {
-  // Wide screens: an ordinary column on paper, like the tiles and the cart summary. No sticky
-  // and no scroll of its own: the page scrolls, the panel is as long as its groups.
   @media (min-width: $bp-split) {
-    position: static;
+    position: sticky;
+    // category.js sets --facets-top: under the compact header, or — if a window is shorter
+    // than the panel — so its bottom stays in view.
+    top: var(--facets-top, calc(var(--pin-h) - var(--pin-trim) + var(--step-4)));
     display: block;
     width: auto;
     max-width: none;
     margin: 0;
-    padding: 20px 20px var(--step-4);
+    padding: var(--step-4) 20px var(--step-2);
     color: inherit;
     background: var(--paper);
     border: 1px solid var(--line);
     border-radius: var(--radius-md); // same as the tiles next to it
   }
 
-  // Narrow screens: a sheet over the page.
   @media (max-width: #{$bp-split - 1px}) {
     &:not([open]) {
       display: none;
@@ -341,7 +344,6 @@
   &__head {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--step-3);
     padding: var(--step-4) var(--step-4) var(--step-3) var(--step-5);
     border-bottom: 1px solid var(--line);
@@ -353,8 +355,34 @@
   }
 
   &__heading {
-    margin: 0;
+    margin: 0 auto 0 0;
     font: 500 22px/1.2 var(--font-display);
+
+    @media (min-width: $bp-split) {
+      font-size: 20px;
+    }
+  }
+
+  // «Сбросить» next to the heading on wide screens; in the sheet it lives in the footer.
+  &__clear {
+    display: none;
+    min-height: 32px;
+    padding: 0;
+    font: 600 13px/1 var(--font-text);
+    color: var(--tea);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+
+    &[hidden] {
+      display: none !important;
+    }
+
+    @media (min-width: $bp-split) {
+      display: inline-block;
+    }
   }
 
   &__close {
@@ -377,7 +405,7 @@
     flex: 1 1 auto;
     overflow: auto;
     overscroll-behavior: contain;
-    padding: var(--step-2) var(--step-5) var(--step-4);
+    padding: var(--step-1) var(--step-5) var(--step-4);
 
     @media (min-width: $bp-split) {
       overflow: visible;
@@ -385,11 +413,11 @@
     }
   }
 
-  // Inside a group 8 px, between groups 16 + a hairline: the groups read as blocks.
+  // Inside a group 4–8 px, between groups 12 + a hairline: groups read as blocks.
   &__group {
     min-width: 0;
     margin: 0;
-    padding: var(--step-4) 0 var(--step-3);
+    padding: var(--step-3) 0 var(--step-2);
     border: 0;
 
     & + & {
@@ -402,7 +430,7 @@
     float: left;
     width: 100%;
     padding: 0;
-    margin-bottom: var(--step-2);
+    margin-bottom: var(--step-1);
     font: 600 14px/20px var(--font-text);
     color: var(--ink);
   }
@@ -410,10 +438,30 @@
   &__list {
     clear: both;
     display: grid;
-    gap: 0;
     margin: 0;
     padding: 0;
     list-style: none;
+
+    > li[hidden] {
+      display: none;
+    }
+  }
+
+  // «Ещё 3» under a long group (Сорт): the rest of the values on demand.
+  &__more {
+    min-height: 32px;
+    padding: 0 0 0 30px;
+    font: 600 13px/1 var(--font-text);
+    color: var(--tea);
+    background: none;
+    border: 0;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+
+    &[hidden] {
+      display: none;
+    }
   }
 
   &__foot {
@@ -425,9 +473,7 @@
     background: var(--paper);
 
     @media (min-width: $bp-split) {
-      grid-template-columns: 1fr;
-      padding: var(--step-3) 0 0;
-      background: none;
+      display: none;
     }
   }
 
@@ -455,10 +501,6 @@
   &__show {
     background: var(--brand);
     border: 1px solid var(--brand-deep);
-
-    @media (min-width: $bp-split) {
-      display: none;
-    }
   }
 }
 
@@ -481,18 +523,18 @@
   overflow: hidden;
 }
 
-// One filter value: box · name · count. 36 px rows (a full tap row on phones comes from the
-// sheet's 44 px), the count in one right-aligned muted column. The box speaks the pack chip's
-// language: hairline frame at rest, ink when chosen. Unreachable values stay in place, dimmed,
-// so the list never jumps.
+// One filter value: box · name · count, every value on one line so the list keeps one row
+// height (32 px in the column, 44 px tap rows in the sheet). The column fits the longest sort
+// on the site («Дан Цун и Фен Хуан Дан Цун»); anything longer ends in «…» with the full name
+// in the title. The box speaks the pack chip's language: hairline at rest, ink when chosen.
+// Unreachable values stay in place, dimmed, without a «0».
 .facet {
   position: relative;
   display: grid;
-  grid-template-columns: 18px minmax(0, 1fr) auto;
+  grid-template-columns: 18px minmax(0, 1fr) 3ch;
   align-items: center;
-  gap: 10px;
-  min-height: 36px;
-  padding: 6px 0;
+  column-gap: 12px;
+  min-height: 32px;
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;
@@ -539,13 +581,15 @@
 
   &__label {
     min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &__count {
-    min-width: 3ch;
+    justify-self: end;
     font-size: 13px;
     color: var(--muted);
-    text-align: right;
     font-variant-numeric: tabular-nums;
   }
 
@@ -558,6 +602,10 @@
   &.is-off {
     color: var(--muted);
     cursor: default;
+
+    .facet__count {
+      visibility: hidden;
+    }
 
     .facet__box {
       background: var(--canvas);

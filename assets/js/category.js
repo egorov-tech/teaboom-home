@@ -25,7 +25,7 @@
   const boxes = [...root.querySelectorAll("[data-facet]")];
   const openBtn = root.querySelector("[data-facets-open]");
   const badge = root.querySelector("[data-facets-badge]");
-  const resetBtn = root.querySelector("[data-facets-reset]");
+  const resetBtns = [...root.querySelectorAll("[data-facets-reset]")];
   const showBtn = root.querySelector("[data-facets-show]");
   const showTotal = root.querySelector("[data-facets-total]");
   const chips = root.querySelector("[data-chips]");
@@ -189,7 +189,16 @@
     badge.hidden = picked === 0;
     badge.textContent = String(picked);
     openBtn.setAttribute("aria-label", picked ? `Фильтры, выбрано: ${picked}` : "Фильтры");
-    resetBtn.disabled = picked === 0;
+    resetBtns.forEach((btn) => {
+      btn.disabled = picked === 0;
+      if (btn.classList.contains("facets__clear")) btn.hidden = picked === 0;
+    });
+    // A chosen value inside a folded group is always shown.
+    root.querySelectorAll("[data-extra]").forEach((li) => {
+      const group = li.closest(".facets__group");
+      const open = group.querySelector("[data-facets-more]")?.getAttribute("aria-expanded") === "true";
+      li.hidden = !open && !li.querySelector("[data-facet]").checked;
+    });
     showTotal.textContent = `${total} ${plural(total, "товар", "товара", "товаров")}`;
     drawChips(state.f);
     drawPager(state, pages);
@@ -215,6 +224,19 @@
   };
   wide.addEventListener("change", place);
   place();
+
+  // Sticky column: top under the compact header, or — when the panel is taller than the
+  // window — a negative top so it scrolls with the page and holds once its bottom shows.
+  const pin = () => {
+    if (!wide.matches) return;
+    const css = getComputedStyle(document.documentElement);
+    const head = parseFloat(css.getPropertyValue("--pin-h")) - parseFloat(css.getPropertyValue("--pin-trim")) + 16;
+    const top = Math.min(head, window.innerHeight - dialog.offsetHeight - 16);
+    dialog.style.setProperty("--facets-top", `${Math.round(top)}px`);
+  };
+  if ("ResizeObserver" in window) new ResizeObserver(pin).observe(dialog);
+  window.addEventListener("resize", pin);
+  pin();
 
   let returnFocus = null;
   openBtn.addEventListener("click", () => {
@@ -258,7 +280,19 @@
     state.page = 1;
     go();
   };
-  resetBtn.addEventListener("click", resetAll);
+  resetBtns.forEach((btn) => btn.addEventListener("click", resetAll));
+  root.querySelectorAll("[data-facets-more]").forEach((btn) => {
+    const rest = btn.textContent;
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      btn.setAttribute("aria-expanded", String(open));
+      btn.textContent = open ? "Свернуть" : rest;
+      btn.closest(".facets__group").querySelectorAll("[data-extra]").forEach((li) => {
+        li.hidden = !open && !li.querySelector("[data-facet]").checked;
+      });
+      if (open) btn.closest(".facets__group").querySelector("[data-extra] [data-facet]")?.focus();
+    });
+  });
   root.querySelector("[data-chips-reset]").addEventListener("click", resetAll);
   root.querySelector("[data-empty-reset]").addEventListener("click", resetAll);
 

@@ -721,21 +721,27 @@ def render_filters(c, by_slug):
             vals = sorted(vals, key=lambda v: pack_qty(v["value"])[0])
         gid = f'fg-{g["id"]}'
         rows = []
-        for v in vals:
+        # Long groups (Сорт, 7 values) show 4 and «Ещё N»: the column fits a laptop screen.
+        shown = 4 if len(vals) > 5 else len(vals)
+        for i, v in enumerate(vals):
             key = filter_key(g["id"], v["value"])
-            rows.append(f'''              <li>
+            extra = " data-extra hidden" if i >= shown else ""
+            rows.append(f'''              <li{extra}>
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="{esc(key)}" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">{esc(show_label(v["value"]) if g["title"] == "Фасовка" else v["value"])}</span>
+                  <span class="facet__label" title="{esc(v["value"])}">{esc(show_label(v["value"]) if g["title"] == "Фасовка" else v["value"])}</span>
                   <span class="facet__count" data-facet-count>{len(v["slugs"])}</span>
                 </label>
               </li>''')
+        rest = len(vals) - shown
+        more = (f'\n            <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Ещё {rest}</button>'
+                if rest else "")
         groups.append(f'''          <fieldset class="facets__group">
             <legend class="facets__title" id="{gid}">{esc(g["title"])}</legend>
             <ul class="facets__list">
 {chr(10).join(rows)}
-            </ul>
+            </ul>{more}
           </fieldset>''')
     return "\n".join(groups)
 

@@ -396,6 +396,7 @@
           <form class="facets__panel" method="dialog" data-facets-form>
             <header class="facets__head">
               <h2 class="facets__heading" id="facets-title">Фильтры</h2>
+              <button class="facets__clear" type="button" data-facets-reset hidden>Сбросить</button>
               <button class="facets__close press" type="button" aria-label="Закрыть фильтры" data-facets-close>
                 <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
               </button>
@@ -408,7 +409,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="3__Вьетнам" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Вьетнам</span>
+                  <span class="facet__label" title="Вьетнам">Вьетнам</span>
                   <span class="facet__count" data-facet-count>1</span>
                 </label>
               </li>
@@ -416,7 +417,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="3__Китай" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Китай</span>
+                  <span class="facet__label" title="Китай">Китай</span>
                   <span class="facet__count" data-facet-count>78</span>
                 </label>
               </li>
@@ -424,7 +425,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="3__Тайвань" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Тайвань</span>
+                  <span class="facet__label" title="Тайвань">Тайвань</span>
                   <span class="facet__count" data-facet-count>64</span>
                 </label>
               </li>
@@ -437,7 +438,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="16__Ароматизированный" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Ароматизированный</span>
+                  <span class="facet__label" title="Ароматизированный">Ароматизированный</span>
                   <span class="facet__count" data-facet-count>68</span>
                 </label>
               </li>
@@ -445,7 +446,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="16__Натуральный" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Натуральный</span>
+                  <span class="facet__label" title="Натуральный">Натуральный</span>
                   <span class="facet__count" data-facet-count>75</span>
                 </label>
               </li>
@@ -458,7 +459,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="34__500 г" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">500 г</span>
+                  <span class="facet__label" title="500 г">500 г</span>
                   <span class="facet__count" data-facet-count>3</span>
                 </label>
               </li>
@@ -466,7 +467,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="34__1000 г" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">1 кг</span>
+                  <span class="facet__label" title="1000 г">1 кг</span>
                   <span class="facet__count" data-facet-count>3</span>
                 </label>
               </li>
@@ -474,7 +475,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="34__5000 г" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">5 кг</span>
+                  <span class="facet__label" title="5000 г">5 кг</span>
                   <span class="facet__count" data-facet-count>3</span>
                 </label>
               </li>
@@ -487,7 +488,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Габа" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Габа</span>
+                  <span class="facet__label" title="Габа">Габа</span>
                   <span class="facet__count" data-facet-count>52</span>
                 </label>
               </li>
@@ -495,7 +496,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Да Хун Пао и Жоу Гуй" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Да Хун Пао и Жоу Гуй</span>
+                  <span class="facet__label" title="Да Хун Пао и Жоу Гуй">Да Хун Пао и Жоу Гуй</span>
                   <span class="facet__count" data-facet-count>4</span>
                 </label>
               </li>
@@ -503,7 +504,7 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Дан Цун и Фен Хуан Дан Цун" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Дан Цун и Фен Хуан Дан Цун</span>
+                  <span class="facet__label" title="Дан Цун и Фен Хуан Дан Цун">Дан Цун и Фен Хуан Дан Цун</span>
                   <span class="facet__count" data-facet-count>3</span>
                 </label>
               </li>
@@ -511,35 +512,36 @@
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Дун Дин" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Дун Дин</span>
+                  <span class="facet__label" title="Дун Дин">Дун Дин</span>
                   <span class="facet__count" data-facet-count>2</span>
                 </label>
               </li>
-              <li>
+              <li data-extra hidden>
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Женьшень" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Женьшень</span>
+                  <span class="facet__label" title="Женьшень">Женьшень</span>
                   <span class="facet__count" data-facet-count>4</span>
                 </label>
               </li>
-              <li>
+              <li data-extra hidden>
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__С жасмином" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">С жасмином</span>
+                  <span class="facet__label" title="С жасмином">С жасмином</span>
                   <span class="facet__count" data-facet-count>1</span>
                 </label>
               </li>
-              <li>
+              <li data-extra hidden>
                 <label class="facet">
                   <input class="facet__input" type="checkbox" value="57__Те Гуань Инь" data-facet>
                   <span class="facet__box" aria-hidden="true"></span>
-                  <span class="facet__label">Те Гуань Инь</span>
+                  <span class="facet__label" title="Те Гуань Инь">Те Гуань Инь</span>
                   <span class="facet__count" data-facet-count>8</span>
                 </label>
               </li>
             </ul>
+            <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Ещё 3</button>
           </fieldset>
             </div>
             <footer class="facets__foot">

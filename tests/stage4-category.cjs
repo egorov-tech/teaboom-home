@@ -62,6 +62,40 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await countText(p) === 'Товары 1–12 из 58', '17: неизвестное значение в адресе пропускается, остальное работает (58)');
   await c.close();
 
+  // ---------- Desktop panel: no overlap with counts, no mid-word breaks, stays in view ----------
+  for (const [w, h] of [[1060, 768], [1280, 800], [1440, 900]]) {
+    c = await b.newContext({ viewport: { width: w, height: h } });
+    p = await open(c, 'category-ulun.html?f=16__Натуральный___57__Габа');
+    const bad = await p.evaluate(() => [...document.querySelectorAll('.facet')].filter((f) => {
+      const l = f.querySelector('.facet__label');
+      const n = f.querySelector('[data-facet-count]').getBoundingClientRect();
+      const range = document.createRange(); range.selectNodeContents(l);
+      const rects = [...range.getClientRects()];
+      const overlap = rects.some((r) => r.right > n.left - 4 && n.width > 0);
+      // a word split across lines: some line ends without a space before the next line starts
+      const lines = new Set(rects.map((r) => Math.round(r.top))).size;
+      const cut = l.scrollWidth > l.clientWidth + 1;
+      return overlap || lines > 1 || cut;
+    }).map((f) => f.textContent.trim().replace(/\s+/g, ' ')));
+    ok(bad.length === 0, `17: ${w} px — каждая подпись в одну строку целиком, не заезжает на цифры ${bad.join(' | ')}`);
+    const zeroShown = await p.evaluate(() => [...document.querySelectorAll('.facet.is-off [data-facet-count]')].some((n) => getComputedStyle(n).visibility !== 'hidden'));
+    ok(!zeroShown, `17: ${w} px — у недоступных значений нет «0»`);
+    if (w === 1440) {
+      ok(await p.locator('.facets__clear').isVisible(), '17: «Сбросить» рядом с заголовком, когда что-то выбрано');
+      await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);
+      ok(await p.locator('[data-extra]:not([hidden])').count() === 3 && (await p.textContent('[data-facets-more]')).trim() === 'Свернуть', '17: «Ещё 3» раскрывает остальные сорта');
+      await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);
+    }
+    // Two points inside the grid's run (below it the panel leaves with the page, as it should).
+    const run = await p.evaluate(() => { const l = document.querySelector('.category__layout').getBoundingClientRect(); return { top: l.top + scrollY, bottom: l.bottom + scrollY }; });
+    for (const y of [Math.round(run.top + 400), Math.round(run.bottom - h - 40)]) {
+      await p.evaluate((y) => scrollTo(0, y), y); await p.waitForTimeout(250);
+      const r = await p.evaluate(() => { const d = document.querySelector('[data-facets]').getBoundingClientRect(); const m = document.querySelector('[data-masthead]').getBoundingClientRect(); return { top: d.top, bottom: d.bottom, head: m.bottom, h: innerHeight }; });
+      ok(r.top >= r.head - 1 && r.bottom <= r.h, `17: ${w}×${h}, прокрутка ${y} — колонка целиком на экране под шапкой (${Math.round(r.top)}–${Math.round(r.bottom)} из ${r.h})`);
+    }
+    await c.close();
+  }
+
   // ---------- Phone: sheet ----------
   c = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   p = await open(c, 'category-ulun.html?start=5');
