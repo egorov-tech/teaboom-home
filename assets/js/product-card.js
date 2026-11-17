@@ -118,9 +118,19 @@
     cta.classList.add("is-added");
     label.textContent = "Добавлено";
 
+    const shot = root.querySelector(".shot__image");
     window.TeaboomCart?.add({
       photo: currentPhoto(),
       label: `${name}, ${pack?.dataset.label || pack?.value || ""} — добавлено в корзину.`,
+      item: pack && {
+        sku: pack.dataset.sku,
+        name,
+        pack: pack.dataset.label,
+        price: Number(pack.dataset.price),
+        old: pack.dataset.oldPrice ? Number(pack.dataset.oldPrice) : null,
+        img: shot ? shot.getAttribute("src") : "",
+        url: location.pathname.split("/").pop() || "product.html",
+      },
     });
 
     window.clearTimeout(resetTimer);

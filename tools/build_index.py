@@ -676,7 +676,13 @@ def render_tile(idx, p, live_links=False):
 # ---------- demo navigation ----------
 # Pages the demo has locally: links to their live address open the demo page instead, so the
 # team can walk home → category → product. Filters and the remaining pages stay on the shop.
-LOCAL = {f"{SITE}/category-ulun": "category-ulun.html"}
+LOCAL = {
+    f"{SITE}/category-ulun": "category-ulun.html",
+    f"{SITE}/cart": "cart.html",
+    f"{SITE}/login": "login.html",
+    # Dock «Кабинет»: a visitor who is not signed in lands on the login page first.
+    f"{SITE}/my-account": "login.html",
+}
 
 
 def demo_links(html_text):
@@ -867,5 +873,35 @@ def main():
         print("ok", d["page"], len(pout))
 
 
+# ---------- cart, login, password reset (пп. 25, 27) ----------
+def cart_sample():
+    """Two real lines for cart.html?demo: the demo product and a 1 kg pack from the category."""
+    own = {p["slug"]: p for p in products}
+    cat = {p["slug"]: p for c in categories for p in c["products"]}
+    out = []
+    for slug, label, qty in (("ananasovij-ulun", "100 г", 2), ("ulun-medovaya-dinya", "1000 г", 1)):
+        p = own.get(slug) or cat[slug]
+        v = next(x for x in p["variants"] if x["label"] == label)
+        page = p.get("pdp", {}).get("page") or site(p["url"])
+        out.append({"sku": v["sku"], "name": p["name"], "pack": show_label(v["label"]), "price": v["price"],
+                    "old": v["old"], "img": f"assets/images/products/{slug}-280.jpg", "url": page, "qty": qty})
+    return json.dumps(out, ensure_ascii=False, indent=1)
+
+
+def render_service_pages():
+    note = ('Демо: <a href="./">главная</a>, <a href="category-ulun.html">категория</a>, '
+            '<a href="product.html">товар</a>, <a href="cart.html">корзина</a> и <a href="login.html">вход</a>. '
+            'Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>')
+    mast, foot, dock = shell("", "search-field-service", note)
+    for name in ("cart", "login", "password-reset"):
+        tpl = (ROOT / "tools" / f"{name}.template.html").read_text(encoding="utf-8")
+        out = (tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
+               .replace("{{SAMPLE}}", cart_sample()))
+        assert "{{" not in out, name
+        (ROOT / f"{name}.html").write_text(demo_links(out), encoding="utf-8")
+        print("ok", f"{name}.html", len(out))
+
+
 if __name__ == "__main__":
     main()
+    render_service_pages()

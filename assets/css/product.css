@@ -443,6 +443,8 @@ body::before {
 
 .cart {
   display: inline-flex;
+  color: var(--ink);
+  text-decoration: none;
   align-items: center;
   gap: var(--step-2);
   min-height: var(--tap);

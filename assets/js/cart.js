@@ -1,23 +1,31 @@
-// Shared demo cart: count across pages, bump, fly-to-cart photo.
-// Safe without a bundler: attaches to window.TeaboomCart.
+// Shared demo cart: line items across pages, header count, bump, fly-to-cart photo.
+// Safe without a bundler: attaches to window.TeaboomCart. On the shop the backend keeps the
+// cart; here it lives in localStorage so home → product → cart works in one browser.
 (() => {
-  const KEY = "teaboom-demo-cart";
+  const KEY = "teaboom-demo-cart-v2";
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const listeners = new Set();
 
-  const read = () => {
+  // Item: { sku, name, pack, price, old, img, url, qty }
+  const items = () => {
     try {
-      const n = Number(sessionStorage.getItem(KEY));
-      return Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+      const raw = JSON.parse(localStorage.getItem(KEY) || "[]");
+      return Array.isArray(raw)
+        ? raw.filter((x) => x && x.sku && Number(x.qty) > 0 && Number.isFinite(Number(x.price)))
+        : [];
     } catch (e) {
-      return 0;
+      return [];
     }
   };
 
-  const write = (n) => {
+  const store = (list) => {
     try {
-      sessionStorage.setItem(KEY, String(n));
+      localStorage.setItem(KEY, JSON.stringify(list));
     } catch (e) {}
   };
+
+  const count = (list = items()) => list.reduce((n, x) => n + Number(x.qty), 0);
+  const read = () => count();
 
   const cartEl = () => document.querySelector("[data-cart]");
   const countEl = () => document.querySelector("[data-cart-count]");
@@ -25,12 +33,18 @@
   const statusEl = () => document.querySelector("[data-cart-status]");
 
   const paint = (n) => {
-    const count = countEl();
+    const box = countEl();
     const words = wordsEl();
     const cart = cartEl();
-    if (count) count.textContent = String(n);
+    if (box) box.textContent = String(n);
     if (words) words.textContent = `, товаров: ${n}`;
     if (cart) cart.classList.toggle("is-filled", n > 0);
+  };
+
+  const save = (list) => {
+    store(list);
+    paint(count(list));
+    listeners.forEach((fn) => fn(list));
   };
 
   const bump = () => {
@@ -42,7 +56,7 @@
     cart.classList.add("is-bumped");
   };
 
-  // Arc from a product photo into the cart icon (same motion on home and PDP).
+  // Arc from a product photo into the cart icon (same motion on home, category and PDP).
   const fly = (photo) => {
     const cart = cartEl();
     if (!cart || !photo || reduceMotion.matches) return;
@@ -80,9 +94,15 @@
     flight.onfinish = () => ghost.remove();
   };
 
-  const add = ({ photo, label } = {}) => {
-    const next = read() + 1;
-    write(next);
+  const add = ({ photo, label, item } = {}) => {
+    const list = items();
+    if (item && item.sku) {
+      const line = list.find((x) => x.sku === item.sku);
+      if (line) line.qty = Number(line.qty) + 1;
+      else list.push({ ...item, qty: 1 });
+      store(list);
+    }
+    const next = count(list);
     if (photo) fly(photo);
     const delay = photo && !reduceMotion.matches ? 620 : 0;
     window.setTimeout(() => {
@@ -90,11 +110,29 @@
       bump();
     }, delay);
     if (label && statusEl()) statusEl().textContent = label;
+    listeners.forEach((fn) => fn(list));
     return next;
   };
 
-  // Restore count when opening home or product in the same tab.
-  paint(read());
+  const setQty = (sku, qty) => {
+    const q = Math.max(0, Math.min(999, Math.floor(Number(qty) || 0)));
+    save(items().map((x) => (x.sku === sku ? { ...x, qty: q } : x)).filter((x) => x.qty > 0));
+  };
 
-  window.TeaboomCart = { read, add, bump, fly, paint };
+  const remove = (sku) => save(items().filter((x) => x.sku !== sku));
+  const clear = () => save([]);
+  const fill = (list) => save(list.map((x) => ({ ...x, qty: Math.max(1, Number(x.qty) || 1) })));
+  const onChange = (fn) => listeners.add(fn);
+
+  // Another tab changed the cart: keep the header count honest.
+  window.addEventListener("storage", (e) => {
+    if (e.key !== KEY) return;
+    const list = items();
+    paint(count(list));
+    listeners.forEach((fn) => fn(list));
+  });
+
+  paint(count());
+
+  window.TeaboomCart = { read, add, bump, fly, paint, items, setQty, remove, clear, fill, onChange };
 })();

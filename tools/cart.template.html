@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Корзина — интернет-магазин чая «Чайный Бум»</title>
+  <meta name="description" content="Корзина интернет-магазина чая «Чайный Бум»: фасовки, количество, код купона и итог заказа.">
+  <!-- Demo for review: keep it out of search entirely. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5d730">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="has-paybar">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+{{MASTHEAD}}
+
+  <main id="main" tabindex="-1">
+    <div class="basket wrap" data-basket>
+      <nav class="breadcrumbs" aria-label="Вы здесь">
+        <ol class="breadcrumbs__list">
+          <li class="breadcrumbs__item"><a href="./">Главная</a></li>
+          <li class="breadcrumbs__item"><span aria-current="page">Корзина</span></li>
+        </ol>
+      </nav>
+
+      <div class="basket__head">
+        <h1 class="basket__title">Корзина</h1>
+        <p class="basket__count" data-basket-count aria-live="polite"></p>
+      </div>
+
+      <!-- Empty state (also what a visitor without JS sees in the demo). -->
+      <div class="basket__empty" data-basket-empty>
+        <p class="basket__empty-title">Ваша корзина пуста</p>
+        <p class="basket__empty-links">
+          <a class="basket__go press" href="https://teaboom.ru/category-root">Перейти в каталог</a>
+          <a class="basket__go basket__go--quiet press" href="https://teaboom.ru/category-ulun">Улун</a>
+        </p>
+      </div>
+
+      <div class="basket__layout" data-basket-full hidden>
+        <section class="basket__lines" aria-labelledby="lines-title">
+          <h2 class="visually-hidden" id="lines-title">Товары в корзине</h2>
+          <ul class="lines" data-lines></ul>
+        </section>
+
+        <aside class="summary" aria-labelledby="summary-title" data-summary>
+          <h2 class="summary__title" id="summary-title">Ваш заказ</h2>
+
+          <form class="coupon" action="/cart" method="post" novalidate data-coupon>
+            <label class="coupon__label" for="coupon">Код купона</label>
+            <div class="coupon__row">
+              <input class="coupon__input field__input" id="coupon" name="voucher" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="coupon-note">
+              <button class="coupon__apply press" type="submit">Применить</button>
+            </div>
+            <p class="coupon__note" id="coupon-note" role="status" data-coupon-note hidden></p>
+          </form>
+
+          <dl class="summary__list">
+            <div class="summary__row">
+              <dt>Сумма</dt>
+              <dd data-sum></dd>
+            </div>
+            <div class="summary__row">
+              <dt>Доставка <span class="summary__how">самовывоз, ул.&nbsp;Народного Ополчения,&nbsp;47</span></dt>
+              <dd>0&nbsp;₽</dd>
+            </div>
+            <div class="summary__row">
+              <dt>Оплата <span class="summary__how">при самовывозе</span></dt>
+              <dd>0&nbsp;₽</dd>
+            </div>
+            <div class="summary__row summary__row--total">
+              <dt>Итого</dt>
+              <dd data-total></dd>
+            </div>
+          </dl>
+          <p class="summary__note">Способ доставки и оплаты выберете при оформлении.</p>
+          <a class="summary__order cta press" href="https://teaboom.ru/checkout-dispatcher" data-order>Заказать</a>
+        </aside>
+      </div>
+    </div>
+
+    <!-- Phones: the total and «Заказать» stay in reach above the tab bar. -->
+    <div class="paybar" data-paybar hidden>
+      <p class="paybar__total"><span class="paybar__label">Итого</span> <span data-total-bar></span></p>
+      <a class="paybar__order press" href="https://teaboom.ru/checkout-dispatcher">Заказать</a>
+    </div>
+  </main>
+
+  <template data-line-template>
+    <li class="line" data-line>
+      <a class="line__photo" href="" tabindex="-1" aria-hidden="true" data-line-link><img class="line__image" src="" alt="" width="96" height="96" loading="lazy" decoding="async" data-line-image></a>
+      <div class="line__info">
+        <a class="line__name" href="" data-line-link data-line-name></a>
+        <p class="line__sku">арт:&nbsp;<span data-line-sku></span></p>
+      </div>
+      <div class="qty" role="group" data-qty>
+        <button class="qty__btn press" type="button" data-qty-dec><span aria-hidden="true">−</span></button>
+        <input class="qty__input" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="off" data-qty-input>
+        <button class="qty__btn press" type="button" data-qty-inc><span aria-hidden="true">+</span></button>
+      </div>
+      <p class="line__money">
+        <span class="line__sum" data-line-sum></span>
+        <span class="line__each" data-line-each></span>
+      </p>
+      <button class="line__remove press" type="button" data-line-remove>
+        <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 5.5h13M8 5.5V4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M5.5 5.5l.7 10.2a1.5 1.5 0 0 0 1.5 1.3h4.6a1.5 1.5 0 0 0 1.5-1.3l.7-10.2"/></svg>
+        <span class="visually-hidden" data-line-remove-label>Удалить</span>
+      </button>
+    </li>
+  </template>
+
+  <script type="application/json" data-cart-sample>
+{{SAMPLE}}
+  </script>
+
+  {{FOOTER}}
+  {{DOCK}}
+
+  <script src="assets/js/format.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
+  <script src="assets/js/forms.js" defer></script>
+  <script src="assets/js/basket.js" defer></script>
+</body>
+</html>

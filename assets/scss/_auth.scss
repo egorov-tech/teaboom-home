@@ -1,0 +1,172 @@
+@use "tokens" as *;
+
+// п. 27: login (быстрый вход / авторизация / регистрация) and password reset.
+// Desktop: the form on the left, how the email link works on the right (a real sequence,
+// so a numbered list). Phones: form first, then the same notes under it.
+.auth {
+  padding-block: clamp(24px, 3vw, 40px) var(--step-8);
+
+  &__layout {
+    display: grid;
+    gap: var(--step-7);
+
+    @media (min-width: $bp-mid) {
+      grid-template-columns: minmax(0, 440px) minmax(0, 1fr);
+      gap: clamp(48px, 6vw, 96px);
+      align-items: start;
+    }
+  }
+
+  &__main {
+    display: grid;
+    gap: var(--step-5);
+    max-width: 440px;
+  }
+
+  &--narrow &__main {
+    max-width: 440px;
+  }
+
+  &__title {
+    margin: 0 0 var(--step-5);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 2.4vw + 20px, 48px);
+    line-height: 1.05;
+  }
+
+  // Reset page keeps the title inside the column, where the column gap already spaces it.
+  &__main > &__title {
+    margin: 0;
+  }
+
+  &__pane[hidden] {
+    display: none;
+  }
+
+  &__aside {
+    display: grid;
+    gap: var(--step-4);
+    max-width: 560px;
+
+    @media (min-width: $bp-mid) {
+      padding-top: var(--step-2);
+    }
+  }
+
+  &__subtitle {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(20px, 0.8vw + 16px, 24px);
+    line-height: 1.2;
+  }
+
+  &__hint,
+  &__back {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+}
+
+// Four steps of the email link: big Oswald numerals on a thin rule — the one decorative move.
+.steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: grid;
+  gap: var(--step-4);
+
+  li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: var(--step-3);
+    padding-top: var(--step-3);
+    border-top: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 15px;
+    max-width: 62ch;
+
+    &::before {
+      content: counter(step);
+      font: 500 28px/1 var(--font-display);
+      color: var(--ink);
+    }
+  }
+}
+
+.notice {
+  padding: var(--step-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--brand-deep);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  color: var(--ink-soft);
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: var(--step-2);
+  }
+
+  &__title {
+    font-weight: 700;
+    color: var(--ink);
+  }
+}
+
+.social {
+  display: grid;
+  gap: var(--step-3);
+  padding-top: var(--step-4);
+  border-top: 1px solid var(--line);
+
+  &__title {
+    margin: 0;
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  &__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--step-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap);
+    padding: 0 var(--step-2);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    text-align: center;
+    text-decoration: none;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+
+    @media (max-width: 420px) {
+      padding: 0 4px;
+      font-size: 13px;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+    }
+  }
+}

@@ -677,9 +677,19 @@
 
       if (!window.TeaboomCart) return;
 
+      const first = good.querySelector(".good__image");
       window.TeaboomCart.add({
         photo,
         label: `${name}, ${pack.dataset.label} — добавлено в корзину.`,
+        item: {
+          sku: pack.value,
+          name,
+          pack: pack.dataset.label,
+          price: Number(pack.dataset.price),
+          old: pack.dataset.old ? Number(pack.dataset.old) : null,
+          img: first ? first.getAttribute("src") || first.dataset.src : "",
+          url: good.querySelector(".good__name a")?.getAttribute("href") || "",
+        },
       });
 
       button.textContent = "Добавлено";

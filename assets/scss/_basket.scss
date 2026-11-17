@@ -1,0 +1,445 @@
+@use "tokens" as *;
+
+// п. 25: cart. Desktop: lines on the left, «Ваш заказ» (coupon, totals, «Заказать») sticky on
+// the right. Phones: lines, then the summary; the total and «Заказать» ride above the dock
+// in the same bar as the product page's purchase bar.
+.basket {
+  padding-block: clamp(24px, 3vw, 40px) var(--step-8);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: var(--step-2) var(--step-4);
+    margin-bottom: var(--step-5);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(32px, 2.4vw + 20px, 48px);
+    line-height: 1.05;
+  }
+
+  &__count {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  &__layout {
+    display: grid;
+    gap: var(--step-5);
+
+    @media (min-width: $bp-mid) {
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: var(--step-6);
+      align-items: start;
+    }
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__empty {
+    display: grid;
+    gap: var(--step-3);
+    justify-items: start;
+    padding: var(--step-6) 0;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__empty-title {
+    margin: 0;
+    font: 500 clamp(22px, 1vw + 18px, 28px) / 1.2 var(--font-display);
+  }
+
+  &__empty-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--step-2);
+    margin: 0;
+  }
+
+  &__go {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--step-5);
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    border-radius: var(--radius-md);
+
+    &--quiet {
+      background: var(--paper);
+      border-color: var(--line-strong);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        background: var(--brand-lift);
+      }
+
+      &--quiet:hover {
+        background: var(--paper);
+        border-color: var(--ink);
+      }
+    }
+  }
+}
+
+.lines {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+}
+
+// One row: photo · name + артикул · qty · money · remove. Phones: photo left, the rest
+// stacks; qty and money share the bottom line.
+.line {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  grid-template-areas:
+    "photo info remove"
+    "photo qty money";
+  gap: var(--step-2) var(--step-3);
+  align-items: center;
+  padding: var(--step-4);
+
+  & + & {
+    border-top: 1px solid var(--line);
+  }
+
+  @media (min-width: $bp-tablet) {
+    grid-template-columns: 88px minmax(0, 1fr) auto 120px 44px;
+    grid-template-areas: "photo info qty money remove";
+    gap: var(--step-4);
+    padding: var(--step-4) var(--step-5);
+  }
+
+  &__photo {
+    grid-area: photo;
+    align-self: start;
+    display: block;
+    aspect-ratio: 1;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--canvas);
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__info {
+    grid-area: info;
+    min-width: 0;
+  }
+
+  &__name {
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+    overflow-wrap: anywhere;
+
+    @media (hover: hover) {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  &__sku {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__money {
+    grid-area: money;
+    display: grid;
+    justify-items: end;
+    margin: 0;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__sum {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  &__each {
+    font-size: 13px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  &__remove {
+    grid-area: remove;
+    justify-self: end;
+    align-self: start;
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    margin: -10px -10px 0 0;
+    color: var(--muted);
+    background: none;
+    border: 0;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+
+    @media (min-width: $bp-tablet) {
+      align-self: center;
+      margin: 0;
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--cut);
+      }
+    }
+  }
+}
+
+.qty {
+  grid-area: qty;
+  display: inline-grid;
+  grid-template-columns: 40px 44px 40px;
+  justify-self: start;
+  height: var(--tap);
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--paper);
+
+  &__btn {
+    font-size: 18px;
+    line-height: 1;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    border-radius: 999px;
+    cursor: pointer;
+
+    &:focus-visible {
+      outline-offset: -3px;
+    }
+  }
+
+  &__input {
+    width: 100%;
+    min-width: 0;
+    padding: 0;
+    font: 600 16px/1 var(--font-text);
+    text-align: center;
+    color: var(--ink);
+    background: none;
+    border: 0;
+    font-variant-numeric: tabular-nums;
+
+    &:focus-visible {
+      outline-offset: -2px;
+      border-radius: var(--radius-sm);
+    }
+  }
+}
+
+.summary {
+  display: grid;
+  gap: var(--step-4);
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+
+  @media (min-width: $bp-mid) {
+    position: sticky;
+    top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4));
+  }
+
+  &__title {
+    margin: 0;
+    font: 500 22px/1.2 var(--font-display);
+  }
+
+  &__list {
+    display: grid;
+    gap: var(--step-2);
+    margin: 0;
+    padding-top: var(--step-4);
+    border-top: 1px solid var(--line);
+  }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--step-3);
+    font-size: 15px;
+
+    dt {
+      color: var(--ink-soft);
+    }
+
+    dd {
+      margin: 0;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+
+    &--total {
+      margin-top: var(--step-2);
+      padding-top: var(--step-3);
+      border-top: 1px solid var(--line);
+      font-size: 18px;
+      font-weight: 700;
+
+      dt {
+        color: var(--ink);
+      }
+    }
+  }
+
+  &__how {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  // .cta from the product page; full width here.
+  &__order {
+    width: 100%;
+    margin: 0;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--ink);
+    }
+  }
+}
+
+.coupon {
+  display: grid;
+  gap: 6px;
+
+  &__label {
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  &__input {
+    border-right: 0;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+  }
+
+  &__apply {
+    padding: 0 var(--step-4);
+    font: 700 14px/1 var(--font-text);
+    color: var(--ink);
+    background: var(--canvas);
+    border: 1px solid var(--line-strong);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    cursor: pointer;
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: var(--ink);
+      }
+    }
+  }
+
+  &__note {
+    margin: 0;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+}
+
+// Phone pay bar: same capsule and place as the product page purchase bar.
+.paybar {
+  display: none;
+
+  @media (max-width: #{$bp-phone - 1px}) {
+    position: fixed;
+    left: var(--chrome-inset);
+    right: var(--chrome-inset);
+    bottom: calc(var(--dock-h) + max(var(--chrome-edge), env(safe-area-inset-bottom, 0px)) + 8px);
+    z-index: 39;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    height: 64px;
+    padding: 8px 8px 8px 16px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--chrome-radius);
+    box-shadow: 0 4px 16px rgb(27 27 27 / 8%);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__total {
+    display: grid;
+    margin: 0;
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--muted);
+  }
+
+  &__order {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 132px;
+    min-height: 44px;
+    padding: 0 16px;
+    font: 700 14px/1 var(--font-text);
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    border-radius: 10px;
+  }
+}
+
+// The footer clears the pay bar too (same variable the product page uses).
+.is-basket-full {
+  @media (max-width: #{$bp-phone - 1px}) {
+    --purchase-clearance: 72px;
+  }
+}

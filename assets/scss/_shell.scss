@@ -222,9 +222,11 @@
   }
 }
 
-// Demo cart: counts what was added on this page, no checkout behind it.
+// Header cart: link to the cart page (demo: cart.html), count of items in it.
 .cart {
   display: inline-flex;
+  color: var(--ink);
+  text-decoration: none;
   align-items: center;
   gap: var(--step-2);
   min-height: var(--tap);

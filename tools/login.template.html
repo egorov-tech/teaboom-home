@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вход в личный кабинет — интернет-магазин чая «Чайный Бум»</title>
+  <meta name="description" content="Вход и регистрация в интернет-магазине чая «Чайный Бум»: ссылка для входа на email, вход по паролю, VK, Одноклассники и Яндекс.">
+  <!-- Demo for review: keep it out of search entirely. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5d730">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+{{MASTHEAD}}
+
+  <main id="main" tabindex="-1">
+    <div class="auth wrap" data-auth>
+      <nav class="breadcrumbs" aria-label="Вы здесь">
+        <ol class="breadcrumbs__list">
+          <li class="breadcrumbs__item"><a href="./">Главная</a></li>
+          <li class="breadcrumbs__item"><span aria-current="page">Авторизация</span></li>
+        </ol>
+      </nav>
+
+      <h1 class="auth__title" id="auth-title">Вход в личный кабинет</h1>
+
+      <div class="auth__layout">
+        <section class="auth__main" aria-labelledby="auth-title">
+
+          <div class="switch" role="tablist" aria-label="Способ входа" data-switch>
+            <button class="switch__tab press" type="button" role="tab" id="tab-link" aria-controls="pane-link" aria-selected="true" data-switch-tab="link">Быстрый вход</button>
+            <button class="switch__tab press" type="button" role="tab" id="tab-login" aria-controls="pane-login" aria-selected="false" tabindex="-1" data-switch-tab="login">Авторизация</button>
+            <button class="switch__tab press" type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1" data-switch-tab="register">Регистрация</button>
+          </div>
+
+          <!-- Field names, actions and «next» as on teaboom.ru/login: the shop's backend reads them. -->
+          <div class="auth__pane" role="tabpanel" id="pane-link" aria-labelledby="tab-link" data-switch-pane="link">
+            <form class="form" action="/magic_link_auth/create_token" method="post" novalidate data-form="link">
+              <p class="form__lead">Пришлём на почту ссылку — по ней вы войдёте без пароля. Если вы у нас впервые, создадим учётную запись.</p>
+              <div class="field">
+                <label class="field__label" for="link-email">Email</label>
+                <input class="field__input" id="link-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@mail.ru" aria-describedby="link-email-error">
+                <p class="field__error" id="link-email-error" data-error hidden></p>
+              </div>
+              <input type="hidden" name="next" value="/">
+              <input type="hidden" name="magic_link_auth" value="1">
+              <button class="form__submit press" type="submit">Получить ссылку для входа</button>
+              <p class="form__done" role="status" data-done hidden></p>
+            </form>
+          </div>
+
+          <div class="auth__pane" role="tabpanel" id="pane-login" aria-labelledby="tab-login" data-switch-pane="login" hidden>
+            <form class="form" action="/login" method="post" novalidate data-form="login">
+              <div class="field">
+                <label class="field__label" for="login-email">Email</label>
+                <input class="field__input" id="login-email" name="username" type="email" autocomplete="username" inputmode="email" required maxlength="150" placeholder="you@mail.ru" aria-describedby="login-email-error">
+                <p class="field__error" id="login-email-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <div class="field__row">
+                  <label class="field__label" for="login-password">Пароль</label>
+                  <a class="field__aside" href="password-reset.html">Забыли пароль?</a>
+                </div>
+                <div class="field__secret">
+                  <input class="field__input" id="login-password" name="password" type="password" autocomplete="current-password" required aria-describedby="login-password-error">
+                  <button class="field__peek press" type="button" aria-label="Показать пароль" aria-pressed="false" data-peek>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <p class="field__error" id="login-password-error" data-error hidden></p>
+              </div>
+              <label class="check">
+                <input class="check__input" type="checkbox" name="remember" checked>
+                <span class="check__box" aria-hidden="true"></span>
+                <span class="check__text">Запомнить меня на этом устройстве</span>
+              </label>
+              <input type="hidden" name="action" value="login">
+              <input type="hidden" name="next" value="/">
+              <button class="form__submit press" type="submit">Войти</button>
+              <p class="form__done" role="status" data-done hidden></p>
+            </form>
+          </div>
+
+          <div class="auth__pane" role="tabpanel" id="pane-register" aria-labelledby="tab-register" data-switch-pane="register" hidden>
+            <form class="form" action="/login" method="post" novalidate data-form="register">
+              <div class="field">
+                <label class="field__label" for="reg-email">Email</label>
+                <input class="field__input" id="reg-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@mail.ru" aria-describedby="reg-email-error">
+                <p class="field__error" id="reg-email-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="reg-password">Пароль</label>
+                <div class="field__secret">
+                  <input class="field__input" id="reg-password" name="password_1" type="password" autocomplete="new-password" required maxlength="128" aria-describedby="reg-password-error">
+                  <button class="field__peek press" type="button" aria-label="Показать пароль" aria-pressed="false" data-peek>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                  </button>
+                </div>
+                <p class="field__error" id="reg-password-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="reg-password2">Подтверждение пароля</label>
+                <input class="field__input" id="reg-password2" name="password_2" type="password" autocomplete="new-password" required maxlength="128" aria-describedby="reg-password2-error" data-same-as="reg-password">
+                <p class="field__error" id="reg-password2-error" data-error hidden></p>
+              </div>
+              <input type="hidden" name="action" value="register">
+              <input type="hidden" name="next" value="/">
+              <button class="form__submit press" type="submit">Создать аккаунт</button>
+              <p class="form__done" role="status" data-done hidden></p>
+            </form>
+          </div>
+
+          <div class="social" aria-labelledby="social-title">
+            <p class="social__title" id="social-title">Или войдите через</p>
+            <ul class="social__list">
+              <li><a class="social__link press" href="https://teaboom.ru/login/vk-oauth2/?next=/">VK</a></li>
+              <li><a class="social__link press" href="https://teaboom.ru/login/odnoklassniki-oauth2/?next=/">Одноклассники</a></li>
+              <li><a class="social__link press" href="https://teaboom.ru/login/yandex-oauth2/?next=/">Яндекс</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <aside class="auth__aside" aria-labelledby="how-title">
+          <h2 class="auth__subtitle" id="how-title">Как работает быстрый вход</h2>
+          <ol class="steps">
+            <li>Введите ваш email и нажмите «Получить ссылку для входа».</li>
+            <li>На этот адрес придёт письмо со ссылкой для входа. Перейдите по ней. Если вы уже регистрировались с этим адресом, система авторизует вас; если вы у нас впервые — создаст новую учётную запись.</li>
+            <li>Ссылка действительна 15 минут на том же устройстве и в том же браузере, с которого отправлен запрос.</li>
+            <li>Ссылку можно использовать один раз.</li>
+          </ol>
+          <p class="auth__hint">Не пришло письмо со ссылкой или для смены пароля? Проверьте папку «Спам».</p>
+          <div class="notice">
+            <p class="notice__title">Вход через Google, Twitter и Facebook больше недоступен</p>
+            <p>По требованиям закона о способах авторизации входить через иностранные сервисы нельзя. Если раньше вы входили так, получите быструю ссылку на email, привязанный к этому сервису. Если не получается — <a href="https://teaboom.ru/contact">напишите нам</a> и укажите адрес email.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  {{FOOTER}}
+  {{DOCK}}
+
+  <script src="assets/js/format.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
+  <script src="assets/js/forms.js" defer></script>
+</body>
+</html>
