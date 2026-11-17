@@ -54,11 +54,42 @@
     line-height: 1.2;
   }
 
-  &__hint,
-  &__back {
+  &__hint {
     margin: 0;
     font-size: 14px;
     color: var(--ink-soft);
+  }
+
+  // Secondary control under the reset form — same height/radius as .form__submit, quiet fill.
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    padding: 0 var(--step-5);
+    font: 700 15px/1.2 var(--font-text);
+    letter-spacing: 0.01em;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--canvas);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+        background: var(--paper);
+      }
+    }
+
+    &:focus-visible {
+      outline: none;
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+    }
   }
 }
 
@@ -157,6 +188,8 @@
   }
 }
 
+// Social login: same 48 px control language as .field / .form__submit — soft brand wash,
+// brand-coloured mark, no clipped circles inside a tight pill.
 .social {
   display: grid;
   gap: var(--step-3);
@@ -182,47 +215,50 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    min-height: var(--tap);
+    box-sizing: border-box;
+    min-height: 48px;
     min-width: 0;
-    padding: 0 var(--step-2);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    text-align: center;
+    padding: 0 12px;
+    font: 700 15px/1 var(--font-text);
+    letter-spacing: 0.02em;
     text-decoration: none;
-    background: var(--paper);
-    border: 1px solid var(--line-strong);
+    border: 1px solid transparent;
     border-radius: var(--radius-md);
+    transition: border-color var(--ease), background-color var(--ease), box-shadow var(--ease), filter var(--ease);
 
     @media (max-width: 420px) {
-      gap: 6px;
-      padding: 0 6px;
-      font-size: 13px;
+      font-size: 14px;
+      padding: 0 8px;
     }
 
     @media (hover: hover) {
       &:hover {
-        color: var(--ink);
-        border-color: var(--ink);
+        filter: brightness(0.97);
+        border-color: currentColor;
       }
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
     }
   }
 
-  &__icon {
-    flex: none;
-  }
-
-  // Brand tint on the mark only — the button itself stays paper / ink like the rest of the form.
-  &__link--vk &__icon {
+  &__link--vk {
     color: #0077ff;
+    background: color-mix(in srgb, #0077ff 12%, var(--paper));
+    border-color: color-mix(in srgb, #0077ff 28%, var(--line-strong));
   }
 
-  &__link--ok &__icon {
+  &__link--ok {
     color: #ee8208;
+    background: color-mix(in srgb, #ee8208 12%, var(--paper));
+    border-color: color-mix(in srgb, #ee8208 28%, var(--line-strong));
   }
 
-  &__link--ya &__icon {
+  &__link--ya {
     color: #fc3f1d;
+    background: color-mix(in srgb, #fc3f1d 12%, var(--paper));
+    border-color: color-mix(in srgb, #fc3f1d 28%, var(--line-strong));
   }
 }

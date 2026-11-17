@@ -345,7 +345,7 @@
   }
 }
 
-// One shared frame for the field + «Применить» (same idea as search / auth inputs):
+// One shared frame for the field + «Применить» (same pattern as .search and .field):
 // hover and focus paint the whole row, so the seam between the two halves never clips.
 .coupon {
   display: grid;

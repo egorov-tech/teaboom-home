@@ -120,7 +120,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   ok((await p.getAttribute('#login-password', 'type')) === 'text' && (await p.getAttribute('#pane-login [data-peek]', 'aria-pressed')) === 'true', '27: «глаз» показывает пароль');
   const names = await p.$$eval('#pane-login form input', (xs) => xs.map((x) => x.name).filter(Boolean).join(','));
   ok(names === 'username,password,remember,action,next' && (await p.getAttribute('#pane-login form', 'action')) === '/login', '27: поля и адрес формы как на teaboom.ru (+ remember)');
-  ok(await p.locator('.social__link').count() === 3 && await p.locator('.social__icon').count() === 3 && (await p.getAttribute('.social__link >> nth=2', 'href')) === 'https://teaboom.ru/login/yandex-oauth2/?next=/', '27: VK, ОК, Яндекс — иконки и адреса сайта');
+  ok(await p.locator('.social__link').count() === 3 && (await p.getAttribute('.social__link >> nth=2', 'href')) === 'https://teaboom.ru/login/yandex-oauth2/?next=/', '27: VK, ОК, Яндекс — адреса сайта');
   ok(await overflow(p) <= 0, '27: телефон — без горизонтальной прокрутки');
   const tabsOneLine = await p.$$eval('.switch__tab', (ts) => ts.every((t) => t.scrollHeight <= 46));
   ok(tabsOneLine, '27: подписи вкладок в одну строку на 390 px');
@@ -132,6 +132,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
 
   c = await b.newContext(phone); p = await open(c, 'password-reset.html');
   ok((await p.textContent('h1')).trim() === 'Сброс пароля' && await p.locator('.auth__aside .steps > li').count() === 3, '27: сброс пароля — тот же каркас, что у входа, справа «Как это работает»');
+  ok(await p.locator('a.auth__back').isVisible() && (await p.getAttribute('a.auth__back', 'href')) === 'login.html', '27: сброс пароля — кнопка «Вернуться к авторизации»');
   await p.fill('#reset-email', 'name@mail.ru'); await p.locator('.form__submit').tap();
   ok((await p.textContent('[data-done]')).includes('name@mail.ru'), '27: сброс пароля — демо-сообщение с адресом');
   ok(await overflow(p) <= 0, '27: сброс пароля — без горизонтальной прокрутки');

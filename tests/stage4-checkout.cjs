@@ -64,10 +64,15 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok((await p.textContent('#first-name-error')).trim() === 'Введите имя' && (await p.textContent('#email-error')).trim() === 'Введите email' && (await p.textContent('#phone-error')).trim() === 'Введите телефон', '26: пустая форма — имя, email, телефон');
     ok(await p.evaluate(() => document.activeElement.id) === 'first-name', '26: фокус на первом поле с ошибкой');
     ok(await p.locator('#last-name-error').isHidden() && await p.locator('#city-error').count() === 0, '26: фамилия и адрес не обязательны');
-    await p.fill('#first-name', 'Анна'); await p.fill('#email', 'anna@mail.ru'); await p.fill('#phone', '12-34');
+    ok(await p.locator('#country + .select__button, .address__country .select__button').count() >= 1, '26: страна — кастомный выпадающий список');
+    await p.fill('#first-name', 'Анна'); await p.fill('#email', 'anna@mail.ru');
+    await p.focus('#phone'); await p.waitForTimeout(50);
+    await p.keyboard.type('1234'); await p.waitForTimeout(50);
+    ok((await p.inputValue('#phone')).startsWith('+7'), '26: маска телефона подставляет +7');
     await p.locator('.summary__order').click();
     ok((await p.textContent('#phone-error')).includes('+7'), '26: короткий телефон — подсказка с примером');
-    await p.fill('#phone', '+7 (999) 123-45-67');
+    await p.fill('#phone', ''); await p.focus('#phone'); await p.keyboard.type('9991234567'); await p.waitForTimeout(50);
+    ok((await p.inputValue('#phone')) === '+7 (999) 123-45-67', '26: маска собирает +7 (999) 123-45-67');
     await p.locator('.summary__order').click();
     const done = p.locator('[data-done="order"]');
     ok(await done.isVisible() && (await done.textContent()).startsWith('Демо:'), '26: верная форма — демо-сообщение, заказ не отправлен');

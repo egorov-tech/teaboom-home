@@ -65,29 +65,29 @@
             <div class="step__pair">
               <div class="field">
                 <label class="field__label" for="first-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
-                <input class="field__input" id="first-name" name="first_name" type="text" autocomplete="given-name" required maxlength="150" aria-describedby="first-name-error">
+                <input class="field__input" id="first-name" name="first_name" type="text" autocomplete="given-name" enterkeyhint="next" autocapitalize="words" required maxlength="150" aria-describedby="first-name-error">
                 <p class="field__error" id="first-name-error" data-error hidden></p>
               </div>
               <div class="field">
                 <label class="field__label" for="last-name">Фамилия</label>
-                <input class="field__input" id="last-name" name="last_name" type="text" autocomplete="family-name" maxlength="150" aria-describedby="last-name-error">
+                <input class="field__input" id="last-name" name="last_name" type="text" autocomplete="family-name" enterkeyhint="next" autocapitalize="words" maxlength="150" aria-describedby="last-name-error">
                 <p class="field__error" id="last-name-error" data-error hidden></p>
               </div>
             </div>
             <div class="field">
               <label class="field__label" for="email">Email <span class="field__req" aria-hidden="true">*</span></label>
-              <input class="field__input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@mail.ru" aria-describedby="email-error">
+              <input class="field__input" id="email" name="email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" autocapitalize="off" spellcheck="false" required maxlength="254" placeholder="you@mail.ru" aria-describedby="email-error">
               <p class="field__error" id="email-error" data-error hidden></p>
             </div>
             <div class="step__pair">
               <div class="field">
                 <label class="field__label" for="phone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
-                <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="+7 999 123-45-67" aria-describedby="phone-error">
+                <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" required maxlength="18" placeholder="+7 (999) 123-45-67" aria-describedby="phone-error" data-phone>
                 <p class="field__error" id="phone-error" data-error hidden></p>
               </div>
               <div class="field">
                 <label class="field__label" for="phone2">Доп. телефон</label>
-                <input class="field__input" id="phone2" name="phone_extra" type="tel" autocomplete="tel" inputmode="tel" maxlength="32" aria-describedby="phone2-error">
+                <input class="field__input" id="phone2" name="phone_extra" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" maxlength="18" placeholder="+7 (999) 123-45-67" aria-describedby="phone2-error" data-phone>
                 <p class="field__error" id="phone2-error" data-error hidden></p>
               </div>
             </div>
@@ -98,28 +98,28 @@
               <div class="address__grid">
                 <div class="field address__country">
                   <label class="field__label" for="country">Страна</label>
-                  <select class="field__input field__input--select" id="country" name="country" autocomplete="country-name">
-                    <option>Белоруссия</option>
-                    <option>Казахстан</option>
-                    <option selected>Россия</option>
-                    <option>Украина</option>
+                  <select class="field__input" id="country" name="country" autocomplete="country-name" data-select>
+                    <option value="BY">Белоруссия</option>
+                    <option value="KZ">Казахстан</option>
+                    <option value="RU" selected>Россия</option>
+                    <option value="UA">Украина</option>
                   </select>
                 </div>
                 <div class="field address__city">
                   <label class="field__label" for="locality">Населённый пункт</label>
-                  <input class="field__input" id="locality" name="locality" type="text" autocomplete="address-level2" aria-describedby="address-note">
+                  <input class="field__input" id="locality" name="locality" type="text" autocomplete="address-level2" enterkeyhint="next" aria-describedby="address-note">
                 </div>
                 <div class="field address__street">
                   <label class="field__label" for="street">Улица</label>
-                  <input class="field__input" id="street" name="street" type="text" autocomplete="address-line1">
+                  <input class="field__input" id="street" name="street" type="text" autocomplete="address-line1" enterkeyhint="next">
                 </div>
                 <div class="field">
                   <label class="field__label" for="house">Дом</label>
-                  <input class="field__input" id="house" name="house" type="text" autocomplete="off">
+                  <input class="field__input" id="house" name="house" type="text" autocomplete="off" enterkeyhint="next">
                 </div>
                 <div class="field">
                   <label class="field__label" for="flat">Квартира</label>
-                  <input class="field__input" id="flat" name="flat" type="text" autocomplete="off">
+                  <input class="field__input" id="flat" name="flat" type="text" autocomplete="off" enterkeyhint="next">
                 </div>
               </div>
               <details class="address__more">
@@ -325,6 +325,7 @@
   <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
+  <script src="assets/js/select.js" defer></script>
   <script src="assets/js/forms.js" defer></script>
   <script src="assets/js/checkout.js" defer></script>
 </body>

@@ -59,6 +59,40 @@
     });
   });
 
+  // ---------- Phone mask (+7) for checkout and later account ----------
+  // Digits only under the hood; the field shows «+7 (999) 123-45-67». 8… becomes 7….
+  const phoneDigits = (raw) => {
+    let d = String(raw || "").replace(/\D/g, "");
+    if (d.startsWith("8")) d = `7${d.slice(1)}`;
+    if (d && !d.startsWith("7")) d = `7${d}`;
+    return d.slice(0, 11);
+  };
+
+  const formatPhone = (raw) => {
+    const d = phoneDigits(raw);
+    const local = d.slice(1);
+    let out = "+7";
+    if (local.length) out += ` (${local.slice(0, 3)}`;
+    if (local.length >= 3) out += ")";
+    if (local.length > 3) out += ` ${local.slice(3, 6)}`;
+    if (local.length > 6) out += `-${local.slice(6, 8)}`;
+    if (local.length > 8) out += `-${local.slice(8, 10)}`;
+    return out;
+  };
+
+  document.querySelectorAll("input[data-phone]").forEach((input) => {
+    input.addEventListener("focus", () => {
+      if (!input.value.trim()) input.value = "+7 (";
+    });
+    input.addEventListener("input", () => {
+      const next = formatPhone(input.value);
+      input.value = next === "+7" ? "+7 (" : next;
+    });
+    input.addEventListener("blur", () => {
+      if (phoneDigits(input.value).length <= 1) input.value = "";
+    });
+  });
+
   // ---------- Validation ----------
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
@@ -74,10 +108,12 @@
     if (v && (input.type === "email" || input.autocomplete === "username") && !EMAIL.test(v)) {
       return "Проверьте email: нужен адрес вида name@mail.ru";
     }
-    // Any country: 10–15 digits, as the shop's «+7 … или другой международный номер».
-    const digits = v.replace(/\D/g, "").length;
-    if (v && input.type === "tel" && (digits < 10 || digits > 15)) {
-      return "Проверьте телефон: нужен номер вида +7 999 123-45-67";
+    if (v && input.dataset.phone) {
+      const d = phoneDigits(v);
+      if (d.length !== 11) return "Проверьте телефон: нужен номер вида +7 (999) 123-45-67";
+    } else if (v && input.type === "tel") {
+      const digits = v.replace(/\D/g, "").length;
+      if (digits < 10 || digits > 15) return "Проверьте телефон: нужен номер вида +7 999 123-45-67";
     }
     if (input.dataset.sameAs) {
       const other = document.getElementById(input.dataset.sameAs);

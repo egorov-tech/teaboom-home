@@ -42,6 +42,13 @@
     &[aria-expanded="true"] {
       border-color: var(--ink);
     }
+
+    // Same focus ring as .field__input / .search / .coupon.
+    &:focus-visible {
+      outline: none;
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+    }
   }
 
   // Value and invisible copies of every option share one cell: the widest sets the width.

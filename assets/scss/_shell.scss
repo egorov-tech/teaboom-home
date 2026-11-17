@@ -427,45 +427,71 @@
   }
 }
 
+// Same shared frame as the coupon and auth fields: one border around field + «Найти»,
+// so hover/focus never clip at the seam between the two halves.
 .search {
   display: flex;
   flex: 1 1 100%;
+  gap: 1px;
+  overflow: hidden;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease), box-shadow var(--ease), background-color var(--ease);
 
   @media (min-width: $bp-split) {
     flex: 0 1 420px;
+  }
+
+  &:focus-within {
+    background: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: var(--ink);
+      border-color: var(--ink);
+    }
   }
 
   &__field {
     flex: 1;
     width: 0; // let flex size the field; its intrinsic width overflowed 320px screens
     min-width: 0;
-    height: 48px;
+    height: 46px;
     padding: 0 var(--step-4);
     font-family: inherit;
     font-size: 16px; // 16px keeps iOS from zooming into the field
     color: var(--ink);
     background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-right: 0;
-    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    border: 0;
+    border-radius: 0;
 
     &::placeholder {
       color: var(--muted);
     }
 
     &:focus-visible {
-      outline-offset: -2px;
+      outline: none;
+    }
+
+    &::-webkit-search-cancel-button {
+      display: none;
     }
   }
 
   &__submit {
-    height: 48px;
+    flex: none;
+    height: auto;
     padding: 0 var(--step-5);
     font-size: 15px;
     font-weight: 700;
+    color: var(--ink);
     background: var(--brand);
-    border: 1px solid var(--brand-deep);
-    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    border: 0;
+    border-radius: 0;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -533,10 +559,12 @@ $bp-quick: 760px;
     display: none;
     align-items: center;
     flex: 1 1 auto;
+    gap: 1px;
     max-width: 460px;
     min-width: 0;
     height: 42px;
     padding-left: 36px;
+    overflow: hidden;
     background: var(--paper);
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-md);
@@ -546,9 +574,16 @@ $bp-quick: 760px;
       display: flex;
     }
 
+    // Same focus ring as .search / .field / .coupon — ink frame + brand glow.
     &:focus-within {
-      border-color: var(--tea);
-      box-shadow: 0 0 0 3px color-mix(in srgb, var(--tea) 18%, transparent);
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: var(--ink);
+      }
     }
   }
 
@@ -585,14 +620,16 @@ $bp-quick: 760px;
 
   &__submit {
     flex: none;
-    height: 34px;
-    margin-right: 3px;
+    align-self: stretch;
+    height: auto;
+    margin: 0;
     padding: 0 var(--step-3);
     font-size: 14px;
     font-weight: 700;
+    color: var(--ink);
     background: var(--brand);
-    border: 1px solid var(--brand-deep);
-    border-radius: var(--radius-sm);
+    border: 0;
+    border-radius: 0;
     cursor: pointer;
 
     @media (hover: hover) {
@@ -972,7 +1009,9 @@ $bp-quick: 760px;
       transform: none;
     }
 
+    // Inside the phone capsule the «Найти» stays a small pill, not flush to the frame.
     .quick__submit {
+      align-self: center;
       height: 32px;
       margin-right: 2px;
       padding: 0 12px;
