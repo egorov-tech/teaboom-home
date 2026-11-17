@@ -84,6 +84,11 @@
     gap: var(--step-2);
     padding: var(--step-3);
     border-radius: var(--radius-lg);
+  }
+
+  // 320 px: 8 px side inset so the longest word in a name fits whole (see .good__name).
+  @media (max-width: 359px) {
+    padding-inline: var(--step-2);
     box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset;
   }
 
@@ -229,10 +234,10 @@
       font-size: 12px;
     }
 
-    // 320 px: the card is narrower than that word even at 12 px. The build puts a soft
-    // hyphen into it, honoured only here — a hyphen beats a cut without one.
+    // 320 px: the word (129 px at 12 px) is wider than the card (116 px inside). Slightly
+    // tighter tracking here and an 8 px card inset below make it fit whole — no hyphen.
     @media (max-width: 359px) {
-      hyphens: manual;
+      letter-spacing: -0.03em;
     }
 
     a {

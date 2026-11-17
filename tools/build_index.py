@@ -21,8 +21,9 @@ def esc(s):
 
 
 def tile_name(name):
-    # Soft hyphen in the one word too long for a 320 px card; CSS honours it only there.
-    return esc(name).replace("ароматизирован", "ароматизиро\u00adван")
+    # No soft hyphens (Антон, 10.11: names break between words only). At 320 px the card's
+    # tighter inset and tracking let «ароматизированный» fit whole — see _goods.scss.
+    return esc(name)
 
 
 def money(v):

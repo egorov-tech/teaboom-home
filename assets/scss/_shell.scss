@@ -222,6 +222,48 @@
   }
 }
 
+// Right end of the header: account (from 760 px) + cart, 8 px apart.
+.masthead__tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--step-2);
+  margin-left: auto;
+
+  .cart {
+    margin-left: 0;
+  }
+}
+
+// Account: the cart's frame and size, the dock's person icon. Hidden on phones (dock has it).
+.account {
+  display: none;
+  place-items: center;
+  width: var(--tap);
+  height: var(--tap);
+  flex: none;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease), background-color var(--ease);
+
+  @media (min-width: $bp-phone) {
+    display: grid;
+  }
+
+  &__icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--ink);
+      border-color: var(--ink);
+    }
+  }
+}
+
 // Header cart: link to the cart page (demo: cart.html), count of items in it.
 .cart {
   display: inline-flex;
