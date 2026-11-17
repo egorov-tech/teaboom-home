@@ -223,12 +223,6 @@
               </figcaption>
             </figure>
             </div>
-            <div class="photos__dots" data-gallery-dots>
-            <button type="button" aria-label="Фото 1 из 4" aria-current="true" data-gallery-dot></button>
-            <button type="button" aria-label="Фото 2 из 4" data-gallery-dot></button>
-            <button type="button" aria-label="Фото 3 из 4" data-gallery-dot></button>
-            <button type="button" aria-label="Фото 4 из 4" data-gallery-dot></button>
-            </div>
           </div>
           <ul class="gallery" role="list" aria-label="Фотографии товара">
           <li>
@@ -257,6 +251,11 @@
         <div class="product__info">
           <p class="product__category"><a href="https://teaboom.ru/category-aromatizirovannyj-ulun">Ароматизированный улун</a></p>
           <h1 class="product__title">Ананасовый улун</h1>
+          <p class="rating">
+            <span class="rating__stars" aria-hidden="true">★★★★★</span>
+            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>4,8<span class="visually-hidden"> из 5</span></span>
+            <a class="rating__link" href="#reviews" data-tab-link="reviews">12 отзывов</a>
+          </p>
 
           <p class="product__summary">Светлый фуцзяньский улун с ароматом ананаса.</p>
 
@@ -357,7 +356,7 @@
           <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs data-strip hidden>
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
-            <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы</button>
+            <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы <span class="details__count">12</span></button>
             <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
           </div>
 
@@ -405,7 +404,36 @@
                 <h2 class="details__title">Отзывы</h2>
                 <a class="reviews__write press" href="https://teaboom.ru/product/ananasovyj-ulun#reviews_for_product">Оставить отзыв</a>
               </div>
-              <p class="reviews__empty">Ещё никто не оставлял отзывов. Будьте первым!</p>
+              <p class="reviews__sample">Пример оформления блока. На teaboom.ru у этого товара отзывов пока нет — оценка, имена и тексты условные; на сайте их подставит модуль отзывов.</p>
+              <ul class="reviews__list">
+                <li class="review">
+                  <p class="review__rating"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">Оценка 5 из 5</span></p>
+                  <blockquote class="review__text">Ананас чувствуется мягко, без химии. Настой светлый, пьём вечером — фасовку 500 г взяли сразу, выгоднее.</blockquote>
+                  <div class="review__who">
+                    <span class="review__avatar" aria-hidden="true">М</span>
+                    <span class="review__author">Марина</span>
+                    <time class="review__date" datetime="2026-08-14">14 августа 2026</time>
+                  </div>
+                </li>
+                <li class="review">
+                  <p class="review__rating"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">Оценка 5 из 5</span></p>
+                  <blockquote class="review__text">Лист крупный, скрутка аккуратная. Завариваю 80–85 °C, как в карточке — аромат раскрывается со второго пролива.</blockquote>
+                  <div class="review__who">
+                    <span class="review__avatar" aria-hidden="true">И</span>
+                    <span class="review__author">Игорь</span>
+                    <time class="review__date" datetime="2026-07-02">2 июля 2026</time>
+                  </div>
+                </li>
+                <li class="review">
+                  <p class="review__rating"><span aria-hidden="true">★★★★☆</span><span class="visually-hidden">Оценка 4 из 5</span></p>
+                  <blockquote class="review__text">Вкус приятный, сладковатый. Для ежедневного чая чуть ярковат ананас, но гостям заходит отлично.</blockquote>
+                  <div class="review__who">
+                    <span class="review__avatar" aria-hidden="true">А</span>
+                    <span class="review__author">Анна</span>
+                    <time class="review__date" datetime="2026-05-21">21 мая 2026</time>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
 

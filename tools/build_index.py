@@ -390,9 +390,6 @@ def render_pdp_media(p):
           </div>
         </div>'''
     cur = ' aria-current="true"'
-    dots = "\n".join(
-        f'            <button type="button" aria-label="Фото {i} из {len(photos)}"{cur if i == 1 else ""} data-gallery-dot></button>'
-        for i in range(1, len(photos) + 1))
     thumbs = "\n".join(f'''          <li>
             <button class="gallery__btn" type="button" aria-label="{esc(ph["alt"])}"{cur if i == 0 else ""} data-gallery-thumb>
               <img class="gallery__thumb" src="assets/images/products/{ph["stem"]}-280.webp" alt="" width="120" height="120" loading="lazy">
@@ -402,9 +399,6 @@ def render_pdp_media(p):
           <div class="photos">
             <div class="photos__track" data-gallery-track>
 {chr(10).join(frames)}
-            </div>
-            <div class="photos__dots" data-gallery-dots>
-{dots}
             </div>
           </div>
           <ul class="gallery" role="list" aria-label="Фотографии товара">
@@ -448,14 +442,19 @@ def render_promise():
 def render_rating(p):
     """п. 22: only for a product that has reviews; the count opens the reviews tab."""
     rs = p["pdp"]["reviews"]
-    if not rs:
+    ex = p["pdp"].get("reviews_example")
+    if rs:
+        avg, n = sum(r["rating"] for r in rs) / len(rs), len(rs)
+    elif ex:
+        # Demo template: the shop's reviews module feeds real numbers (п. 22 sketch: 4,8 · 12).
+        avg, n = ex["rating"], ex["count"]
+    else:
         return ""
-    avg = sum(r["rating"] for r in rs) / len(rs)
     return f'''
           <p class="rating">
             <span class="rating__stars" aria-hidden="true">{stars(avg)}</span>
             <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>{score(avg)}<span class="visually-hidden"> из 5</span></span>
-            <a class="rating__link" href="#reviews" data-tab-link="reviews">{reviews_label(len(rs))}</a>
+            <a class="rating__link" href="#reviews" data-tab-link="reviews">{reviews_label(n)}</a>
           </p>'''
 
 
@@ -464,11 +463,13 @@ def render_details(p):
     the same sections one under another on wider screens and without JS."""
     d = p["pdp"]
     rs = d["reviews"]
+    ex = d.get("reviews_example")
+    shown = rs or (ex["items"] if ex else [])
     desc = "\n".join(f"                <p>{typo(x)}</p>" for x in d["description"])
     benefits = "\n".join(f"                  <li>{esc(x)}</li>" for x in d["benefits"])
     specs = "\n".join(
         f'                <div class="specs__row"><dt>{esc(k)}</dt><dd>{units(esc(v))}</dd></div>' for k, v in d["specs"])
-    if rs:
+    if shown:
         items = "\n".join(f'''                <li class="review">
                   <p class="review__rating"><span aria-hidden="true">{stars(r["rating"])}</span><span class="visually-hidden">Оценка {r["rating"]} из 5</span></p>
                   <blockquote class="review__text">{esc(r["text"])}</blockquote>
@@ -477,8 +478,9 @@ def render_details(p):
                     <span class="review__author">{esc(r["author"])}</span>
                     <time class="review__date" datetime="{r["date"]}">{ru_date(r["date"])}</time>
                   </div>
-                </li>''' for r in rs)
-        reviews_body = f'''              <ul class="reviews__list">
+                </li>''' for r in shown)
+        note = "" if rs else f'              <p class="reviews__sample">{typo(ex["note"])}</p>\n'
+        reviews_body = f'''{note}              <ul class="reviews__list">
 {items}
               </ul>'''
     else:
@@ -486,7 +488,8 @@ def render_details(p):
     write = site(d["source"]["url"].replace(SITE, ""))
     delivery = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["delivery"])
     payment = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["payment"])
-    count = f' <span class="details__count">{len(rs)}</span>' if rs else ""
+    total = len(rs) or (ex["count"] if ex else 0)
+    count = f' <span class="details__count">{total}</span>' if total else ""
     return f'''        <section class="details" aria-label="О товаре" data-details>
           <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs data-strip hidden>
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>

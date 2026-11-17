@@ -84,9 +84,15 @@ class Reviews(unittest.TestCase):
         self.assertEqual(b.score(4.5), "4,5")
         self.assertEqual(b.ru_date("2022-02-28"), f"28{NB}февраля 2022")
 
-    def test_no_reviews_no_rating(self):
-        self.assertEqual(b.render_rating(ANANAS), "")
+    def test_example_rating_not_in_structured_data(self):
+        # No real reviews: the labelled example (п. 22 sketch) shows, structured data stays clean.
+        self.assertIn("4,8", b.render_rating(ANANAS))
         self.assertNotIn("aggregateRating", b.render_pdp_ld(ANANAS))
+
+    def test_no_reviews_no_example_no_rating(self):
+        p = copy.deepcopy(ANANAS)
+        p["pdp"].pop("reviews_example")
+        self.assertEqual(b.render_rating(p), "")
 
     def test_typography(self):
         self.assertEqual(b.typo("Сбербанк — курьеру"), f"Сбербанк{NB}— курьеру")

@@ -1,6 +1,5 @@
 @use "tokens" as *;
 @use "strip";
-@use "pager";
 
 // Product detail sits in the same width rhythm as .wrap on the home page.
 .page {
@@ -120,8 +119,8 @@
   }
 }
 
-// п. 15: one frame for one photo; two and more — a strip that swipes on phones (dots) and
-// follows the thumbnails on desktop. gallery.js drives both, as for the home tiles.
+// п. 15 (sketch in the sheet): one photo — just the photo; two and more — a row of thumbnails
+// under it on every width, scrolling sideways when there are more than four. gallery.js.
 .photos {
   --shot-pad: clamp(14px, 2vw, 22px);
   position: relative;
@@ -132,7 +131,8 @@
 
   &__track {
     display: flex;
-    overflow-x: auto;
+    // The thumbnails change the photo; the photo itself does not swipe (п. 15 sketch).
+    overflow-x: hidden;
     scroll-snap-type: x mandatory;
     overscroll-behavior-x: contain;
     scrollbar-width: none;
@@ -147,32 +147,6 @@
     }
   }
 
-  // On the photo's bottom edge, as on the home tiles — above the caption and clear of the
-  // pinned buy bar on the first screen.
-  &__dots {
-    position: absolute;
-    top: calc(100cqw - var(--shot-pad) - 30px);
-    left: 0;
-    right: 0;
-    z-index: 1;
-    display: flex;
-    justify-content: center;
-    pointer-events: none;
-    @include pager.pager-quiet;
-
-    button {
-      @include pager.photo-dot;
-    }
-
-    @media (min-width: $bp-phone) {
-      display: none;
-    }
-  }
-
-  &:hover &__dots,
-  &:focus-within &__dots {
-    opacity: 1;
-  }
 }
 
 .shot {
@@ -208,14 +182,17 @@
 
 .gallery {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: column;
+  // Four in view; a fifth and more scroll sideways — the «листалка» of п. 15.
+  grid-auto-columns: calc((100% - 3 * var(--step-2)) / 4);
   gap: var(--step-2);
   margin: 0;
   padding: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
   list-style: none;
 
-  // Thumbnails are the desktop control; phones swipe with dots instead (п. 15).
-  @media (max-width: #{$bp-phone - 1px}) {
+  &::-webkit-scrollbar {
     display: none;
   }
 
@@ -288,6 +265,17 @@
         border-color: var(--brand-deep);
       }
     }
+  }
+
+  // Demo only: the reviews shown are an example of the block; the site's module feeds real ones.
+  &__sample {
+    margin-top: var(--step-4);
+    padding: var(--step-2) var(--step-3);
+    border-left: 3px solid var(--line-strong);
+    background: var(--canvas);
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.45;
   }
 
   // The shop's own words for a product without reviews.
