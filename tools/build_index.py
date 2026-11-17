@@ -329,6 +329,47 @@ def units(text):
     return re.sub(r"(\d) (г|кг|мл|мин|ч\.)", lambda m: m.group(1) + NB + m.group(2), text)
 
 
+SHORT = ("в", "во", "с", "со", "к", "ко", "у", "о", "об", "и", "а", "но", "не", "ни", "до", "по", "от",
+         "на", "за", "из", "для", "при", "без", "под", "над", "или", "что")
+NAMES = ("Почта", "Октябрьское", "Народного", "МЦК", "Apple", "Google", "г.", "м.", "ул.", "д.", "№", "т.")
+_SHORT_RE = re.compile(r"(^|[\s(«„\u00a0])(" + "|".join(SHORT) + r") (?=\S)", re.IGNORECASE)
+_NAME_RE = re.compile(r"(^|[\s(«\u00a0])(" + "|".join(re.escape(n) for n in NAMES) + r") (?=\S)")
+_NUM_RE = re.compile(r"(\d) (₽|г\b|кг|мл|мин|минут|км|шт|%)")
+
+
+def typeset_text(t):
+    """Russian line breaking for UI copy: a preposition or conjunction never ends a line,
+    «г. Москва», «Почта России», «ул. Народного Ополчения» stay together, a number keeps its
+    unit, a dash never opens a line."""
+    t = t.replace(" — ", NB + "— ")
+    for _ in range(2):  # «и в г. Москва»: chains of short words
+        t = _SHORT_RE.sub(lambda m: m.group(1) + m.group(2) + NB, t)
+        t = _NAME_RE.sub(lambda m: m.group(1) + m.group(2) + NB, t)
+    t = re.sub(r"(\d) (\d{3})\b", lambda m: m.group(1) + NB + m.group(2), t)  # 3 500
+    return _NUM_RE.sub(lambda m: m.group(1) + NB + m.group(2), t)
+
+
+def typeset_html(html_text):
+    """typeset_text() over the text of <main> only — not tags, attributes, scripts or styles."""
+    a, b = html_text.find("<main"), html_text.find("</main>")
+    if a < 0 or b < 0:
+        return html_text
+    part = html_text[a:b]
+    out, pos, skip = [], 0, False
+    for m in re.finditer(r"<[^>]+>", part):
+        text = part[pos:m.start()]
+        out.append(text if skip else typeset_text(text))
+        tag = m.group(0).lower()
+        if tag.startswith(("<script", "<style")):
+            skip = True
+        elif tag.startswith(("</script", "</style")):
+            skip = False
+        out.append(m.group(0))
+        pos = m.end()
+    out.append(typeset_text(part[pos:]))
+    return html_text[:a] + "".join(out) + html_text[b:]
+
+
 def reviews_label(n):
     return f"{n}{NB}{plural(n, 'отзыв', 'отзыва', 'отзывов')}"
 
@@ -908,7 +949,7 @@ def main():
         page_html = render_category(c, *shell(
             "", "search-field-category",
             'Демо: <a href="./">главная</a>, категория и карточки товара. Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>'))
-        (ROOT / c["page"]).write_text(demo_links(page_html), encoding="utf-8")
+        (ROOT / c["page"]).write_text(demo_links(typeset_html(page_html)), encoding="utf-8")
         print("ok", c["page"], len(page_html))
 
     for pdp in (p for p in products if "pdp" in p):
@@ -975,7 +1016,7 @@ def render_service_pages():
         out = (tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
                .replace("{{SAMPLE}}", cart_sample()))
         assert "{{" not in out, name
-        (ROOT / f"{name}.html").write_text(demo_links(out), encoding="utf-8")
+        (ROOT / f"{name}.html").write_text(demo_links(typeset_html(out)), encoding="utf-8")
         print("ok", f"{name}.html", len(out))
 
 

@@ -32,9 +32,9 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok(rub(await p.textContent('[data-order-line]')).includes('Ананасовый улун, 100 г') && rub(await p.textContent('[data-order-line]')).includes('2 × 326,40 ₽'), '26: в строке название, фасовка и «2 × 326,40 ₽»');
 
     // Blocks in the shop's order, texts as on teaboom.ru
-    const titles = (await p.$$eval('.step__title', (xs) => xs.map((x) => x.textContent.trim())));
+    const titles = (await p.$$eval('.step__title', (xs) => xs.map((x) => x.textContent.replace(/\u00a0/g, ' ').trim())));
     ok(JSON.stringify(titles) === JSON.stringify(['Оформить заказ как', 'Получатель и адрес доставки', 'Дата доставки', 'Комментарий', 'Доставка', 'Оплата']), '26: блоки по порядку сайта');
-    ok((await p.textContent('#step-address')).includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: подсказка к адресу дословно');
+    ok((await p.textContent('#step-address')).replace(/\u00a0/g, ' ').includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: подсказка к адресу дословно');
     ok(await p.locator('input[name="shipping-method"]').count() === 6, '26: шесть способов доставки');
     ok(await p.locator('input[name="shipping-method"]:checked').getAttribute('value') === '5', '26: по умолчанию самовывоз с Народного Ополчения');
     const today = await p.evaluate(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; });

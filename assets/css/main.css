@@ -3465,7 +3465,7 @@ body::before {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  min-height: 32px;
+  min-height: 40px;
   color: var(--tea);
   cursor: pointer;
   list-style: none;
@@ -4390,11 +4390,14 @@ body::before {
 
 .summary__head {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: var(--step-3);
 }
 .summary__edit {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
   font-size: 14px;
 }
 

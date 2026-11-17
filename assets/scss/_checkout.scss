@@ -419,12 +419,15 @@
 .summary {
   &__head {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     justify-content: space-between;
     gap: var(--step-3);
   }
 
   &__edit {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
     font-size: 14px;
   }
 }
