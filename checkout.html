@@ -12,7 +12,7 @@
   <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
   <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body class="has-paybar">
+<body class="fills-screen has-paybar">
   <a class="skip-link" href="#main">Перейти к содержимому</a>
 
 <!-- The header itself is the sticky bar (brand, contacts, cart). Menu, search and catalogue
@@ -159,19 +159,18 @@
 
           <fieldset class="step step--person">
             <legend class="step__title">Оформить заказ как</legend>
-            <div class="choices choices--row">
-              <label class="choice choice--card">
-                <input class="choice__input" type="radio" name="for_company" value="individual" checked data-person>
-                <span class="choice__mark" aria-hidden="true"></span>
-                <span class="choice__name">Физическое лицо</span>
+            <!-- Same segmented control as the login tabs: two short options, one line. -->
+            <div class="segment">
+              <label class="segment__item">
+                <input class="segment__input" type="radio" name="for_company" value="individual" checked data-person>
+                <span class="segment__face">Физическое лицо</span>
               </label>
-              <label class="choice choice--card">
-                <input class="choice__input" type="radio" name="for_company" value="legal" data-person>
-                <span class="choice__mark" aria-hidden="true"></span>
-                <span class="choice__name">Юридическое лицо</span>
-                <span class="choice__desc">(выставление счета доступно только для юр.&nbsp;лиц)</span>
+              <label class="segment__item">
+                <input class="segment__input" type="radio" name="for_company" value="legal" data-person>
+                <span class="segment__face">Юридическое лицо</span>
               </label>
             </div>
+            <p class="step__note">(выставление счета доступно только для юр.&nbsp;лиц)</p>
           </fieldset>
 
           <fieldset class="step" id="step-address">
@@ -237,7 +236,7 @@
                 </div>
               </div>
               <details class="address__more">
-                <summary class="address__toggle">Индекс, регион, корпус, подъезд, этаж, код домофона</summary>
+                <summary class="address__toggle">Индекс, этаж, домофон и другое</summary>
                 <div class="address__grid">
                   <div class="field">
                     <label class="field__label" for="postcode">Индекс</label>

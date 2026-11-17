@@ -236,6 +236,16 @@ body::before {
     scroll-behavior: auto !important;
   }
 }
+.fills-screen {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+.fills-screen > main {
+  flex: 1 0 auto;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(-8px);

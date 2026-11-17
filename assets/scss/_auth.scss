@@ -229,14 +229,7 @@
     border: 1px solid var(--line-strong);
     border-radius: var(--radius-md);
 
-    &::before {
-      content: "";
-      flex: none;
-      width: 8px;
-      height: 8px;
-      background: var(--mark, var(--ink));
-      border-radius: 50%;
-    }
+
     transition: border-color var(--ease), background-color var(--ease), box-shadow var(--ease), filter var(--ease);
 
     @media (max-width: 420px) {
@@ -257,16 +250,10 @@
     }
   }
 
-  // Quiet buttons like the rest of the page; the network shows as a small mark in its colour.
-  &__link--vk {
-    --mark: #0077ff;
+  &__icon {
+    flex: none;
+    width: 20px;
+    height: 20px;
   }
 
-  &__link--ok {
-    --mark: #ee8208;
-  }
-
-  &__link--ya {
-    --mark: #fc3f1d;
-  }
 }

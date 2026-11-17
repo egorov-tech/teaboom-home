@@ -68,7 +68,7 @@
     width: 100%;
     margin: 0;
     padding: 0;
-    font: 500 22px/1.2 var(--font-display);
+    font: 500 20px/1.2 var(--font-display);
 
     + * {
       clear: both;
@@ -181,6 +181,17 @@
       display: none;
     }
 
+    // A ring for the keyboard only; a tap leaves no frame.
+    &:focus {
+      outline: none;
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ink);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+
     &::before {
       content: "";
       flex: none;
@@ -206,78 +217,70 @@
 }
 
 // Radio choices: the native input stays (keyboard, forms), the dot is drawn next to it.
+// Delivery and payment: one list with hairlines between rows instead of a stack of framed
+// cards. The chosen row is tinted and its dot filled; prices sit in one right column.
 .choices {
   display: grid;
-  gap: var(--step-2);
-
-  &--row {
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  }
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
 }
 
 .choice {
   position: relative;
   display: grid;
-  grid-template-columns: 22px minmax(0, 1fr) auto;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
   column-gap: var(--step-3);
   row-gap: 2px;
-  align-items: center;
-  min-height: var(--tap);
+  align-items: start;
+  padding: 14px var(--step-4);
   font-size: 15px;
+  line-height: 20px;
   cursor: pointer;
+  transition: background-color var(--ease);
 
   &[hidden] {
     display: none;
   }
 
-  &--card {
-    align-items: start;
-    padding: var(--step-3) var(--step-4);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-md);
-    transition: border-color var(--ease), box-shadow var(--ease);
+  &:not([hidden]) ~ &:not([hidden]) {
+    border-top: 1px solid var(--line);
+  }
 
-    &:has(:checked) {
-      border-color: var(--ink);
-      box-shadow: inset 0 0 0 1px var(--ink);
-    }
+  &:has(:checked) {
+    background: color-mix(in srgb, var(--brand) 9%, var(--paper));
+  }
 
-    @media (hover: hover) {
-      &:hover {
-        border-color: var(--ink);
-      }
+  @media (hover: hover) {
+    &:not(:has(:checked)):hover {
+      background: color-mix(in srgb, var(--canvas) 70%, var(--paper));
     }
   }
 
   // Right over the drawn dot, so touch exploration and clicks land on the same spot.
   &__input {
     position: absolute;
-    top: calc(50% - 11px);
-    left: 0;
-    opacity: 0;
-    width: 22px;
-    height: 22px;
-    margin: 0;
-  }
-
-  &--card &__input {
-    top: var(--step-3);
+    top: 14px;
     left: var(--step-4);
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    opacity: 0;
   }
 
   &__mark {
     grid-row: 1;
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     background: var(--paper);
-    border: 1px solid var(--line-strong);
+    border: 1.5px solid var(--line-strong);
     border-radius: 50%;
     transition: border-color var(--ease), box-shadow var(--ease);
   }
 
   &__input:checked + &__mark {
     border-color: var(--ink);
-    box-shadow: inset 0 0 0 6px var(--ink);
+    box-shadow: inset 0 0 0 5px var(--ink);
   }
 
   &__input:focus-visible + &__mark {
@@ -285,9 +288,8 @@
     outline-offset: 2px;
   }
 
-  &--card &__name {
+  &__name {
     font-weight: 600;
-    line-height: 1.35;
   }
 
   &__price {
@@ -299,8 +301,62 @@
   &__desc {
     grid-column: 2 / -1;
     font-size: 13px;
-    line-height: 1.4;
+    line-height: 18px;
     color: var(--muted);
+  }
+}
+
+// «Физическое / Юридическое лицо»: the login tabs' segmented control, built on radios.
+.segment {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--line) 60%, var(--canvas));
+  border-radius: calc(var(--radius-md) + 4px);
+
+  &__item {
+    position: relative;
+    display: block;
+    cursor: pointer;
+  }
+
+  &__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  &__face {
+    display: grid;
+    place-items: center;
+    min-height: var(--tap);
+    padding: 0 var(--step-3);
+    font: 600 14px/1.2 var(--font-text);
+    color: var(--ink-soft);
+    text-align: center;
+    border-radius: var(--radius-md);
+    transition: background-color var(--ease), color var(--ease), box-shadow var(--ease);
+  }
+
+  &__input:checked + &__face {
+    color: var(--ink);
+    background: var(--paper);
+    box-shadow: 0 1px 3px rgb(27 27 27 / 12%);
+  }
+
+  // Keyboard only: a ring outside the chosen segment; a click leaves no frame.
+  &__input:focus {
+    outline: none;
+  }
+
+  &__input:focus-visible + &__face {
+    box-shadow: 0 0 0 2px var(--ink);
   }
 }
 
@@ -394,4 +450,36 @@ button.paybar__order {
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+// Phones: no box inside the card. Delivery and payment rows run edge to edge of the step card,
+// separated by hairlines, so names and notes get the full width and wrap less.
+@media (max-width: #{$bp-phone - 1px}) {
+  .step {
+    padding: var(--step-4);
+  }
+
+  .choices {
+    margin-inline: calc(var(--step-4) * -1);
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  .choice {
+    padding: var(--step-3) var(--step-4);
+  }
+
+  .choice__input {
+    top: var(--step-3);
+  }
+
+  // The list closes the card: no empty strip under the last row.
+  .step:has(> .choices:last-child) {
+    overflow: hidden;
+    padding-bottom: 0;
+
+    > .choices {
+      border-bottom: 0;
+    }
+  }
 }
