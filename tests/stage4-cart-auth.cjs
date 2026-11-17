@@ -59,15 +59,49 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   ok((await p.textContent('[data-basket-count]')).trim() === '3 товара', '25: «3 товара»');
   ok(await p.locator('[data-paybar]').isHidden(), '25: компьютер — нижней панели нет');
   const sticky = await p.evaluate(() => getComputedStyle(document.querySelector('[data-summary]')).position);
-  ok(sticky === 'sticky', '25: компьютер — «Ваш заказ» закреплён справа');
+  ok(sticky === 'sticky', '25: компьютер — итог закреплён справа');
   await p.locator('[data-qty-dec]').first().click(); await p.locator('[data-qty-dec]').first().click(); await p.waitForTimeout(150);
   ok(await p.locator('[data-line]').count() === 1, '25: «−» на 1 шт. убирает строку');
   await c.close();
 
+  // ---------- Product page and home → cart ----------
+  c = await b.newContext(phone);
+  p = await open(c, 'product.html');
+  await p.locator('.product .pack__input[data-sku="01308"]').check({ force: true });
+  await p.locator('.product form button[type="submit"], .product .cta').first().click(); await p.waitForTimeout(900);
+  await p.goto(base + 'cart.html', { waitUntil: 'networkidle' });
+  ok(rub(await p.textContent('[data-line-name]')) === 'Ананасовый улун, 1 кг' && (await p.textContent('[data-line-sku]')) === '01308' && (await p.textContent('[data-total]')) === '2' + NB + '064' + NB + '₽', '25: страница товара → корзина: «Ананасовый улун, 1 кг», 01308, 2 064 ₽');
+  ok((await p.getAttribute('[data-line-name]', 'href')) === 'product.html', '25: строка ведёт обратно на страницу товара');
+  await p.goto(base, { waitUntil: 'networkidle' });
+  await p.locator('[data-good]').first().locator('[data-add]').click(); await p.waitForTimeout(900);
+  await p.goto(base + 'cart.html', { waitUntil: 'networkidle' });
+  ok(await p.locator('[data-line]').count() === 2 && await p.evaluate(() => window.TeaboomCart.items().every((x) => x.price > 0 && x.name && x.sku)), '25: главная → корзина: вторая строка, у всех цена, название, артикул');
+  await c.close();
+
+  // ---------- Narrow screens and tablet: stepper never runs into the sum ----------
+  for (const width of [320, 360, 768]) {
+    c = await b.newContext({ viewport: { width, height: 800 }, isMobile: width < 768, hasTouch: width < 768 });
+    p = await open(c, 'cart.html');
+    await p.evaluate(() => window.TeaboomCart.fill([{ sku: '01309', name: 'Ананасовый улун', pack: '5 кг', price: 6320, old: 8710, img: 'assets/images/products/ananasovij-ulun-280.jpg', url: 'product.html', qty: 10 }]));
+    await p.waitForTimeout(200);
+    const hit = await p.evaluate(() => {
+      const r = (s) => document.querySelector(s).getBoundingClientRect();
+      const a = r('[data-qty]'), m = r('.line__money'), n = r('.line__info'), x = r('[data-line-remove]');
+      const cross = (u, v) => u.left < v.right && v.left < u.right && u.top < v.bottom && v.top < u.bottom;
+      return cross(a, m) || cross(n, x) || cross(a, n);
+    });
+    ok(!hit && await overflow(p) <= 0 && (await p.textContent('[data-total]')) === '63' + NB + '200' + NB + '₽', `25: ${width} px — «− 10 +», 63 200 ₽ и название не пересекаются, без прокрутки вбок`);
+    await c.close();
+  }
+
   // ---------- Login ----------
   c = await b.newContext(phone);
   p = await open(c, 'login.html');
+  ok((await p.textContent('h1')).trim() === 'Авторизация', '27: заголовок как на сайте — «Авторизация»');
   ok(await p.locator('#pane-link').isVisible() && await p.locator('#pane-login').isHidden(), '27: по умолчанию «Быстрый вход»');
+  ok(await p.locator('.how .steps').isHidden(), '27: шаги быстрого входа спрятаны под «как это работает?», как на сайте');
+  await p.locator('.how__toggle').tap();
+  ok(await p.locator('.how .steps > li').count() === 4 && await p.locator('.how .steps').isVisible(), '27: «как это работает?» раскрывает 4 шага');
   await p.locator('#tab-link').focus(); await p.keyboard.press('ArrowRight');
   ok(await p.locator('#pane-login').isVisible() && (await p.getAttribute('#tab-login', 'aria-selected')) === 'true', '27: стрелка вправо → «Авторизация»');
   await p.keyboard.press('End');
@@ -102,7 +136,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   await c.close();
 
   c = await b.newContext({ ...phone, javaScriptEnabled: false }); p = await c.newPage(); await p.goto(base + 'login.html', { waitUntil: 'load' });
-  ok(await p.locator('#pane-link form').isVisible(), 'без JS: форма быстрого входа видна');
+  ok(await p.locator('#pane-link form').isVisible() && await p.locator('#pane-login form').isVisible() && await p.locator('#pane-register form').isVisible() && await p.locator('[data-switch]').isHidden(), 'без JS: все три формы видны, вкладок нет');
   await c.close();
 
   ok(errors.length === 0, 'нет ошибок JS ' + errors.join('; '));

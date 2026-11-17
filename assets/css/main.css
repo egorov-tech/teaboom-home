@@ -2805,6 +2805,9 @@ body::before {
   background: color-mix(in srgb, var(--line) 60%, var(--canvas));
   border-radius: calc(var(--radius-md) + 4px);
 }
+.switch[hidden] {
+  display: none;
+}
 .switch__tab {
   min-height: var(--tap);
   padding: 0 var(--step-3);
@@ -2889,29 +2892,67 @@ body::before {
   color: var(--ink-soft);
 }
 
+.how {
+  font-size: 14px;
+}
+.how__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  color: var(--tea);
+  cursor: pointer;
+  list-style: none;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.how__toggle::-webkit-details-marker {
+  display: none;
+}
+.how__toggle::before {
+  content: "?";
+  display: grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  font: 700 12px/1 var(--font-text);
+  color: var(--paper);
+  background: var(--tea);
+  border-radius: 50%;
+}
+.how[open] .how__toggle {
+  margin-bottom: var(--step-3);
+}
+
 .steps {
   margin: 0;
   padding: 0;
   list-style: none;
   counter-reset: step;
   display: grid;
-  gap: var(--step-4);
+  gap: var(--step-3);
 }
-.steps li {
+.steps > li {
   counter-increment: step;
   display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: var(--step-3);
-  padding-top: var(--step-3);
+  grid-template-columns: 28px 1fr;
+  gap: var(--step-2);
+  padding-top: var(--step-2);
   border-top: 1px solid var(--line);
   color: var(--ink-soft);
-  font-size: 15px;
   max-width: 62ch;
 }
-.steps li::before {
+.steps > li::before {
   content: counter(step);
-  font: 500 28px/1 var(--font-display);
+  font: 500 22px/1.1 var(--font-display);
   color: var(--ink);
+}
+.steps ul {
+  grid-column: 2;
+  margin: var(--step-1) 0 0;
+  padding-left: 1.1em;
+  list-style: disc;
 }
 
 .notice {
@@ -3075,13 +3116,19 @@ body::before {
 .line {
   display: grid;
   grid-template-columns: 72px minmax(0, 1fr) auto;
-  grid-template-areas: "photo info remove" "photo qty money";
+  grid-template-areas: "photo info remove" "qty qty money";
   gap: var(--step-2) var(--step-3);
   align-items: center;
   padding: var(--step-4);
 }
 .line + .line {
   border-top: 1px solid var(--line);
+}
+@media (max-width: 359px) {
+  .line {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    padding: var(--step-3);
+  }
 }
 @media (min-width: 768px) {
   .line {
@@ -3113,7 +3160,7 @@ body::before {
   font-weight: 600;
   color: var(--ink);
   text-decoration: none;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 @media (hover: hover) {
   .line__name:hover {

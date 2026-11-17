@@ -192,6 +192,43 @@ teaboom-home/
     └── images/                # баннеры, товары, категории, логотип, паттерн
 ```
 
+## Передача: корзина и вход (этап 4, п. 25 и 27)
+
+Страницы собирает `python3 tools/build_index.py` из `tools/cart.template.html`,
+`tools/login.template.html`, `tools/password-reset.template.html` и общей оболочки
+(`tools/partials/masthead.html`, `footer.html`, `dock.html`). Стили — `main.css`
+(`_field.scss`, `_auth.scss`, `_basket.scss`), скрипты — `forms.js`, `basket.js`, `cart.js`.
+
+**Формы — те же адреса и имена полей, что на teaboom.ru**, бэкенд читает их без правок:
+
+| Форма | action | Поля |
+|---|---|---|
+| Быстрый вход | `POST /magic_link_auth/create_token` | `email`, `next`, `magic_link_auth` |
+| Авторизация | `POST /login` | `username`, `password`, `action=login`, `next`; новое — `remember` (флажок «Запомнить меня») |
+| Регистрация | `POST /login` | `email`, `password_1`, `password_2`, `action=register`, `next` |
+| Сброс пароля | `POST /password-reset/` | `email` |
+| Купон в корзине | `POST /cart` | `voucher` |
+| Соцсети | ссылки | `/login/vk-oauth2/`, `/login/odnoklassniki-oauth2/`, `/login/yandex-oauth2/` (`?next=/`) |
+
+Добавить при подключении: `csrfmiddlewaretoken` в каждую форму; ошибки сервера выводить в
+`<p class="field__error" data-error>` под полем (и `aria-invalid="true"` на поле) — так же
+выглядят проверки в браузере.
+
+**Корзина в демо живёт в браузере** (`localStorage`, ключ `teaboom-demo-cart-v2`), чтобы
+главная → товар → корзина работали без сервера. `window.TeaboomCart`: `items()`, `add({ photo,
+label, item })`, `setQty(sku, n)`, `remove(sku)`, `clear()`, `onChange(fn)`. Строка:
+`{ sku, name, pack, price, old, img, url, qty }`. На сайте строки рендерит сервер по той же
+разметке (`<template data-line-template>` в `cart.html`), а `basket.js` достаточно заменить
+вызовами `/delete-cart-item/<id>` и обновлением количества, как сейчас на сайте.
+
+Убрать при подключении: сообщения «Демо: …» (`forms.js`, `basket.js`), заполнение примера по
+`cart.html?demo`, `localStorage` в `cart.js`. «Заказать» пока ведёт на живой
+`/checkout-dispatcher` — страница оформления (п. 26) следующая.
+
+Отличия от сайта, согласованные с владельцем демо: колонка «Категории / Вы смотрели» в корзине
+убрана; на телефоне итог и «Заказать» закреплены над нижней панелью, пока кнопка в блоке итога
+вне экрана; «Запомнить меня» во входе.
+
 ## Доступность
 
 - один `h1`, заголовки без пропусков уровней; `header`, `nav`, `main`, `footer`;

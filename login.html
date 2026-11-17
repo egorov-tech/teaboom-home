@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Вход в личный кабинет — интернет-магазин чая «Чайный Бум»</title>
+  <title>Авторизация — интернет-магазин чая «Чайный Бум»</title>
   <meta name="description" content="Вход и регистрация в интернет-магазине чая «Чайный Бум»: ссылка для входа на email, вход по паролю, VK, Одноклассники и Яндекс.">
   <!-- Demo for review: keep it out of search entirely. -->
   <meta name="robots" content="noindex, nofollow">
@@ -140,12 +140,12 @@
         </ol>
       </nav>
 
-      <h1 class="auth__title" id="auth-title">Вход в личный кабинет</h1>
+      <h1 class="auth__title" id="auth-title">Авторизация</h1>
 
       <div class="auth__layout">
         <section class="auth__main" aria-labelledby="auth-title">
 
-          <div class="switch" role="tablist" aria-label="Способ входа" data-switch>
+          <div class="switch" role="tablist" aria-label="Способ входа" data-switch hidden>
             <button class="switch__tab press" type="button" role="tab" id="tab-link" aria-controls="pane-link" aria-selected="true" data-switch-tab="link">Быстрый вход</button>
             <button class="switch__tab press" type="button" role="tab" id="tab-login" aria-controls="pane-login" aria-selected="false" tabindex="-1" data-switch-tab="login">Авторизация</button>
             <button class="switch__tab press" type="button" role="tab" id="tab-register" aria-controls="pane-register" aria-selected="false" tabindex="-1" data-switch-tab="register">Регистрация</button>
@@ -154,7 +154,6 @@
           <!-- Field names, actions and «next» as on teaboom.ru/login: the shop's backend reads them. -->
           <div class="auth__pane" role="tabpanel" id="pane-link" aria-labelledby="tab-link" data-switch-pane="link">
             <form class="form" action="/magic_link_auth/create_token" method="post" novalidate data-form="link">
-              <p class="form__lead">Пришлём на почту ссылку — по ней вы войдёте без пароля. Если вы у нас впервые, создадим учётную запись.</p>
               <div class="field">
                 <label class="field__label" for="link-email">Email</label>
                 <input class="field__input" id="link-email" name="email" type="email" autocomplete="email" inputmode="email" required placeholder="you@mail.ru" aria-describedby="link-email-error">
@@ -162,12 +161,26 @@
               </div>
               <input type="hidden" name="next" value="/">
               <input type="hidden" name="magic_link_auth" value="1">
+              <details class="how">
+                <summary class="how__toggle">как это работает?</summary>
+                <ol class="steps">
+                  <li>Введите ваш email в поле и нажмите на кнопку.</li>
+                  <li>На указанный адрес придет письмо со ссылкой для входа. Перейдите по ней.
+                    <ul>
+                      <li>Если вы уже были зарегистрированы с использованием этого адреса, система авторизует вас.</li>
+                      <li>Если вы у нас впервые, будет создана новая учетная запись и система авторизует вас.</li>
+                    </ul>
+                  </li>
+                  <li>Ссылка действительна в течение 15 минут на том же устройстве и в том же браузере, с которого отправлен запрос.</li>
+                  <li>Ссылку можно использовать один раз.</li>
+                </ol>
+              </details>
               <button class="form__submit press" type="submit">Получить ссылку для входа</button>
               <p class="form__done" role="status" data-done hidden></p>
             </form>
           </div>
 
-          <div class="auth__pane" role="tabpanel" id="pane-login" aria-labelledby="tab-login" data-switch-pane="login" hidden>
+          <div class="auth__pane" role="tabpanel" id="pane-login" aria-labelledby="tab-login" data-switch-pane="login">
             <form class="form" action="/login" method="post" novalidate data-form="login">
               <div class="field">
                 <label class="field__label" for="login-email">Email</label>
@@ -199,7 +212,7 @@
             </form>
           </div>
 
-          <div class="auth__pane" role="tabpanel" id="pane-register" aria-labelledby="tab-register" data-switch-pane="register" hidden>
+          <div class="auth__pane" role="tabpanel" id="pane-register" aria-labelledby="tab-register" data-switch-pane="register">
             <form class="form" action="/login" method="post" novalidate data-form="register">
               <div class="field">
                 <label class="field__label" for="reg-email">Email</label>
@@ -238,19 +251,14 @@
           </div>
         </section>
 
-        <aside class="auth__aside" aria-labelledby="how-title">
-          <h2 class="auth__subtitle" id="how-title">Как работает быстрый вход</h2>
-          <ol class="steps">
-            <li>Введите ваш email и нажмите «Получить ссылку для входа».</li>
-            <li>На этот адрес придёт письмо со ссылкой для входа. Перейдите по ней. Если вы уже регистрировались с этим адресом, система авторизует вас; если вы у нас впервые — создаст новую учётную запись.</li>
-            <li>Ссылка действительна 15 минут на том же устройстве и в том же браузере, с которого отправлен запрос.</li>
-            <li>Ссылку можно использовать один раз.</li>
-          </ol>
-          <p class="auth__hint">Не пришло письмо со ссылкой или для смены пароля? Проверьте папку «Спам».</p>
+        <aside class="auth__aside" aria-label="Важно">
           <div class="notice">
-            <p class="notice__title">Вход через Google, Twitter и Facebook больше недоступен</p>
-            <p>По требованиям закона о способах авторизации входить через иностранные сервисы нельзя. Если раньше вы входили так, получите быструю ссылку на email, привязанный к этому сервису. Если не получается — <a href="https://teaboom.ru/contact">напишите нам</a> и укажите адрес email.</p>
+            <p class="notice__title">Уважаемые посетители!</p>
+            <p>В связи с вступлением в силу требований закона о способах авторизации, авторизация с помощью иностранных ресурсов (Google, Twitter, Facebook) больше невозможна.</p>
+            <p>Если вы ранее использовали один из этих способов авторизации, пожалуйста воспользуйтесь формой получения быстрой ссылки с адресом email привязанным к соответствующему сервису.</p>
+            <p>Если вы испытываете затруднения с авторизацией этим способом, пожалуйста свяжитесь с нами через <a href="https://teaboom.ru/contact">форму обратной связи</a> с указанием адреса email.</p>
           </div>
+          <p class="auth__hint">Если вы не получили письмо со ссылкой авторизации или смены пароля в течение нескольких минут, проверьте папку «Спам».</p>
         </aside>
       </div>
     </div>

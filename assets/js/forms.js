@@ -37,10 +37,13 @@
     });
 
     // login.html#register opens the right tab (links from the header, checkout, etc.).
+    // Without JS all forms stay on the page one under another; with JS — tabs.
+    list.hidden = false;
     const fromHash = () => {
       const tab = tabs.find((t) => `#${t.dataset.switchTab}` === location.hash);
       if (tab) show(tab);
     };
+    show(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
     fromHash();
     window.addEventListener("hashchange", fromHash);
   });

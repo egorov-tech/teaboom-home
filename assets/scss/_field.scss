@@ -180,6 +180,10 @@
   background: color-mix(in srgb, var(--line) 60%, var(--canvas));
   border-radius: calc(var(--radius-md) + 4px);
 
+  &[hidden] {
+    display: none;
+  }
+
   &__tab {
     min-height: var(--tap);
     padding: 0 var(--step-3);

@@ -110,16 +110,23 @@
 // stacks; qty and money share the bottom line.
 .line {
   display: grid;
+  // Phones: the «− N +» stepper starts under the photo, so it never runs into the sum
+  // even at 320 px with a five-digit total.
   grid-template-columns: 72px minmax(0, 1fr) auto;
   grid-template-areas:
     "photo info remove"
-    "photo qty money";
+    "qty qty money";
   gap: var(--step-2) var(--step-3);
   align-items: center;
   padding: var(--step-4);
 
   & + & {
     border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 359px) {
+    grid-template-columns: 56px minmax(0, 1fr) auto;
+    padding: var(--step-3);
   }
 
   @media (min-width: $bp-tablet) {
@@ -154,7 +161,7 @@
     font-weight: 600;
     color: var(--ink);
     text-decoration: none;
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
 
     @media (hover: hover) {
       &:hover {
