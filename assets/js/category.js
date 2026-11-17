@@ -189,9 +189,9 @@
     badge.hidden = picked === 0;
     badge.textContent = String(picked);
     openBtn.setAttribute("aria-label", picked ? `Фильтры, выбрано: ${picked}` : "Фильтры");
+    // Keep «Сбросить» in the layout (disabled when nothing is chosen) — hiding it shoved the heading.
     resetBtns.forEach((btn) => {
       btn.disabled = picked === 0;
-      if (btn.classList.contains("facets__clear")) btn.hidden = picked === 0;
     });
     // A chosen value inside a folded group is always shown.
     root.querySelectorAll("[data-extra]").forEach((li) => {

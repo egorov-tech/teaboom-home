@@ -89,6 +89,25 @@
   &__narrow {
     max-width: 240px;
   }
+
+  // Person type: two equal cards that fill the row (no thin radio strip with empty sides).
+  &--person {
+    gap: var(--step-3);
+  }
+
+  &--person .choices--row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+
+    @media (max-width: 420px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &--person .choice--card {
+    min-height: 100%;
+    align-content: start;
+    padding: var(--step-4);
+  }
 }
 
 .field {

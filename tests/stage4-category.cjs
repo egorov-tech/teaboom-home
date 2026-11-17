@@ -81,7 +81,15 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
     const zeroShown = await p.evaluate(() => [...document.querySelectorAll('.facet.is-off [data-facet-count]')].some((n) => getComputedStyle(n).visibility !== 'hidden'));
     ok(!zeroShown, `17: ${w} px — у недоступных значений нет «0»`);
     if (w === 1440) {
-      ok(await p.locator('.facets__clear').isVisible(), '17: «Сбросить» рядом с заголовком, когда что-то выбрано');
+      ok(await p.locator('.facets__clear').isVisible() && !(await p.locator('.facets__clear').isDisabled()), '17: «Сбросить» рядом с заголовком активно, когда что-то выбрано');
+      const jump = await p.evaluate(() => {
+        const head = document.querySelector('.facets__heading').getBoundingClientRect().top;
+        document.querySelector('.facets__clear').disabled = true;
+        const after = document.querySelector('.facets__heading').getBoundingClientRect().top;
+        document.querySelector('.facets__clear').disabled = false;
+        return Math.abs(after - head);
+      });
+      ok(jump < 1, '17: вкл/выкл «Сбросить» не сдвигает заголовок фильтров');
       await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);
       ok(await p.locator('[data-extra]:not([hidden])').count() === 3 && (await p.textContent('[data-facets-more]')).trim() === 'Свернуть', '17: «Ещё 3» раскрывает остальные сорта');
       await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);

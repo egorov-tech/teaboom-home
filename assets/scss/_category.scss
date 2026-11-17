@@ -274,8 +274,11 @@
   background: var(--brand);
   border-radius: 999px;
 
+  // Keep the slot so the «Фильтры» button does not grow when the count appears.
+  // Override the UA [hidden] { display: none } — the width must stay.
   &[hidden] {
-    display: none;
+    display: inline-grid;
+    visibility: hidden;
   }
 }
 
@@ -364,6 +367,7 @@
   }
 
   // «Сбросить» next to the heading on wide screens; in the sheet it lives in the footer.
+  // Always in the layout (disabled when empty) so choosing a filter does not shove the heading.
   &__clear {
     display: none;
     min-height: 32px;
@@ -376,8 +380,10 @@
     text-underline-offset: 3px;
     cursor: pointer;
 
-    &[hidden] {
-      display: none !important;
+    &:disabled {
+      color: var(--muted);
+      text-decoration: none;
+      cursor: default;
     }
 
     @media (min-width: $bp-split) {
@@ -615,15 +621,20 @@
 }
 
 // Chosen filters above the grid: each one off with a tap.
+// One chip-row is always reserved so the first filter does not shove the tiles down.
 .chips {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--step-2);
+  min-height: 36px;
   margin: 0 0 var(--step-4);
 
+  // Override the UA [hidden] { display: none } so the chip-row height stays reserved.
   &[hidden] {
-    display: none;
+    display: flex;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   &__list {

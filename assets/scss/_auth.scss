@@ -21,10 +21,7 @@
     display: grid;
     gap: var(--step-5);
     max-width: 440px;
-  }
-
-  &--narrow &__main {
-    max-width: 440px;
+    min-width: 0;
   }
 
   &__title {
@@ -33,11 +30,6 @@
     font-weight: 500;
     font-size: clamp(32px, 2.4vw + 20px, 48px);
     line-height: 1.05;
-  }
-
-  // Reset page keeps the title inside the column, where the column gap already spaces it.
-  &__main > &__title {
-    margin: 0;
   }
 
   &__pane[hidden] {
@@ -190,7 +182,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     min-height: var(--tap);
+    min-width: 0;
     padding: 0 var(--step-2);
     font-size: 14px;
     font-weight: 600;
@@ -202,7 +196,8 @@
     border-radius: var(--radius-md);
 
     @media (max-width: 420px) {
-      padding: 0 4px;
+      gap: 6px;
+      padding: 0 6px;
       font-size: 13px;
     }
 
@@ -212,5 +207,22 @@
         border-color: var(--ink);
       }
     }
+  }
+
+  &__icon {
+    flex: none;
+  }
+
+  // Brand tint on the mark only — the button itself stays paper / ink like the rest of the form.
+  &__link--vk &__icon {
+    color: #0077ff;
+  }
+
+  &__link--ok &__icon {
+    color: #ee8208;
+  }
+
+  &__link--ya &__icon {
+    color: #fc3f1d;
   }
 }

@@ -2033,6 +2033,7 @@ body::before {
 }
 .goods__grid > li {
   display: grid;
+  min-width: 0;
 }
 @supports (grid-template-rows: subgrid) {
   .goods__grid > li {
@@ -2694,7 +2695,8 @@ body::before {
   border-radius: 999px;
 }
 .category__badge[hidden] {
-  display: none;
+  display: inline-grid;
+  visibility: hidden;
 }
 
 @media (min-width: 1060px) {
@@ -2787,8 +2789,10 @@ body::before {
   text-underline-offset: 3px;
   cursor: pointer;
 }
-.facets__clear[hidden] {
-  display: none !important;
+.facets__clear:disabled {
+  color: var(--muted);
+  text-decoration: none;
+  cursor: default;
 }
 @media (min-width: 1060px) {
   .facets__clear {
@@ -2995,10 +2999,13 @@ body::before {
   flex-wrap: wrap;
   align-items: center;
   gap: var(--step-2);
+  min-height: 36px;
   margin: 0 0 var(--step-4);
 }
 .chips[hidden] {
-  display: none;
+  display: flex;
+  visibility: hidden;
+  pointer-events: none;
 }
 .chips__list {
   display: contents;
@@ -3327,9 +3334,7 @@ body::before {
   display: grid;
   gap: var(--step-5);
   max-width: 440px;
-}
-.auth--narrow .auth__main {
-  max-width: 440px;
+  min-width: 0;
 }
 .auth__title {
   margin: 0 0 var(--step-5);
@@ -3337,9 +3342,6 @@ body::before {
   font-weight: 500;
   font-size: clamp(32px, 2.4vw + 20px, 48px);
   line-height: 1.05;
-}
-.auth__main > .auth__title {
-  margin: 0;
 }
 .auth__pane[hidden] {
   display: none;
@@ -3473,7 +3475,9 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   min-height: var(--tap);
+  min-width: 0;
   padding: 0 var(--step-2);
   font-size: 14px;
   font-weight: 600;
@@ -3486,7 +3490,8 @@ body::before {
 }
 @media (max-width: 420px) {
   .social__link {
-    padding: 0 4px;
+    gap: 6px;
+    padding: 0 6px;
     font-size: 13px;
   }
 }
@@ -3495,6 +3500,18 @@ body::before {
     color: var(--ink);
     border-color: var(--ink);
   }
+}
+.social__icon {
+  flex: none;
+}
+.social__link--vk .social__icon {
+  color: #0077ff;
+}
+.social__link--ok .social__icon {
+  color: #ee8208;
+}
+.social__link--ya .social__icon {
+  color: #fc3f1d;
 }
 
 .basket {
@@ -3808,23 +3825,56 @@ body::before {
 .coupon__row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1px;
+  overflow: hidden;
+  background: var(--line-strong);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease), box-shadow var(--ease), background-color var(--ease);
+}
+.coupon__row:focus-within {
+  background: var(--ink);
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+@media (hover: hover) {
+  .coupon__row:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
 }
 .coupon__input {
-  border-right: 0;
-  border-radius: var(--radius-md) 0 0 var(--radius-md);
+  height: 46px;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--paper);
+}
+.coupon__input:focus-visible {
+  outline: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+.coupon__input[aria-invalid=true] {
+  border-color: transparent;
+}
+.coupon__row:has(.coupon__input[aria-invalid=true]) {
+  background: var(--cut);
+  border-color: var(--cut);
+  box-shadow: none;
 }
 .coupon__apply {
   padding: 0 var(--step-4);
   font: 700 14px/1 var(--font-text);
   color: var(--ink);
   background: var(--canvas);
-  border: 1px solid var(--line-strong);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  border: 0;
+  border-radius: 0;
   cursor: pointer;
 }
 @media (hover: hover) {
   .coupon__apply:hover {
-    border-color: var(--ink);
+    background: color-mix(in srgb, var(--canvas) 40%, var(--paper));
   }
 }
 .coupon__note {
@@ -3971,6 +4021,22 @@ body::before {
 }
 .step__narrow {
   max-width: 240px;
+}
+.step--person {
+  gap: var(--step-3);
+}
+.step--person .choices--row {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+@media (max-width: 420px) {
+  .step--person .choices--row {
+    grid-template-columns: 1fr;
+  }
+}
+.step--person .choice--card {
+  min-height: 100%;
+  align-content: start;
+  padding: var(--step-4);
 }
 
 .field__req {

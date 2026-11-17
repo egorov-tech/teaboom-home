@@ -42,21 +42,22 @@
         <form class="order" id="order" action="/checkout" method="post" novalidate data-form="checkout">
           <p class="order__login">На сайте заказ оформляется после входа. <a href="https://teaboom.ru/login">Войти или зарегистрироваться</a></p>
 
-          <fieldset class="step">
+          <fieldset class="step step--person">
             <legend class="step__title">Оформить заказ как</legend>
             <div class="choices choices--row">
-              <label class="choice">
+              <label class="choice choice--card">
                 <input class="choice__input" type="radio" name="person_type" value="individual" checked data-person>
                 <span class="choice__mark" aria-hidden="true"></span>
                 <span class="choice__name">Физическое лицо</span>
+                <span class="choice__desc">Для частных покупателей. Оплата при получении или через ЮKassa.</span>
               </label>
-              <label class="choice">
+              <label class="choice choice--card">
                 <input class="choice__input" type="radio" name="person_type" value="legal" data-person>
                 <span class="choice__mark" aria-hidden="true"></span>
                 <span class="choice__name">Юридическое лицо</span>
+                <span class="choice__desc">Выставление счета доступно только для юр.&nbsp;лиц.</span>
               </label>
             </div>
-            <p class="step__note">Выставление счета доступно только для юр.&nbsp;лиц</p>
           </fieldset>
 
           <fieldset class="step" id="step-address">

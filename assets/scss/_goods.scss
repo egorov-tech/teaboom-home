@@ -38,8 +38,10 @@
     }
 
     // Cards in a row share one height, so prices and buttons line up.
+    // minmax(0, 1fr) on the grid + min-width: 0 here keeps long names from blowing a column.
     > li {
       display: grid;
+      min-width: 0;
     }
 
     // Better still: every card in a row shares the same four tracks (photo, name, packs,
