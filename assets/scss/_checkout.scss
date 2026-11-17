@@ -360,6 +360,24 @@
   }
 }
 
+.brief__more {
+  justify-self: start;
+  min-height: 40px;
+  margin-top: calc(var(--step-2) * -1);
+  padding: 0;
+  font: 600 14px/1 var(--font-text);
+  color: var(--tea);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+
+  &[hidden] {
+    display: none;
+  }
+}
+
 // Summary lines: photo · name with «N × price» · sum.
 .brief {
   display: grid;
@@ -367,6 +385,10 @@
   margin: 0;
   padding: 0;
   list-style: none;
+
+  &__line[hidden] {
+    display: none;
+  }
 
   &__line {
     display: grid;

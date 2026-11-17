@@ -67,6 +67,37 @@
     }).observe(order);
   }
 
+  // Long orders: 3 lines + «Ещё N товаров».
+  const BRIEF_SHOWN = 3;
+  let briefOpen = false;
+  const more = root.querySelector("[data-brief-more]");
+  const plural = (n, one, few, many) => {
+    const a = n % 10;
+    const b = n % 100;
+    if (a === 1 && b !== 11) return one;
+    if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return few;
+    return many;
+  };
+  more?.addEventListener("click", () => {
+    briefOpen = !briefOpen;
+    render();
+    if (briefOpen) list.children[BRIEF_SHOWN]?.querySelector("a")?.focus();
+  });
+
+  // Sticky summary that never hides «Заказать»: under the header, or — if the block is taller
+  // than the window (an opened long list on a short screen) — a negative top so it scrolls with
+  // the page and holds once its bottom is in view. Same rule as the category filters.
+  const summary = root.querySelector("[data-summary]");
+  const wide = window.matchMedia("(min-width: 900px)");
+  const pinSummary = () => {
+    if (!summary || !wide.matches) return;
+    const css = getComputedStyle(document.documentElement);
+    const head = parseFloat(css.getPropertyValue("--pin-h")) - parseFloat(css.getPropertyValue("--pin-trim")) + 16;
+    summary.style.setProperty("--summary-top", `${Math.round(Math.min(head, window.innerHeight - summary.offsetHeight - 16))}px`);
+  };
+  if (summary && "ResizeObserver" in window) new ResizeObserver(pinSummary).observe(summary);
+  window.addEventListener("resize", pinSummary);
+
   const fillLine = (li, item) => {
     const img = li.querySelector("[data-brief-image]");
     if (item.img) img.src = item.img;
@@ -86,12 +117,20 @@
     syncBar(has);
 
     list.replaceChildren(
-      ...items.map((item) => {
+      ...items.map((item, i) => {
         const li = tpl.content.firstElementChild.cloneNode(true);
         fillLine(li, item);
+        li.hidden = !briefOpen && i >= BRIEF_SHOWN;
         return li;
       })
     );
+    const rest = items.length - BRIEF_SHOWN;
+    more.hidden = rest <= 0;
+    if (rest > 0) {
+      more.setAttribute("aria-expanded", String(briefOpen));
+      more.textContent = briefOpen ? "Свернуть" : `Ещё ${rest} ${plural(rest, "товар", "товара", "товаров")}`;
+    }
+    pinSummary();
 
     const sum = items.reduce((s, x) => s + x.price * x.qty, 0);
     ships.forEach((input) => {

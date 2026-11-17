@@ -277,7 +277,8 @@
 
   @media (min-width: $bp-mid) {
     position: sticky;
-    top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4));
+    // checkout.js sets --summary-top when the block is taller than the window.
+    top: var(--summary-top, calc(var(--pin-h) - var(--pin-trim) + var(--step-4)));
   }
 
   &__title {

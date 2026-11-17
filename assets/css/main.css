@@ -3891,7 +3891,7 @@ body::before {
 @media (min-width: 900px) {
   .summary {
     position: sticky;
-    top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4));
+    top: var(--summary-top, calc(var(--pin-h) - var(--pin-trim) + var(--step-4)));
   }
 }
 .summary__title {
@@ -4387,12 +4387,32 @@ body::before {
   box-shadow: 0 0 0 2px var(--ink);
 }
 
+.brief__more {
+  justify-self: start;
+  min-height: 40px;
+  margin-top: calc(var(--step-2) * -1);
+  padding: 0;
+  font: 600 14px/1 var(--font-text);
+  color: var(--tea);
+  background: none;
+  border: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.brief__more[hidden] {
+  display: none;
+}
+
 .brief {
   display: grid;
   gap: var(--step-3);
   margin: 0;
   padding: 0;
   list-style: none;
+}
+.brief__line[hidden] {
+  display: none;
 }
 .brief__line {
   display: grid;

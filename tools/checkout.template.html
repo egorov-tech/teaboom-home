@@ -265,6 +265,9 @@
             <a class="summary__edit" href="https://teaboom.ru/cart">Изменить</a>
           </div>
           <ul class="brief" data-order-lines></ul>
+          <!-- Long orders: first 3 lines, the rest on demand, so the totals and «Заказать» stay
+               in view. The full list is one tap away in the cart («Изменить»). -->
+          <button class="brief__more" type="button" aria-expanded="false" data-brief-more hidden></button>
 
           <form class="coupon" action="/cart" method="post" novalidate data-coupon>
             <label class="coupon__label" for="coupon">Код купона</label>

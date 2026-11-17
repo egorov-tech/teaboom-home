@@ -98,7 +98,29 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
       await c.close();
     }
 
-    // Phone mask: CIS codes and any international number (the site: «+7 … или другой международный номер»).
+    // Long order on a laptop: totals and «Заказать» always in view; 3 lines + «Ещё N товаров».
+  {
+    const c = await b.newContext({ viewport: { width: 1440, height: 800 } });
+    const p = await c.newPage(); p.on('pageerror', (e) => errors.push('long: ' + e.message));
+    await p.goto(base + 'checkout.html', { waitUntil: 'networkidle' });
+    await p.evaluate(() => window.TeaboomCart.fill(Array.from({ length: 9 }, (_, i) => ({ sku: 'T' + i, name: 'Чай зелёный ароматизированный «Сокровища Японии» ' + i, pack: '100 г', price: 504, old: null, img: '', url: '#', qty: 2 }))));
+    await p.waitForTimeout(300);
+    ok(await p.locator('.brief__line:not([hidden])').count() === 3 && (await p.textContent('[data-brief-more]')).trim() === 'Ещё 6 товаров', '26: длинный заказ — 3 строки и «Ещё 6 товаров»');
+    const inView = () => p.evaluate(() => { const r = document.querySelector('[data-order]').getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; });
+    let all = true;
+    // From the moment the block reaches the header down to the end of the form.
+    const start = await p.evaluate(() => document.querySelector('[data-summary]').getBoundingClientRect().top + scrollY);
+    const end = await p.evaluate(() => document.querySelector('.checkout__layout').getBoundingClientRect().bottom + scrollY - innerHeight);
+    for (const y of [start + 120, (start + end) / 2, end]) { await p.evaluate((y) => scrollTo(0, y), Math.round(y)); await p.waitForTimeout(200); all = all && await inView(); }
+    ok(all, '26: «Заказать» видна всё время, пока листается форма');
+    await p.locator('[data-brief-more]').click(); await p.waitForTimeout(300);
+    ok(await p.locator('.brief__line:not([hidden])').count() === 9 && (await p.textContent('[data-brief-more]')).trim() === 'Свернуть', '26: «Ещё» раскрывает весь список');
+    await p.evaluate(() => scrollTo(0, document.documentElement.scrollHeight)); await p.waitForTimeout(300);
+    ok(await inView(), '26: раскрытый длинный список — «Заказать» всё равно достижима');
+    await c.close();
+  }
+
+  // Phone mask: CIS codes and any international number (the site: «+7 … или другой международный номер»).
   {
     const c = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
     const p = await c.newPage(); p.on('pageerror', (e) => errors.push('phone: ' + e.message));
