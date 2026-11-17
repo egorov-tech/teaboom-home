@@ -21,10 +21,11 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await shown(p) === 2 && await p.locator('[data-gallery-thumb]').nth(2).getAttribute('aria-current') === 'true', '15: миниатюра 3 показывает фото 3');
   // п. 22: rating under the title (sketch: 4,8 · 12 отзывов), labelled example in the reviews
   ok((await p.textContent('.rating')).includes('4,8') && (await p.textContent('.rating__link')).trim() === '12 отзывов', '22: под названием 4,8 · 12 отзывов');
+  ok(await p.evaluate(() => { const a = document.querySelector('a.rating'); return !!a && a.contains(document.querySelector('.rating__stars')) && getComputedStyle(a.querySelector('.rating__link')).textDecorationThickness === '2px'; }), '34: вся строка рейтинга со звёздами — одна ссылка, подчёркивание 2 px');
   ok(!(await p.content()).includes('"aggregateRating"'), '22: пример не попадает в разметку для поисковиков');
   // п. 23: tabs on phones
   ok(await p.locator('[data-tabs]').isVisible() && JSON.stringify(await visible(p, '[data-panel]')) === '["about"]', '23: вкладки, открыто «Описание»');
-  await p.locator('.rating__link').tap(); await p.waitForTimeout(800);
+  await p.locator('a.rating .rating__stars').tap(); await p.waitForTimeout(800);
   ok(JSON.stringify(await visible(p, '[data-panel]')) === '["reviews"]', '22: ссылка открыла вкладку «Отзывы»');
   ok(await p.locator('.reviews__sample').isVisible() && await p.locator('.review').count() === 3, '22: пометка «пример оформления» и 3 примера отзывов');
   const top = await p.evaluate(() => ({ h: document.querySelector('[data-masthead]').getBoundingClientRect().bottom, r: document.querySelector('#reviews').getBoundingClientRect().top }));
@@ -34,12 +35,18 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await p.locator('[data-tab="about"]').focus(); await p.keyboard.press('ArrowRight');
   ok(await p.locator('[data-tab="specs"]').getAttribute('aria-selected') === 'true', '23: стрелка вправо → «Характеристики»');
   await p.keyboard.press('End');
-  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["delivery"]', '23: End → «Доставка и оплата»');
-  ok(await p.locator('.specs__row').count() === 13, '23: все 13 характеристик');
+  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["reviews"]' && await p.locator('[data-tab]').count() === 3, '23 + 35: вкладок три, End → «Отзывы» (доставка — под кнопкой)');
+  ok(await p.locator('.specs__row').count() === 10 && (await p.textContent('.specs')).replace(/\u00a0/g, ' ').includes('Заваривание2 ч. л. на 500 мл, вода 80–85 °C, 1–3 мин'), '36: заваривание одной строкой, как на эскизе (13 → 10 строк)');
+  ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
+  ok(await p.locator('details.promise#delivery').count() === 1 && await p.locator('.promise__list').count() === 0, '35: «Доставка и оплата» — один раскрывающийся блок под кнопкой');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
-  ok((await visible(p, '[data-panel]')).length === 4 && !(await p.locator('[data-tabs]').isVisible()), '23: шире 760 px — разделы подряд');
+  ok((await visible(p, '[data-panel]')).length === 3 && !(await p.locator('[data-tabs]').isVisible()), '23: шире 760 px — разделы подряд');
   await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(300);
   ok((await visible(p, '[data-panel]')).length === 1, '23: обратно на телефон — одна вкладка');
+  await c.close();
+
+  c = await b.newContext(phone); p = await open(c, 'product.html#delivery');
+  ok(await p.evaluate(() => document.getElementById('delivery').open), '35: адрес #delivery открывает «Доставку и оплату»');
   await c.close();
 
   c = await b.newContext(phone); p = await open(c, 'product.html#specs');
@@ -47,7 +54,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await c.close();
 
   c = await b.newContext({ ...phone, javaScriptEnabled: false }); p = await c.newPage(); await p.goto(base + 'product.html', { waitUntil: 'load' });
-  ok((await visible(p, '[data-panel]')).length === 4 && !(await p.locator('[data-tabs]').isVisible()), 'без JS: все разделы видны');
+  ok((await visible(p, '[data-panel]')).length === 3 && !(await p.locator('[data-tabs]').isVisible()), 'без JS: все разделы видны');
   await c.close();
 
   c = await b.newContext({ viewport: { width: 1440, height: 900 } }); p = await open(c, 'product.html');

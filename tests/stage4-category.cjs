@@ -10,7 +10,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   const b = await chromium.launch({ channel: 'chrome' });
   const errors = [];
   const open = async (ctx, url) => { const p = await ctx.newPage(); p.on('pageerror', (e) => errors.push(url + ': ' + e.message)); await p.goto(base + url, { waitUntil: 'networkidle' }); return p; };
-  const countText = (p) => p.textContent('[data-count]').then((t) => t.trim());
+  const countText = (p) => p.textContent('[data-count]').then((t) => t.trim().replace(/\u00a0/g, ' '));
   const facetCount = (p, key) => p.locator(`[data-facet][value="${key}"]`).locator('xpath=..').locator('[data-facet-count]').textContent();
   const shownMatch = (p, keys) => p.evaluate((keys) => {
     const groups = {};
@@ -29,17 +29,17 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Категория', 'Фасовка', 'Сорт']), '17: 4 группы, как на сайте (одиночные скрыты)');
   ok(await p.locator('.category__grid > li:not([hidden])').count() === 12 && await p.evaluate(() => getComputedStyle(document.querySelector('.category__grid')).gridTemplateColumns.split(' ').length) === 3, '17: 12 плиток в 3 колонки — 4 полных ряда');
   await p.locator('.facet', { hasText: 'Натуральный' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Товары 1–12 из 75' && await shownMatch(p, ['16__Натуральный']), '17: «Натуральный» → 75, все плитки натуральные');
+  ok(await countText(p) === 'Найдено 75 товаров' && await shownMatch(p, ['16__Натуральный']), '17: «Натуральный» → 75, все плитки натуральные');
   ok(new URL(p.url()).searchParams.get('f') === '16__Натуральный', '17: адрес как на сайте — ?f=16__Натуральный');
   ok(await facetCount(p, '3__Китай') === '20' && await facetCount(p, '3__Тайвань') === '54' && await facetCount(p, '3__Вьетнам') === '1', '17: счётчики пересчитаны: Китай 20, Тайвань 54, Вьетнам 1');
   ok(await p.locator('[data-facet][value="57__С жасмином"]').isDisabled(), '17: «С жасмином» дал бы 0 — недоступен');
   await p.locator('.facet', { hasText: 'Китай' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Товары 1–12 из 20' && new URL(p.url()).searchParams.get('f') === '16__Натуральный___3__Китай', '17: + Китай → 20; f=16__Натуральный___3__Китай');
+  ok(await countText(p) === 'Найдено 20 товаров' && new URL(p.url()).searchParams.get('f') === '16__Натуральный___3__Китай', '17: + Китай → 20; f=16__Натуральный___3__Китай');
   await p.locator('.facet', { hasText: 'Тайвань' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Товары 1–12 из 74' && await shownMatch(p, ['16__Натуральный', '3__Китай', '3__Тайвань']), '17: Китай или Тайвань внутри группы → 74');
+  ok(await countText(p) === 'Найдено 74 товара' && await shownMatch(p, ['16__Натуральный', '3__Китай', '3__Тайвань']), '17: Китай или Тайвань внутри группы → 74');
   ok(await p.locator('.chips__chip').count() === 3, '17: три выбранных фильтра чипами над плиткой');
   await p.locator('.chips__chip', { hasText: 'Натуральный' }).click(); await p.waitForTimeout(200);
-  ok(!(await p.locator('[data-facet][value="16__Натуральный"]').isChecked()) && await countText(p) === 'Товары 1–12 из 142', '17: чип снят → отметка снята, Китай + Тайвань = 142');
+  ok(!(await p.locator('[data-facet][value="16__Натуральный"]').isChecked()) && await countText(p) === 'Найдено 142 товара', '17: чип снят → отметка снята, Китай + Тайвань = 142');
   await p.selectOption('[data-sort]', '-effective_price'); await p.waitForTimeout(200);
   await p.locator('[data-pager] [data-page="2"]:not(.pager__link--step)').click(); await p.waitForTimeout(300);
   const q = new URL(p.url()).searchParams;
@@ -47,9 +47,9 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await p.locator('.facet', { hasText: 'Ароматизированный' }).click(); await p.waitForTimeout(200);
   ok(new URL(p.url()).searchParams.get('start') === null, '17: новый фильтр возвращает на первую страницу');
   await p.goBack(); await p.waitForTimeout(300);
-  ok(await countText(p) === 'Товары 13–24 из 142' && !(await p.locator('[data-facet][value="16__Ароматизированный"]').isChecked()), '17: «Назад» возвращает прошлый выбор и страницу');
+  ok(await countText(p) === 'Найдено 142 товара' && (await p.getAttribute('[data-pager] [aria-current="page"]', 'data-page')) === '2' && !(await p.locator('[data-facet][value="16__Ароматизированный"]').isChecked()), '17: «Назад» возвращает прошлый выбор и страницу');
   await p.locator('[data-chips-reset]').click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Товары 1–12 из 143' && await p.locator('[data-chips]').isHidden(), '17: «Сбросить все» → 143, чипов нет');
+  ok(await countText(p) === '143 товара' && await p.locator('[data-chips]').isHidden(), '17: «Сбросить все» → 143, чипов нет');
   await c.close();
 
   // Empty result + reset
@@ -57,9 +57,9 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   p = await open(c, 'category-ulun.html?f=57__С жасмином___16__Натуральный');
   ok(await p.locator('[data-empty]').isVisible() && await p.locator('[data-list]').isHidden() && await p.locator('[data-pager]').isHidden(), '17: пустой результат — «Ничего не нашлось», без плитки и страниц');
   await p.locator('[data-empty-reset]').click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Товары 1–12 из 143', '17: «Сбросить фильтры» в пустом состоянии');
+  ok(await countText(p) === '143 товара', '17: «Сбросить фильтры» в пустом состоянии');
   await p.goto(base + 'category-ulun.html?f=3__Нет___16__Ароматизированный___3__Китай', { waitUntil: 'networkidle' });
-  ok(await countText(p) === 'Товары 1–12 из 58', '17: неизвестное значение в адресе пропускается, остальное работает (58)');
+  ok(await countText(p) === 'Найдено 58 товаров', '17: неизвестное значение в адресе пропускается, остальное работает (58)');
   await c.close();
 
   // ---------- Desktop panel: no overlap with counts, no mid-word breaks, stays in view ----------
@@ -90,9 +90,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
         return Math.abs(after - head);
       });
       ok(jump < 1, '17: вкл/выкл «Сбросить» не сдвигает заголовок фильтров');
-      await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);
-      ok(await p.locator('[data-extra]:not([hidden])').count() === 3 && (await p.textContent('[data-facets-more]')).trim() === 'Свернуть', '17: «Ещё 3» раскрывает остальные сорта');
-      await p.locator('[data-facets-more]').click(); await p.waitForTimeout(150);
+      ok(await p.locator('[data-facets-more]').count() === 0 && await p.locator('.facets__group', { hasText: 'Сорт' }).locator('.facet').count() === 7, '40: «Сорт» (7 значений, меньше 15) показан целиком, без «Ещё»');
     }
     // Two points inside the grid's run (below it the panel leaves with the page, as it should).
     const run = await p.evaluate(() => { const l = document.querySelector('.category__layout').getBoundingClientRect(); return { top: l.top + scrollY, bottom: l.bottom + scrollY }; });
@@ -116,7 +114,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok((await p.textContent('[data-facets-total]')).trim() === '64 товара', '17: кнопка «Показать 64 товара» — итог до закрытия');
   await p.keyboard.press('Escape'); await p.waitForTimeout(300);
   ok(await p.locator('[data-facets]').isHidden() && await p.evaluate(() => document.activeElement?.hasAttribute('data-facets-open')), '17: Esc закрывает, фокус на кнопке «Фильтры»');
-  ok((await p.textContent('[data-facets-badge]')).trim() === '1' && await countText(p) === 'Товары 1–12 из 64', '17: на кнопке «1», в сетке 64');
+  ok((await p.textContent('[data-facets-badge]')).trim() === '1' && await countText(p) === 'Найдено 64 товара', '17: на кнопке «1», в сетке 64');
   await p.locator('[data-facets-open]').tap(); await p.waitForTimeout(300);
   await p.locator('[data-facets-show]').tap(); await p.waitForTimeout(400);
   ok(await p.locator('[data-facets]').isHidden(), '17: «Показать» закрывает панель');

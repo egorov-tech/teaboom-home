@@ -540,7 +540,7 @@
   grid-template-columns: 18px minmax(0, 1fr) 3ch;
   align-items: center;
   column-gap: 12px;
-  min-height: 32px;
+  min-height: 28px; // п. 40: all 7 sorts shown — the column still fits under the header at 768 px tall
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;

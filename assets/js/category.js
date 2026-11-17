@@ -169,9 +169,9 @@
       li.hidden = !shown.has(li);
     });
 
-    const from = total ? (state.page - 1) * per + 1 : 0;
-    const to = Math.min(state.page * per, total);
-    count.textContent = total ? `Товары ${from}–${to} из ${total}` : "Товаров нет";
+    // п. 41: how many products — «143 товара», with filters «Найдено 79 товаров»; the page is in the pager.
+    const word = plural(total, "товар", "товара", "товаров");
+    count.textContent = !total ? "Товаров нет" : state.f.length ? `Найдено ${total} ${word}` : `${total} ${word}`;
     empty.hidden = total > 0;
     list.hidden = total === 0;
 

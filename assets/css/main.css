@@ -3022,7 +3022,7 @@ body::before {
   grid-template-columns: 18px minmax(0, 1fr) 3ch;
   align-items: center;
   column-gap: 12px;
-  min-height: 32px;
+  min-height: 28px;
   font-size: 14px;
   line-height: 20px;
   cursor: pointer;

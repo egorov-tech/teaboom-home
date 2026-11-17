@@ -475,14 +475,29 @@ def render_brew(p, aside=False):
 
 
 def render_promise():
-    """Short delivery facts under «В корзину» (from /shipping/); the full terms are a section below."""
-    items = "\n".join(f"            <li>{typo(x)}</li>" for x in service["promise"])
-    return f'''          <div class="promise">
-            <ul class="promise__list">
-{items}
-            </ul>
-            <a class="promise__more" href="#delivery">Доставка и оплата</a>
-          </div>'''
+    """п. 35 (Антон, 18.11): delivery and payment in one place — a disclosure under «В корзину»
+    (texts from /shipping/ and /payment/), instead of short facts here plus a tab below."""
+    delivery = "\n".join(f"                <li>{typo(x)}</li>" for x in service["delivery"])
+    payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])
+    return f'''          <details class="promise" id="delivery">
+            <summary class="promise__toggle">Доставка и оплата</summary>
+            <div class="delivery">
+              <div>
+                <h3>Доставка</h3>
+                <ul>
+{delivery}
+                </ul>
+                <a class="delivery__more" href="{SITE}/shipping/">Все способы доставки</a>
+              </div>
+              <div>
+                <h3>Оплата</h3>
+                <ul>
+{payment}
+                </ul>
+                <a class="delivery__more" href="{SITE}/payment/">Все способы оплаты</a>
+              </div>
+            </div>
+          </details>'''
 
 
 def render_rating(p):
@@ -496,16 +511,36 @@ def render_rating(p):
         avg, n = ex["rating"], ex["count"]
     else:
         return ""
+    # п. 34 (Антон, 18.11): the whole row — stars, score and count — is one link to the reviews.
     return f'''
-          <p class="rating">
+          <a class="rating" href="#reviews" data-tab-link="reviews">
             <span class="rating__stars" aria-hidden="true">{stars(avg)}</span>
-            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>{score(avg)}<span class="visually-hidden"> из 5</span></span>
-            <a class="rating__link" href="#reviews" data-tab-link="reviews">{reviews_label(n)}</a>
-          </p>'''
+            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>{score(avg)}<span class="visually-hidden"> из 5,</span></span>
+            <span class="rating__link">{reviews_label(n)}</span>
+          </a>'''
+
+
+def spec_rows(specs):
+    """п. 36 (Антон, 18.11; эскиз п. 23): four brewing facts → one row «Заваривание: 2 ч. л. на
+    500 мл, вода 80–85 °C, 1–3 мин» in place of the first of them."""
+    keys = [k for k, _ in BREW_KEYS]
+    d = dict(specs)
+    if not all(k in d for k in keys):
+        return specs
+    brew = f'{d["Количество"]} на {d["Объём"]}, вода {d["Температура воды"]}, {d["Время заваривания"]}'
+    out, done = [], False
+    for k, v in specs:
+        if k in keys:
+            if not done:
+                out.append(("Заваривание", brew))
+                done = True
+            continue
+        out.append((k, v))
+    return out
 
 
 def render_details(p):
-    """п. 23: Описание · Характеристики · Отзывы · Доставка и оплата. Tabs on phones (JS),
+    """п. 23: Описание · Характеристики · Отзывы (доставка и оплата — под кнопкой, п. 35). Tabs on phones (JS),
     the same sections one under another on wider screens and without JS."""
     d = p["pdp"]
     rs = d["reviews"]
@@ -514,7 +549,7 @@ def render_details(p):
     desc = "\n".join(f"                <p>{typo(x)}</p>" for x in d["description"])
     benefits = "\n".join(f"                  <li>{esc(x)}</li>" for x in d["benefits"])
     specs = "\n".join(
-        f'                <div class="specs__row"><dt>{esc(k)}</dt><dd>{units(esc(v))}</dd></div>' for k, v in d["specs"])
+        f'                <div class="specs__row"><dt>{esc(k)}</dt><dd>{units(esc(v))}</dd></div>' for k, v in spec_rows(d["specs"]))
     if shown:
         items = "\n".join(f'''                <li class="review">
                   <p class="review__rating"><span aria-hidden="true">{stars(r["rating"])}</span><span class="visually-hidden">Оценка {r["rating"]} из 5</span></p>
@@ -532,8 +567,6 @@ def render_details(p):
     else:
         reviews_body = '              <p class="reviews__empty">Ещё никто не оставлял отзывов. Будьте первым!</p>'
     write = site(d["source"]["url"].replace(SITE, ""))
-    delivery = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["delivery"])
-    payment = "\n".join(f"                  <li>{typo(x)}</li>" for x in service["payment"])
     total = len(rs) or (ex["count"] if ex else 0)
     count = f' <span class="details__count">{total}</span>' if total else ""
     return f'''        <section class="details" aria-label="О товаре" data-details>
@@ -541,7 +574,6 @@ def render_details(p):
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы{count}</button>
-            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -575,26 +607,6 @@ def render_details(p):
                 <a class="reviews__write press" href="{esc(write)}#reviews_for_product">Оставить отзыв</a>
               </div>
 {reviews_body}
-            </div>
-          </div>
-
-          <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
-            <h2 class="details__title">Доставка и оплата</h2>
-            <div class="delivery">
-              <div>
-                <h3>Доставка</h3>
-                <ul>
-{delivery}
-                </ul>
-                <a class="delivery__more" href="{SITE}/shipping/">Все способы доставки</a>
-              </div>
-              <div>
-                <h3>Оплата</h3>
-                <ul>
-{payment}
-                </ul>
-                <a class="delivery__more" href="{SITE}/payment/">Все способы оплаты</a>
-              </div>
             </div>
           </div>
         </section>'''
@@ -764,8 +776,8 @@ def render_filters(c, by_slug):
             vals = sorted(vals, key=lambda v: pack_qty(v["value"])[0])
         gid = f'fg-{g["id"]}'
         rows = []
-        # Long groups (Сорт, 7 values) show 4 and «Ещё N»: the column fits a laptop screen.
-        shown = 4 if len(vals) > 5 else len(vals)
+        # п. 40 (Антон, 18.11): up to 15 values — all of them; more than 15 — the first 10 and «Ещё N».
+        shown = 10 if len(vals) > 15 else len(vals)
         for i, v in enumerate(vals):
             key = filter_key(g["id"], v["value"])
             extra = " data-extra hidden" if i >= shown else ""
@@ -864,7 +876,9 @@ def render_category(c, mast, foot, dock):
     </section>'''
     ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": c["title"], "numberOfItems": len(items), "itemListElement": ld_items}]
     tpl = (ROOT / "tools" / "category.template.html").read_text(encoding="utf-8")
-    first = f"Товары 1–{min(per, len(items))} из {len(items)}"
+    # п. 41 (Антон, 18.11): the count says how many products there are — «143 товара», with
+    # filters «Найдено 79 товаров»; which page you are on is shown by the pager.
+    first = f"{len(items)} {plural(len(items), 'товар', 'товара', 'товаров')}"
     out = (
         tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
         .replace("{{SEO_TITLE}}", esc(c["seo_title"]))
@@ -982,8 +996,8 @@ def main():
             .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
             .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
             .replace("{{DETAILS}}", render_details(pdp))
-            .replace("{{BREW}}", "" if multi_photo else render_brew(pdp))
-            .replace("{{PROMISE}}", render_promise() + ("\n" + render_brew(pdp, aside=True) if multi_photo else ""))
+            .replace("{{BREW}}", "")
+            .replace("{{PROMISE}}", render_promise())
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
         )
         assert "{{" not in pout, d["page"]

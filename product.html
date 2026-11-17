@@ -258,11 +258,11 @@
         <div class="product__info">
           <p class="product__category"><a href="https://teaboom.ru/category-aromatizirovannyj-ulun">Ароматизированный улун</a></p>
           <h1 class="product__title">Ананасовый улун</h1>
-          <p class="rating">
+          <a class="rating" href="#reviews" data-tab-link="reviews">
             <span class="rating__stars" aria-hidden="true">★★★★★</span>
-            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>4,8<span class="visually-hidden"> из 5</span></span>
-            <a class="rating__link" href="#reviews" data-tab-link="reviews">12 отзывов</a>
-          </p>
+            <span class="rating__value"><span class="visually-hidden">Средняя оценка </span>4,8<span class="visually-hidden"> из 5,</span></span>
+            <span class="rating__link">12 отзывов</span>
+          </a>
 
           <p class="product__summary">Светлый фуцзяньский улун с ароматом ананаса.</p>
 
@@ -338,23 +338,30 @@
               </div>
             </div>
           </form>
-          <div class="promise">
-            <ul class="promise__list">
-            <li>По Москве: заказ до 14:00 — привезём сегодня с 19:00 до 23:00</li>
-            <li>От 3500 ₽ — доставка в пределах МКАД бесплатно</li>
-            <li>Самовывоз бесплатно: м. Октябрьское поле, МЦК Панфиловская</li>
-            </ul>
-            <a class="promise__more" href="#delivery">Доставка и оплата</a>
-          </div>
-        <section class="brew brew--aside" aria-labelledby="brew-title">
-          <h2 class="brew__title" id="brew-title">Как заваривать</h2>
-          <dl class="brew__facts">
-            <div class="brew__fact"><dt>Количество</dt><dd>2 ч. л.</dd></div>
-            <div class="brew__fact"><dt>Объём воды</dt><dd>500 мл</dd></div>
-            <div class="brew__fact"><dt>Температура</dt><dd>80–85 °C</dd></div>
-            <div class="brew__fact"><dt>Время</dt><dd>1–3 мин</dd></div>
-          </dl>
-        </section>
+          <details class="promise" id="delivery">
+            <summary class="promise__toggle">Доставка и оплата</summary>
+            <div class="delivery">
+              <div>
+                <h3>Доставка</h3>
+                <ul>
+                <li>Курьером по Москве в пределах МКАД — 400 ₽, при заказе от 3500 ₽ — бесплатно. По Московской области — 25 ₽/км от МКАД.</li>
+                <li>Заказ до 14:00 — привезём в тот же день с 19:00 до 23:00; после 14:00 — на следующий день.</li>
+                <li>Самовывоз бесплатно: ул. Народного Ополчения, 47, у турникетов м. Октябрьское поле (выход № 1) и МЦК Панфиловская.</li>
+                <li>Почтой России и СДЭК — в любой регион России и страны СНГ, по предоплате.</li>
+                </ul>
+                <a class="delivery__more" href="https://teaboom.ru/shipping/">Все способы доставки</a>
+              </div>
+              <div>
+                <h3>Оплата</h3>
+                <ul>
+                <li>Наличными или переводом на Сбербанк — курьеру и при самовывозе.</li>
+                <li>Банковской картой онлайн через ЮKassa.</li>
+                <li>По счёту — для физических и юридических лиц.</li>
+                </ul>
+                <a class="delivery__more" href="https://teaboom.ru/payment/">Все способы оплаты</a>
+              </div>
+            </div>
+          </details>
         </div>
 
 
@@ -364,7 +371,6 @@
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы <span class="details__count">12</span></button>
-            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -393,10 +399,7 @@
                 <div class="specs__row"><dt>Район происхождения</dt><dd>Фуцзянь</dd></div>
                 <div class="specs__row"><dt>Категория</dt><dd>Ароматизированный</dd></div>
                 <div class="specs__row"><dt>Форма листа</dt><dd>Крупные и плотно скрученные листочки</dd></div>
-                <div class="specs__row"><dt>Количество</dt><dd>2 ч. л.</dd></div>
-                <div class="specs__row"><dt>Объём</dt><dd>500 мл</dd></div>
-                <div class="specs__row"><dt>Температура воды</dt><dd>80–85 °C</dd></div>
-                <div class="specs__row"><dt>Время заваривания</dt><dd>1–3 мин</dd></div>
+                <div class="specs__row"><dt>Заваривание</dt><dd>2 ч. л. на 500 мл, вода 80–85 °C, 1–3 мин</dd></div>
                 <div class="specs__row"><dt>Кофеин</dt><dd>Среднее содержание</dd></div>
                 <div class="specs__row"><dt>Воздействие</dt><dd>Сжигает жиры</dd></div>
                 <div class="specs__row"><dt>Упаковка</dt><dd>Бумажная с фольгой</dd></div>
@@ -441,31 +444,6 @@
                   </div>
                 </li>
               </ul>
-            </div>
-          </div>
-
-          <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
-            <h2 class="details__title">Доставка и оплата</h2>
-            <div class="delivery">
-              <div>
-                <h3>Доставка</h3>
-                <ul>
-                  <li>Курьером по Москве в пределах МКАД — 400 ₽, при заказе от 3500 ₽ — бесплатно. По Московской области — 25 ₽/км от МКАД.</li>
-                  <li>Заказ до 14:00 — привезём в тот же день с 19:00 до 23:00; после 14:00 — на следующий день.</li>
-                  <li>Самовывоз бесплатно: ул. Народного Ополчения, 47, у турникетов м. Октябрьское поле (выход № 1) и МЦК Панфиловская.</li>
-                  <li>Почтой России и СДЭК — в любой регион России и страны СНГ, по предоплате.</li>
-                </ul>
-                <a class="delivery__more" href="https://teaboom.ru/shipping/">Все способы доставки</a>
-              </div>
-              <div>
-                <h3>Оплата</h3>
-                <ul>
-                  <li>Наличными или переводом на Сбербанк — курьеру и при самовывозе.</li>
-                  <li>Банковской картой онлайн через ЮKassa.</li>
-                  <li>По счёту — для физических и юридических лиц.</li>
-                </ul>
-                <a class="delivery__more" href="https://teaboom.ru/payment/">Все способы оплаты</a>
-              </div>
             </div>
           </div>
         </section>
