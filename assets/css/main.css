@@ -464,7 +464,11 @@ body::before {
   flex: none;
   align-items: center;
   gap: var(--step-2);
-  margin-left: auto;
+}
+@media (min-width: 760px) {
+  .masthead__tools {
+    margin-left: auto;
+  }
 }
 .masthead__tools .cart {
   margin-left: 0;

@@ -228,7 +228,12 @@
   flex: none;
   align-items: center;
   gap: var(--step-2);
-  margin-left: auto;
+
+  // Wide screens push the group right. Phones don't: there the brand's own margin-right: auto
+  // already does it, and a second auto split the free space and pulled search to the middle.
+  @media (min-width: $bp-phone) {
+    margin-left: auto;
+  }
 
   .cart {
     margin-left: 0;
