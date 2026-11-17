@@ -4,7 +4,12 @@
 // the right. Phones: lines, then the summary; the total and «Заказать» ride above the dock
 // in the same bar as the product page's purchase bar.
 .basket {
-  padding-block: clamp(24px, 3vw, 40px) var(--step-8);
+  padding-block: var(--step-5) var(--step-8);
+
+  // Same head as the category: crumbs 16 px above the title.
+  .breadcrumbs {
+    margin-bottom: var(--step-4);
+  }
 
   &__head {
     display: flex;
@@ -98,12 +103,10 @@
 }
 
 .lines {
+  @include surface;
   margin: 0;
   padding: 0;
   list-style: none;
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
 }
 
 // One row: photo · name + артикул · qty · money · remove. Phones: photo left, the rest
@@ -270,9 +273,7 @@
   display: grid;
   gap: var(--step-4);
   padding: var(--step-5);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  @include surface;
 
   @media (min-width: $bp-mid) {
     position: sticky;
@@ -488,5 +489,12 @@
 .is-basket-full {
   @media (max-width: #{$bp-phone - 1px}) {
     --purchase-clearance: 72px;
+  }
+}
+
+// Phones: the totals card keeps the lines card's 16 px inset, so both start on one edge.
+.basket .summary {
+  @media (max-width: #{$bp-phone - 1px}) {
+    padding: var(--step-4);
   }
 }

@@ -4,14 +4,26 @@
 // (lines, coupon, totals, «Заказать») sticky on the right from $bp-mid. Phones: blocks, then
 // the summary; the total and «Заказать» ride above the dock like on the cart page.
 .checkout {
-  padding-block: clamp(24px, 3vw, 40px) var(--step-8);
+  padding-block: var(--step-5) var(--step-8);
+
+  // Same head as the category: crumbs 16 px above the title.
+  .breadcrumbs {
+    margin-bottom: var(--step-4);
+  }
 
   &__title {
-    margin: 0 0 var(--step-5);
+    margin: 0 0 var(--step-2);
     font-family: var(--font-display);
     font-weight: 500;
     font-size: clamp(32px, 2.4vw + 20px, 48px);
     line-height: 1.05;
+  }
+
+  // Under the title, above both columns — so the form and «Ваш заказ» start on one line.
+  &__login {
+    margin: 0 0 var(--step-5);
+    font-size: 14px;
+    color: var(--ink-soft);
   }
 
   &__layout {
@@ -35,11 +47,6 @@
   gap: var(--step-4);
   min-width: 0;
 
-  &__login {
-    margin: 0;
-    font-size: 14px;
-    color: var(--ink-soft);
-  }
 }
 
 .step {
@@ -48,9 +55,7 @@
   min-width: 0;
   margin: 0;
   padding: var(--step-5);
-  background: var(--paper);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
+  @include surface;
   scroll-margin-top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4));
 
   @media (max-width: 359px) {
@@ -371,4 +376,22 @@
 // The pay bar's «Заказать» is a submit button here, not a link.
 button.paybar__order {
   cursor: pointer;
+}
+
+// «Дата доставки» + «Комментарий»: one card, side by side from tablet, stacked on phones.
+.step--split {
+  @media (min-width: $bp-tablet) {
+    grid-template-columns: 248px minmax(0, 1fr);
+    column-gap: var(--step-5);
+    align-items: start;
+  }
+}
+
+.step__part {
+  display: grid;
+  gap: var(--step-3);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }

@@ -52,6 +52,15 @@
   }
 }
 
+:root {
+  --surface-radius: var(--radius-lg);
+}
+@media (min-width: 760px) {
+  :root {
+    --surface-radius: var(--radius-md);
+  }
+}
+
 *,
 *::before,
 *::after {

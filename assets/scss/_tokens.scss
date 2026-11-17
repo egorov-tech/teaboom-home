@@ -75,3 +75,19 @@ $bp-split: 1060px;
     --grid-gap-y: var(--step-4);
   }
 }
+
+// One surface for every white block on the canvas (tiles, cart lines, totals, checkout steps,
+// filters, notices): paper, hairline, and the tiles' corners — 16 px on phones, 6 px wider.
+:root {
+  --surface-radius: var(--radius-lg);
+
+  @media (min-width: $bp-phone) {
+    --surface-radius: var(--radius-md);
+  }
+}
+
+@mixin surface {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--surface-radius);
+}

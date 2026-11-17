@@ -13,7 +13,7 @@
   const list = root.querySelector("[data-order-lines]");
   const tpl = document.querySelector("[data-brief-template]");
   const paybar = document.querySelector("[data-paybar]");
-  const ships = [...form.querySelectorAll("input[name='shipping_method']")];
+  const ships = [...form.querySelectorAll("input[name='shipping-method']")];
   const pays = [...form.querySelectorAll("input[name='payment_method']")];
 
   const FREE_FROM = 3500;
@@ -115,7 +115,7 @@
   };
 
   form.addEventListener("change", (e) => {
-    if (e.target.matches("[name='shipping_method'], [data-person]")) syncPay();
+    if (e.target.matches("[name='shipping-method'], [data-person]")) syncPay();
     if (e.target.matches("[type='radio']")) render();
   });
 

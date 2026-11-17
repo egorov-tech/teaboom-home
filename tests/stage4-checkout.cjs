@@ -13,7 +13,7 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
   const phone = { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true };
   const open = async (ctx, url) => { const p = await ctx.newPage(); p.on('pageerror', (e) => errors.push(url + ': ' + e.message)); await p.goto(base + url, { waitUntil: 'networkidle' }); return p; };
   const overflow = (p) => p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-  const pick = (p, value) => p.locator(`.choice:has(input[name="shipping_method"][value="${value}"]) .choice__name`).click();
+  const pick = (p, value) => p.locator(`.choice:has(input[name="shipping-method"][value="${value}"]) .choice__name`).click();
   const visiblePay = (p) => p.$$eval('input[name="payment_method"]', (xs) => xs.filter((x) => !x.closest('[hidden]')).map((x) => x.value));
 
   try {
@@ -35,28 +35,28 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     const titles = (await p.$$eval('.step__title', (xs) => xs.map((x) => x.textContent.trim())));
     ok(JSON.stringify(titles) === JSON.stringify(['Оформить заказ как', 'Получатель и адрес доставки', 'Дата доставки', 'Комментарий', 'Доставка', 'Оплата']), '26: блоки по порядку сайта');
     ok((await p.textContent('#step-address')).includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: подсказка к адресу дословно');
-    ok(await p.locator('input[name="shipping_method"]').count() === 6, '26: шесть способов доставки');
-    ok(await p.locator('input[name="shipping_method"]:checked').getAttribute('value') === 'pickup-opolchenie', '26: по умолчанию самовывоз с Народного Ополчения');
+    ok(await p.locator('input[name="shipping-method"]').count() === 6, '26: шесть способов доставки');
+    ok(await p.locator('input[name="shipping-method"]:checked').getAttribute('value') === '5', '26: по умолчанию самовывоз с Народного Ополчения');
     const today = await p.evaluate(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; });
     ok((await p.inputValue('#delivery-date')) === today && (await p.getAttribute('#delivery-date', 'min')) === today, '26: дата — сегодня, раньше нельзя');
 
     // Totals: 652,80 ₽, pickup free
     ok((await p.textContent('[data-total]')) === '652,80' + NB + '₽' && (await p.textContent('[data-ship-cost]')) === '0' + NB + '₽', '26: самовывоз — итог 652,80 ₽, доставка 0 ₽');
-    await pick(p, 'courier');
+    await pick(p, '1');
     ok((await p.textContent('[data-ship-cost]')) === '400' + NB + '₽' && (await p.textContent('[data-total]')) === '1' + NB + '052,80' + NB + '₽', '26: курьер до 3 500 ₽ — +400 ₽, итог 1 052,80 ₽');
-    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['cash-courier', 'yookassa']), '26: курьер — «Наличные курьеру» и ЮKassa');
-    await pick(p, 'cdek');
-    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['prepay', 'yookassa']) && rub(await p.textContent('[data-ship-how]')).includes('тариф CDEK'), '26: СДЭК — предоплата, тариф СДЭК отдельно');
-    await pick(p, 'pickup-opolchenie');
-    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['cash-pickup', 'yookassa']) && await p.locator('input[name="payment_method"]:checked').getAttribute('value') === 'cash-pickup', '26: самовывоз — «Оплата при самовывозе» выбрана снова');
-    await p.locator('input[name="person_type"][value="legal"]').check({ force: true });
+    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['cash-courier', '4']), '26: курьер — «Наличные курьеру» и ЮKassa');
+    await pick(p, '8');
+    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['prepay', '4']) && rub(await p.textContent('[data-ship-how]')).includes('тариф CDEK'), '26: СДЭК — предоплата, тариф СДЭК отдельно');
+    await pick(p, '5');
+    ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['1', '4']) && await p.locator('input[name="payment_method"]:checked').getAttribute('value') === '1', '26: самовывоз — «Оплата при самовывозе» выбрана снова');
+    await p.locator('input[name="for_company"][value="legal"]').check({ force: true });
     ok((await visiblePay(p)).includes('invoice'), '26: юр. лицо — появляется «Оплата по счету»');
-    await p.locator('input[name="person_type"][value="individual"]').check({ force: true });
+    await p.locator('input[name="for_company"][value="individual"]').check({ force: true });
     ok(!(await visiblePay(p)).includes('invoice'), '26: физ. лицо — без счёта');
 
     // From 3 500 ₽ courier is free; quantity changes elsewhere reach the page
     await p.evaluate((l) => window.TeaboomCart.fill([l]), line('01306', 326.4, 11));
-    await pick(p, 'courier');
+    await pick(p, '1');
     ok((await p.textContent('[data-ship-cost]')) === '0' + NB + '₽' && (await p.textContent('[data-total]')) === '3' + NB + '590,40' + NB + '₽', '26: от 3 500 ₽ курьер бесплатно — итог 3 590,40 ₽');
 
     // Validation
