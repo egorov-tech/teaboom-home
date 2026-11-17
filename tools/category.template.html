@@ -31,26 +31,60 @@
 
 {{SUBCATS}}
 
-      <div class="category__bar">
-        <p class="category__count" data-count aria-live="polite">{{COUNT}}</p>
-        <a class="category__filters press" href="{{FILTERS}}">
-          <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>
-          Фильтры
-        </a>
-        <label class="category__sort">
-          <span>Сортировка</span>
-          <select data-sort data-select>
-{{SORTING}}
-          </select>
-        </label>
-      </div>
+      <div class="category__layout">
+        <dialog class="facets" id="facets" aria-labelledby="facets-title" data-facets>
+          <form class="facets__panel" method="dialog" data-facets-form>
+            <header class="facets__head">
+              <h2 class="facets__heading" id="facets-title">Фильтры</h2>
+              <button class="facets__close press" type="button" aria-label="Закрыть фильтры" data-facets-close>
+                <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+              </button>
+            </header>
+            <div class="facets__body">
+{{FACETS}}
+            </div>
+            <footer class="facets__foot">
+              <button class="facets__reset press" type="button" data-facets-reset disabled>Сбросить</button>
+              <button class="facets__show press" type="button" data-facets-show>Показать <span data-facets-total>{{TOTAL}}</span></button>
+            </footer>
+          </form>
+        </dialog>
 
-      <h2 class="visually-hidden">Товары</h2>
-      <ul class="goods__grid" data-list>
+        <div class="category__main">
+          <div class="category__bar">
+            <p class="category__count" data-count aria-live="polite">{{COUNT}}</p>
+            <button class="category__filters press" type="button" aria-controls="facets" aria-haspopup="dialog" data-facets-open>
+              <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>
+              Фильтры
+              <span class="category__badge" data-facets-badge hidden></span>
+            </button>
+            <label class="category__sort">
+              <span>Сортировка</span>
+              <select data-sort data-select>
+{{SORTING}}
+              </select>
+            </label>
+          </div>
+
+          <div class="chips" data-chips hidden>
+            <ul class="chips__list" aria-label="Выбранные фильтры" data-chips-list></ul>
+            <button class="chips__reset" type="button" data-chips-reset>Сбросить все</button>
+          </div>
+
+          <h2 class="visually-hidden">Товары</h2>
+          <ul class="goods__grid category__grid" data-list>
 {{GOODS}}
-      </ul>
+          </ul>
+
+          <div class="category__empty" data-empty hidden>
+            <p class="category__empty-title">Ничего не нашлось</p>
+            <p class="category__empty-text">Снимите часть фильтров или сбросьте все.</p>
+            <button class="category__empty-reset press" type="button" data-empty-reset>Сбросить фильтры</button>
+          </div>
 
 {{PAGER}}
+        </div>
+      </div>
     </div>
 
 {{SEO}}

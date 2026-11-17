@@ -16,29 +16,31 @@ const NB = ' ';
   let s = await shown();
   ok(s.length === 12, 'по 12 товаров на странице');
   ok(s.every((x, i) => i === 0 || s[i - 1].price <= x.price), 'по умолчанию — по возрастанию цены (как на сайте)');
-  ok((await p.textContent('[data-count]')).trim() === 'Товары 1–12 из 36', 'счётчик «Товары 1–12 из 36»');
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 1–12 из 143', 'счётчик «Товары 1–12 из 143»');
   const want = require('fs').existsSync(process.env.LIVE || '') ? JSON.parse(require('fs').readFileSync(process.env.LIVE)).map((x) => x.slug).sort() : null;
   const slugs = (await p.$$eval('[data-item] .good', (gs) => gs.map((g) => g.dataset.slug))).sort();
-  ok(slugs.length === 36 && new Set(slugs).size === 36 && (!want || JSON.stringify(want) === JSON.stringify(slugs)), 'в сетке ровно 36 товаров категории со страниц 1–3 сайта' + (want ? '' : ' (сверка со снимком пропущена: нет LIVE)'));
+  ok(slugs.length === 143 && new Set(slugs).size === 143 && (!want || JSON.stringify(want) === JSON.stringify(slugs)), 'в сетке все 143 улуна со страниц 1–12 сайта' + (want ? '' : ' (сверка со снимком пропущена: нет LIVE)'));
 
   await p.selectOption('[data-sort]', '-effective_price'); await p.waitForTimeout(200);
   s = await shown();
   ok(s.every((x, i) => i === 0 || s[i - 1].price >= x.price), 'по убыванию цены');
-  ok(new URL(p.url()).searchParams.get('sort') === '-effective_price', 'сортировка в адресе');
+  ok(new URL(p.url()).searchParams.get('sorting') === '-effective_price', 'сортировка в адресе (sorting, как на сайте)');
   await p.selectOption('[data-sort]', 'name'); await p.waitForTimeout(200);
   s = await shown();
   ok(s.every((x, i) => i === 0 || s[i - 1].name.localeCompare(x.name, 'ru') <= 0), 'по алфавиту');
 
-  await p.click('[data-page="3"]'); await p.waitForTimeout(400);
-  ok(new URL(p.url()).searchParams.get('page') === '3' && (await p.getAttribute('[data-page="3"]', 'aria-current')) === 'page', 'страница 3, в адресе page=3');
-  ok((await p.textContent('[data-count]')).trim() === 'Товары 25–36 из 36', 'счётчик на странице 3');
+  // Window 1 2 … 12: page 3 appears after page 2.
+  await p.click('[data-pager] [data-page="2"]:not(.pager__link--step)'); await p.waitForTimeout(300);
+  await p.click('[data-pager] [data-page="3"]:not(.pager__link--step)'); await p.waitForTimeout(400);
+  ok(new URL(p.url()).searchParams.get('start') === '3' && (await p.getAttribute('[data-page="3"][aria-current]', 'aria-current')) === 'page', 'страница 3, в адресе start=3 (как на сайте)');
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 25–36 из 143', 'счётчик на странице 3');
   const bar = await p.evaluate(() => { const h = document.querySelector('[data-masthead]').getBoundingClientRect().bottom; const r = document.querySelector('.category__bar').getBoundingClientRect().top; return r >= h - 1; });
   ok(bar, 'после смены страницы строка сортировки не под шапкой');
-  await p.goBack(); await p.waitForTimeout(300);
-  ok(new URL(p.url()).searchParams.get('page') === null && (await p.inputValue('[data-sort]')) === 'name', '«Назад» возвращает страницу 1 с той же сортировкой');
+  await p.goBack(); await p.goBack(); await p.waitForTimeout(300);
+  ok(new URL(p.url()).searchParams.get('start') === null && (await p.inputValue('[data-sort]')) === 'name', '«Назад» возвращает страницу 1 с той же сортировкой');
 
-  await p.goto(base + 'category-ulun.html?page=99&sort=bad', { waitUntil: 'networkidle' });
-  ok((await p.textContent('[data-count]')).trim() === 'Товары 25–36 из 36' && (await p.inputValue('[data-sort]')) === 'effective_price', 'page=99 и неизвестная сортировка — безопасно: последняя страница, сортировка по умолчанию');
+  await p.goto(base + 'category-ulun.html?start=99&sorting=bad', { waitUntil: 'networkidle' });
+  ok((await p.textContent('[data-count]')).trim() === 'Товары 133–143 из 143' && (await p.inputValue('[data-sort]')) === 'effective_price', 'start=99 и неизвестная сортировка — безопасно: последняя страница, сортировка по умолчанию');
 
   await p.goto(base + 'category-ulun.html', { waitUntil: 'networkidle' });
   const hrefs = await p.$$eval('[data-item]:not([hidden]) .good__name a', (as) => as.map((a) => a.getAttribute('href')));

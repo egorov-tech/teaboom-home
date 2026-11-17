@@ -23,6 +23,11 @@ class Labels(unittest.TestCase):
         self.assertEqual(b.show_label("100 г"), f"100{NB}г")
         self.assertEqual(b.show_label("48 шт"), f"48{NB}шт")
 
+    def test_boxed_pack_rates_by_grams(self):
+        # «1 уп (150 г)» on two Габа teas: price per 100 g from the 150 g inside.
+        self.assertEqual(b.pack_qty("1 уп (150 г)"), (150.0, "г"))
+        self.assertAlmostEqual(b.unit_rate({"label": "1 уп (150 г)", "price": 7520}), 5013.333, places=2)
+
     def test_rate_per_100g_ignores_display_unit(self):
         v = {"label": "1000 г", "price": 2064.0}
         self.assertAlmostEqual(b.unit_rate(v), 206.4)

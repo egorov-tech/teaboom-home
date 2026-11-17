@@ -7,8 +7,8 @@
   "seo_title": "Купить чай улун в Москве по доступной цене | Teaboom",
   "source": {
    "url": "https://teaboom.ru/category-ulun",
-   "pages": "?start=1..3",
-   "captured": "2026-11-16"
+   "pages": "?start=1..12",
+   "captured": "2026-11-17"
   },
   "breadcrumbs": [
    [
@@ -45,7 +45,7 @@
    ]
   ],
   "per_page": 12,
-  "site_pages": 7,
+  "site_pages": 12,
   "filters": "/category-ulun",
   "seo": [
    {
@@ -1441,6 +1441,4150 @@
       "sku": "22644",
       "old": null,
       "price": 7195
+     }
+    ]
+   },
+   {
+    "slug": "ulun-malina",
+    "name": "Улун Малина",
+    "alt": "Улун Малина",
+    "url": "/product/ulun-malina",
+    "img": "https://media.teaboom.ru/images/05629928-ca69-4358-8d76-973b9975c809.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун Малина, 100 г",
+      "label": "100 г",
+      "sku": "10122",
+      "old": null,
+      "price": 345.3
+     },
+     {
+      "title": "Улун Малина, 500 г",
+      "label": "500 г",
+      "sku": "10123",
+      "old": null,
+      "price": 1526.5
+     },
+     {
+      "title": "Улун Малина, 1000 г",
+      "label": "1000 г",
+      "sku": "10124",
+      "old": null,
+      "price": 2253
+     },
+     {
+      "title": "Улун Малина, 5000 г",
+      "label": "5000 г",
+      "sku": "10125",
+      "old": null,
+      "price": 7265
+     }
+    ]
+   },
+   {
+    "slug": "ulun-roza-roze",
+    "name": "Улун \"Роза Розе\"",
+    "alt": "Улун \"Роза Розе\"",
+    "url": "/product/ulun-roza-roze",
+    "img": "https://media.teaboom.ru/images/5222f660-ebf1-4aba-bdc5-87c700c6ad0c.png",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Роза Розе\", 100 г",
+      "label": "100 г",
+      "sku": "22646",
+      "old": null,
+      "price": 345.9
+     },
+     {
+      "title": "Улун \"Роза Розе\", 500 г",
+      "label": "500 г",
+      "sku": "22647",
+      "old": null,
+      "price": 1529.5
+     },
+     {
+      "title": "Улун \"Роза Розе\", 1000 г",
+      "label": "1000 г",
+      "sku": "22648",
+      "old": null,
+      "price": 2259
+     },
+     {
+      "title": "Улун \"Роза Розе\", 500 г",
+      "label": "500 г",
+      "sku": "22649",
+      "old": null,
+      "price": 7295
+     }
+    ]
+   },
+   {
+    "slug": "ulun-medovaya-karameli",
+    "name": "Улун медовая карамель",
+    "alt": "Улун медовая карамель",
+    "url": "/product/ulun-medovaya-karameli",
+    "img": "https://media.teaboom.ru/images/b4f9219a-4113-4222-ab6b-2bb21d3d610b.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун медовая карамель, 100 г",
+      "label": "100 г",
+      "sku": "03840",
+      "old": null,
+      "price": 346.3
+     }
+    ]
+   },
+   {
+    "slug": "ulun-ocharovanie",
+    "name": "Улун \"Очарование\"",
+    "alt": "Улун \"Очарование\"",
+    "url": "/product/ulun-ocharovanie",
+    "img": "https://media.teaboom.ru/images/cfeebf9e-c0c3-4de1-afd6-4bdff5791d3b.png",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Очарование\", 100 г",
+      "label": "100 г",
+      "sku": "22636",
+      "old": null,
+      "price": 347.2
+     },
+     {
+      "title": "Улун \"Очарование\", 500 г",
+      "label": "500 г",
+      "sku": "22637",
+      "old": null,
+      "price": 1536
+     },
+     {
+      "title": "Улун \"Очарование\", 1000 г",
+      "label": "1000 г",
+      "sku": "22638",
+      "old": null,
+      "price": 2272
+     },
+     {
+      "title": "Улун \"Очарование\", 5000 г",
+      "label": "5000 г",
+      "sku": "22639",
+      "old": null,
+      "price": 7360
+     }
+    ]
+   },
+   {
+    "slug": "klubnichnyj-temnyj-ulun",
+    "name": "Клубничный темный улун",
+    "alt": "Клубничный темный улун",
+    "url": "/product/klubnichnyj-temnyj-ulun",
+    "img": "https://media.teaboom.ru/images/5abd80dc-bc46-4b98-a381-deca1613df7f.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Клубничный темный улун, 100 г",
+      "label": "100 г",
+      "sku": "33081",
+      "old": 356,
+      "price": 348
+     },
+     {
+      "title": "Клубничный темный улун, 500 г",
+      "label": "500 г",
+      "sku": "33082",
+      "old": 1580,
+      "price": 1540
+     },
+     {
+      "title": "Клубничный темный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "33083",
+      "old": 2360,
+      "price": 2280
+     },
+     {
+      "title": "Клубничный темный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "33084",
+      "old": 8100,
+      "price": 7900
+     }
+    ]
+   },
+   {
+    "slug": "shokoladnyj-temnyj-ulun",
+    "name": "Шоколадный темный улун",
+    "alt": "Шоколадный темный улун",
+    "url": "/product/shokoladnyj-temnyj-ulun",
+    "img": "https://media.teaboom.ru/images/eb6c56d0-2d76-4a3b-b93f-488fa0bb2b85.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Шоколадный темный улун, 100 г",
+      "label": "100 г",
+      "sku": "33101",
+      "old": 365,
+      "price": 348
+     },
+     {
+      "title": "Шоколадный темный улун, 500 г",
+      "label": "500 г",
+      "sku": "33102",
+      "old": 1625,
+      "price": 1540
+     },
+     {
+      "title": "Шоколадный темный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "33103",
+      "old": 2350,
+      "price": 2280
+     },
+     {
+      "title": "Шоколадный темный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "33104",
+      "old": 8250,
+      "price": 7900
+     }
+    ]
+   },
+   {
+    "slug": "mangovyj-temnyj-ulun",
+    "name": "Манговый темный улун",
+    "alt": "Манговый темный улун",
+    "url": "/product/mangovyj-temnyj-ulun",
+    "img": "https://media.teaboom.ru/images/d6191bf2-c2fb-449e-aa59-cb9e71d17672.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Манговый темный улун, 100 г",
+      "label": "100 г",
+      "sku": "35135",
+      "old": 356,
+      "price": 348
+     },
+     {
+      "title": "Манговый темный улун, 500 г",
+      "label": "500 г",
+      "sku": "35136",
+      "old": 1580,
+      "price": 1540
+     },
+     {
+      "title": "Манговый темный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "35137",
+      "old": 2760,
+      "price": 2280
+     },
+     {
+      "title": "Манговый темный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "35138",
+      "old": 8100,
+      "price": 7900
+     }
+    ]
+   },
+   {
+    "slug": "molochnyj-temnyj-ulun",
+    "name": "Молочный темный улун",
+    "alt": "Молочный темный улун",
+    "url": "/product/molochnyj-temnyj-ulun",
+    "img": "https://media.teaboom.ru/images/1d320242-fb92-4d6d-88f3-7d4445ea80f3.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Молочный темный улун, 100 г",
+      "label": "100 г",
+      "sku": "33096",
+      "old": 365,
+      "price": 348
+     },
+     {
+      "title": "Молочный темный улун, 500 г",
+      "label": "500 г",
+      "sku": "33097",
+      "old": 1625,
+      "price": 1540
+     },
+     {
+      "title": "Молочный темный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "33098",
+      "old": 2350,
+      "price": 2280
+     },
+     {
+      "title": "Молочный темный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "33099",
+      "old": 8250,
+      "price": 7900
+     }
+    ]
+   },
+   {
+    "slug": "molochnij-ulun-1-j-kategorii",
+    "name": "Молочный Улун 1-й категории",
+    "alt": "Молочный Улун 1-й категории",
+    "url": "/product/molochnij-ulun-1-j-kategorii",
+    "img": "https://media.teaboom.ru/images/89499f43-7a8c-4710-89a9-938e3d78e6e7.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Молочный Улун 1-й категории, 100 г",
+      "label": "100 г",
+      "sku": "01297",
+      "old": null,
+      "price": 350.1
+     },
+     {
+      "title": "Молочный Улун 1-й категории, 500 г",
+      "label": "500 г",
+      "sku": "01298",
+      "old": null,
+      "price": 1550.5
+     },
+     {
+      "title": "Молочный Улун 1-й категории, 1000 г",
+      "label": "1000 г",
+      "sku": "01299",
+      "old": null,
+      "price": 2301
+     },
+     {
+      "title": "Молочный Улун 1-й категории, 5000 г",
+      "label": "5000 г",
+      "sku": "01300",
+      "old": null,
+      "price": 7505
+     }
+    ]
+   },
+   {
+    "slug": "barbarisovyj-ulun",
+    "name": "Барбарисовый улун",
+    "alt": "Барбарисовый улун",
+    "url": "/product/barbarisovyj-ulun",
+    "img": "https://media.teaboom.ru/images/ff8ebea0-8ea3-45ff-8ce1-88fb8a53786b.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Барбарисовый улун, 100 г",
+      "label": "100 г",
+      "sku": "32208",
+      "old": 371,
+      "price": 359.5
+     },
+     {
+      "title": "Барбарисовый улун, 500 г",
+      "label": "500 г",
+      "sku": "32209",
+      "old": 1655,
+      "price": 1597.5
+     },
+     {
+      "title": "Барбарисовый улун, 1000 г",
+      "label": "1000 г",
+      "sku": "32210",
+      "old": 2510,
+      "price": 2395
+     },
+     {
+      "title": "Барбарисовый улун, 5000 г",
+      "label": "5000 г",
+      "sku": "32211",
+      "old": 9050,
+      "price": 8475
+     }
+    ]
+   },
+   {
+    "slug": "ulun-sladkij-inzhir",
+    "name": "Улун \"Сладкий инжир\"",
+    "alt": "Улун \"Сладкий инжир\"",
+    "url": "/product/ulun-sladkij-inzhir",
+    "img": "https://media.teaboom.ru/images/c7b44b32-f127-40ad-967c-7c2151fc10d8.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Сладкий инжир\", 100 г",
+      "label": "100 г",
+      "sku": "34286",
+      "old": null,
+      "price": 361
+     }
+    ]
+   },
+   {
+    "slug": "ulun-tarhun",
+    "name": "Улун \"Тархун\"",
+    "alt": "Улун \"Тархун\"",
+    "url": "/product/ulun-tarhun",
+    "img": "https://media.teaboom.ru/images/e593094e-6b6a-4abf-97b3-aa4b010a083e.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Тархун\", 100 г",
+      "label": "100 г",
+      "sku": "09432",
+      "old": 368,
+      "price": 361
+     },
+     {
+      "title": "Улун \"Тархун\", 500 г",
+      "label": "500 г",
+      "sku": "09433",
+      "old": 1640,
+      "price": 1605
+     },
+     {
+      "title": "Улун \"Тархун\", 1000 г",
+      "label": "1000 г",
+      "sku": "09434",
+      "old": 2480,
+      "price": 2410
+     },
+     {
+      "title": "Улун \"Тархун\", 5000 г",
+      "label": "5000 г",
+      "sku": "09435",
+      "old": 8900,
+      "price": 8550
+     }
+    ]
+   },
+   {
+    "slug": "klubnichnij-ulun",
+    "name": "Клубничный улун",
+    "alt": "Клубничный улун",
+    "url": "/product/klubnichnij-ulun",
+    "img": "https://media.teaboom.ru/images/2c75e812-750e-4be5-b3b9-88d67f83e142.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Клубничный улун, 100 г",
+      "label": "100 г",
+      "sku": "01321",
+      "old": 365.2,
+      "price": 361.2
+     },
+     {
+      "title": "Клубничный улун, 500 г",
+      "label": "500 г",
+      "sku": "01322",
+      "old": 1726,
+      "price": 1606
+     },
+     {
+      "title": "Клубничный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "01323",
+      "old": 2752,
+      "price": 2412
+     },
+     {
+      "title": "Клубничный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "01324",
+      "old": 9510,
+      "price": 8060
+     }
+    ]
+   },
+   {
+    "slug": "lesnye-yagodi-ulun",
+    "name": "Лесные ягоды Улун",
+    "alt": "Лесные ягоды Улун",
+    "url": "/product/lesnye-yagodi-ulun",
+    "img": "https://media.teaboom.ru/images/dd4e9886-f878-484a-8ea5-4bf7aeca9049.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Лесные ягоды Улун, 100 г",
+      "label": "100 г",
+      "sku": "03871",
+      "old": 380.4,
+      "price": 362.1
+     },
+     {
+      "title": "Лесные ягоды Улун, 500 г",
+      "label": "500 г",
+      "sku": "03872",
+      "old": 1702,
+      "price": 1610.5
+     },
+     {
+      "title": "Лесные ягоды Улун, 1000 г",
+      "label": "1000 г",
+      "sku": "03873",
+      "old": 2904,
+      "price": 2421
+     },
+     {
+      "title": "Лесные ягоды Улун, 5000 г",
+      "label": "5000 г",
+      "sku": "03874",
+      "old": 10270,
+      "price": 8105
+     }
+    ]
+   },
+   {
+    "slug": "klubnica-banan-ulun",
+    "name": "Клубника-банан улун",
+    "alt": "Клубника-банан улун",
+    "url": "/product/klubnica-banan-ulun",
+    "img": "https://media.teaboom.ru/images/a2e05207-071f-4fb0-aed4-c557c8e94967.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Клубника-банан улун, 100 г",
+      "label": "100 г",
+      "sku": "03856",
+      "old": 499.8,
+      "price": 362.8
+     },
+     {
+      "title": "Клубника-банан улун, 500 г",
+      "label": "500 г",
+      "sku": "03857",
+      "old": 2349.9,
+      "price": 1614
+     },
+     {
+      "title": "Клубника-банан улун, 1000 г",
+      "label": "1000 г",
+      "sku": "03858",
+      "old": 3298,
+      "price": 2428
+     },
+     {
+      "title": "Клубника-банан улун, 5000 г",
+      "label": "5000 г",
+      "sku": "03859",
+      "old": 10240,
+      "price": 8140
+     }
+    ]
+   },
+   {
+    "slug": "ulun-sgushenoe-moloko",
+    "name": "Улун Сгущеное молоко",
+    "alt": "Улун Сгущеное молоко",
+    "url": "/product/ulun-sgushenoe-moloko",
+    "img": "https://media.teaboom.ru/images/876d44c9-dc29-4812-92d9-f23962626db9.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун Сгущеное молоко, 100 г",
+      "label": "100 г",
+      "sku": "32264",
+      "old": 375,
+      "price": 368
+     },
+     {
+      "title": "Улун Сгущеное молоко, 500 г",
+      "label": "500 г",
+      "sku": "32265",
+      "old": 1675,
+      "price": 1640
+     },
+     {
+      "title": "Улун Сгущеное молоко, 1000 г",
+      "label": "1000 г",
+      "sku": "32266",
+      "old": 2550,
+      "price": 2480
+     },
+     {
+      "title": "Улун Сгущеное молоко, 5000 г",
+      "label": "5000 г",
+      "sku": "32267",
+      "old": 9250,
+      "price": 8900
+     }
+    ]
+   },
+   {
+    "slug": "ulun-krasotka-meri",
+    "name": "Улун \"Красотка Мэри\"",
+    "alt": "Улун \"Красотка Мэри\"",
+    "url": "/product/ulun-krasotka-meri",
+    "img": "https://media.teaboom.ru/images/2b900c63-94dc-4d96-873c-2ba364e961a7.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Красотка Мэри\", 100 г",
+      "label": "100 г",
+      "sku": "38700",
+      "old": 391,
+      "price": 382
+     }
+    ]
+   },
+   {
+    "slug": "apelsinovyj-temnyj-ulun",
+    "name": "Апельсиновый темный улун",
+    "alt": "Апельсиновый темный улун",
+    "url": "/product/apelsinovyj-temnyj-ulun",
+    "img": "https://media.teaboom.ru/images/e4360f9e-144f-469f-b774-754d94a62b55.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Апельсиновый темный улун, 100 г",
+      "label": "100 г",
+      "sku": "33086",
+      "old": null,
+      "price": 385
+     },
+     {
+      "title": "Апельсиновый темный улун, 500 г",
+      "label": "500 г",
+      "sku": "33087",
+      "old": null,
+      "price": 1725
+     },
+     {
+      "title": "Апельсиновый темный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "33088",
+      "old": null,
+      "price": 2650
+     },
+     {
+      "title": "Апельсиновый темный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "33089",
+      "old": null,
+      "price": 9250
+     }
+    ]
+   },
+   {
+    "slug": "kokosovyj-slivochnyj-ulun",
+    "name": "Кокосовый сливочный улун",
+    "alt": "Кокосовый сливочный улун",
+    "url": "/product/kokosovyj-slivochnyj-ulun",
+    "img": "https://media.teaboom.ru/images/644acdda-a4e6-4fff-9754-cca5786398a5.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Кокосовый сливочный улун, 100 г",
+      "label": "100 г",
+      "sku": "09419",
+      "old": 454.8,
+      "price": 400
+     },
+     {
+      "title": "Кокосовый сливочный улун, 500 г",
+      "label": "500 г",
+      "sku": "09420",
+      "old": 2161,
+      "price": 1900
+     },
+     {
+      "title": "Кокосовый сливочный улун, 1000 г",
+      "label": "1000 г",
+      "sku": "09421",
+      "old": 4093,
+      "price": 3600
+     },
+     {
+      "title": "Кокосовый сливочный улун, 5000 г",
+      "label": "5000 г",
+      "sku": "09422",
+      "old": 19329,
+      "price": 17000
+     }
+    ]
+   },
+   {
+    "slug": "ulun-malinovyj-sorbet",
+    "name": "Улун \"Малиновый сорбет\"",
+    "alt": "Улун \"Малиновый сорбет\"",
+    "url": "/product/ulun-malinovyj-sorbet",
+    "img": "https://media.teaboom.ru/images/7b15701e-ceb9-4e7b-bb0e-a2cabf815971.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Малиновый сорбет\", 100 г",
+      "label": "100 г",
+      "sku": "38705",
+      "old": null,
+      "price": 407
+     },
+     {
+      "title": "Улун \"Малиновый сорбет\", 500 г",
+      "label": "500 г",
+      "sku": "38706",
+      "old": null,
+      "price": 1835
+     },
+     {
+      "title": "Улун \"Малиновый сорбет\", 1000 г",
+      "label": "1000 г",
+      "sku": "38707",
+      "old": null,
+      "price": 2870
+     },
+     {
+      "title": "Улун \"Малиновый сорбет\", 5000 г",
+      "label": "5000 г",
+      "sku": "38708",
+      "old": null,
+      "price": 10850
+     }
+    ]
+   },
+   {
+    "slug": "ulun-severnoe-siyanie",
+    "name": "Улун \"Северное сияние\"",
+    "alt": "Улун \"Северное сияние\"",
+    "url": "/product/ulun-severnoe-siyanie",
+    "img": "https://media.teaboom.ru/images/800317fa-5bde-42b2-8ad3-d01997e5bad2.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Северное сияние\", 100 г",
+      "label": "100 г",
+      "sku": "39568",
+      "old": null,
+      "price": 409.4
+     },
+     {
+      "title": "Улун \"Северное сияние\", 500 г",
+      "label": "500 г",
+      "sku": "39569",
+      "old": null,
+      "price": 1847
+     },
+     {
+      "title": "Улун \"Северное сияние\", 1000 г",
+      "label": "1000 г",
+      "sku": "39570",
+      "old": null,
+      "price": 2894
+     },
+     {
+      "title": "Улун \"Северное сияние\", 5000 г",
+      "label": "5000 г",
+      "sku": "39571",
+      "old": null,
+      "price": 10470
+     }
+    ]
+   },
+   {
+    "slug": "ulun-zemlyanichnaya-polyana",
+    "name": "Улун \"Земляничная поляна\"",
+    "alt": "Улун \"Земляничная поляна\"",
+    "url": "/product/ulun-zemlyanichnaya-polyana",
+    "img": "https://media.teaboom.ru/images/eb785ccd-3e48-4d2e-a5ae-fe4de9c76f72.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Земляничная поляна\", 100 г",
+      "label": "100 г",
+      "sku": "42451",
+      "old": null,
+      "price": 411.5
+     },
+     {
+      "title": "Улун \"Земляничная поляна\", 500 г",
+      "label": "500 г",
+      "sku": "42452",
+      "old": null,
+      "price": 1857.5
+     },
+     {
+      "title": "Улун \"Земляничная поляна\", 1000 г",
+      "label": "1000 г",
+      "sku": "42453",
+      "old": null,
+      "price": 2915
+     },
+     {
+      "title": "Улун \"Земляничная поляна\", 5000 г",
+      "label": "5000 г",
+      "sku": "42454",
+      "old": null,
+      "price": 11075
+     }
+    ]
+   },
+   {
+    "slug": "ulun-vybor-korolya",
+    "name": "Улун \"Выбор Короля\"",
+    "alt": "Улун \"Выбор Короля\"",
+    "url": "/product/ulun-vybor-korolya",
+    "img": "https://media.teaboom.ru/images/2fc884e8-e9cd-42b2-b51b-b7bab1564424.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Выбор Короля\", 100 г",
+      "label": "100 г",
+      "sku": "42446",
+      "old": null,
+      "price": 419.5
+     },
+     {
+      "title": "Улун \"Выбор Короля\", 500 г",
+      "label": "500 г",
+      "sku": "42447",
+      "old": null,
+      "price": 1897.5
+     },
+     {
+      "title": "Улун \"Выбор Короля\", 1000 г",
+      "label": "1000 г",
+      "sku": "42448",
+      "old": null,
+      "price": 2995
+     },
+     {
+      "title": "Улун \"Выбор Короля\", 5000 г",
+      "label": "5000 г",
+      "sku": "42449",
+      "old": null,
+      "price": 11475
+     }
+    ]
+   },
+   {
+    "slug": "zhensen-ulun-premium",
+    "name": "Женьшень улун Премиум",
+    "alt": "Женьшень улун Премиум",
+    "url": "/product/zhensen-ulun-premium",
+    "img": "https://media.teaboom.ru/images/4fcde362-e832-4187-882a-ce66152f1adc.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Женьшень улун Премиум, 500 г",
+      "label": "500 г",
+      "sku": "03483",
+      "old": 2285.5,
+      "price": 1912
+     },
+     {
+      "title": "Женьшень улун Премиум, 1000 г",
+      "label": "1000 г",
+      "sku": "03484",
+      "old": 3871,
+      "price": 3024
+     },
+     {
+      "title": "Женьшень улун Премиум, 5000 г",
+      "label": "5000 г",
+      "sku": "03485",
+      "old": 15105,
+      "price": 11120
+     }
+    ]
+   },
+   {
+    "slug": "ulun-shokolad-s-vishnej",
+    "name": "Улун \"Шоколад с вишней\"",
+    "alt": "Улун \"Шоколад с вишней\"",
+    "url": "/product/ulun-shokolad-s-vishnej",
+    "img": "https://media.teaboom.ru/images/7ca106d9-ebce-4050-946e-9e8b87855af6.jpg",
+    "cat": "Китайский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Шоколад с вишней\", 100 г",
+      "label": "100 г",
+      "sku": "32243",
+      "old": null,
+      "price": 427
+     },
+     {
+      "title": "Улун \"Шоколад с вишней\", 500 г",
+      "label": "500 г",
+      "sku": "32244",
+      "old": null,
+      "price": 1935
+     },
+     {
+      "title": "Улун \"Шоколад с вишней\", 1000 г",
+      "label": "1000 г",
+      "sku": "32245",
+      "old": null,
+      "price": 3070
+     },
+     {
+      "title": "Улун \"Шоколад с вишней\", 5000 г",
+      "label": "5000 г",
+      "sku": "32246",
+      "old": null,
+      "price": 11850
+     }
+    ]
+   },
+   {
+    "slug": "lao-te-guan-premium",
+    "name": "Лао Те Гуань Инь (Премиум)",
+    "alt": "Лао Те Гуань Инь (Премиум)",
+    "url": "/product/lao-te-guan-premium",
+    "img": "https://media.teaboom.ru/images/6a15a247-27ca-4eb9-9b95-cd6f45dfbe24.jpg",
+    "cat": "Китайский темный улун",
+    "variants": [
+     {
+      "title": "Лао Те Гуань Инь (Премиум), 100 г",
+      "label": "100 г",
+      "sku": "39576",
+      "old": null,
+      "price": 430.2
+     },
+     {
+      "title": "Лао Те Гуань Инь (Премиум), 500 г",
+      "label": "500 г",
+      "sku": "39577",
+      "old": null,
+      "price": 1951
+     },
+     {
+      "title": "Лао Те Гуань Инь (Премиум), 1000 г",
+      "label": "1000 г",
+      "sku": "39578",
+      "old": null,
+      "price": 3102
+     }
+    ]
+   },
+   {
+    "slug": "ulun-mohito",
+    "name": "Улун \"Мохито\"",
+    "alt": "Улун \"Мохито\"",
+    "url": "/product/ulun-mohito",
+    "img": "https://media.teaboom.ru/images/ab6e70a2-742f-4bc5-86e6-49c0c860ede7.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Мохито\", 100 г",
+      "label": "100 г",
+      "sku": "32213",
+      "old": 465,
+      "price": 430.5
+     },
+     {
+      "title": "Улун \"Мохито\", 500 г",
+      "label": "500 г",
+      "sku": "32214",
+      "old": 2225,
+      "price": 1952.5
+     },
+     {
+      "title": "Улун \"Мохито\", 1000 г",
+      "label": "1000 г",
+      "sku": "32215",
+      "old": 3750,
+      "price": 3105
+     },
+     {
+      "title": "Улун \"Мохито\", 5000 г",
+      "label": "5000 г",
+      "sku": "32216",
+      "old": 14500,
+      "price": 12025
+     }
+    ]
+   },
+   {
+    "slug": "ulun-yagodnoe-lukoshko",
+    "name": "Улун \"Ягодное лукошко\"",
+    "alt": "Улун \"Ягодное лукошко\"",
+    "url": "/product/ulun-yagodnoe-lukoshko",
+    "img": "https://media.teaboom.ru/images/ca0a3a20-f4f1-4895-a711-0c37e4daa667.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Ягодное лукошко\", 100 г",
+      "label": "100 г",
+      "sku": "36431",
+      "old": null,
+      "price": 445
+     },
+     {
+      "title": "Улун \"Ягодное лукошко\", 500 г",
+      "label": "500 г",
+      "sku": "36432",
+      "old": null,
+      "price": 2025
+     },
+     {
+      "title": "Улун \"Ягодное лукошко\", 1000 г",
+      "label": "1000 г",
+      "sku": "36433",
+      "old": null,
+      "price": 3250
+     },
+     {
+      "title": "Улун \"Ягодное лукошко\", 5000 г",
+      "label": "5000 г",
+      "sku": "36434",
+      "old": null,
+      "price": 12750
+     }
+    ]
+   },
+   {
+    "slug": "ulun-imperatrica",
+    "name": "Улун \"Императрица\"",
+    "alt": "Улун \"Императрица\"",
+    "url": "/product/ulun-imperatrica",
+    "img": "https://media.teaboom.ru/images/6c8e480c-644c-484a-af79-d081a3486e9a.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Императрица\", 100 г",
+      "label": "100 г",
+      "sku": "32218",
+      "old": null,
+      "price": 453.5
+     },
+     {
+      "title": "Улун \"Императрица\", 500 г",
+      "label": "500 г",
+      "sku": "32219",
+      "old": null,
+      "price": 2067.5
+     },
+     {
+      "title": "Улун \"Императрица\", 1000 г",
+      "label": "1000 г",
+      "sku": "32220",
+      "old": null,
+      "price": 3335
+     },
+     {
+      "title": "Улун \"Императрица\", 5000 г",
+      "label": "5000 г",
+      "sku": "32221",
+      "old": null,
+      "price": 13175
+     }
+    ]
+   },
+   {
+    "slug": "te-guan-vysshej-kategori",
+    "name": "Те Гуань Инь (Высшей категории)",
+    "alt": "Те Гуань Инь (Высшей категории)",
+    "url": "/product/te-guan-vysshej-kategori",
+    "img": "https://media.teaboom.ru/images/403f7d5f-9be2-47ae-a2f2-d1d25d5533a4.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Те Гуань Инь (Высшей категории), 100 г",
+      "label": "100 г",
+      "sku": "03780",
+      "old": null,
+      "price": 458
+     },
+     {
+      "title": "Те Гуань Инь (Высшей категории), 500 г",
+      "label": "500 г",
+      "sku": "03781",
+      "old": null,
+      "price": 2090
+     },
+     {
+      "title": "Те Гуань Инь (Высшей категории), 1000 г",
+      "label": "1000 г",
+      "sku": "03782",
+      "old": null,
+      "price": 3380
+     },
+     {
+      "title": "Те Гуань Инь (Высшей категории), 5000 г",
+      "label": "5000 г",
+      "sku": "03783",
+      "old": null,
+      "price": 12900
+     }
+    ]
+   },
+   {
+    "slug": "molochnij-ulun-vysshej-kategorii",
+    "name": "Молочный Улун (Высшей категории)",
+    "alt": "Молочный Улун (Высшей категории)",
+    "url": "/product/molochnij-ulun-vysshej-kategorii",
+    "img": "https://media.teaboom.ru/images/154940c7-d83f-4950-aeaf-968d50b60ca1.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Молочный Улун (Высшей категории), 100 г",
+      "label": "100 г",
+      "sku": "01292",
+      "old": 542,
+      "price": 462
+     },
+     {
+      "title": "Молочный Улун (Высшей категории), 500 г",
+      "label": "500 г",
+      "sku": "01293",
+      "old": 2610,
+      "price": 2110
+     },
+     {
+      "title": "Молочный Улун (Высшей категории), 1000 г",
+      "label": "1000 г",
+      "sku": "01294",
+      "old": 4520,
+      "price": 3420
+     },
+     {
+      "title": "Молочный Улун (Высшей категории), 5000 г",
+      "label": "5000 г",
+      "sku": "01295",
+      "old": 18350,
+      "price": 13100
+     }
+    ]
+   },
+   {
+    "slug": "ulun-kyzyl-abakan",
+    "name": "Улун \"Кызыл-Абакан\"",
+    "alt": "Улун \"Кызыл-Абакан\"",
+    "url": "/product/ulun-kyzyl-abakan",
+    "img": "https://media.teaboom.ru/images/64495894-933c-4320-909a-9ddda1acf5bc.jpg",
+    "cat": "Китайский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Улун \"Кызыл-Абакан\", 100 г",
+      "label": "100 г",
+      "sku": "41737",
+      "old": null,
+      "price": 463
+     },
+     {
+      "title": "Улун \"Кызыл-Абакан\", 500 г",
+      "label": "500 г",
+      "sku": "41738",
+      "old": null,
+      "price": 2115
+     },
+     {
+      "title": "Улун \"Кызыл-Абакан\", 1000 г",
+      "label": "1000 г",
+      "sku": "41739",
+      "old": null,
+      "price": 3430
+     },
+     {
+      "title": "Улун \"Кызыл-Абакан\", 5000 г",
+      "label": "5000 г",
+      "sku": "41740",
+      "old": null,
+      "price": 13150
+     }
+    ]
+   },
+   {
+    "slug": "zhenshen-ulun-s-usilennym-aromatom",
+    "name": "Женьшень улун с усиленным ароматом",
+    "alt": "Женьшень улун с усиленным ароматом",
+    "url": "/product/zhenshen-ulun-s-usilennym-aromatom",
+    "img": "https://media.teaboom.ru/images/0b8cd890-5f39-4ec6-87be-191cb11c45e1.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Женьшень улун с усиленным ароматом, 100 г",
+      "label": "100 г",
+      "sku": "42049",
+      "old": null,
+      "price": 494.5
+     },
+     {
+      "title": "Женьшень улун с усиленным ароматом, 500 г",
+      "label": "500 г",
+      "sku": "42050",
+      "old": null,
+      "price": 2272.5
+     },
+     {
+      "title": "Женьшень улун с усиленным ароматом, 1000 г",
+      "label": "1000 г",
+      "sku": "42051",
+      "old": null,
+      "price": 3745
+     },
+     {
+      "title": "Женьшень улун с усиленным ароматом, 5000 г",
+      "label": "5000 г",
+      "sku": "42052",
+      "old": null,
+      "price": 14475
+     }
+    ]
+   },
+   {
+    "slug": "li-shan-ulun-taivan",
+    "name": "Алишань улун (Тайвань)",
+    "alt": "Алишань улун (Тайвань)",
+    "url": "/product/li-shan-ulun-taivan",
+    "img": "https://media.teaboom.ru/images/6ff1ed35-100f-426f-9a38-d54db4d91298.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Алишань улун (Тайвань), 100 г",
+      "label": "100 г",
+      "sku": "01264",
+      "old": 533.9,
+      "price": 515.5
+     },
+     {
+      "title": "Алишань улун (Тайвань), 500 г",
+      "label": "500 г",
+      "sku": "01265",
+      "old": 2469.5,
+      "price": 2377.5
+     },
+     {
+      "title": "Алишань улун (Тайвань), 1000 г",
+      "label": "1000 г",
+      "sku": "01266",
+      "old": 4439,
+      "price": 3955
+     },
+     {
+      "title": "Алишань улун (Тайвань), 5000 г",
+      "label": "5000 г",
+      "sku": "01267",
+      "old": 17945,
+      "price": 15025
+     }
+    ]
+   },
+   {
+    "slug": "gaba-izumrudnaya",
+    "name": "Габа Изумрудная",
+    "alt": "Габа Изумрудная",
+    "url": "/product/gaba-izumrudnaya",
+    "img": "https://media.teaboom.ru/images/e51fee5f-54d4-4584-a4fc-1d8590173189.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Изумрудная, 100 г",
+      "label": "100 г",
+      "sku": "39514",
+      "old": null,
+      "price": 530
+     },
+     {
+      "title": "Габа Изумрудная, 500 г",
+      "label": "500 г",
+      "sku": "39515",
+      "old": null,
+      "price": 2450
+     },
+     {
+      "title": "Габа Изумрудная, 1000 г",
+      "label": "1000 г",
+      "sku": "39516",
+      "old": null,
+      "price": 4100
+     },
+     {
+      "title": "Габа Изумрудная, 5000 г",
+      "label": "5000 г",
+      "sku": "39517",
+      "old": null,
+      "price": 16750
+     }
+    ]
+   },
+   {
+    "slug": "dan-cun-odinokie-kusty",
+    "name": "Дан Цун (Одинокие кусты)",
+    "alt": "Дан Цун (Одинокие кусты)",
+    "url": "/product/dan-cun-odinokie-kusty",
+    "img": "https://media.teaboom.ru/images/8bb0a5f2-c171-470a-b600-4210d780c7ad.jpg",
+    "cat": "Китайский темный улун",
+    "variants": [
+     {
+      "title": "Дан Цун (Одинокие кусты), 500 г",
+      "label": "500 г",
+      "sku": "07159",
+      "old": 2949.5,
+      "price": 2484
+     },
+     {
+      "title": "Дан Цун (Одинокие кусты), 1000 г",
+      "label": "1000 г",
+      "sku": "07160",
+      "old": 5499,
+      "price": 4168
+     },
+     {
+      "title": "Дан Цун (Одинокие кусты), 5000 г",
+      "label": "5000 г",
+      "sku": "07161",
+      "old": 23195,
+      "price": 16090
+     }
+    ]
+   },
+   {
+    "slug": "vysokogornyj-ulun-tajvan",
+    "name": "Высокогорный улун (Тайвань)",
+    "alt": "Высокогорный улун (Тайвань)",
+    "url": "/product/vysokogornyj-ulun-tajvan",
+    "img": "https://media.teaboom.ru/images/38b262da-fc43-4cd3-b92f-c4cc532a0345.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Высокогорный улун (Тайвань), 100 г",
+      "label": "100 г",
+      "sku": "32228",
+      "old": 563,
+      "price": 546
+     },
+     {
+      "title": "Высокогорный улун (Тайвань), 500 г",
+      "label": "500 г",
+      "sku": "32229",
+      "old": 2715,
+      "price": 2530
+     },
+     {
+      "title": "Высокогорный улун (Тайвань), 1000 г",
+      "label": "1000 г",
+      "sku": "32230",
+      "old": 4730,
+      "price": 4260
+     },
+     {
+      "title": "Высокогорный улун (Тайвань), 5000 г",
+      "label": "5000 г",
+      "sku": "32231",
+      "old": 19400,
+      "price": 17050
+     }
+    ]
+   },
+   {
+    "slug": "molochnyj-ulun-tajvani-1",
+    "name": "Молочный Улун (Тайвань)",
+    "alt": "Молочный Улун (Тайвань)",
+    "url": "/product/molochnyj-ulun-tajvani-1",
+    "img": "https://media.teaboom.ru/images/f78385cf-799d-4b3f-a29d-23b8e4023b0b.jpg",
+    "cat": "Тайваньский светлый ароматизированный улун",
+    "variants": [
+     {
+      "title": "Молочный Улун (Тайвань), 100 г",
+      "label": "100 г",
+      "sku": "03800",
+      "old": null,
+      "price": 546.9
+     },
+     {
+      "title": "Молочный Улун (Тайвань), 500 г",
+      "label": "500 г",
+      "sku": "03801",
+      "old": null,
+      "price": 2534.5
+     },
+     {
+      "title": "Молочный Улун (Тайвань), 1000 г",
+      "label": "1000 г",
+      "sku": "03802",
+      "old": null,
+      "price": 4269
+     },
+     {
+      "title": "Молочный Улун (Тайвань), 5000 г",
+      "label": "5000 г",
+      "sku": "03803",
+      "old": null,
+      "price": 16595
+     }
+    ]
+   },
+   {
+    "slug": "zhou-gui",
+    "name": "Жоу Гуй",
+    "alt": "Жоу Гуй",
+    "url": "/product/zhou-gui",
+    "img": "https://media.teaboom.ru/images/13325b3a-339c-4945-b688-0f76809c1800.jpg",
+    "cat": "Китайский темный улун",
+    "variants": [
+     {
+      "title": "Жоу Гуй, 100 г",
+      "label": "100 г",
+      "sku": "01220",
+      "old": null,
+      "price": 567
+     },
+     {
+      "title": "Жоу Гуй, 500 г",
+      "label": "500 г",
+      "sku": "01221",
+      "old": null,
+      "price": 2635
+     },
+     {
+      "title": "Жоу Гуй, 1000 г",
+      "label": "1000 г",
+      "sku": "01222",
+      "old": null,
+      "price": 4470
+     },
+     {
+      "title": "Жоу Гуй, 5000 г",
+      "label": "5000 г",
+      "sku": "01223",
+      "old": null,
+      "price": 18100
+     }
+    ]
+   },
+   {
+    "slug": "fen-huan-dan-cun-odinokie-kusti-s-gory-feniksa",
+    "name": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса)",
+    "alt": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса)",
+    "url": "/product/fen-huan-dan-cun-odinokie-kusti-s-gory-feniksa",
+    "img": "https://media.teaboom.ru/images/c77d1362-05ab-4c59-afa6-dce6b860bab4.jpg",
+    "cat": "Китайский темный улун",
+    "variants": [
+     {
+      "title": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса), 100 г",
+      "label": "100 г",
+      "sku": "01225",
+      "old": 627.1,
+      "price": 574.4
+     },
+     {
+      "title": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса), 500 г",
+      "label": "500 г",
+      "sku": "01226",
+      "old": 3035.5,
+      "price": 2672
+     },
+     {
+      "title": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса), 1000 г",
+      "label": "1000 г",
+      "sku": "01227",
+      "old": 5371,
+      "price": 4544
+     },
+     {
+      "title": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса), 5000 г",
+      "label": "5000 г",
+      "sku": "01228",
+      "old": 22605,
+      "price": 17970
+     }
+    ]
+   },
+   {
+    "slug": "gaba-lamven",
+    "name": "Габа Ламвьен",
+    "alt": "Габа Ламвьен",
+    "url": "/product/gaba-lamven",
+    "img": "https://media.teaboom.ru/images/be34fd2c-9d6b-4c5e-8e92-89bfcd8a9a02.jpg",
+    "cat": "Вьетнамский улун",
+    "variants": [
+     {
+      "title": "Габа Ламвьен, 100 г",
+      "label": "100 г",
+      "sku": "21915",
+      "old": 1472,
+      "price": 600
+     },
+     {
+      "title": "Габа Ламвьен, 500 г",
+      "label": "500 г",
+      "sku": "21916",
+      "old": 6992,
+      "price": 2850
+     },
+     {
+      "title": "Габа Ламвьен, 1000 г",
+      "label": "1000 г",
+      "sku": "21917",
+      "old": 13248,
+      "price": 5400
+     },
+     {
+      "title": "Габа Ламвьен, 5000 г",
+      "label": "5000 г",
+      "sku": "21918",
+      "old": 62560,
+      "price": 25500
+     }
+    ]
+   },
+   {
+    "slug": "te-guani-premium",
+    "name": "Те Гуань Инь (Премиум)",
+    "alt": "Те Гуань Инь (Премиум)",
+    "url": "/product/te-guani-premium",
+    "img": "https://media.teaboom.ru/images/095a34c8-b40a-4fe0-b796-98f8924e9261.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Те Гуань Инь (Премиум), 100 г",
+      "label": "100 г",
+      "sku": "01250",
+      "old": null,
+      "price": 609.5
+     },
+     {
+      "title": "Те Гуань Инь (Премиум), 500 г",
+      "label": "500 г",
+      "sku": "01251",
+      "old": null,
+      "price": 2847.5
+     },
+     {
+      "title": "Те Гуань Инь (Премиум), 1000 г",
+      "label": "1000 г",
+      "sku": "01252",
+      "old": null,
+      "price": 4895
+     },
+     {
+      "title": "Те Гуань Инь (Премиум), 5000 г",
+      "label": "5000 г",
+      "sku": "01253",
+      "old": null,
+      "price": 19725
+     }
+    ]
+   },
+   {
+    "slug": "gaba-fermerskaia",
+    "name": "Габа Фермерская",
+    "alt": "Габа Фермерская",
+    "url": "/product/gaba-fermerskaia",
+    "img": "https://media.teaboom.ru/images/b81f1eb3-d636-4903-80f5-847ba63b1638.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Фермерская, 100 г",
+      "label": "100 г",
+      "sku": "07116",
+      "old": null,
+      "price": 639.2
+     },
+     {
+      "title": "Габа Фермерская, 500 г",
+      "label": "500 г",
+      "sku": "07117",
+      "old": null,
+      "price": 2996
+     },
+     {
+      "title": "Габа Фермерская, 1000 г",
+      "label": "1000 г",
+      "sku": "07118",
+      "old": null,
+      "price": 5192
+     },
+     {
+      "title": "Габа Фермерская, 5000 г",
+      "label": "5000 г",
+      "sku": "07119",
+      "old": null,
+      "price": 22210
+     }
+    ]
+   },
+   {
+    "slug": "gaba-mohito",
+    "name": "Габа Мохито",
+    "alt": "Габа Мохито",
+    "url": "/product/gaba-mohito",
+    "img": "https://media.teaboom.ru/images/f28c7610-a20b-4222-b98b-5722ce80a87d.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Мохито, 100 г",
+      "label": "100 г",
+      "sku": "40944",
+      "old": null,
+      "price": 656.6
+     },
+     {
+      "title": "Габа Мохито, 500 г",
+      "label": "500 г",
+      "sku": "40945",
+      "old": null,
+      "price": 3083
+     },
+     {
+      "title": "Габа Мохито, 1000 г",
+      "label": "1000 г",
+      "sku": "40946",
+      "old": null,
+      "price": 5366
+     },
+     {
+      "title": "Габа Мохито, 5000 г",
+      "label": "5000 г",
+      "sku": "40947",
+      "old": null,
+      "price": 23080
+     }
+    ]
+   },
+   {
+    "slug": "czin-syuan-mej-zhen-vostochnaya-krasavica-czin-syuan",
+    "name": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань)",
+    "alt": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань)",
+    "url": "/product/czin-syuan-mej-zhen-vostochnaya-krasavica-czin-syuan",
+    "img": "https://media.teaboom.ru/products/42208/original/0dccd897-6c94-435d-9c48-50428a9dc609.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань), 100 г",
+      "label": "100 г",
+      "sku": "42209",
+      "old": null,
+      "price": 667.7
+     },
+     {
+      "title": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань), 500 г",
+      "label": "500 г",
+      "sku": "42210",
+      "old": null,
+      "price": 3138.5
+     },
+     {
+      "title": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань), 1000 г",
+      "label": "1000 г",
+      "sku": "42211",
+      "old": null,
+      "price": 5477
+     },
+     {
+      "title": "Цзин Сюань Мэй Жень (Восточная красавица Цзин Сюань), 5000 г",
+      "label": "5000 г",
+      "sku": "42212",
+      "old": null,
+      "price": 22653
+     }
+    ]
+   },
+   {
+    "slug": "gaba-yudzu-imbir",
+    "name": "Габа Юдзу Имбирь",
+    "alt": "Габа Юдзу Имбирь",
+    "url": "/product/gaba-yudzu-imbir",
+    "img": "https://media.teaboom.ru/images/87aade0a-0a52-4560-8c34-07209511c54f.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Юдзу Имбирь, 100 г",
+      "label": "100 г",
+      "sku": "21692",
+      "old": null,
+      "price": 682.4
+     },
+     {
+      "title": "Габа Юдзу Имбирь, 500 г",
+      "label": "500 г",
+      "sku": "21693",
+      "old": null,
+      "price": 3212
+     },
+     {
+      "title": "Габа Юдзу Имбирь, 1000 г",
+      "label": "1000 г",
+      "sku": "21694",
+      "old": null,
+      "price": 5624
+     },
+     {
+      "title": "Габа Юдзу Имбирь, 5000 г",
+      "label": "5000 г",
+      "sku": "21695",
+      "old": null,
+      "price": 24370
+     }
+    ]
+   },
+   {
+    "slug": "gaba-medovye-soty",
+    "name": "Габа \"Медовые соты\"",
+    "alt": "Габа \"Медовые соты\"",
+    "url": "/product/gaba-medovye-soty",
+    "img": "https://media.teaboom.ru/images/ad1ea031-5a9f-4af0-901d-75ed8b0a671d.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа \"Медовые соты\", 100 г",
+      "label": "100 г",
+      "sku": "42044",
+      "old": null,
+      "price": 683.7
+     },
+     {
+      "title": "Габа \"Медовые соты\", 500 г",
+      "label": "500 г",
+      "sku": "42045",
+      "old": null,
+      "price": 3218.5
+     },
+     {
+      "title": "Габа \"Медовые соты\", 1000 г",
+      "label": "1000 г",
+      "sku": "42046",
+      "old": null,
+      "price": 5637
+     },
+     {
+      "title": "Габа \"Медовые соты\", 5000 г",
+      "label": "5000 г",
+      "sku": "42047",
+      "old": null,
+      "price": 24935
+     }
+    ]
+   },
+   {
+    "slug": "gaba-ekzotik",
+    "name": "Габа Экзотик",
+    "alt": "Габа Экзотик",
+    "url": "/product/gaba-ekzotik",
+    "img": "https://media.teaboom.ru/images/179c9fe2-d6cf-4b81-92fb-b645f091058c.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Экзотик, 100 г",
+      "label": "100 г",
+      "sku": "40949",
+      "old": null,
+      "price": 690.2
+     },
+     {
+      "title": "Габа Экзотик, 500 г",
+      "label": "500 г",
+      "sku": "40950",
+      "old": null,
+      "price": 3251
+     },
+     {
+      "title": "Габа Экзотик, 1000 г",
+      "label": "1000 г",
+      "sku": "40951",
+      "old": null,
+      "price": 5702
+     },
+     {
+      "title": "Габа Экзотик, 5000 г",
+      "label": "5000 г",
+      "sku": "40952",
+      "old": null,
+      "price": 24760
+     }
+    ]
+   },
+   {
+    "slug": "gaba-barbaris",
+    "name": "Габа Барбарис",
+    "alt": "Габа Барбарис",
+    "url": "/product/gaba-barbaris",
+    "img": "https://media.teaboom.ru/images/1cb2cd6d-7384-4911-80a3-4865637535a6.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Барбарис, 100 г",
+      "label": "100 г",
+      "sku": "40934",
+      "old": null,
+      "price": 691.3
+     },
+     {
+      "title": "Габа Барбарис, 500 г",
+      "label": "500 г",
+      "sku": "40935",
+      "old": null,
+      "price": 3256.5
+     },
+     {
+      "title": "Габа Барбарис, 1000 г",
+      "label": "1000 г",
+      "sku": "40936",
+      "old": null,
+      "price": 5713
+     },
+     {
+      "title": "Габа Барбарис, 5000 г",
+      "label": "5000 г",
+      "sku": "40937",
+      "old": null,
+      "price": 24815
+     }
+    ]
+   },
+   {
+    "slug": "gaba-medovaya-krupnyj-list",
+    "name": "Габа Медовая (крупный лист)",
+    "alt": "Габа Медовая (крупный лист)",
+    "url": "/product/gaba-medovaya-krupnyj-list",
+    "img": "https://media.teaboom.ru/images/aa5b50cf-e6fa-40f9-afa7-203ce04604f2.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Медовая (крупный лист), 500 г",
+      "label": "500 г",
+      "sku": "21965",
+      "old": 3431.5,
+      "price": 3288
+     },
+     {
+      "title": "Габа Медовая (крупный лист), 1000 г",
+      "label": "1000 г",
+      "sku": "21966",
+      "old": 6363,
+      "price": 5776
+     },
+     {
+      "title": "Габа Медовая (крупный лист), 5000 г",
+      "label": "5000 г",
+      "sku": "21967",
+      "old": 28815,
+      "price": 25130
+     }
+    ]
+   },
+   {
+    "slug": "gaba-malina",
+    "name": "Габа Малина",
+    "alt": "Габа Малина",
+    "url": "/product/gaba-malina",
+    "img": "https://media.teaboom.ru/images/33464561-91f8-4625-817b-2e6cc5a4edc2.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Малина, 100 г",
+      "label": "100 г",
+      "sku": "40939",
+      "old": null,
+      "price": 699.2
+     },
+     {
+      "title": "Габа Малина, 500 г",
+      "label": "500 г",
+      "sku": "40940",
+      "old": null,
+      "price": 3296
+     },
+     {
+      "title": "Габа Малина, 1000 г",
+      "label": "1000 г",
+      "sku": "40941",
+      "old": null,
+      "price": 5792
+     },
+     {
+      "title": "Габа Малина, 5000 г",
+      "label": "5000 г",
+      "sku": "40942",
+      "old": null,
+      "price": 25210
+     }
+    ]
+   },
+   {
+    "slug": "gaba-gabberri",
+    "name": "Габа «Габберри»",
+    "alt": "Габа «Габберри»",
+    "url": "/product/gaba-gabberri",
+    "img": "https://media.teaboom.ru/images/4dcdc412-e6fe-436d-9d09-91db7f9136db.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа «Габберри», 100 г",
+      "label": "100 г",
+      "sku": "36281",
+      "old": null,
+      "price": 701.3
+     },
+     {
+      "title": "Габа «Габберри», 500 г",
+      "label": "500 г",
+      "sku": "36282",
+      "old": null,
+      "price": 3306.5
+     },
+     {
+      "title": "Габа «Габберри», 1000 г",
+      "label": "1000 г",
+      "sku": "36283",
+      "old": null,
+      "price": 5813
+     },
+     {
+      "title": "Габа «Габберри», 5000 г",
+      "label": "5000 г",
+      "sku": "36284",
+      "old": null,
+      "price": 25315
+     }
+    ]
+   },
+   {
+    "slug": "gaba-mango-krupnyj-list",
+    "name": "Габа Манго (крупный лист)",
+    "alt": "Габа Манго (крупный лист)",
+    "url": "/product/gaba-mango-krupnyj-list",
+    "img": "https://media.teaboom.ru/images/315b5bfd-96f4-4de9-a4c4-0f33ae4cb4bf.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Манго (крупный лист), 100 г",
+      "label": "100 г",
+      "sku": "30595",
+      "old": null,
+      "price": 701.3
+     },
+     {
+      "title": "Габа Манго (крупный лист), 500 г",
+      "label": "500 г",
+      "sku": "30596",
+      "old": null,
+      "price": 3306.5
+     },
+     {
+      "title": "Габа Манго (крупный лист), 1000 г",
+      "label": "1000 г",
+      "sku": "30597",
+      "old": null,
+      "price": 5813
+     },
+     {
+      "title": "Габа Манго (крупный лист), 5000 г",
+      "label": "5000 г",
+      "sku": "30598",
+      "old": null,
+      "price": 25315
+     }
+    ]
+   },
+   {
+    "slug": "gaba-sakura",
+    "name": "Габа Сакура",
+    "alt": "Габа Сакура",
+    "url": "/product/gaba-sakura",
+    "img": "https://media.teaboom.ru/images/8bcecd20-4d11-4ba1-a310-290201fed820.jpg",
+    "cat": "Тайваньский темный ароматизированный улун",
+    "variants": [
+     {
+      "title": "Габа Сакура, 100 г",
+      "label": "100 г",
+      "sku": "40929",
+      "old": null,
+      "price": 706
+     },
+     {
+      "title": "Габа Сакура, 500 г",
+      "label": "500 г",
+      "sku": "40930",
+      "old": null,
+      "price": 3330
+     },
+     {
+      "title": "Габа Сакура, 1000 г",
+      "label": "1000 г",
+      "sku": "40931",
+      "old": null,
+      "price": 5860
+     },
+     {
+      "title": "Габа Сакура, 5000 г",
+      "label": "5000 г",
+      "sku": "40932",
+      "old": null,
+      "price": 25550
+     }
+    ]
+   },
+   {
+    "slug": "gaba-alishan-krasnaya",
+    "name": "Габа Алишань красная",
+    "alt": "Габа Алишань красная",
+    "url": "/product/gaba-alishan-krasnaya",
+    "img": "https://media.teaboom.ru/images/7dfa8633-5c08-4490-9d1e-d9d9b966fefd.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Алишань красная, 100 г",
+      "label": "100 г",
+      "sku": "15780",
+      "old": 731.2,
+      "price": 721.3
+     },
+     {
+      "title": "Габа Алишань красная, 500 г",
+      "label": "500 г",
+      "sku": "15781",
+      "old": 3456,
+      "price": 3406.5
+     },
+     {
+      "title": "Габа Алишань красная, 1000 г",
+      "label": "1000 г",
+      "sku": "15782",
+      "old": 6412,
+      "price": 6013
+     },
+     {
+      "title": "Габа Алишань красная, 5000 г",
+      "label": "5000 г",
+      "sku": "15783",
+      "old": 29060,
+      "price": 26315
+     }
+    ]
+   },
+   {
+    "slug": "gaba-diamant",
+    "name": "Габа Диамант",
+    "alt": "Габа Диамант",
+    "url": "/product/gaba-diamant",
+    "img": "https://media.teaboom.ru/images/7f2b677a-77bd-4a6f-9404-fbb484980d42.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Диамант, 100 г",
+      "label": "100 г",
+      "sku": "39784",
+      "old": null,
+      "price": 738.3
+     },
+     {
+      "title": "Габа Диамант, 500 г",
+      "label": "500 г",
+      "sku": "39785",
+      "old": null,
+      "price": 3491.5
+     },
+     {
+      "title": "Габа Диамант, 1000 г",
+      "label": "1000 г",
+      "sku": "39786",
+      "old": null,
+      "price": 6183
+     },
+     {
+      "title": "Габа Диамант, 5000 г",
+      "label": "5000 г",
+      "sku": "39787",
+      "old": null,
+      "price": 27165
+     }
+    ]
+   },
+   {
+    "slug": "gaba-zhasmin",
+    "name": "Габа Жасмин",
+    "alt": "Габа Жасмин",
+    "url": "/product/gaba-zhasmin",
+    "img": "https://media.teaboom.ru/images/b3570b51-bda5-4141-9d34-64d634dffe4a.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Жасмин, 100 г",
+      "label": "100 г",
+      "sku": "41022",
+      "old": null,
+      "price": 777.1
+     },
+     {
+      "title": "Габа Жасмин, 500 г",
+      "label": "500 г",
+      "sku": "41023",
+      "old": null,
+      "price": 3685.5
+     },
+     {
+      "title": "Габа Жасмин, 1000 г",
+      "label": "1000 г",
+      "sku": "41024",
+      "old": null,
+      "price": 6371
+     },
+     {
+      "title": "Габа Жасмин, 5000 г",
+      "label": "5000 г",
+      "sku": "41025",
+      "old": null,
+      "price": 28105
+     }
+    ]
+   },
+   {
+    "slug": "gaba-hlorantus",
+    "name": "Габа Хлорантус",
+    "alt": "Габа Хлорантус",
+    "url": "/product/gaba-hlorantus",
+    "img": "https://media.teaboom.ru/images/d96c5d7c-525e-4037-a30f-f065684b18a8.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Хлорантус, 100 г",
+      "label": "100 г",
+      "sku": "41017",
+      "old": null,
+      "price": 777.1
+     },
+     {
+      "title": "Габа Хлорантус, 500 г",
+      "label": "500 г",
+      "sku": "41018",
+      "old": null,
+      "price": 3685.5
+     },
+     {
+      "title": "Габа Хлорантус, 1000 г",
+      "label": "1000 г",
+      "sku": "41019",
+      "old": null,
+      "price": 6371
+     },
+     {
+      "title": "Габа Хлорантус, 5000 г",
+      "label": "5000 г",
+      "sku": "41020",
+      "old": null,
+      "price": 28105
+     }
+    ]
+   },
+   {
+    "slug": "gaba-krasnyj-korall",
+    "name": "Габа Красный Коралл",
+    "alt": "Габа Красный Коралл",
+    "url": "/product/gaba-krasnyj-korall",
+    "img": "https://media.teaboom.ru/products/42840/original/4411b4ae-e334-41f3-818b-81435fab565e.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Красный Коралл, 100 г",
+      "label": "100 г",
+      "sku": "42841",
+      "old": null,
+      "price": 862
+     },
+     {
+      "title": "Габа Красный Коралл, 500 г",
+      "label": "500 г",
+      "sku": "42842",
+      "old": null,
+      "price": 4110
+     },
+     {
+      "title": "Габа Красный Коралл, 1000 г",
+      "label": "1000 г",
+      "sku": "42843",
+      "old": null,
+      "price": 7220
+     },
+     {
+      "title": "Габа Красный Коралл, 5000 г",
+      "label": "5000 г",
+      "sku": "42844",
+      "old": null,
+      "price": 32350
+     }
+    ]
+   },
+   {
+    "slug": "dun-fan-mej-zhen-vostochnaya-krasavica-premium",
+    "name": "Дун Фан Мэй Жень (восточная Красавица) Премиум",
+    "alt": "Дун Фан Мэй Жень (восточная Красавица) Премиум",
+    "url": "/product/dun-fan-mej-zhen-vostochnaya-krasavica-premium",
+    "img": "https://media.teaboom.ru/images/a202396c-b9fa-485a-8861-021a4385cf12.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Дун Фан Мэй Жень (восточная Красавица) Премиум, 100 г",
+      "label": "100 г",
+      "sku": "06706",
+      "old": 987.3,
+      "price": 892.8
+     },
+     {
+      "title": "Дун Фан Мэй Жень (восточная Красавица) Премиум, 500 г",
+      "label": "500 г",
+      "sku": "06707",
+      "old": 4836.5,
+      "price": 4264
+     },
+     {
+      "title": "Дун Фан Мэй Жень (восточная Красавица) Премиум, 1000 г",
+      "label": "1000 г",
+      "sku": "06708",
+      "old": 8973,
+      "price": 7728
+     },
+     {
+      "title": "Дун Фан Мэй Жень (восточная Красавица) Премиум, 5000 г",
+      "label": "5000 г",
+      "sku": "06709",
+      "old": 40615,
+      "price": 34890
+     }
+    ]
+   },
+   {
+    "slug": "molochnyj-ulun-naj-syan-czin-syuan",
+    "name": "Молочный Улун (Най Сян Цзинь Сюань)",
+    "alt": "Молочный Улун (Най Сян Цзинь Сюань)",
+    "url": "/product/molochnyj-ulun-naj-syan-czin-syuan",
+    "img": "https://media.teaboom.ru/images/3f308e82-cbb5-4b53-9804-88089c56c807.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Молочный Улун (Най Сян Цзинь Сюань), 100 г",
+      "label": "100 г",
+      "sku": "00559",
+      "old": 988,
+      "price": 895
+     },
+     {
+      "title": "Молочный Улун (Най Сян Цзинь Сюань), 500 г",
+      "label": "500 г",
+      "sku": "00560",
+      "old": 4340,
+      "price": 4275
+     },
+     {
+      "title": "Молочный Улун (Най Сян Цзинь Сюань), 1000 г",
+      "label": "1000 г",
+      "sku": "00561",
+      "old": 8280,
+      "price": 7550
+     },
+     {
+      "title": "Молочный Улун (Най Сян Цзинь Сюань), 5000 г",
+      "label": "5000 г",
+      "sku": "00562",
+      "old": 37100,
+      "price": 33000
+     }
+    ]
+   },
+   {
+    "slug": "dun-fan-mej-zhen-vostochnaya-krasavica",
+    "name": "Дун Фан Мэй Жень (Восточная красавица)",
+    "alt": "Дун Фан Мэй Жень (Восточная красавица)",
+    "url": "/product/dun-fan-mej-zhen-vostochnaya-krasavica",
+    "img": "https://media.teaboom.ru/images/70720f82-778f-4187-a6c0-1312eea8a7c5.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Дун Фан Мэй Жень (Восточная красавица), 100 г",
+      "label": "100 г",
+      "sku": "42254",
+      "old": null,
+      "price": 912.8
+     },
+     {
+      "title": "Дун Фан Мэй Жень (Восточная красавица), 500 г",
+      "label": "500 г",
+      "sku": "42255",
+      "old": null,
+      "price": 4364
+     },
+     {
+      "title": "Дун Фан Мэй Жень (Восточная красавица), 1000 г",
+      "label": "1000 г",
+      "sku": "42256",
+      "old": null,
+      "price": 7728
+     },
+     {
+      "title": "Дун Фан Мэй Жень (Восточная красавица), 5000 г",
+      "label": "5000 г",
+      "sku": "42257",
+      "old": null,
+      "price": 33890
+     }
+    ]
+   },
+   {
+    "slug": "dun-din-ulun-ulun-is-moroznogo-pika",
+    "name": "Дун Дин Улун (Улун с Морозного Пика)",
+    "alt": "Дун Дин Улун (Улун с Морозного Пика)",
+    "url": "/product/dun-din-ulun-ulun-is-moroznogo-pika",
+    "img": "https://media.teaboom.ru/images/193fedfb-4ab3-46a0-a3b3-41d1115e0fe6.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Дун Дин Улун (Улун с Морозного Пика), 100 г",
+      "label": "100 г",
+      "sku": "01274",
+      "old": 1065.5,
+      "price": 926.7
+     },
+     {
+      "title": "Дун Дин Улун (Улун с Морозного Пика), 500 г",
+      "label": "500 г",
+      "sku": "01275",
+      "old": 5227.5,
+      "price": 4433.5
+     },
+     {
+      "title": "Дун Дин Улун (Улун с Морозного Пика), 1000 г",
+      "label": "1000 г",
+      "sku": "01276",
+      "old": 9755,
+      "price": 7867
+     },
+     {
+      "title": "Дун Дин Улун (Улун с Морозного Пика), 5000 г",
+      "label": "5000 г",
+      "sku": "01277",
+      "old": 44525,
+      "price": 34585
+     }
+    ]
+   },
+   {
+    "slug": "sy-czi-chun-ulun-vesna-4-h-sezonov-1-kategorii",
+    "name": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории",
+    "alt": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории",
+    "url": "/product/sy-czi-chun-ulun-vesna-4-h-sezonov-1-kategorii",
+    "img": "https://media.teaboom.ru/images/bb75ddd4-421e-4692-920b-bb13c993e59a.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории, 100 г",
+      "label": "100 г",
+      "sku": "38341",
+      "old": 1755,
+      "price": 998
+     },
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории, 500 г",
+      "label": "500 г",
+      "sku": "38342",
+      "old": 8575,
+      "price": 4790
+     },
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории, 1000 г",
+      "label": "1000 г",
+      "sku": "38343",
+      "old": 16150,
+      "price": 8580
+     },
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов) 1 категории, 5000 г",
+      "label": "5000 г",
+      "sku": "38344",
+      "old": 76500,
+      "price": 39150
+     }
+    ]
+   },
+   {
+    "slug": "fen-huan-dan-cun-odinokie-kusty-s-gory-feniksa-premium",
+    "name": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса) Премиум",
+    "alt": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса) Премиум",
+    "url": "/product/fen-huan-dan-cun-odinokie-kusty-s-gory-feniksa-premium",
+    "img": "https://media.teaboom.ru/images/9c7b5d9a-ce0d-40e6-bc10-97ce93c72eb5.jpg",
+    "cat": "Китайский темный улун",
+    "variants": [
+     {
+      "title": "Фен Хуан Дан Цун (Одинокие кусты с горы Феникса) Премиум, 100 г",
+      "label": "100 г",
+      "sku": "40249",
+      "old": null,
+      "price": 1005
+     }
+    ]
+   },
+   {
+    "slug": "te-guan-van",
+    "name": "Те Гуань Инь Ван",
+    "alt": "Те Гуань Инь Ван",
+    "url": "/product/te-guan-van",
+    "img": "https://media.teaboom.ru/images/9abd6d1c-2d50-4a84-8a77-a44647f0205a.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Те Гуань Инь Ван, 100 г",
+      "label": "100 г",
+      "sku": "09408",
+      "old": 2134.4,
+      "price": 1257.2
+     },
+     {
+      "title": "Те Гуань Инь Ван, 500 г",
+      "label": "500 г",
+      "sku": "09409",
+      "old": 10139,
+      "price": 6186
+     },
+     {
+      "title": "Те Гуань Инь Ван, 1000 г",
+      "label": "1000 г",
+      "sku": "09410",
+      "old": 19210,
+      "price": 11672
+     },
+     {
+      "title": "Те Гуань Инь Ван, 5000 г",
+      "label": "5000 г",
+      "sku": "09411",
+      "old": 90712,
+      "price": 54110
+     }
+    ]
+   },
+   {
+    "slug": "te-guan-s-cherenkom",
+    "name": "Те Гуань Инь с черенком",
+    "alt": "Те Гуань Инь с черенком",
+    "url": "/product/te-guan-s-cherenkom",
+    "img": "https://media.teaboom.ru/images/698cfc7a-2fea-4824-a919-7c69cad98195.jpg",
+    "cat": "Китайский светлый улун",
+    "variants": [
+     {
+      "title": "Те Гуань Инь с черенком, 100 г",
+      "label": "100 г",
+      "sku": "37836",
+      "old": null,
+      "price": 1279
+     },
+     {
+      "title": "Те Гуань Инь с черенком, 500 г",
+      "label": "500 г",
+      "sku": "37837",
+      "old": null,
+      "price": 6195
+     },
+     {
+      "title": "Те Гуань Инь с черенком, 1000 г",
+      "label": "1000 г",
+      "sku": "37838",
+      "old": null,
+      "price": 11390
+     },
+     {
+      "title": "Те Гуань Инь с черенком, 5000 г",
+      "label": "5000 г",
+      "sku": "37839",
+      "old": null,
+      "price": 52700
+     }
+    ]
+   },
+   {
+    "slug": "gaba-sapfir",
+    "name": "Габа Сапфир",
+    "alt": "Габа Сапфир",
+    "url": "/product/gaba-sapfir",
+    "img": "https://media.teaboom.ru/products/42850/original/af3da679-c555-4e00-b1b6-1e3fc1cb18a2.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Сапфир, 100 г",
+      "label": "100 г",
+      "sku": "42851",
+      "old": null,
+      "price": 1283.5
+     },
+     {
+      "title": "Габа Сапфир, 500 г",
+      "label": "500 г",
+      "sku": "42852",
+      "old": null,
+      "price": 6217.5
+     },
+     {
+      "title": "Габа Сапфир, 1000 г",
+      "label": "1000 г",
+      "sku": "42853",
+      "old": null,
+      "price": 11435
+     },
+     {
+      "title": "Габа Сапфир, 5000 г",
+      "label": "5000 г",
+      "sku": "42854",
+      "old": null,
+      "price": 53425
+     }
+    ]
+   },
+   {
+    "slug": "gaba-vulkanicheskaya",
+    "name": "Габа Вулканическая",
+    "alt": "Габа Вулканическая",
+    "url": "/product/gaba-vulkanicheskaya",
+    "img": "https://media.teaboom.ru/products/42845/original/32d3d8b2-9e6f-4815-a2d0-a84dea5e606f.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Вулканическая, 100 г",
+      "label": "100 г",
+      "sku": "42846",
+      "old": null,
+      "price": 1284
+     },
+     {
+      "title": "Габа Вулканическая, 500 г",
+      "label": "500 г",
+      "sku": "42847",
+      "old": null,
+      "price": 6220
+     },
+     {
+      "title": "Габа Вулканическая, 1000 г",
+      "label": "1000 г",
+      "sku": "42848",
+      "old": null,
+      "price": 11440
+     },
+     {
+      "title": "Габа Вулканическая, 5000 г",
+      "label": "5000 г",
+      "sku": "42849",
+      "old": null,
+      "price": 53450
+     }
+    ]
+   },
+   {
+    "slug": "sy-czi-chun-ulun-vesna-4-h-sezonov",
+    "name": "Сы Цзи Чунь улун (Весна 4-х сезонов)",
+    "alt": "Сы Цзи Чунь улун (Весна 4-х сезонов)",
+    "url": "/product/sy-czi-chun-ulun-vesna-4-h-sezonov",
+    "img": "https://media.teaboom.ru/images/693b5897-921b-4903-9b96-61295240df6d.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов), 500 г",
+      "label": "500 г",
+      "sku": "32234",
+      "old": null,
+      "price": 6180
+     },
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов), 1000 г",
+      "label": "1000 г",
+      "sku": "32235",
+      "old": null,
+      "price": 10460
+     },
+     {
+      "title": "Сы Цзи Чунь улун (Весна 4-х сезонов), 5000 г",
+      "label": "5000 г",
+      "sku": "32236",
+      "old": null,
+      "price": 45700
+     }
+    ]
+   },
+   {
+    "slug": "ulun-krasnoj-vody",
+    "name": "Улун Красной Воды",
+    "alt": "Улун Красной Воды",
+    "url": "/product/ulun-krasnoj-vody",
+    "img": "https://media.teaboom.ru/images/998b2e08-6841-4087-8af3-969b0305ce01.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Улун Красной Воды, 500 г",
+      "label": "500 г",
+      "sku": "38760",
+      "old": null,
+      "price": 6340
+     },
+     {
+      "title": "Улун Красной Воды, 1000 г",
+      "label": "1000 г",
+      "sku": "38761",
+      "old": null,
+      "price": 10780
+     },
+     {
+      "title": "Улун Красной Воды, 5000 г",
+      "label": "5000 г",
+      "sku": "38762",
+      "old": null,
+      "price": 47300
+     }
+    ]
+   },
+   {
+    "slug": "gaba-izumrudnaya-premium",
+    "name": "Габа Изумрудная (Премиум)",
+    "alt": "Габа Изумрудная (Премиум)",
+    "url": "/product/gaba-izumrudnaya-premium",
+    "img": "https://media.teaboom.ru/products/42870/original/fe289313-ab12-446c-939a-11cd575d3bc1.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Изумрудная (Премиум), 100 г",
+      "label": "100 г",
+      "sku": "42871",
+      "old": null,
+      "price": 1481
+     },
+     {
+      "title": "Габа Изумрудная (Премиум), 500 г",
+      "label": "500 г",
+      "sku": "42872",
+      "old": null,
+      "price": 7205
+     },
+     {
+      "title": "Габа Изумрудная (Премиум), 1000 г",
+      "label": "1000 г",
+      "sku": "42873",
+      "old": null,
+      "price": 13410
+     },
+     {
+      "title": "Габа Изумрудная (Премиум), 5000 г",
+      "label": "5000 г",
+      "sku": "42874",
+      "old": null,
+      "price": 63300
+     }
+    ]
+   },
+   {
+    "slug": "dun-din-son-po",
+    "name": "Дун Дин Сон По",
+    "alt": "Дун Дин Сон По",
+    "url": "/product/dun-din-son-po",
+    "img": "https://media.teaboom.ru/images/c2cc98d6-0dd5-4247-a6e4-38a40fdefc80.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Дун Дин Сон По, 500 г",
+      "label": "500 г",
+      "sku": "37832",
+      "old": null,
+      "price": 6480
+     },
+     {
+      "title": "Дун Дин Сон По, 1000 г",
+      "label": "1000 г",
+      "sku": "37833",
+      "old": null,
+      "price": 11060
+     },
+     {
+      "title": "Дун Дин Сон По, 5000 г",
+      "label": "5000 г",
+      "sku": "37834",
+      "old": null,
+      "price": 48700
+     }
+    ]
+   },
+   {
+    "slug": "baj-hao-ulun-vostochnaya-krasavica",
+    "name": "Бай Хао Улун (Восточная красавица)",
+    "alt": "Бай Хао Улун (Восточная красавица)",
+    "url": "/product/baj-hao-ulun-vostochnaya-krasavica",
+    "img": "https://media.teaboom.ru/images/a8ea893d-1f36-4d82-9422-1b02c413040f.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Бай Хао Улун (Восточная красавица), 100 г",
+      "label": "100 г",
+      "sku": "42728",
+      "old": null,
+      "price": 1504
+     }
+    ]
+   },
+   {
+    "slug": "gaba-taoyuan",
+    "name": "Габа Таоюань",
+    "alt": "Габа Таоюань",
+    "url": "/product/gaba-taoyuan",
+    "img": "https://media.teaboom.ru/images/188c4a67-7c31-47b1-a511-3f104f86d469.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Таоюань, 500 г",
+      "label": "500 г",
+      "sku": "38358",
+      "old": null,
+      "price": 7080
+     },
+     {
+      "title": "Габа Таоюань, 1000 г",
+      "label": "1000 г",
+      "sku": "38359",
+      "old": null,
+      "price": 12260
+     },
+     {
+      "title": "Габа Таоюань, 5000 г",
+      "label": "5000 г",
+      "sku": "38360",
+      "old": null,
+      "price": 54700
+     }
+    ]
+   },
+   {
+    "slug": "dzhu-shan-czin-syuan",
+    "name": "Джу Шань Цзинь Сюань",
+    "alt": "Джу Шань Цзинь Сюань",
+    "url": "/product/dzhu-shan-czin-syuan",
+    "img": "https://media.teaboom.ru/images/7e011fc4-f366-477c-96c5-9a94910a3aae.jpg",
+    "cat": "Тайваньский светлый улун",
+    "variants": [
+     {
+      "title": "Джу Шань Цзинь Сюань, 500 г",
+      "label": "500 г",
+      "sku": "37827",
+      "old": null,
+      "price": 7360
+     },
+     {
+      "title": "Джу Шань Цзинь Сюань, 1000 г",
+      "label": "1000 г",
+      "sku": "37828",
+      "old": null,
+      "price": 12820
+     },
+     {
+      "title": "Джу Шань Цзинь Сюань, 5000 г",
+      "label": "5000 г",
+      "sku": "37829",
+      "old": null,
+      "price": 57500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-rubinovaya-premium",
+    "name": "Габа Рубиновая (Премиум)",
+    "alt": "Габа Рубиновая (Премиум)",
+    "url": "/product/gaba-rubinovaya-premium",
+    "img": "https://media.teaboom.ru/images/c1c882b5-c0a6-443b-8cb4-2812204e8350.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Рубиновая (Премиум), 100 г",
+      "label": "100 г",
+      "sku": "40555",
+      "old": null,
+      "price": 1733
+     },
+     {
+      "title": "Габа Рубиновая (Премиум), 500 г",
+      "label": "500 г",
+      "sku": "40556",
+      "old": null,
+      "price": 8465
+     },
+     {
+      "title": "Габа Рубиновая (Премиум), 1000 г",
+      "label": "1000 г",
+      "sku": "40557",
+      "old": null,
+      "price": 15930
+     },
+     {
+      "title": "Габа Рубиновая (Премиум), 5000 г",
+      "label": "5000 г",
+      "sku": "40558",
+      "old": null,
+      "price": 75400
+     }
+    ]
+   },
+   {
+    "slug": "medovyj-ulun-mi-syan",
+    "name": "Медовый Улун Ми Сян",
+    "alt": "Медовый Улун Ми Сян",
+    "url": "/product/medovyj-ulun-mi-syan",
+    "img": "https://media.teaboom.ru/images/9073f810-7e34-4265-b9d0-8a6e830ea78f.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Медовый Улун Ми Сян, 500 г",
+      "label": "500 г",
+      "sku": "39524",
+      "old": null,
+      "price": 7770
+     },
+     {
+      "title": "Медовый Улун Ми Сян, 1000 г",
+      "label": "1000 г",
+      "sku": "39525",
+      "old": null,
+      "price": 13500
+     },
+     {
+      "title": "Медовый Улун Ми Сян, 5000 г",
+      "label": "5000 г",
+      "sku": "39526",
+      "old": null,
+      "price": 59700
+     }
+    ]
+   },
+   {
+    "slug": "gaba-nantou",
+    "name": "Габа Наньтоу",
+    "alt": "Габа Наньтоу",
+    "url": "/product/gaba-nantou",
+    "img": "https://media.teaboom.ru/images/236e5808-6f7a-4cb6-adba-0d353a066664.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Наньтоу, 500 г",
+      "label": "500 г",
+      "sku": "38730",
+      "old": null,
+      "price": 7960
+     },
+     {
+      "title": "Габа Наньтоу, 1000 г",
+      "label": "1000 г",
+      "sku": "38731",
+      "old": null,
+      "price": 14020
+     },
+     {
+      "title": "Габа Наньтоу, 5000 г",
+      "label": "5000 г",
+      "sku": "38732",
+      "old": null,
+      "price": 63500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-mej-shan",
+    "name": "Габа Мэй Шань",
+    "alt": "Габа Мэй Шань",
+    "url": "/product/gaba-mej-shan",
+    "img": "https://media.teaboom.ru/images/6796c429-af29-4763-bbbc-35ce353a0e05.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Мэй Шань, 500 г",
+      "label": "500 г",
+      "sku": "38735",
+      "old": null,
+      "price": 7960
+     },
+     {
+      "title": "Габа Мэй Шань, 1000 г",
+      "label": "1000 г",
+      "sku": "38736",
+      "old": null,
+      "price": 14020
+     },
+     {
+      "title": "Габа Мэй Шань, 5000 г",
+      "label": "5000 г",
+      "sku": "38737",
+      "old": null,
+      "price": 63500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-lu-gu",
+    "name": "Габа Лу Гу",
+    "alt": "Габа Лу Гу",
+    "url": "/product/gaba-lu-gu",
+    "img": "https://media.teaboom.ru/images/f4a116fe-20d2-4c5f-bb7f-1f2721672b0e.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Лу Гу, 500 г",
+      "label": "500 г",
+      "sku": "38725",
+      "old": null,
+      "price": 7960
+     },
+     {
+      "title": "Габа Лу Гу, 1000 г",
+      "label": "1000 г",
+      "sku": "38726",
+      "old": null,
+      "price": 14020
+     },
+     {
+      "title": "Габа Лу Гу, 5000 г",
+      "label": "5000 г",
+      "sku": "38727",
+      "old": null,
+      "price": 63500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-dzhu-shan",
+    "name": "Габа Джу Шань",
+    "alt": "Габа Джу Шань",
+    "url": "/product/gaba-dzhu-shan",
+    "img": "https://media.teaboom.ru/images/9e1e36e6-2c27-4e0a-b80d-926ff957b568.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Джу Шань, 500 г",
+      "label": "500 г",
+      "sku": "38363",
+      "old": 8340,
+      "price": 8280
+     },
+     {
+      "title": "Габа Джу Шань, 1000 г",
+      "label": "1000 г",
+      "sku": "38364",
+      "old": 14780,
+      "price": 14660
+     },
+     {
+      "title": "Габа Джу Шань, 5000 г",
+      "label": "5000 г",
+      "sku": "38365",
+      "old": 66900,
+      "price": 66700
+     }
+    ]
+   },
+   {
+    "slug": "gaba-yuj-taj-nefritovyj-poyas",
+    "name": "Габа Юй Тай (Нефритовый Пояс)",
+    "alt": "Габа Юй Тай (Нефритовый Пояс)",
+    "url": "/product/gaba-yuj-taj-nefritovyj-poyas",
+    "img": "https://media.teaboom.ru/images/934c4e46-4e33-4cb1-af1e-062089c1de55.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Юй Тай (Нефритовый Пояс), 500 г",
+      "label": "500 г",
+      "sku": "41550",
+      "old": null,
+      "price": 8280
+     },
+     {
+      "title": "Габа Юй Тай (Нефритовый Пояс), 1000 г",
+      "label": "1000 г",
+      "sku": "41551",
+      "old": null,
+      "price": 14660
+     },
+     {
+      "title": "Габа Юй Тай (Нефритовый Пояс), 5000 г",
+      "label": "5000 г",
+      "sku": "41552",
+      "old": null,
+      "price": 66700
+     }
+    ]
+   },
+   {
+    "slug": "gaba-9999",
+    "name": "Габа 9999",
+    "alt": "Габа 9999",
+    "url": "/product/gaba-9999",
+    "img": "https://media.teaboom.ru/images/c55fc96f-bdc4-4406-a68a-1df2af2b52ad.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа 9999, 100 г",
+      "label": "100 г",
+      "sku": "32203",
+      "old": 2625.2,
+      "price": 1882
+     },
+     {
+      "title": "Габа 9999, 500 г",
+      "label": "500 г",
+      "sku": "32204",
+      "old": 13026,
+      "price": 8685
+     },
+     {
+      "title": "Габа 9999, 1000 г",
+      "label": "1000 г",
+      "sku": "32205",
+      "old": 25352,
+      "price": 16370
+     },
+     {
+      "title": "Габа 9999, 5000 г",
+      "label": "5000 г",
+      "sku": "32206",
+      "old": 122510,
+      "price": 78100
+     }
+    ]
+   },
+   {
+    "slug": "gaba-dzhu-shan-mi-syan",
+    "name": "Габа Джу Шань Ми Сян",
+    "alt": "Габа Джу Шань Ми Сян",
+    "url": "/product/gaba-dzhu-shan-mi-syan",
+    "img": "https://media.teaboom.ru/images/44f502c7-5dab-4cca-9ed3-f73d4ee712ea.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Джу Шань Ми Сян, 500 г",
+      "label": "500 г",
+      "sku": "38368",
+      "old": 8660,
+      "price": 8560
+     },
+     {
+      "title": "Габа Джу Шань Ми Сян, 1000 г",
+      "label": "1000 г",
+      "sku": "38369",
+      "old": 15420,
+      "price": 15220
+     },
+     {
+      "title": "Габа Джу Шань Ми Сян, 5000 г",
+      "label": "5000 г",
+      "sku": "38370",
+      "old": 70500,
+      "price": 69500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-bagua-shan",
+    "name": "Габа Багуа Шань",
+    "alt": "Габа Багуа Шань",
+    "url": "/product/gaba-bagua-shan",
+    "img": "https://media.teaboom.ru/images/3979e991-5211-4b5f-9cd0-4d15f796ded7.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Багуа Шань, 500 г",
+      "label": "500 г",
+      "sku": "41555",
+      "old": null,
+      "price": 8560
+     },
+     {
+      "title": "Габа Багуа Шань, 1000 г",
+      "label": "1000 г",
+      "sku": "41556",
+      "old": null,
+      "price": 15220
+     },
+     {
+      "title": "Габа Багуа Шань, 5000 г",
+      "label": "5000 г",
+      "sku": "41557",
+      "old": null,
+      "price": 69500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-9999-s-osmantusom",
+    "name": "Габа 9999 с османтусом",
+    "alt": "Габа 9999 с османтусом",
+    "url": "/product/gaba-9999-s-osmantusom",
+    "img": "https://media.teaboom.ru/images/8b7b134d-e86b-4f9f-a355-52c93b284795.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа 9999 с османтусом, 100 г",
+      "label": "100 г",
+      "sku": "42574",
+      "old": null,
+      "price": 2026
+     },
+     {
+      "title": "Габа 9999 с османтусом, 500 г",
+      "label": "500 г",
+      "sku": "42575",
+      "old": null,
+      "price": 9405
+     },
+     {
+      "title": "Габа 9999 с османтусом, 1000 г",
+      "label": "1000 г",
+      "sku": "42576",
+      "old": null,
+      "price": 17810
+     },
+     {
+      "title": "Габа 9999 с османтусом, 5000 г",
+      "label": "5000 г",
+      "sku": "42577",
+      "old": null,
+      "price": 85300
+     }
+    ]
+   },
+   {
+    "slug": "gaba-he-huan-shan",
+    "name": "Габа Хе Хуан Шань",
+    "alt": "Габа Хе Хуан Шань",
+    "url": "/product/gaba-he-huan-shan",
+    "img": "https://media.teaboom.ru/images/fe7a33e2-a24d-4f57-89b2-f4ab503049ba.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Хе Хуан Шань, 500 г",
+      "label": "500 г",
+      "sku": "38740",
+      "old": 10100,
+      "price": 9820
+     },
+     {
+      "title": "Габа Хе Хуан Шань, 1000 г",
+      "label": "1000 г",
+      "sku": "38741",
+      "old": 18300,
+      "price": 17740
+     },
+     {
+      "title": "Габа Хе Хуан Шань, 5000 г",
+      "label": "5000 г",
+      "sku": "38742",
+      "old": 83900,
+      "price": 82100
+     }
+    ]
+   },
+   {
+    "slug": "gaba-chyornyj-zhemchug",
+    "name": "Габа Чёрный Жемчуг",
+    "alt": "Габа Чёрный Жемчуг",
+    "url": "/product/gaba-chyornyj-zhemchug",
+    "img": "https://media.teaboom.ru/images/5addd3d0-80e1-4261-a503-4e1c8debb545.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Чёрный Жемчуг, 500 г",
+      "label": "500 г",
+      "sku": "38373",
+      "old": 10100,
+      "price": 9820
+     },
+     {
+      "title": "Габа Чёрный Жемчуг, 1000 г",
+      "label": "1000 г",
+      "sku": "38374",
+      "old": 18300,
+      "price": 17740
+     },
+     {
+      "title": "Габа Чёрный Жемчуг, 5000 г",
+      "label": "5000 г",
+      "sku": "38375",
+      "old": 83900,
+      "price": 82100
+     }
+    ]
+   },
+   {
+    "slug": "gaba-alishani",
+    "name": "Габа Алишань",
+    "alt": "Габа Алишань",
+    "url": "/product/gaba-alishani",
+    "img": "https://media.teaboom.ru/images/ef4683f0-7fd4-44f1-8603-45fc0d18a638.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Алишань, 500 г",
+      "label": "500 г",
+      "sku": "06240",
+      "old": 10100,
+      "price": 9820
+     },
+     {
+      "title": "Габа Алишань, 1000 г",
+      "label": "1000 г",
+      "sku": "06241",
+      "old": 18300,
+      "price": 17740
+     },
+     {
+      "title": "Габа Алишань, 5000 г",
+      "label": "5000 г",
+      "sku": "06242",
+      "old": 83900,
+      "price": 82100
+     }
+    ]
+   },
+   {
+    "slug": "gaba-czya-i-rubi",
+    "name": "Габа Цзя И Руби",
+    "alt": "Габа Цзя И Руби",
+    "url": "/product/gaba-czya-i-rubi",
+    "img": "https://media.teaboom.ru/images/0b935445-ac23-4d58-a143-e1a738b3b2b4.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Цзя И Руби, 500 г",
+      "label": "500 г",
+      "sku": "38388",
+      "old": 10660,
+      "price": 10360
+     },
+     {
+      "title": "Габа Цзя И Руби, 1000 г",
+      "label": "1000 г",
+      "sku": "38389",
+      "old": 19420,
+      "price": 18820
+     },
+     {
+      "title": "Габа Цзя И Руби, 5000 г",
+      "label": "5000 г",
+      "sku": "38390",
+      "old": 89700,
+      "price": 87500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-ganzaj",
+    "name": "Габа Ганзай",
+    "alt": "Габа Ганзай",
+    "url": "/product/gaba-ganzaj",
+    "img": "https://media.teaboom.ru/images/7ae28e56-5e8d-41b5-9383-d7b021f17467.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Ганзай, 500 г",
+      "label": "500 г",
+      "sku": "40647",
+      "old": 10580,
+      "price": 10360
+     },
+     {
+      "title": "Габа Ганзай, 1000 г",
+      "label": "1000 г",
+      "sku": "40648",
+      "old": 19260,
+      "price": 18820
+     },
+     {
+      "title": "Габа Ганзай, 5000 г",
+      "label": "5000 г",
+      "sku": "40649",
+      "old": 89700,
+      "price": 87500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-lalashan",
+    "name": "Габа ЛаЛаШань",
+    "alt": "Габа ЛаЛаШань",
+    "url": "/product/gaba-lalashan",
+    "img": "https://media.teaboom.ru/images/8c7a3678-a323-4e9d-a1fe-0777a89fada4.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа ЛаЛаШань, 500 г",
+      "label": "500 г",
+      "sku": "40652",
+      "old": 14120,
+      "price": 11560
+     },
+     {
+      "title": "Габа ЛаЛаШань, 1000 г",
+      "label": "1000 г",
+      "sku": "40653",
+      "old": 26340,
+      "price": 21220
+     },
+     {
+      "title": "Габа ЛаЛаШань, 5000 г",
+      "label": "5000 г",
+      "sku": "40654",
+      "old": 125100,
+      "price": 99500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-yuzhnaya-noch",
+    "name": "Габа Южная Ночь",
+    "alt": "Габа Южная Ночь",
+    "url": "/product/gaba-yuzhnaya-noch",
+    "img": "https://media.teaboom.ru/images/cadbdb00-e8c7-43df-a374-a720f4477d86.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Южная Ночь, 500 г",
+      "label": "500 г",
+      "sku": "41859",
+      "old": null,
+      "price": 11560
+     },
+     {
+      "title": "Габа Южная Ночь, 1000 г",
+      "label": "1000 г",
+      "sku": "41860",
+      "old": null,
+      "price": 21220
+     },
+     {
+      "title": "Габа Южная Ночь, 5000 г",
+      "label": "5000 г",
+      "sku": "41861",
+      "old": null,
+      "price": 99500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-severnyj-sklon",
+    "name": "Габа Северный Склон",
+    "alt": "Габа Северный Склон",
+    "url": "/product/gaba-severnyj-sklon",
+    "img": "https://media.teaboom.ru/images/98650014-bc38-426e-ade3-c756f4f6f475.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Северный Склон, 500 г",
+      "label": "500 г",
+      "sku": "41864",
+      "old": null,
+      "price": 11560
+     },
+     {
+      "title": "Габа Северный Склон, 1000 г",
+      "label": "1000 г",
+      "sku": "41865",
+      "old": null,
+      "price": 21220
+     },
+     {
+      "title": "Габа Северный Склон, 5000 г",
+      "label": "5000 г",
+      "sku": "41866",
+      "old": null,
+      "price": 99500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-vostochnyj-ekspress",
+    "name": "Габа Восточный Экспресс",
+    "alt": "Габа Восточный Экспресс",
+    "url": "/product/gaba-vostochnyj-ekspress",
+    "img": "https://media.teaboom.ru/images/7bfa53b9-90a7-42a6-b978-b72e7376a9ef.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Восточный Экспресс, 500 г",
+      "label": "500 г",
+      "sku": "41869",
+      "old": null,
+      "price": 11560
+     },
+     {
+      "title": "Габа Восточный Экспресс, 1000 г",
+      "label": "1000 г",
+      "sku": "41870",
+      "old": null,
+      "price": 21220
+     },
+     {
+      "title": "Габа Восточный Экспресс, 5000 г",
+      "label": "5000 г",
+      "sku": "41871",
+      "old": null,
+      "price": 99500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-alishan-ekstra",
+    "name": "Габа Алишань Экстра",
+    "alt": "Габа Алишань Экстра",
+    "url": "/product/gaba-alishan-ekstra",
+    "img": "https://media.teaboom.ru/images/76d50b81-3096-40d9-b74b-1ba127d8dd29.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Алишань Экстра, 500 г",
+      "label": "500 г",
+      "sku": "38398",
+      "old": 12180,
+      "price": 11860
+     },
+     {
+      "title": "Габа Алишань Экстра, 1000 г",
+      "label": "1000 г",
+      "sku": "38399",
+      "old": 22460,
+      "price": 21820
+     },
+     {
+      "title": "Габа Алишань Экстра, 5000 г",
+      "label": "5000 г",
+      "sku": "38400",
+      "old": 105700,
+      "price": 102500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-zolotoj-lotos-organik",
+    "name": "Габа Золотой Лотос Органик",
+    "alt": "Габа Золотой Лотос Органик",
+    "url": "/product/gaba-zolotoj-lotos-organik",
+    "img": "https://media.teaboom.ru/images/28c1a46a-5156-4322-972c-66c4d0b563d2.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Золотой Лотос Органик, 500 г",
+      "label": "500 г",
+      "sku": "38755",
+      "old": 12180,
+      "price": 11860
+     },
+     {
+      "title": "Габа Золотой Лотос Органик, 1000 г",
+      "label": "1000 г",
+      "sku": "38756",
+      "old": 22460,
+      "price": 21820
+     },
+     {
+      "title": "Габа Золотой Лотос Органик, 5000 г",
+      "label": "5000 г",
+      "sku": "38757",
+      "old": 105700,
+      "price": 102500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-777",
+    "name": "Габа 777",
+    "alt": "Габа 777",
+    "url": "/product/gaba-777",
+    "img": "https://media.teaboom.ru/images/e3d00425-b5e2-4be2-abf2-0e8f9da10635.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа 777, 500 г",
+      "label": "500 г",
+      "sku": "38408",
+      "old": 12180,
+      "price": 11860
+     },
+     {
+      "title": "Габа 777, 1000 г",
+      "label": "1000 г",
+      "sku": "38409",
+      "old": 22460,
+      "price": 21820
+     },
+     {
+      "title": "Габа 777, 5000 г",
+      "label": "5000 г",
+      "sku": "38410",
+      "old": 105700,
+      "price": 102500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-vereskovyj-myod",
+    "name": "Габа Вересковый Мёд",
+    "alt": "Габа Вересковый Мёд",
+    "url": "/product/gaba-vereskovyj-myod",
+    "img": "https://media.teaboom.ru/images/a1782fd4-bff5-43ad-9e47-14b151cfdb12.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Вересковый Мёд, 500 г",
+      "label": "500 г",
+      "sku": "38403",
+      "old": 12180,
+      "price": 11860
+     },
+     {
+      "title": "Габа Вересковый Мёд, 1000 г",
+      "label": "1000 г",
+      "sku": "38404",
+      "old": 22460,
+      "price": 21820
+     },
+     {
+      "title": "Габа Вересковый Мёд, 5000 г",
+      "label": "5000 г",
+      "sku": "38405",
+      "old": 105700,
+      "price": 102500
+     }
+    ]
+   },
+   {
+    "slug": "gaba-minczyan-organik",
+    "name": "Габа Минцзян Органик",
+    "alt": "Габа Минцзян Органик",
+    "url": "/product/gaba-minczyan-organik",
+    "img": "https://media.teaboom.ru/images/ff944414-679e-4e1e-ad61-7d1a34eeb9db.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Минцзян Органик, 500 г",
+      "label": "500 г",
+      "sku": "38750",
+      "old": 12200,
+      "price": 11884
+     },
+     {
+      "title": "Габа Минцзян Органик, 1000 г",
+      "label": "1000 г",
+      "sku": "38751",
+      "old": 22540,
+      "price": 21868
+     },
+     {
+      "title": "Габа Минцзян Органик, 5000 г",
+      "label": "5000 г",
+      "sku": "38752",
+      "old": 106100,
+      "price": 102740
+     }
+    ]
+   },
+   {
+    "slug": "gaba-blek-dzhek",
+    "name": "Габа Блэк Джек",
+    "alt": "Габа Блэк Джек",
+    "url": "/product/gaba-blek-dzhek",
+    "img": "https://media.teaboom.ru/images/e0a8a4e0-f128-4bca-b0fd-73d818563b27.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Блэк Джек, 500 г",
+      "label": "500 г",
+      "sku": "39238",
+      "old": 12200,
+      "price": 11884
+     },
+     {
+      "title": "Габа Блэк Джек, 1000 г",
+      "label": "1000 г",
+      "sku": "39239",
+      "old": 22540,
+      "price": 21868
+     },
+     {
+      "title": "Габа Блэк Джек, 5000 г",
+      "label": "5000 г",
+      "sku": "39240",
+      "old": 106100,
+      "price": 102740
+     }
+    ]
+   },
+   {
+    "slug": "gaba-dzhek-pot",
+    "name": "Габа Джек Пот",
+    "alt": "Габа Джек Пот",
+    "url": "/product/gaba-dzhek-pot",
+    "img": "https://media.teaboom.ru/images/4c0e7f6d-1e18-4d31-a3a1-24c4b0867e05.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Джек Пот, 500 г",
+      "label": "500 г",
+      "sku": "38383",
+      "old": null,
+      "price": 12484
+     },
+     {
+      "title": "Габа Джек Пот, 1000 г",
+      "label": "1000 г",
+      "sku": "38384",
+      "old": null,
+      "price": 23068
+     },
+     {
+      "title": "Габа Джек Пот, 5000 г",
+      "label": "5000 г",
+      "sku": "38385",
+      "old": null,
+      "price": 108740
+     }
+    ]
+   },
+   {
+    "slug": "gaba-lyu-shan-organik",
+    "name": "Габа Лю Шань Органик",
+    "alt": "Габа Лю Шань Органик",
+    "url": "/product/gaba-lyu-shan-organik",
+    "img": "https://media.teaboom.ru/images/759adc0b-22ea-451e-b6ae-9260c777b5d6.png",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Лю Шань Органик, 500 г",
+      "label": "500 г",
+      "sku": "40705",
+      "old": 14220,
+      "price": 13640
+     },
+     {
+      "title": "Габа Лю Шань Органик, 1000 г",
+      "label": "1000 г",
+      "sku": "40706",
+      "old": 26540,
+      "price": 25380
+     },
+     {
+      "title": "Габа Лю Шань Органик, 5000 г",
+      "label": "5000 г",
+      "sku": "40707",
+      "old": 126100,
+      "price": 120300
+     }
+    ]
+   },
+   {
+    "slug": "gaba-888",
+    "name": "Габа 888",
+    "alt": "Габа 888",
+    "url": "/product/gaba-888",
+    "img": "https://media.teaboom.ru/images/9ed774f2-8907-4dfe-8526-bbab7f769440.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа 888, 500 г",
+      "label": "500 г",
+      "sku": "38423",
+      "old": 14120,
+      "price": 13640
+     },
+     {
+      "title": "Габа 888, 1000 г",
+      "label": "1000 г",
+      "sku": "38424",
+      "old": 26340,
+      "price": 25380
+     },
+     {
+      "title": "Габа 888, 5000 г",
+      "label": "5000 г",
+      "sku": "38425",
+      "old": 125100,
+      "price": 120300
+     }
+    ]
+   },
+   {
+    "slug": "gaba-sredinnyj-sad-delyuks",
+    "name": "Габа Срединный Сад Делюкс",
+    "alt": "Габа Срединный Сад Делюкс",
+    "url": "/product/gaba-sredinnyj-sad-delyuks",
+    "img": "https://media.teaboom.ru/images/989e7713-0881-45a4-b24e-f6f7a3fd678a.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Срединный Сад Делюкс, 1 уп (150 г)",
+      "label": "1 уп (150 г)",
+      "sku": "40511",
+      "old": null,
+      "price": 7520.0
+     }
+    ]
+   },
+   {
+    "slug": "gaba-dezha-vyu-organik",
+    "name": "Габа Дежа Вю Органик",
+    "alt": "Габа Дежа Вю Органик",
+    "url": "/product/gaba-dezha-vyu-organik",
+    "img": "https://media.teaboom.ru/images/09be955b-f2ab-4988-bf53-494378375a01.jpg",
+    "cat": "Тайваньский темный улун",
+    "variants": [
+     {
+      "title": "Габа Дежа Вю Органик, 1 уп (150 г)",
+      "label": "1 уп (150 г)",
+      "sku": "40509",
+      "old": null,
+      "price": 9560.0
+     }
+    ]
+   }
+  ],
+  "filters_data": [
+   {
+    "title": "Страна произрастания",
+    "id": 3,
+    "values": [
+     {
+      "value": "Вьетнам",
+      "slugs": [
+       "gaba-lamven"
+      ]
+     },
+     {
+      "value": "Китай",
+      "slugs": [
+       "ulun-medovaya-dinya",
+       "zemlyanichnij-ulun-1-kategorii",
+       "te-guan-letnii",
+       "ulun-kola",
+       "ulun-tropicheskij",
+       "slivochnij-ulun",
+       "zhasminovij-ulun",
+       "vinogradnyj-ulun-kitai",
+       "molochnij-ulun-letnij",
+       "bananovij-ulun",
+       "chaj-zhenshen-ulun",
+       "vishnyovyj-ulun",
+       "ananasovij-ulun",
+       "ulun-mango-persik",
+       "ulun-lipovyj-med",
+       "persikovij-ulun",
+       "da-hun-pao-bolshoj-krasnij-halat-ekstra-silnaya-obzharka",
+       "te-guan-s-iagodami-godzhi-i-zhasminom",
+       "zhenshen-ulun-vysshei-kategorii",
+       "ulun-aloe-vera",
+       "ulun-sausep",
+       "ulun-yablochnyj",
+       "ulun-chernichnyj",
+       "ulun-shokolad",
+       "apelsinovij-ulun",
+       "limonnij-ulun",
+       "mangovij-ulun",
+       "ulun-ezhevika",
+       "ulun-s-hrizantemoi",
+       "molochnyj-ulun-kitaj",
+       "te-guan-1-i-kategorii",
+       "zemlyanichnyj-ulun-kitai",
+       "ulun-smorodina",
+       "marakujia-ulun",
+       "ulun-zhemchuzhina-garema",
+       "ulun-rog-izobiliya",
+       "ulun-malina",
+       "ulun-roza-roze",
+       "ulun-medovaya-karameli",
+       "ulun-ocharovanie",
+       "klubnichnyj-temnyj-ulun",
+       "mangovyj-temnyj-ulun",
+       "shokoladnyj-temnyj-ulun",
+       "molochnyj-temnyj-ulun",
+       "molochnij-ulun-1-j-kategorii",
+       "barbarisovyj-ulun",
+       "ulun-tarhun",
+       "ulun-sladkij-inzhir",
+       "klubnichnij-ulun",
+       "lesnye-yagodi-ulun",
+       "klubnica-banan-ulun",
+       "ulun-sgushenoe-moloko",
+       "ulun-krasotka-meri",
+       "apelsinovyj-temnyj-ulun",
+       "kokosovyj-slivochnyj-ulun",
+       "ulun-malinovyj-sorbet",
+       "ulun-severnoe-siyanie",
+       "ulun-zemlyanichnaya-polyana",
+       "ulun-vybor-korolya",
+       "zhensen-ulun-premium",
+       "ulun-shokolad-s-vishnej",
+       "lao-te-guan-premium",
+       "ulun-mohito",
+       "ulun-yagodnoe-lukoshko",
+       "ulun-imperatrica",
+       "te-guan-vysshej-kategori",
+       "molochnij-ulun-vysshej-kategorii",
+       "ulun-kyzyl-abakan",
+       "zhenshen-ulun-s-usilennym-aromatom",
+       "dan-cun-odinokie-kusty",
+       "zhou-gui",
+       "fen-huan-dan-cun-odinokie-kusti-s-gory-feniksa",
+       "te-guani-premium",
+       "dun-fan-mej-zhen-vostochnaya-krasavica-premium",
+       "dun-din-ulun-ulun-is-moroznogo-pika",
+       "fen-huan-dan-cun-odinokie-kusty-s-gory-feniksa-premium",
+       "te-guan-van",
+       "te-guan-s-cherenkom"
+      ]
+     },
+     {
+      "value": "Тайвань",
+      "slugs": [
+       "li-shan-ulun-taivan",
+       "gaba-izumrudnaya",
+       "vysokogornyj-ulun-tajvan",
+       "molochnyj-ulun-tajvani-1",
+       "gaba-fermerskaia",
+       "gaba-mohito",
+       "czin-syuan-mej-zhen-vostochnaya-krasavica-czin-syuan",
+       "gaba-yudzu-imbir",
+       "gaba-medovye-soty",
+       "gaba-ekzotik",
+       "gaba-barbaris",
+       "gaba-medovaya-krupnyj-list",
+       "gaba-malina",
+       "gaba-gabberri",
+       "gaba-mango-krupnyj-list",
+       "gaba-sakura",
+       "gaba-alishan-krasnaya",
+       "gaba-diamant",
+       "gaba-hlorantus",
+       "gaba-zhasmin",
+       "gaba-krasnyj-korall",
+       "molochnyj-ulun-naj-syan-czin-syuan",
+       "dun-fan-mej-zhen-vostochnaya-krasavica",
+       "sy-czi-chun-ulun-vesna-4-h-sezonov-1-kategorii",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya",
+       "sy-czi-chun-ulun-vesna-4-h-sezonov",
+       "ulun-krasnoj-vody",
+       "gaba-izumrudnaya-premium",
+       "dun-din-son-po",
+       "baj-hao-ulun-vostochnaya-krasavica",
+       "gaba-taoyuan",
+       "dzhu-shan-czin-syuan",
+       "gaba-rubinovaya-premium",
+       "medovyj-ulun-mi-syan",
+       "gaba-nantou",
+       "gaba-lu-gu",
+       "gaba-mej-shan",
+       "gaba-dzhu-shan",
+       "gaba-yuj-taj-nefritovyj-poyas",
+       "gaba-9999",
+       "gaba-dzhu-shan-mi-syan",
+       "gaba-bagua-shan",
+       "gaba-9999-s-osmantusom",
+       "gaba-he-huan-shan",
+       "gaba-chyornyj-zhemchug",
+       "gaba-alishani",
+       "gaba-czya-i-rubi",
+       "gaba-ganzaj",
+       "gaba-yuzhnaya-noch",
+       "gaba-vostochnyj-ekspress",
+       "gaba-lalashan",
+       "gaba-severnyj-sklon",
+       "gaba-vereskovyj-myod",
+       "gaba-zolotoj-lotos-organik",
+       "gaba-alishan-ekstra",
+       "gaba-777",
+       "gaba-blek-dzhek",
+       "gaba-minczyan-organik",
+       "gaba-dzhek-pot",
+       "gaba-lyu-shan-organik",
+       "gaba-888",
+       "gaba-sredinnyj-sad-delyuks",
+       "gaba-dezha-vyu-organik"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Категория",
+    "id": 16,
+    "values": [
+     {
+      "value": "Ароматизированный",
+      "slugs": [
+       "ulun-medovaya-dinya",
+       "zemlyanichnij-ulun-1-kategorii",
+       "ulun-kola",
+       "ulun-tropicheskij",
+       "slivochnij-ulun",
+       "zhasminovij-ulun",
+       "vinogradnyj-ulun-kitai",
+       "molochnij-ulun-letnij",
+       "bananovij-ulun",
+       "vishnyovyj-ulun",
+       "ananasovij-ulun",
+       "ulun-mango-persik",
+       "ulun-lipovyj-med",
+       "persikovij-ulun",
+       "ulun-aloe-vera",
+       "ulun-sausep",
+       "ulun-yablochnyj",
+       "ulun-chernichnyj",
+       "ulun-shokolad",
+       "apelsinovij-ulun",
+       "limonnij-ulun",
+       "mangovij-ulun",
+       "ulun-ezhevika",
+       "molochnyj-ulun-kitaj",
+       "zemlyanichnyj-ulun-kitai",
+       "ulun-smorodina",
+       "marakujia-ulun",
+       "ulun-zhemchuzhina-garema",
+       "ulun-rog-izobiliya",
+       "ulun-malina",
+       "ulun-roza-roze",
+       "ulun-medovaya-karameli",
+       "ulun-ocharovanie",
+       "mangovyj-temnyj-ulun",
+       "molochnyj-temnyj-ulun",
+       "klubnichnyj-temnyj-ulun",
+       "shokoladnyj-temnyj-ulun",
+       "molochnij-ulun-1-j-kategorii",
+       "barbarisovyj-ulun",
+       "ulun-sladkij-inzhir",
+       "ulun-tarhun",
+       "klubnichnij-ulun",
+       "lesnye-yagodi-ulun",
+       "klubnica-banan-ulun",
+       "ulun-sgushenoe-moloko",
+       "ulun-krasotka-meri",
+       "apelsinovyj-temnyj-ulun",
+       "kokosovyj-slivochnyj-ulun",
+       "ulun-malinovyj-sorbet",
+       "ulun-severnoe-siyanie",
+       "ulun-zemlyanichnaya-polyana",
+       "ulun-vybor-korolya",
+       "ulun-shokolad-s-vishnej",
+       "ulun-mohito",
+       "ulun-yagodnoe-lukoshko",
+       "ulun-imperatrica",
+       "molochnij-ulun-vysshej-kategorii",
+       "ulun-kyzyl-abakan",
+       "molochnyj-ulun-tajvani-1",
+       "gaba-mohito",
+       "gaba-yudzu-imbir",
+       "gaba-ekzotik",
+       "gaba-barbaris",
+       "gaba-medovaya-krupnyj-list",
+       "gaba-malina",
+       "gaba-mango-krupnyj-list",
+       "gaba-gabberri",
+       "gaba-sakura"
+      ]
+     },
+     {
+      "value": "Натуральный",
+      "slugs": [
+       "te-guan-letnii",
+       "chaj-zhenshen-ulun",
+       "te-guan-s-iagodami-godzhi-i-zhasminom",
+       "da-hun-pao-bolshoj-krasnij-halat-ekstra-silnaya-obzharka",
+       "zhenshen-ulun-vysshei-kategorii",
+       "ulun-s-hrizantemoi",
+       "te-guan-1-i-kategorii",
+       "zhensen-ulun-premium",
+       "lao-te-guan-premium",
+       "te-guan-vysshej-kategori",
+       "zhenshen-ulun-s-usilennym-aromatom",
+       "li-shan-ulun-taivan",
+       "gaba-izumrudnaya",
+       "dan-cun-odinokie-kusty",
+       "vysokogornyj-ulun-tajvan",
+       "zhou-gui",
+       "fen-huan-dan-cun-odinokie-kusti-s-gory-feniksa",
+       "gaba-lamven",
+       "te-guani-premium",
+       "gaba-fermerskaia",
+       "czin-syuan-mej-zhen-vostochnaya-krasavica-czin-syuan",
+       "gaba-medovye-soty",
+       "gaba-alishan-krasnaya",
+       "gaba-diamant",
+       "gaba-hlorantus",
+       "gaba-zhasmin",
+       "gaba-krasnyj-korall",
+       "dun-fan-mej-zhen-vostochnaya-krasavica-premium",
+       "molochnyj-ulun-naj-syan-czin-syuan",
+       "dun-fan-mej-zhen-vostochnaya-krasavica",
+       "dun-din-ulun-ulun-is-moroznogo-pika",
+       "sy-czi-chun-ulun-vesna-4-h-sezonov-1-kategorii",
+       "fen-huan-dan-cun-odinokie-kusty-s-gory-feniksa-premium",
+       "te-guan-van",
+       "te-guan-s-cherenkom",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya",
+       "sy-czi-chun-ulun-vesna-4-h-sezonov",
+       "ulun-krasnoj-vody",
+       "gaba-izumrudnaya-premium",
+       "dun-din-son-po",
+       "baj-hao-ulun-vostochnaya-krasavica",
+       "gaba-taoyuan",
+       "dzhu-shan-czin-syuan",
+       "gaba-rubinovaya-premium",
+       "medovyj-ulun-mi-syan",
+       "gaba-nantou",
+       "gaba-lu-gu",
+       "gaba-mej-shan",
+       "gaba-dzhu-shan",
+       "gaba-yuj-taj-nefritovyj-poyas",
+       "gaba-9999",
+       "gaba-bagua-shan",
+       "gaba-dzhu-shan-mi-syan",
+       "gaba-9999-s-osmantusom",
+       "gaba-alishani",
+       "gaba-he-huan-shan",
+       "gaba-chyornyj-zhemchug",
+       "gaba-czya-i-rubi",
+       "gaba-ganzaj",
+       "gaba-vostochnyj-ekspress",
+       "gaba-lalashan",
+       "gaba-yuzhnaya-noch",
+       "gaba-severnyj-sklon",
+       "gaba-777",
+       "gaba-zolotoj-lotos-organik",
+       "gaba-alishan-ekstra",
+       "gaba-vereskovyj-myod",
+       "gaba-minczyan-organik",
+       "gaba-blek-dzhek",
+       "gaba-dzhek-pot",
+       "gaba-lyu-shan-organik",
+       "gaba-888",
+       "gaba-sredinnyj-sad-delyuks",
+       "gaba-dezha-vyu-organik"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Фасовка",
+    "id": 34,
+    "values": [
+     {
+      "value": "1000 г",
+      "slugs": [
+       "gaba-krasnyj-korall",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya"
+      ]
+     },
+     {
+      "value": "500 г",
+      "slugs": [
+       "gaba-krasnyj-korall",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya"
+      ]
+     },
+     {
+      "value": "5000 г",
+      "slugs": [
+       "gaba-krasnyj-korall",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya"
+      ]
+     }
+    ]
+   },
+   {
+    "title": "Сорт",
+    "id": 57,
+    "values": [
+     {
+      "value": "Габа",
+      "slugs": [
+       "gaba-izumrudnaya",
+       "gaba-lamven",
+       "gaba-fermerskaia",
+       "gaba-mohito",
+       "gaba-yudzu-imbir",
+       "gaba-medovye-soty",
+       "gaba-ekzotik",
+       "gaba-barbaris",
+       "gaba-medovaya-krupnyj-list",
+       "gaba-malina",
+       "gaba-mango-krupnyj-list",
+       "gaba-gabberri",
+       "gaba-sakura",
+       "gaba-alishan-krasnaya",
+       "gaba-diamant",
+       "gaba-hlorantus",
+       "gaba-zhasmin",
+       "gaba-krasnyj-korall",
+       "gaba-sapfir",
+       "gaba-vulkanicheskaya",
+       "gaba-izumrudnaya-premium",
+       "gaba-taoyuan",
+       "gaba-rubinovaya-premium",
+       "gaba-mej-shan",
+       "gaba-nantou",
+       "gaba-lu-gu",
+       "gaba-yuj-taj-nefritovyj-poyas",
+       "gaba-dzhu-shan",
+       "gaba-9999",
+       "gaba-dzhu-shan-mi-syan",
+       "gaba-bagua-shan",
+       "gaba-9999-s-osmantusom",
+       "gaba-alishani",
+       "gaba-he-huan-shan",
+       "gaba-chyornyj-zhemchug",
+       "gaba-czya-i-rubi",
+       "gaba-ganzaj",
+       "gaba-severnyj-sklon",
+       "gaba-lalashan",
+       "gaba-yuzhnaya-noch",
+       "gaba-vostochnyj-ekspress",
+       "gaba-777",
+       "gaba-vereskovyj-myod",
+       "gaba-alishan-ekstra",
+       "gaba-zolotoj-lotos-organik",
+       "gaba-minczyan-organik",
+       "gaba-blek-dzhek",
+       "gaba-dzhek-pot",
+       "gaba-lyu-shan-organik",
+       "gaba-888",
+       "gaba-sredinnyj-sad-delyuks",
+       "gaba-dezha-vyu-organik"
+      ]
+     },
+     {
+      "value": "Да Хун Пао и Жоу Гуй",
+      "slugs": [
+       "da-hun-pao-bolshoj-krasnij-halat-ekstra-silnaya-obzharka",
+       "ulun-vybor-korolya",
+       "ulun-shokolad-s-vishnej",
+       "zhou-gui"
+      ]
+     },
+     {
+      "value": "Дан Цун и Фен Хуан Дан Цун",
+      "slugs": [
+       "dan-cun-odinokie-kusty",
+       "fen-huan-dan-cun-odinokie-kusti-s-gory-feniksa",
+       "fen-huan-dan-cun-odinokie-kusty-s-gory-feniksa-premium"
+      ]
+     },
+     {
+      "value": "Дун Дин",
+      "slugs": [
+       "dun-din-ulun-ulun-is-moroznogo-pika",
+       "dun-din-son-po"
+      ]
+     },
+     {
+      "value": "Женьшень",
+      "slugs": [
+       "chaj-zhenshen-ulun",
+       "zhenshen-ulun-vysshei-kategorii",
+       "zhensen-ulun-premium",
+       "zhenshen-ulun-s-usilennym-aromatom"
+      ]
+     },
+     {
+      "value": "С жасмином",
+      "slugs": [
+       "zhasminovij-ulun"
+      ]
+     },
+     {
+      "value": "Те Гуань Инь",
+      "slugs": [
+       "te-guan-letnii",
+       "te-guan-s-iagodami-godzhi-i-zhasminom",
+       "te-guan-1-i-kategorii",
+       "lao-te-guan-premium",
+       "te-guan-vysshej-kategori",
+       "te-guani-premium",
+       "te-guan-van",
+       "te-guan-s-cherenkom"
+      ]
      }
     ]
    }

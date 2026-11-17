@@ -3,7 +3,8 @@
 Run from anywhere: python3 tools/build_index.py
 Needs Pillow (reads product photo sizes for width/height).
 """
-import json, html, pathlib, re
+import json
+import re, html, pathlib, re
 
 from PIL import Image
 
@@ -193,7 +194,10 @@ ARROW = (
     'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">'
 )
 def pack_qty(label):
-    """'500 г' -> (500, 'г'), '48 шт' -> (48, 'шт')."""
+    """'500 г' -> (500, 'г'), '48 шт' -> (48, 'шт'), '1 уп (150 г)' -> (150, 'г')."""
+    m = re.search(r"\((\d+(?:[.,]\d+)?)\s*г\)", label)
+    if m:
+        return float(m.group(1).replace(",", ".")), "г"
     num, unit = label.split()[:2]
     return float(num), unit
 
@@ -695,20 +699,82 @@ def demo_links(html_text):
 categories = json.load(open(ROOT / "data/categories.json", encoding="utf-8"))
 
 
+FILTER_SEP = "___"  # the live site joins filters as ?f=3__Китай___16__Натуральный
+
+
+def filter_key(gid, value):
+    return f"{gid}__{value}"
+
+
+def render_filters(c, by_slug):
+    """Filter groups as on teaboom.ru: only groups with more than one value (the site hides
+    single-value groups), values in the site's order. Counts start for the full category;
+    category.js keeps them live for the current choice."""
+    groups = []
+    for g in c["filters_data"]:
+        vals = [v for v in g["values"] if v["slugs"]]
+        if len(vals) < 2:
+            continue
+        # Packs read like the tiles (500 г, 1 кг, 5 кг), lightest first; the key keeps the
+        # site's value («1000 г»), so the address stays the shop's.
+        if g["title"] == "Фасовка":
+            vals = sorted(vals, key=lambda v: pack_qty(v["value"])[0])
+        gid = f'fg-{g["id"]}'
+        rows = []
+        for v in vals:
+            key = filter_key(g["id"], v["value"])
+            rows.append(f'''              <li>
+                <label class="facet">
+                  <input class="facet__input" type="checkbox" value="{esc(key)}" data-facet>
+                  <span class="facet__box" aria-hidden="true"></span>
+                  <span class="facet__label">{esc(show_label(v["value"]) if g["title"] == "Фасовка" else v["value"])}</span>
+                  <span class="facet__count" data-facet-count>{len(v["slugs"])}</span>
+                </label>
+              </li>''')
+        groups.append(f'''          <fieldset class="facets__group">
+            <legend class="facets__title" id="{gid}">{esc(g["title"])}</legend>
+            <ul class="facets__list">
+{chr(10).join(rows)}
+            </ul>
+          </fieldset>''')
+    return "\n".join(groups)
+
+
+def page_window(cur, total):
+    """1 … 4 5 6 … 12: first, last and two around the current page."""
+    keep = {1, total, cur - 1, cur, cur + 1}
+    out, last = [], 0
+    for n in range(1, total + 1):
+        if n in keep:
+            if n - last > 1:
+                out.append(None)
+            out.append(n)
+            last = n
+    return out
+
+
 def render_category(c, mast, foot, dock):
-    """Breadcrumbs → H1 → subcategories → count · filters · sorting → the accepted tile grid →
-    pages → the category text. Sorting and pages run in category.js over the demo set."""
+    """Breadcrumbs → H1 → subcategories → filters (panel / sheet) · count · sorting → chips →
+    the accepted tile grid → pages → the category text. Filters, sorting and pages run in
+    category.js over the whole category, with the live site's address (?f=…&sorting=…&start=N)."""
     per = c["per_page"]
     own = {p["slug"]: p for p in products}
     items = [own.get(p["slug"], p) for p in c["products"]]
+    facets = {}
+    for g in c["filters_data"]:
+        for v in g["values"]:
+            for slug in v["slugs"]:
+                facets.setdefault(slug, []).append(filter_key(g["id"], v["value"]))
     cards, ld_items = [], []
     for idx, p in enumerate(items, 1):
         card, ld_item = render_tile(idx, p, live_links=True)
         v0 = p["variants"][0]
         hidden = "" if idx <= per else " hidden"
-        card = card.replace("        <li>", f'        <li data-item data-order="{idx}" data-price="{v0["price"]:g}" data-name="{esc(p["name"].lower())}"{hidden}>', 1)
+        f_attr = esc(FILTER_SEP.join(facets.get(p["slug"], [])))
+        card = card.replace("        <li>", f'        <li data-item data-order="{idx}" data-price="{v0["price"]:g}" data-name="{esc(p["name"].lower())}" data-f="{f_attr}"{hidden}>', 1)
         cards.append(card)
-        ld_items.append(ld_item)
+        if idx <= per:
+            ld_items.append(ld_item)
     pages = (len(items) + per - 1) // per
     crumbs = ('      <ol class="breadcrumbs__list" data-strip>\n        <li class="breadcrumbs__item"><a href="./">Начало</a></li>\n'
               + "".join(f'        <li class="breadcrumbs__item"><a href="{site(u)}">{esc(n)}</a></li>\n' for n, u in c["breadcrumbs"])
@@ -721,14 +787,16 @@ def render_category(c, mast, foot, dock):
       </nav>'''
     sorting = "\n".join(f'            <option value="{v}"{" selected" if i == 0 else ""}>{esc(n)}</option>' for i, (v, n) in enumerate(c["sorting"]))
     cur = ' aria-current="page"'
-    nums = "\n".join(
-        f'          <li><a class="pager__link" href="?page={n}" data-page="{n}"{cur if n == 1 else ""}>{n}</a></li>'
-        for n in range(1, pages + 1))
-    pager = f'''      <nav class="pager" aria-label="Страницы каталога">
-        <ul class="pager__list">
-{nums}
+    nums = []
+    for n in page_window(1, pages):
+        if n is None:
+            nums.append('          <li class="pager__gap" aria-hidden="true">…</li>')
+        else:
+            nums.append(f'          <li><a class="pager__link" href="?start={n}" data-page="{n}"{cur if n == 1 else ""}>{n}</a></li>')
+    pager = f'''      <nav class="pager" aria-label="Страницы каталога" data-pager>
+        <ul class="pager__list" data-pager-list>
+{chr(10).join(nums)}
         </ul>
-        <p class="pager__note">В демо — первые {len(items)} улунов. <a href="{site(c["live"])}?start={pages + 1}">Страницы {pages + 1}–{c["site_pages"]} — на teaboom.ru</a></p>
       </nav>'''
     seo = c["seo"]
     body = []
@@ -745,16 +813,17 @@ def render_category(c, mast, foot, dock):
 {chr(10).join(body)}
       </div>
     </section>'''
-    ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": c["title"], "itemListElement": ld_items}]
+    ld = [{"@context": "https://schema.org", "@type": "ItemList", "name": c["title"], "numberOfItems": len(items), "itemListElement": ld_items}]
     tpl = (ROOT / "tools" / "category.template.html").read_text(encoding="utf-8")
     first = f"Товары 1–{min(per, len(items))} из {len(items)}"
     out = (
         tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
         .replace("{{SEO_TITLE}}", esc(c["seo_title"]))
-        .replace("{{META_DESC}}", esc(f'{c["title"]}: {len(items)} сортов в демо, фасовки от 100 г, цена от {money(min(p["variants"][0]["price"] for p in items)).replace(NB, " ")}.'))
+        .replace("{{META_DESC}}", esc(f'{c["title"]}: {len(items)} сортов, фасовки от 100 г, цена от {money(min(p["variants"][0]["price"] for p in items)).replace(NB, " ")}.'))
         .replace("{{PER_PAGE}}", str(per))
         .replace("{{CRUMBS}}", crumbs).replace("{{H1}}", esc(c["title"])).replace("{{SUBCATS}}", subcats)
-        .replace("{{COUNT}}", first).replace("{{FILTERS}}", site(c["filters"]) + "#filters").replace("{{SORTING}}", sorting)
+        .replace("{{COUNT}}", first).replace("{{TOTAL}}", str(len(items)))
+        .replace("{{FACETS}}", render_filters(c, own)).replace("{{SORTING}}", sorting)
         .replace("{{GOODS}}", "\n".join(cards)).replace("{{PAGER}}", pager).replace("{{SEO}}", seo_html)
         .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
     )
