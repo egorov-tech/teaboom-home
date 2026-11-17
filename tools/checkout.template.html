@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Оформление заказа — интернет-магазин чая «Чайный Бум»</title>
+  <meta name="description" content="Оформление заказа в интернет-магазине чая «Чайный Бум»: получатель, дата и способ доставки, оплата.">
+  <!-- Demo for review: keep it out of search entirely. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5d730">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="has-paybar">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+{{MASTHEAD}}
+
+  <main id="main" tabindex="-1">
+    <div class="checkout wrap" data-checkout>
+      <nav class="breadcrumbs" aria-label="Вы здесь">
+        <ol class="breadcrumbs__list">
+          <li class="breadcrumbs__item"><a href="./">Главная</a></li>
+          <li class="breadcrumbs__item"><a href="https://teaboom.ru/cart">Корзина</a></li>
+          <li class="breadcrumbs__item"><span aria-current="page">Оформление заказа</span></li>
+        </ol>
+      </nav>
+
+      <h1 class="checkout__title">Оформление заказа</h1>
+
+      <div class="basket__empty" data-checkout-empty>
+        <p class="basket__empty-title">Ваша корзина пуста</p>
+        <p class="basket__empty-links">
+          <a class="basket__go press" href="https://teaboom.ru/category-root">Перейти в каталог</a>
+          <a class="basket__go basket__go--quiet press" href="https://teaboom.ru/category-ulun">Улун</a>
+        </p>
+      </div>
+
+      <div class="checkout__layout" data-checkout-full hidden>
+        <!-- Blocks and texts in the order of teaboom.ru/checkout (seen signed in, 17.11). -->
+        <form class="order" id="order" action="/checkout" method="post" novalidate data-form="checkout">
+          <p class="order__login">На сайте заказ оформляется после входа. <a href="https://teaboom.ru/login">Войти или зарегистрироваться</a></p>
+
+          <fieldset class="step">
+            <legend class="step__title">Оформить заказ как</legend>
+            <div class="choices choices--row">
+              <label class="choice">
+                <input class="choice__input" type="radio" name="person_type" value="individual" checked data-person>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Физическое лицо</span>
+              </label>
+              <label class="choice">
+                <input class="choice__input" type="radio" name="person_type" value="legal" data-person>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Юридическое лицо</span>
+              </label>
+            </div>
+            <p class="step__note">Выставление счета доступно только для юр.&nbsp;лиц</p>
+          </fieldset>
+
+          <fieldset class="step" id="step-address">
+            <legend class="step__title">Получатель и адрес доставки</legend>
+            <div class="step__pair">
+              <div class="field">
+                <label class="field__label" for="first-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="first-name" name="first_name" type="text" autocomplete="given-name" required maxlength="150" aria-describedby="first-name-error">
+                <p class="field__error" id="first-name-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="last-name">Фамилия</label>
+                <input class="field__input" id="last-name" name="last_name" type="text" autocomplete="family-name" maxlength="150" aria-describedby="last-name-error">
+                <p class="field__error" id="last-name-error" data-error hidden></p>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="email">Email <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength="254" placeholder="you@mail.ru" aria-describedby="email-error">
+              <p class="field__error" id="email-error" data-error hidden></p>
+            </div>
+            <div class="step__pair">
+              <div class="field">
+                <label class="field__label" for="phone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required maxlength="32" placeholder="+7 999 123-45-67" aria-describedby="phone-error">
+                <p class="field__error" id="phone-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="phone2">Доп. телефон</label>
+                <input class="field__input" id="phone2" name="phone_extra" type="tel" autocomplete="tel" inputmode="tel" maxlength="32" aria-describedby="phone2-error">
+                <p class="field__error" id="phone2-error" data-error hidden></p>
+              </div>
+            </div>
+
+            <div class="address">
+              <p class="address__title">Адрес</p>
+              <p class="step__note" id="address-note">не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять</p>
+              <div class="address__grid">
+                <div class="field address__country">
+                  <label class="field__label" for="country">Страна</label>
+                  <select class="field__input field__input--select" id="country" name="country" autocomplete="country-name">
+                    <option>Белоруссия</option>
+                    <option>Казахстан</option>
+                    <option selected>Россия</option>
+                    <option>Украина</option>
+                  </select>
+                </div>
+                <div class="field address__city">
+                  <label class="field__label" for="locality">Населённый пункт</label>
+                  <input class="field__input" id="locality" name="locality" type="text" autocomplete="address-level2" aria-describedby="address-note">
+                </div>
+                <div class="field address__street">
+                  <label class="field__label" for="street">Улица</label>
+                  <input class="field__input" id="street" name="street" type="text" autocomplete="address-line1">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="house">Дом</label>
+                  <input class="field__input" id="house" name="house" type="text" autocomplete="off">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="flat">Квартира</label>
+                  <input class="field__input" id="flat" name="flat" type="text" autocomplete="off">
+                </div>
+              </div>
+              <details class="address__more">
+                <summary class="address__toggle">Индекс, регион, корпус, подъезд, этаж, код домофона</summary>
+                <div class="address__grid">
+                  <div class="field">
+                    <label class="field__label" for="postcode">Индекс</label>
+                    <input class="field__input" id="postcode" name="postcode" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10">
+                  </div>
+                  <div class="field address__street">
+                    <label class="field__label" for="region">Регион</label>
+                    <input class="field__input" id="region" name="region" type="text" autocomplete="address-level1">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="building">Корпус</label>
+                    <input class="field__input" id="building" name="building" type="text" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="entrance">Подъезд</label>
+                    <input class="field__input" id="entrance" name="entrance" type="text" inputmode="numeric" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="floor">Этаж</label>
+                    <input class="field__input" id="floor" name="floor" type="text" inputmode="numeric" autocomplete="off">
+                  </div>
+                  <div class="field">
+                    <label class="field__label" for="intercom">Код домофона</label>
+                    <input class="field__input" id="intercom" name="intercom" type="text" autocomplete="off">
+                  </div>
+                </div>
+              </details>
+            </div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend class="step__title">Дата доставки</legend>
+            <div class="field step__narrow">
+              <label class="visually-hidden" for="delivery-date">Дата доставки</label>
+              <input class="field__input" id="delivery-date" name="delivery_date" type="date" aria-describedby="delivery-date-note" data-date>
+              <p class="step__note" id="delivery-date-note">* предпочтительная дата доставки</p>
+            </div>
+          </fieldset>
+
+          <fieldset class="step">
+            <legend class="step__title">Комментарий</legend>
+            <div class="field">
+              <label class="visually-hidden" for="comment">Комментарий к заказу</label>
+              <textarea class="field__input field__input--area" id="comment" name="comment" rows="3" maxlength="2000"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- Prices from teaboom.ru/shipping/: courier, Почта and CDEK cost 400 ₽ below 3 500 ₽. -->
+          <fieldset class="step" id="step-delivery">
+            <legend class="step__title">Доставка</legend>
+            <div class="choices">
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="pickup-opolchenie" checked data-ship="pickup">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Самовывоз (ул.&nbsp;Народного Ополчения,&nbsp;47)</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">Обязательно позвоните за 30&nbsp;мин до вашего приезда и назовите номер заказа.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="pickup-oktyabrskoe" data-ship="pickup">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Самовывоз (м.&nbsp;Октябрьское поле, выход №&nbsp;1)</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">У турникетов выхода, из метро можно не выходить. Первый вагон из центра.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="pickup-panfilovskaya" data-ship="pickup">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Самовывоз (МЦК Панфиловская)</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">У турникетов выхода, из МЦК можно не выходить.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="courier" data-ship="courier">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Доставка курьером</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">По Москве в пределах МКАД: до 3&nbsp;500&nbsp;₽ — 400&nbsp;₽, от 3&nbsp;500&nbsp;₽ — бесплатно. По Московской области — 25&nbsp;₽/км от МКАД.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="post" data-ship="post" data-tariff="Почты России">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">до пункта отправления Почта России в г.&nbsp;Москва</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">Доставка до отделения, тариф Почты России рассчитывается и оплачивается отдельно. От 10&nbsp;000&nbsp;₽ — доставка по России бесплатная.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping_method" value="cdek" data-ship="post" data-tariff="CDEK">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">до пункта отправления CDEK в г.&nbsp;Москва</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">Доставка до пункта отправления, тариф CDEK рассчитывается и оплачивается отдельно. Пункт выдачи можно указать в комментарии.</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- Methods from teaboom.ru/payment/; which ones a delivery allows — data-pay-when. -->
+          <fieldset class="step" id="step-payment">
+            <legend class="step__title">Оплата</legend>
+            <div class="choices">
+              <label class="choice choice--card" data-pay-when="pickup">
+                <input class="choice__input" type="radio" name="payment_method" value="cash-pickup" checked>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Оплата при самовывозе</span>
+                <span class="choice__desc">Наличными или переводом на Сбербанк. Оплата по карте — через ЮKassa.</span>
+              </label>
+              <label class="choice choice--card" data-pay-when="courier" hidden>
+                <input class="choice__input" type="radio" name="payment_method" value="cash-courier" disabled>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Наличные курьеру</span>
+                <span class="choice__desc">Наличными или переводом на Сбербанк.</span>
+              </label>
+              <label class="choice choice--card" data-pay-when="post" hidden>
+                <input class="choice__input" type="radio" name="payment_method" value="prepay" disabled>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Предоплата</span>
+                <span class="choice__desc">Оплата по ссылке через ЮKassa или перевод на Сбербанк по запросу после оформления заказа.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="payment_method" value="yookassa">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">ЮKassa</span>
+                <span class="choice__desc">Банковские карты, Apple Pay и Google Pay, электронные деньги.</span>
+              </label>
+              <label class="choice choice--card" data-pay-when="legal" hidden>
+                <input class="choice__input" type="radio" name="payment_method" value="invoice" disabled>
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Оплата по счету</span>
+                <span class="choice__desc">Пожалуйста, заполните ваши реквизиты в личном кабинете.</span>
+              </label>
+            </div>
+          </fieldset>
+        </form>
+
+        <aside class="summary" aria-labelledby="summary-title" data-summary>
+          <div class="summary__head">
+            <h2 class="summary__title" id="summary-title">Ваш заказ</h2>
+            <a class="summary__edit" href="https://teaboom.ru/cart">Изменить</a>
+          </div>
+          <ul class="brief" data-order-lines></ul>
+
+          <form class="coupon" action="/cart" method="post" novalidate data-coupon>
+            <label class="coupon__label" for="coupon">Код купона</label>
+            <div class="coupon__row">
+              <input class="coupon__input field__input" id="coupon" name="voucher" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-describedby="coupon-note">
+              <button class="coupon__apply press" type="submit">Применить</button>
+            </div>
+            <p class="coupon__note" id="coupon-note" role="status" data-coupon-note hidden></p>
+          </form>
+
+          <dl class="summary__list">
+            <div class="summary__row">
+              <dt>Сумма</dt>
+              <dd data-sum></dd>
+            </div>
+            <div class="summary__row">
+              <dt>Доставка <span class="summary__how" data-ship-how></span></dt>
+              <dd data-ship-cost></dd>
+            </div>
+            <div class="summary__row">
+              <dt>Оплата <span class="summary__how" data-pay-how></span></dt>
+              <dd>0&nbsp;₽</dd>
+            </div>
+            <div class="summary__row summary__row--total">
+              <dt>Итого</dt>
+              <dd data-total></dd>
+            </div>
+          </dl>
+          <button class="summary__order cta press" type="submit" form="order" data-order>Заказать</button>
+          <p class="form__done" role="status" data-done="order" hidden></p>
+        </aside>
+      </div>
+    </div>
+
+    <div class="paybar" data-paybar hidden>
+      <p class="paybar__total"><span class="paybar__label">Итого</span> <span data-total-bar></span></p>
+      <button class="paybar__order press" type="submit" form="order">Заказать</button>
+    </div>
+  </main>
+
+  <template data-brief-template>
+    <li class="brief__line" data-order-line>
+      <img class="brief__image" src="" alt="" width="56" height="56" loading="lazy" decoding="async" data-brief-image>
+      <p class="brief__info">
+        <a class="brief__name" href="" data-brief-name></a>
+        <span class="brief__each" data-brief-each></span>
+      </p>
+      <span class="brief__sum" data-brief-sum></span>
+    </li>
+  </template>
+
+  <script type="application/json" data-cart-sample>
+{{SAMPLE}}
+  </script>
+
+  {{FOOTER}}
+  {{DOCK}}
+
+  <script src="assets/js/format.js" defer></script>
+  <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
+  <script src="assets/js/forms.js" defer></script>
+  <script src="assets/js/checkout.js" defer></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-/* Forms shared by login, password reset, cart coupon (and later checkout / account):
+/* Forms shared by login, password reset, cart coupon, checkout (and later account):
    tabs ([data-switch]), show-password ([data-peek]), inline validation, demo submit.
    On the shop the forms post to the same addresses as teaboom.ru; the demo has no backend,
    so a valid submit only says what the shop does next. */
@@ -67,10 +67,17 @@
     if (input.required && !v) {
       if (input.type === "email" || input.autocomplete === "username") return "Введите email";
       if (input.type === "password" || input.dataset.sameAs) return "Введите пароль";
+      if (input.type === "tel") return "Введите телефон";
+      if (input.autocomplete === "given-name") return "Введите имя";
       return "Заполните поле";
     }
     if (v && (input.type === "email" || input.autocomplete === "username") && !EMAIL.test(v)) {
       return "Проверьте email: нужен адрес вида name@mail.ru";
+    }
+    // Any country: 10–15 digits, as the shop's «+7 … или другой международный номер».
+    const digits = v.replace(/\D/g, "").length;
+    if (v && input.type === "tel" && (digits < 10 || digits > 15)) {
+      return "Проверьте телефон: нужен номер вида +7 999 123-45-67";
     }
     if (input.dataset.sameAs) {
       const other = document.getElementById(input.dataset.sameAs);
@@ -95,11 +102,13 @@
     login: () => "Демо: на сайте здесь выполнится вход и откроется личный кабинет.",
     register: () => "Демо: на сайте здесь создастся учётная запись и выполнится вход.",
     reset: (f) => `Демо: на сайте сюда отправится письмо со ссылкой для смены пароля — ${f.email.value.trim()}.`,
+    checkout: () => "Демо: на сайте здесь заказ уйдёт в магазин. Заказ не отправлен, корзина сохранена.",
   };
 
   document.querySelectorAll("form[data-form]").forEach((form) => {
     const inputs = [...form.querySelectorAll(".field__input")];
-    const done = form.querySelector("[data-done]");
+    // Checkout: the message sits by «Заказать» in the summary, outside the form.
+    const done = form.querySelector("[data-done]") || document.querySelector(`[data-done="${form.id}"]`);
 
     // Errors appear after the first try, then follow the typing.
     inputs.forEach((input) => {
@@ -129,6 +138,26 @@
         done.textContent = (DONE[form.dataset.form] || (() => "Демо: форма заполнена верно."))(form);
         done.hidden = false;
       }
+    });
+  });
+
+  // ---------- Coupon (cart, checkout) ----------
+  // The shop checks the code; the demo has no list of codes, so it says so plainly.
+  document.querySelectorAll("[data-coupon]").forEach((coupon) => {
+    coupon.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = coupon.querySelector("input");
+      const note = coupon.querySelector("[data-coupon-note]");
+      const code = input.value.trim();
+      note.hidden = false;
+      if (!code) {
+        note.textContent = "Введите код купона";
+        input.setAttribute("aria-invalid", "true");
+        input.focus();
+        return;
+      }
+      input.removeAttribute("aria-invalid");
+      note.textContent = `Демо: на сайте код «${code}» проверит магазин и пересчитает итог.`;
     });
   });
 })();

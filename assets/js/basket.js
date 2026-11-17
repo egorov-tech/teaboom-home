@@ -143,24 +143,6 @@
     if (e.key === "Enter" && e.target.matches("[data-qty-input]")) e.target.blur();
   });
 
-  // Coupon: the shop checks the code; the demo has no list of codes, so it says so plainly.
-  const coupon = root.querySelector("[data-coupon]");
-  coupon?.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const input = coupon.querySelector("input");
-    const note = coupon.querySelector("[data-coupon-note]");
-    const code = input.value.trim();
-    note.hidden = false;
-    if (!code) {
-      note.textContent = "Введите код купона";
-      input.setAttribute("aria-invalid", "true");
-      input.focus();
-      return;
-    }
-    input.removeAttribute("aria-invalid");
-    note.textContent = `Демо: на сайте код «${code}» проверит магазин и пересчитает итог.`;
-  });
-
   cart.onChange(render);
   render();
 })();

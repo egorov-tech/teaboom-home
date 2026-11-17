@@ -683,6 +683,7 @@ def render_tile(idx, p, live_links=False):
 LOCAL = {
     f"{SITE}/category-ulun": "category-ulun.html",
     f"{SITE}/cart": "cart.html",
+    f"{SITE}/checkout-dispatcher": "checkout.html",
     f"{SITE}/login": "login.html",
     # Dock «Кабинет»: a visitor who is not signed in lands on the login page first.
     f"{SITE}/my-account": "login.html",
@@ -948,7 +949,7 @@ def main():
         print("ok", d["page"], len(pout))
 
 
-# ---------- cart, login, password reset (пп. 25, 27) ----------
+# ---------- cart, checkout, login, password reset (пп. 25–27) ----------
 def cart_sample():
     """Two real lines for cart.html?demo: the demo product and a 1 kg pack from the category."""
     own = {p["slug"]: p for p in products}
@@ -965,10 +966,11 @@ def cart_sample():
 
 def render_service_pages():
     note = ('Демо: <a href="./">главная</a>, <a href="category-ulun.html">категория</a>, '
-            '<a href="product.html">товар</a>, <a href="cart.html">корзина</a> и <a href="login.html">вход</a>. '
+            '<a href="product.html">товар</a>, <a href="cart.html">корзина</a>, '
+            '<a href="checkout.html">оформление</a> и <a href="login.html">вход</a>. '
             'Магазин: <a href="https://teaboom.ru/">teaboom.ru</a>')
     mast, foot, dock = shell("", "search-field-service", note)
-    for name in ("cart", "login", "password-reset"):
+    for name in ("cart", "checkout", "login", "password-reset"):
         tpl = (ROOT / "tools" / f"{name}.template.html").read_text(encoding="utf-8")
         out = (tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
                .replace("{{SAMPLE}}", cart_sample()))
