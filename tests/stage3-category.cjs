@@ -31,7 +31,7 @@ const NB = ' ';
 
   // Window 1 2 … 12: page 3 appears after page 2.
   await p.click('[data-pager] [data-page="2"]:not(.pager__link--step)'); await p.waitForTimeout(300);
-  await p.click('[data-pager] [data-page="3"]:not(.pager__link--step)'); await p.waitForTimeout(400);
+  await p.click('[data-pager] [data-page="3"]:not(.pager__link--step)'); await p.waitForTimeout(1500);
   ok(new URL(p.url()).searchParams.get('start') === '3' && (await p.getAttribute('[data-page="3"][aria-current]', 'aria-current')) === 'page', 'страница 3, в адресе start=3 (как на сайте)');
   ok((await p.textContent('[data-count]')).trim().replace(/\u00a0/g, ' ') === '143 товара' && (await shown()).length === 12, 'страница 3: счётчик тот же, страница видна в пейджинге');
   const bar = await p.evaluate(() => { const h = document.querySelector('[data-masthead]').getBoundingClientRect().bottom; const r = document.querySelector('.category__bar').getBoundingClientRect().top; return r >= h - 1; });

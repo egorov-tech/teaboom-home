@@ -575,13 +575,13 @@ def render_details(p):
         f'                <div class="specs__row"><dt>{esc(k)}</dt><dd>{units(esc(v))}</dd></div>' for k, v in spec_rows(d["specs"]))
     if shown:
         items = "\n".join(f'''                <li class="review">
-                  <p class="review__rating"><span aria-hidden="true">{stars(r["rating"])}</span><span class="visually-hidden">Оценка {r["rating"]} из 5</span></p>
-                  <blockquote class="review__text">{esc(r["text"])}</blockquote>
                   <div class="review__who">
                     <span class="review__avatar" aria-hidden="true">{esc(r["author"][0])}</span>
                     <span class="review__author">{esc(r["author"])}</span>
                     <time class="review__date" datetime="{r["date"]}">{ru_date(r["date"])}</time>
                   </div>
+                  <p class="review__rating"><span aria-hidden="true">{stars(r["rating"])}</span><span class="visually-hidden">Оценка {r["rating"]} из 5</span></p>
+                  <blockquote class="review__text">{esc(r["text"])}</blockquote>
                 </li>''' for r in shown)
         note = "" if rs else f'              <p class="reviews__sample">{typo(ex["note"])}</p>\n'
         # «Отзывы 12» but three on the page (Артём, 18.11): the row ends with a card that leads to

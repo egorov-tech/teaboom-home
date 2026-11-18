@@ -400,10 +400,12 @@
   }
 }
 
+// Variant A (Артём, 18.11): who wrote it first — avatar, name, date — then the stars, then the
+// text in 14 px, at most six lines. No big quote mark: the card itself says it is a review.
 .review {
   display: flex;
   flex-direction: column;
-  gap: var(--step-3);
+  gap: 10px;
   padding: var(--step-4);
   background: var(--paper);
   border: 1px solid var(--line);
@@ -439,37 +441,9 @@
     }
   }
 
-  &__rating {
-    font-size: 14px;
-    letter-spacing: 0.12em;
-    color: var(--ink);
-  }
-
-  // The quote is the content; a large brand quote mark marks it without a box.
-  &__text {
-    position: relative;
-    flex: 1;
-    margin: 0;
-    padding-left: var(--step-5);
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--ink-soft);
-
-    &::before {
-      content: "\201C";
-      position: absolute;
-      top: -6px;
-      left: 0;
-      font-family: var(--font-display);
-      font-size: 34px;
-      line-height: 1;
-      color: var(--brand-deep);
-    }
-  }
-
   &__who {
     display: grid;
-    grid-template-columns: 36px 1fr;
+    grid-template-columns: 32px 1fr;
     align-items: center;
     column-gap: var(--step-3);
   }
@@ -478,13 +452,13 @@
     grid-row: span 2;
     display: grid;
     place-items: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: color-mix(in srgb, var(--brand) 45%, var(--paper));
     font-family: var(--font-display);
     font-weight: 600;
-    font-size: 16px;
+    font-size: 14px;
   }
 
   &__author {
@@ -496,5 +470,24 @@
   &__date {
     font-size: 12px;
     color: var(--muted);
+  }
+
+  &__rating {
+    margin: -2px 0 0;
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+  }
+
+  &__text {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 6;
+    line-clamp: 6;
+    overflow: hidden;
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-soft);
   }
 }
