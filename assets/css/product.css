@@ -3455,46 +3455,73 @@ body::before {
   overflow: auto;
   padding: var(--step-4) var(--step-4) calc(var(--step-6) + env(safe-area-inset-bottom, 0px));
   overscroll-behavior: contain;
+  background: var(--canvas);
 }
 .sheet__block + .sheet__block {
   margin-top: var(--step-5);
-  padding-top: var(--step-4);
-  border-top: 1px solid var(--line);
 }
 .sheet__label {
-  margin: 0 0 var(--step-3);
-  font: 500 13px/1.3 var(--font-text);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  margin: 0 0 var(--step-2) var(--step-1);
+  font: 600 14px/1.3 var(--font-text);
   color: var(--muted);
 }
 .sheet__list {
-  display: grid;
-  gap: 2px;
   margin: 0;
   padding: 0;
   list-style: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.sheet__list > li + li {
+  border-top: 1px solid var(--line);
 }
 .sheet__link, .sheet__list .catalog__link {
   display: flex;
   align-items: center;
-  min-height: var(--tap);
-  padding: var(--step-2) var(--step-3);
+  justify-content: space-between;
+  gap: var(--step-3);
+  min-height: 48px;
+  padding: var(--step-2) var(--step-4);
   color: var(--ink);
   font-weight: 600;
   font-size: 15px;
+  line-height: 1.3;
   text-decoration: none;
-  border: 0;
-  border-radius: var(--radius-md);
   background: none;
+  border: 0;
+  border-radius: 0;
+  transition: background-color var(--ease);
+}
+.sheet__link::after, .sheet__list .catalog__link::after {
+  content: "";
+  flex: none;
+  width: 7px;
+  height: 7px;
+  margin-right: 3px;
+  border-top: 1.6px solid var(--muted);
+  border-right: 1.6px solid var(--muted);
+  transform: rotate(45deg);
 }
 .sheet__link:active, .sheet__list .catalog__link:active {
   background: var(--canvas);
 }
 .sheet__link--all {
-  margin-bottom: var(--step-2);
+  font-weight: 700;
   color: var(--tea);
-  border: 1px dashed var(--line-strong);
+}
+.sheet__link--all::after {
+  border-color: var(--tea);
+}
+.sheet__block--contacts {
+  padding: var(--step-2) var(--step-4) var(--step-3);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.sheet__block--contacts .sheet__label {
+  margin: var(--step-2) 0 var(--step-1);
 }
 .sheet__phone, .sheet__mail {
   display: flex;
