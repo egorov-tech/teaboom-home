@@ -1,0 +1,124 @@
+@use "tokens" as *;
+
+// One bottom sheet for the whole site (Артём, 18.11: «каталог на телефоне как фильтр, без
+// разношёрстных компонентов»): the catalogue menu (.sheet) and the filters (.facets) share it.
+// Build proven on a real iPhone: the <dialog> is a transparent full-screen layer, the white sheet
+// is a child pinned to the bottom edge. JS: home.js TeaboomSheet adds .is-closing to play the
+// way out, then closes the dialog.
+
+$sheet-in: 340ms;
+$sheet-out: 240ms;
+
+@mixin sheet-dialog {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  background: transparent;
+  border: 0;
+
+  &[open] {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  &::backdrop {
+    background: rgb(27 27 27 / 42%);
+    animation: sheet-backdrop-in $sheet-in var(--ease-out);
+  }
+
+  &.is-closing::backdrop {
+    animation: sheet-backdrop-out $sheet-out ease forwards;
+  }
+}
+
+@mixin sheet-panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: min(86dvh, 760px);
+  background: var(--paper);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  box-shadow: 0 -12px 40px rgb(27 27 27 / 18%);
+  overflow: hidden;
+  animation: sheet-up $sheet-in cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+// Use inside the dialog: `.is-closing &` would not reach a panel class from a mixin.
+@mixin sheet-panel-closing {
+  animation: sheet-down $sheet-out cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@mixin sheet-head {
+  display: flex;
+  align-items: center;
+  gap: var(--step-3);
+  flex: none;
+  padding: var(--step-4) var(--step-4) var(--step-3) var(--step-5);
+  border-bottom: 1px solid var(--line);
+}
+
+@mixin sheet-title {
+  margin: 0 auto 0 0;
+  font: 500 22px/1.2 var(--font-display);
+}
+
+@mixin sheet-close {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: var(--tap);
+  height: var(--tap);
+  padding: 0;
+  color: var(--ink-soft);
+  background: var(--canvas);
+  border: 0;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 160ms var(--ease-out), background-color var(--ease);
+
+  svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      background: color-mix(in srgb, var(--line) 70%, var(--canvas));
+    }
+  }
+}
+
+@keyframes sheet-up {
+  from {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-down {
+  to {
+    transform: translateY(100%);
+  }
+}
+
+@keyframes sheet-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-backdrop-out {
+  to {
+    opacity: 0;
+  }
+}

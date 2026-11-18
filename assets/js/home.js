@@ -142,71 +142,63 @@
   }
 
   // ---------- Mobile dock + catalog sheet (п. 19) ----------
+  // ---------- Sheet: one open/close for every bottom sheet (catalogue menu, filters) ----------
+  // A <dialog> shown as a modal; closing plays the panel's «sheet-down» and the backdrop fade,
+  // then closes the dialog. Escape and «назад» close the same way. close() resolves once the
+  // dialog has really closed, so a scroll after it (filters → list) is not blocked by the
+  // sheet's overflow lock.
+  const bindSheet = (dialog, panel) => {
+    let closing = null;
+    const open = () => {
+      if (closing) { dialog.classList.remove("is-closing"); closing = null; }
+      if (!dialog.open) dialog.showModal();
+    };
+    const close = () => {
+      if (!dialog.open) return Promise.resolve();
+      if (closing) return closing;
+      if (reduceMotion.matches) { dialog.close(); return Promise.resolve(); }
+      dialog.classList.add("is-closing");
+      closing = new Promise((done) => {
+        let timer = 0;
+        const finish = () => {
+          window.clearTimeout(timer);
+          panel.removeEventListener("animationend", onEnd);
+          dialog.classList.remove("is-closing");
+          closing = null;
+          if (dialog.open) dialog.close();
+          done();
+        };
+        const onEnd = (event) => { if (event.target === panel) finish(); };
+        panel.addEventListener("animationend", onEnd);
+        timer = window.setTimeout(finish, 360); // if animationend never comes
+      });
+      return closing;
+    };
+    dialog.addEventListener("cancel", (event) => { event.preventDefault(); close(); });
+    return { open, close, isOpen: () => dialog.open && !closing };
+  };
+  window.TeaboomSheet = bindSheet;
+
   const dockCatalog = document.querySelector("[data-dock-catalog]");
   const dockSheet = document.querySelector("[data-dock-sheet]");
   const dockClose = document.querySelector("[data-dock-close]");
 
   if (dockCatalog && dockSheet && typeof dockSheet.showModal === "function") {
+    const sheet = bindSheet(dockSheet, dockSheet.querySelector(".sheet__panel"));
     let returnFocus = false;
-    let closing = false;
-    const sheetPanel = dockSheet.querySelector(".sheet__panel");
-    let closeTimer;
-    let closeEnd;
-
-    const clearClose = () => {
-      window.clearTimeout(closeTimer);
-      if (closeEnd) sheetPanel?.removeEventListener("animationend", closeEnd);
-      closeEnd = null;
-    };
-
-    const finishClose = () => {
-      clearClose();
-      if (!closing && !dockSheet.classList.contains("is-closing")) {
-        if (dockSheet.open) dockSheet.close();
-        return;
-      }
-      closing = false;
-      dockSheet.classList.remove("is-closing");
-      if (dockSheet.open) dockSheet.close();
-    };
-
-    const closeSheetAnimated = ({ focusToggle = false } = {}) => {
-      if (!dockSheet.open || closing) return;
-      returnFocus = focusToggle;
-      if (reduceMotion.matches) {
-        dockSheet.close();
-        return;
-      }
-      closing = true;
-      dockSheet.classList.add("is-closing");
-      closeEnd = (event) => {
-        if (event.target !== sheetPanel) return;
-        finishClose();
-      };
-      sheetPanel?.addEventListener("animationend", closeEnd);
-      // Fallback if animationend is skipped (display:none mid-flight).
-      closeTimer = window.setTimeout(() => {
-        if (closing) finishClose();
-      }, 320);
-    };
 
     const setDockOpen = (open, { focusToggle = false } = {}) => {
       dockCatalog.setAttribute("aria-expanded", String(open));
       dockCatalog.classList.toggle("is-active", open);
-      if (open) {
-        if (closing) {
-          clearClose();
-          dockSheet.classList.remove("is-closing");
-          closing = false;
-        }
-        if (!dockSheet.open) dockSheet.showModal();
-      } else if (dockSheet.open) {
-        closeSheetAnimated({ focusToggle });
+      if (open) sheet.open();
+      else {
+        returnFocus = focusToggle;
+        sheet.close();
       }
     };
 
     dockCatalog.addEventListener("click", () => {
-      setDockOpen(!(dockSheet.open && !closing));
+      setDockOpen(!sheet.isOpen());
     });
 
     dockClose?.addEventListener("click", () => setDockOpen(false));
@@ -216,9 +208,6 @@
     });
 
     dockSheet.addEventListener("close", () => {
-      clearClose();
-      dockSheet.classList.remove("is-closing");
-      closing = false;
       dockCatalog.setAttribute("aria-expanded", "false");
       dockCatalog.classList.remove("is-active");
       if (returnFocus) {
@@ -237,7 +226,8 @@
     window.matchMedia("(min-width: 760px)").addEventListener("change", (event) => {
       if (event.matches && dockSheet.open) {
         returnFocus = false;
-        finishClose();
+        dockSheet.classList.remove("is-closing");
+        dockSheet.close();
         document.querySelector("[data-catalog-toggle]")?.focus({ preventScroll: true });
       }
     });

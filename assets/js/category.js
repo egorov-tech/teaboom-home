@@ -243,6 +243,9 @@
   window.addEventListener("resize", pin);
   pin();
 
+  // Below 1060 px the panel is a bottom sheet: the same open/close as the catalogue menu
+  // (home.js TeaboomSheet — slides up, slides down, Escape too). On a computer it is a column.
+  const sheet = window.TeaboomSheet?.(dialog, dialog.querySelector(".facets__panel"));
   let returnFocus = null;
   openBtn.addEventListener("click", () => {
     if (wide.matches) {
@@ -250,11 +253,15 @@
       return;
     }
     returnFocus = openBtn;
-    dialog.showModal();
+    if (sheet) sheet.open();
+    else dialog.showModal();
     document.documentElement.classList.add("has-sheet");
   });
   const closeSheet = () => {
-    if (dialog.matches(":modal")) dialog.close();
+    if (!dialog.matches(":modal")) return Promise.resolve();
+    if (sheet) return sheet.close();
+    dialog.close();
+    return Promise.resolve();
   };
   dialog.addEventListener("close", () => {
     document.documentElement.classList.remove("has-sheet");
@@ -263,9 +270,9 @@
     returnFocus = null;
   });
   root.querySelector("[data-facets-close]").addEventListener("click", closeSheet);
+  // The list scroll waits for the sheet to close: until then the page is locked (has-sheet).
   showBtn.addEventListener("click", () => {
-    closeSheet();
-    root.querySelector(".category__bar").scrollIntoView({ block: "start" });
+    closeSheet().then(() => root.querySelector(".category__bar").scrollIntoView({ block: "start" }));
   });
   // Tap on the dimmed backdrop closes the sheet.
   dialog.addEventListener("click", (e) => {

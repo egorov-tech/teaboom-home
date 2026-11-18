@@ -138,7 +138,9 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.evaluate(() => document.querySelector('[data-facets]').matches(':modal')), '17: «Фильтры» открывают панель поверх страницы');
   await p.locator('.facet', { hasText: 'Тайвань' }).tap(); await p.waitForTimeout(200);
   ok((await p.textContent('[data-facets-total]')).trim() === '64 товара', '17: кнопка «Показать 64 товара» — итог до закрытия');
-  await p.keyboard.press('Escape'); await p.waitForTimeout(300);
+  await p.keyboard.press('Escape'); await p.waitForTimeout(150);
+  ok(await p.evaluate(() => document.querySelector('[data-facets]').classList.contains('is-closing')), '17: Esc — лист уезжает вниз (анимация, как у меню)');
+  await p.waitForTimeout(400);
   ok(await p.locator('[data-facets]').isHidden() && await p.evaluate(() => document.activeElement?.hasAttribute('data-facets-open')), '17: Esc закрывает, фокус на кнопке «Фильтры»');
   ok((await p.textContent('[data-facets-badge]')).trim() === '1' && await countText(p) === 'Найдено 64 товара', '17: на кнопке «1», в сетке 64');
   await p.locator('[data-facets-open]').tap(); await p.waitForTimeout(300);
