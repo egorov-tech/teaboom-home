@@ -39,9 +39,10 @@
   <div class="steep" data-steep aria-hidden="true">
     <svg class="steep__logo" viewBox="0 0 760 760" width="132" height="132" role="presentation" focusable="false">
       <defs>
-        <!-- Tea pours in: a wave rises through the bowl and the lettering surfaces with it. -->
+        <!-- Tea pours in: a wave rises through the bowl and the lettering surfaces with it. The wave
+             starts below the bowl (transform) — before the animation begins nothing of the tea shows. -->
         <clipPath id="steep-wave" clipPathUnits="userSpaceOnUse">
-          <path d="M-200 0Q-120-18-40 0T120 0T280 0T440 0T600 0T760 0T920 0T1080 0V400H-200Z">
+          <path transform="translate(0 660)" d="M-200 0Q-120-18-40 0T120 0T280 0T440 0T600 0T760 0T920 0T1080 0V400H-200Z">
             <animateTransform attributeName="transform" type="translate" values="0 660;-160 360;-320 360" keyTimes="0;0.75;1" dur="760ms" begin="120ms" fill="freeze" calcMode="spline" keySplines="0.65 0 0.35 1;0.2 0 0.2 1"/>
           </path>
         </clipPath>
