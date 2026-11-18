@@ -389,9 +389,11 @@
       outline: none;
     }
 
+    // The site's focus ring (_base.scss) — keyboard only, not after a mouse click.
     &:focus-visible {
-      outline: 2px solid var(--ink);
-      outline-offset: 2px;
+      outline: 2px solid var(--tea);
+      outline-offset: 3px;
+      border-radius: var(--radius-sm);
     }
   }
 

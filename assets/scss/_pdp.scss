@@ -17,7 +17,7 @@
   @media (max-width: #{$bp-phone - 1px}) {
     gap: 0;
 
-    > .product__media {
+    .product__media {
       margin-top: var(--step-4);
     }
 
@@ -41,10 +41,30 @@
     row-gap: clamp(28px, 3vw, 40px);
   }
 
+  // Photo column. Below the split it is not a box at all (the media is a grid item of the
+  // page as before). From the split it spans the purchase column's rows, and the photo
+  // rides along while «Доставка и оплата» is open — the column ends before «Описание»,
+  // so the photo stops there too (Артём, 18.11).
+  &__aside {
+    display: contents;
+
+    @media (min-width: $bp-split) {
+      display: block;
+      grid-column: 1;
+      grid-row: 1 / span 2;
+      align-self: stretch;
+    }
+  }
+
   &__media {
     position: relative;
     display: grid;
     gap: var(--step-3);
+
+    @media (min-width: $bp-split) and (min-height: 760px) {
+      position: sticky;
+      top: calc(var(--pin-h) - var(--pin-trim) + var(--step-5));
+    }
 
     > * {
       min-width: 0;

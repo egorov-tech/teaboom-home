@@ -50,6 +50,18 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
   ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }) && await p.locator('.product__more').isHidden(), '33: компьютер — как было: название в колонке покупки, без «Читать полностью»');
   ok(await p.evaluate(() => { const d = document.getElementById('delivery'); d.open = true; const cols = [...d.querySelectorAll('.delivery > div')].map((x) => Math.round(x.getBoundingClientRect().left)); d.open = false; return cols.length === 2 && cols[0] === cols[1]; }), '35: компьютер — «Доставка» и «Оплата» одна под другой, не двумя узкими колонками');
+  // Артём, 18.11: with «Доставка и оплата» open the photo rides along and stops before «Описание»
+  const ride = await p.evaluate(async () => {
+    const d = document.getElementById('delivery'); d.open = true;
+    const r = (s) => document.querySelector(s).getBoundingClientRect();
+    scrollTo(0, 500); await new Promise((f) => setTimeout(f, 250));
+    const mid = r('.product__media').top;
+    scrollTo(0, r('.details').top + scrollY - 200); await new Promise((f) => setTimeout(f, 250));
+    const gap = r('.details').top - r('.product__media').bottom;
+    d.open = false; scrollTo(0, 0);
+    return { mid: Math.round(mid), gap: Math.round(gap) };
+  });
+  ok(ride.mid > 60 && ride.mid < 120 && ride.gap >= 24, `35: фото едет рядом с открытой доставкой и останавливается до «Описания» (${JSON.stringify(ride)})`);
   ok((await visible(p, '[data-panel]')).length === 3 && !(await p.locator('[data-tabs]').isVisible()), '23: шире 760 px — разделы подряд');
   await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(300);
   ok((await visible(p, '[data-panel]')).length === 1, '23: обратно на телефон — одна вкладка');
