@@ -477,21 +477,17 @@ def render_brew(p, aside=False):
 def render_promise():
     """п. 35 (Антон, 18.11): delivery and payment in one place — a disclosure under «В корзину»
     (texts from /shipping/ and /payment/), instead of short facts here plus a tab below."""
-    # п. 47 (Ксения, 18.11): delivery as a price list — her text word for word, by group,
-    # the way price lists read: what on the left, how much on the right.
-    groups = []
-    for g in service["delivery_rates"]["groups"]:
-        rows = "\n".join(
-            f'                    <li><span class="rates__name">{typo(n)}</span> <span class="rates__price">{typo(v)}</span></li>'
-            for n, v in g["rows"])
-        note = f' <span class="rates__note">({typo(g["note"])})</span>' if g.get("note") else ""
-        groups.append(f'''                <section class="rates__group">
-                  <h4 class="rates__title">{typo(g["title"])}{note}</h4>
-                  <ul class="rates__list">
+    # п. 47 (Ксения, 18.11): her delivery text, cut down the way her example shows — one row per
+    # way: name, the condition under it, the price on the right. The block opens on demand.
+    rows = "\n".join(
+        f'''                  <li>
+                    <span class="rates__name">{typo(r["name"])}</span>
+                    <span class="rates__price">{typo(r["price"])}</span>
+                    <span class="rates__note">{typo(r["note"])}</span>
+                  </li>''' for r in service["delivery_rates"]["rows"])
+    delivery = f'''                <ul class="rates__list">
 {rows}
-                  </ul>
-                </section>''')
-    delivery = "\n".join(groups)
+                </ul>'''
     payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])
     return f'''          <details class="promise" id="delivery">
             <summary class="promise__toggle">Доставка и оплата</summary>
@@ -554,6 +550,18 @@ def spec_rows(specs):
     return out
 
 
+def rail_arrows():
+    """«Назад / Вперёд» for a sideways row (data-rail, more.js): «Похожие», reviews."""
+    return '''        <div class="rail__arrows" data-rail-arrows hidden>
+          <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="rail__arrow press" type="button" aria-label="Вперёд" data-rail-next>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>'''
+
+
 def render_details(p):
     """п. 23: Описание · Характеристики · Отзывы (доставка и оплата — под кнопкой, п. 35). Tabs on phones (JS),
     the same sections one under another on wider screens and without JS."""
@@ -576,8 +584,17 @@ def render_details(p):
                   </div>
                 </li>''' for r in shown)
         note = "" if rs else f'              <p class="reviews__sample">{typo(ex["note"])}</p>\n'
-        reviews_body = f'''{note}              <ul class="reviews__list">
-{items}
+        # «Отзывы 12» but three on the page (Артём, 18.11): the row ends with a card that leads to
+        # all of them — on the shop the module shows the first ones here, the rest on its list.
+        all_n = len(rs) or (ex["count"] if ex else 0)
+        more = ""
+        if all_n > len(shown):
+            more = f'''
+                <li class="review review--all">
+                  <a class="review__all" href="{esc(site(d["source"]["url"].replace(SITE, "")))}#reviews_for_product">Все {all_n} {plural(all_n, "отзыв", "отзыва", "отзывов")}</a>
+                </li>'''
+        reviews_body = f'''{note}              <ul class="reviews__list" data-rail-track data-strip>
+{items}{more}
               </ul>'''
     else:
         reviews_body = '              <p class="reviews__empty">Ещё никто не оставлял отзывов. Будьте первым!</p>'
@@ -616,9 +633,10 @@ def render_details(p):
           </div>
 
           <div class="details__panel" id="reviews" role="tabpanel" aria-labelledby="tab-reviews" data-panel>
-            <div class="reviews">
+            <div class="reviews" data-rail>
               <div class="reviews__head">
                 <h2 class="details__title">Отзывы</h2>
+{rail_arrows()}
                 <a class="reviews__write press" href="{esc(write)}#reviews_for_product">Оставить отзыв</a>
               </div>
 {reviews_body}
@@ -1042,14 +1060,7 @@ def render_related(p):
     return f'''    <section class="more" aria-labelledby="related-title" data-rail>
       <div class="more__head">
         <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
-        <div class="more__arrows" data-rail-arrows hidden>
-          <button class="more__arrow press" type="button" aria-label="Назад" data-rail-prev>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="more__arrow press" type="button" aria-label="Вперёд" data-rail-next>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
+{rail_arrows()}
       </div>{note}
       <ul class="goods__grid more__rail" data-rail-track data-strip>
 {tiles}

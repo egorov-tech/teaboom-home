@@ -356,38 +356,33 @@
               <div>
                 <h3>Доставка</h3>
                 <div class="rates">
-                <section class="rates__group">
-                  <h4 class="rates__title">Самовывоз</h4>
-                  <ul class="rates__list">
-                    <li><span class="rates__name">Самовывоз (ул. Народного Ополчения, 47)</span> <span class="rates__price">бесплатно</span></li>
-                    <li><span class="rates__name">Самовывоз (м. Октябрьское поле, выход № 1)</span> <span class="rates__price">бесплатно</span></li>
-                    <li><span class="rates__name">Самовывоз (МЦК Панфиловская)</span> <span class="rates__price">бесплатно</span></li>
-                  </ul>
-                </section>
-                <section class="rates__group">
-                  <h4 class="rates__title">Курьер</h4>
-                  <ul class="rates__list">
-                    <li><span class="rates__name">Курьером по Москве в пределах МКАД (заказ до 3500 ₽)</span> <span class="rates__price">400 ₽</span></li>
-                    <li><span class="rates__name">Курьером по Москве в пределах МКАД (заказ от 3500 ₽)</span> <span class="rates__price">бесплатно</span></li>
-                    <li><span class="rates__name">Курьером по Московской области</span> <span class="rates__price">25 ₽/км от МКАД</span></li>
-                  </ul>
-                </section>
-                <section class="rates__group">
-                  <h4 class="rates__title">Почта России <span class="rates__note">(по России и СНГ, только предоплата)</span></h4>
-                  <ul class="rates__list">
-                    <li><span class="rates__name">Почта России (заказ до 3500 ₽)</span> <span class="rates__price">400 ₽ + тариф Почты России</span></li>
-                    <li><span class="rates__name">Почта России (заказ от 3500 ₽)</span> <span class="rates__price">0 ₽ + тариф Почты России</span></li>
-                    <li><span class="rates__name">Почта России по России (заказ от 10 000 ₽)</span> <span class="rates__price">бесплатно</span></li>
-                  </ul>
-                </section>
-                <section class="rates__group">
-                  <h4 class="rates__title">СДЭК <span class="rates__note">(по России и СНГ, только предоплата)</span></h4>
-                  <ul class="rates__list">
-                    <li><span class="rates__name">СДЭК (заказ до 3500 ₽)</span> <span class="rates__price">400 ₽ + тариф СДЭК</span></li>
-                    <li><span class="rates__name">СДЭК (заказ от 3500 ₽)</span> <span class="rates__price">0 ₽ + тариф СДЭК</span></li>
-                    <li><span class="rates__name">СДЭК по России (заказ от 10 000 ₽)</span> <span class="rates__price">бесплатно</span></li>
-                  </ul>
-                </section>
+                <ul class="rates__list">
+                  <li>
+                    <span class="rates__name">Самовывоз</span>
+                    <span class="rates__price">бесплатно</span>
+                    <span class="rates__note">ул. Народного Ополчения, 47; м. Октябрьское поле, выход № 1; МЦК Панфиловская</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Курьер по Москве</span>
+                    <span class="rates__price">400 ₽</span>
+                    <span class="rates__note">в пределах МКАД; от 3500 ₽ — бесплатно</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Курьер по Московской области</span>
+                    <span class="rates__price">25 ₽/км</span>
+                    <span class="rates__note">от МКАД</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Почта России</span>
+                    <span class="rates__price">400 ₽ + тариф</span>
+                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">СДЭК</span>
+                    <span class="rates__price">400 ₽ + тариф</span>
+                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                  </li>
+                </ul>
                 </div>
                 <a class="delivery__more" href="https://teaboom.ru/shipping/">Все способы доставки</a>
               </div>
@@ -450,13 +445,21 @@
           </div>
 
           <div class="details__panel" id="reviews" role="tabpanel" aria-labelledby="tab-reviews" data-panel>
-            <div class="reviews">
+            <div class="reviews" data-rail>
               <div class="reviews__head">
                 <h2 class="details__title">Отзывы</h2>
+        <div class="rail__arrows" data-rail-arrows hidden>
+          <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="rail__arrow press" type="button" aria-label="Вперёд" data-rail-next>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
                 <a class="reviews__write press" href="https://teaboom.ru/product/ananasovyj-ulun#reviews_for_product">Оставить отзыв</a>
               </div>
               <p class="reviews__sample">Пример оформления блока. На teaboom.ru у этого товара отзывов пока нет — оценка, имена и тексты условные; на сайте их подставит модуль отзывов.</p>
-              <ul class="reviews__list">
+              <ul class="reviews__list" data-rail-track data-strip>
                 <li class="review">
                   <p class="review__rating"><span aria-hidden="true">★★★★★</span><span class="visually-hidden">Оценка 5 из 5</span></p>
                   <blockquote class="review__text">Ананас чувствуется мягко, без химии. Настой светлый, пьём вечером — фасовку 500 г взяли сразу, выгоднее.</blockquote>
@@ -484,6 +487,9 @@
                     <time class="review__date" datetime="2026-05-21">21 мая 2026</time>
                   </div>
                 </li>
+                <li class="review review--all">
+                  <a class="review__all" href="https://teaboom.ru/product/ananasovyj-ulun#reviews_for_product">Все 12 отзывов</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -493,11 +499,11 @@
     <section class="more" aria-labelledby="related-title" data-rail>
       <div class="more__head">
         <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
-        <div class="more__arrows" data-rail-arrows hidden>
-          <button class="more__arrow press" type="button" aria-label="Назад" data-rail-prev>
+        <div class="rail__arrows" data-rail-arrows hidden>
+          <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
-          <button class="more__arrow press" type="button" aria-label="Вперёд" data-rail-next>
+          <button class="rail__arrow press" type="button" aria-label="Вперёд" data-rail-next>
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>

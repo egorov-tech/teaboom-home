@@ -362,15 +362,41 @@
     color: var(--muted);
   }
 
+  // A sideways row of review cards (the same row as «Похожие»: more.js data-rail — swipe on
+  // phones, arrows for a mouse). Phones: one card and the edge of the next; tablets two and a
+  // bit; computers three, arrows once there are more.
   &__list {
+    --cols: 1.15;
     display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - var(--step-3) * (var(--cols) - 1)) / var(--cols));
+    gap: var(--step-3);
     margin: var(--step-4) 0 0;
-    padding: 0;
+    padding: 2px 0 var(--step-2);
     list-style: none;
+    scroll-snap-type: x mandatory;
+    @include strip.side-strip;
+
+    > li {
+      position: relative;
+      scroll-snap-align: start;
+    }
+
+    @media (min-width: $bp-wide) {
+      --cols: 2.2;
+    }
 
     @media (min-width: $bp-mid) {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      --cols: 3;
     }
+  }
+
+  &__head .rail__arrows {
+    margin-left: auto;
+  }
+
+  &__head .rail__arrows:not([hidden]) + .reviews__write {
+    margin-left: 0;
   }
 }
 
@@ -378,23 +404,38 @@
   display: flex;
   flex-direction: column;
   gap: var(--step-3);
-  padding-block: var(--step-5);
-  border-top: 1px solid var(--line);
+  padding: var(--step-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
 
-  @media (min-width: $bp-mid) {
-    padding: var(--step-2) var(--step-5) var(--step-2);
-    border-top: 0;
+  // Last card of the row: «Все 12 отзывов» — where the rest are.
+  &--all {
+    justify-content: center;
+    align-items: center;
+    background: var(--canvas);
+  }
 
-    & + & {
-      border-left: 1px solid var(--line);
-    }
+  &__all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--step-2);
+    min-height: var(--tap);
+    padding: 0 var(--step-4);
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: var(--brand-deep);
+    text-underline-offset: 4px;
 
-    &:first-child {
-      padding-left: 0;
-    }
-
-    &:last-child {
-      padding-right: 0;
+    &::after {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-top: 1.8px solid currentColor;
+      border-right: 1.8px solid currentColor;
+      transform: rotate(45deg);
     }
   }
 

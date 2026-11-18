@@ -34,7 +34,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('[data-tabs]').isVisible() && JSON.stringify(await visible(p, '[data-panel]')) === '["about"]', '23: вкладки, открыто «Описание»');
   await p.locator('a.rating .rating__stars').tap(); await p.waitForTimeout(800);
   ok(JSON.stringify(await visible(p, '[data-panel]')) === '["reviews"]', '22: ссылка открыла вкладку «Отзывы»');
-  ok(await p.locator('.reviews__sample').isVisible() && await p.locator('.review').count() === 3, '22: пометка «пример оформления» и 3 примера отзывов');
+  ok(await p.locator('.reviews__sample').isVisible() && await p.locator('.review:not(.review--all)').count() === 3, '22: пометка «пример оформления» и 3 примера отзывов');
   const top = await p.evaluate(() => ({ h: document.querySelector('[data-masthead]').getBoundingClientRect().bottom, r: document.querySelector('#reviews').getBoundingClientRect().top }));
   ok(top.r >= top.h - 1 && top.r < 844, `22: отзывы видны под шапкой (${Math.round(top.h)} / ${Math.round(top.r)})`);
   await p.goBack(); await p.waitForTimeout(400);
@@ -46,7 +46,9 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   const specsText = (await p.textContent('.specs')).replace(/\u00a0/g, ' ');
   ok(await p.locator('.specs__row').count() === 11 && specsText.includes('Количество2 ч. л. на 500 мл') && specsText.includes('Заваривать1–3 мин при 80–85 °C'), '36: заваривание двумя строками — «Количество» и «Заваривать» (13 → 11 строк)');
   ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
-  ok(await p.locator('.rates__group').count() === 4 && await p.locator('.rates__list > li').count() === 12 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('СДЭК по России (заказ от 10 000 ₽) бесплатно'), '47: доставка — 4 группы, 12 строк, текст Ксении');
+  ok((await p.textContent('.review__all')).replace(/\u00a0/g, ' ').trim() === 'Все 12 отзывов', 'отзывы: «Отзывы 12», видно 3 — в конце ленты «Все 12 отзывов»');
+  ok(await p.evaluate(() => { const t = document.querySelector('.reviews__list'); return getComputedStyle(t).overflowX === 'auto' && getComputedStyle(t).scrollSnapType.startsWith('x'); }), 'отзывы — лента со свайпом (как «Похожие»)');
+  ok(await p.locator('.rates__list > li').count() === 5 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('по России от 10 000 ₽ — бесплатно'), '47: доставка — 5 строк по примеру Ксении: способ, условие, цена');
   ok(await p.locator('details.promise#delivery').count() === 1 && await p.locator('.promise__list').count() === 0, '35: «Доставка и оплата» — один раскрывающийся блок под кнопкой');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
   ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }) && await p.locator('.product__more').isHidden(), '33: компьютер — как было: название в колонке покупки, без «Читать полностью»');

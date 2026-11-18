@@ -44,41 +44,6 @@
     color: var(--muted);
   }
 
-  &__arrows {
-    display: flex;
-    flex: none;
-    gap: var(--step-2);
-
-    &[hidden] {
-      display: none;
-    }
-  }
-
-  &__arrow {
-    display: grid;
-    place-items: center;
-    width: var(--tap);
-    height: var(--tap);
-    padding: 0;
-    color: var(--ink);
-    background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: border-color var(--ease), opacity var(--ease);
-
-    &:disabled {
-      opacity: 0.35;
-      cursor: default;
-    }
-
-    @media (hover: hover) {
-      &:not(:disabled):hover {
-        border-color: var(--ink);
-      }
-    }
-  }
-
   // The catalogue grid laid out as one row: same tile, same subgrid (photo, name, packs, buy on
   // one line across the row). Phones see two tiles and the edge of a third — the cue to swipe;
   // tablets three and a bit; computers four, with arrows once there are more.
@@ -189,6 +154,45 @@
 
     &:hover .seen__name {
       text-decoration: underline;
+    }
+  }
+}
+
+// Arrows of a sideways row (data-rail in more.js): «Похожие», reviews. Shown only for a mouse,
+// only when the row does not fit.
+.rail {
+  &__arrows {
+    display: flex;
+    flex: none;
+    gap: var(--step-2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__arrow {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color var(--ease), opacity var(--ease);
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    @media (hover: hover) {
+      &:not(:disabled):hover {
+        border-color: var(--ink);
+      }
     }
   }
 }

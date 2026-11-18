@@ -475,25 +475,13 @@
   }
 }
 
-// п. 47 (Ксения, 18.11): delivery as a price list inside «Доставка и оплата» — groups, rows with
-// the price on the right, hairlines between rows. Same quiet type as the rest of the block.
+// п. 47 (Ксения, 18.11): delivery in her compact form — one row per way: the name and its price on
+// one line, the condition under the name in small grey type; hairlines between rows. The same
+// row as the delivery choices in checkout, so the two read alike.
 .rates {
-  display: grid;
-  gap: var(--step-4);
   margin-top: var(--step-3);
 
-  &__title {
-    margin: 0 0 var(--step-1);
-    font: 600 14px/1.4 var(--font-text);
-    color: var(--ink);
-  }
-
-  &__note {
-    font-weight: 400;
-    color: var(--muted);
-  }
-
-  // .rates twice: outranks «.delivery ul» (bullets, indent), which is meant for the payment list.
+  // .rates__list twice: outranks «.delivery ul» (bullets, indent), meant for the payment list.
   &__list#{&}__list {
     display: block;
     margin: 0;
@@ -501,44 +489,44 @@
     list-style: none;
 
     > li {
-      display: flex;
-      align-items: baseline;
-      justify-content: space-between;
-      gap: var(--step-3);
-      padding-block: 6px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      column-gap: var(--step-3);
+      row-gap: 2px;
+      padding-block: var(--step-2);
       border-top: 1px solid var(--line);
     }
 
     > li:first-child {
+      padding-top: 0;
       border-top: 0;
     }
   }
 
   &__name {
-    min-width: 0;
+    font-weight: 600;
+    color: var(--ink);
   }
 
   &__price {
-    flex: none;
-    max-width: 50%;
     font-weight: 600;
     color: var(--ink);
     text-align: right;
+    white-space: nowrap;
     font-variant-numeric: tabular-nums;
-
-    // Computer: the column is wide enough — a price never breaks («400 ₽ + тариф Почты России»).
-    @media (min-width: $bp-mid) {
-      max-width: none;
-      white-space: nowrap;
-    }
   }
 
+  &__note {
+    grid-column: 1 / -1;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
+  }
 }
 
-// On the computer the delivery column already sits right of its «Доставка» label (.promise).
+// On the computer the list sits right of its «Доставка» label (.promise), no extra top gap.
 .promise .delivery .rates {
   @media (min-width: $bp-mid) {
     margin-top: 0;
   }
 }
-
