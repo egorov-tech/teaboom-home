@@ -273,7 +273,9 @@
       display: none;
     }
 
-    &:modal {
+    // [open], not :modal: below the split the panel only ever opens as a modal sheet, and the
+    // sheet must show even where a browser is unsure about :modal (iPhone, Артём 18.11).
+    &[open] {
       position: fixed;
       inset: auto 0 0;
       width: 100%;
@@ -476,17 +478,16 @@
   }
 }
 
+// Movement only: if a browser ever stalls on the first frame, the sheet is still visible.
 @keyframes facets-up {
   from {
     transform: translateY(24px);
-    opacity: 0;
   }
 }
 
 @keyframes facets-side {
   from {
     transform: translateX(24px);
-    opacity: 0;
   }
 }
 

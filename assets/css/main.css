@@ -2797,7 +2797,7 @@ body::before {
   .facets:not([open]) {
     display: none;
   }
-  .facets:modal {
+  .facets[open] {
     position: fixed;
     inset: auto 0 0;
     width: 100%;
@@ -2814,7 +2814,7 @@ body::before {
   }
 }
 @media (max-width: 1059px) and (min-width: 760px) {
-  .facets:modal {
+  .facets[open] {
     inset: 0 0 0 auto;
     width: min(420px, 90vw);
     max-height: none;
@@ -2985,13 +2985,11 @@ body::before {
 @keyframes facets-up {
   from {
     transform: translateY(24px);
-    opacity: 0;
   }
 }
 @keyframes facets-side {
   from {
     transform: translateX(24px);
-    opacity: 0;
   }
 }
 .has-sheet,
