@@ -497,13 +497,26 @@ button.paybar__order {
   }
 }
 
+// «Дата доставки», «Комментарий»: fieldsets too, so the same rule as .step — a plain block with
+// margins (Safari ignores the legend's float inside a grid and glued it to the field below).
 .step__part {
-  display: grid;
-  gap: var(--step-3);
+  display: flow-root;
   min-width: 0;
   margin: 0;
   padding: 0;
   border: 0;
+
+  > * + * {
+    margin-top: var(--step-3);
+  }
+
+  > .step__title {
+    margin-bottom: var(--step-3);
+  }
+
+  > .step__title + * {
+    margin-top: 0;
+  }
 }
 
 // Phones: no box inside the card. Delivery and payment rows run edge to edge of the step card,

@@ -3427,12 +3427,17 @@ body::before {
   width: 100%;
   min-width: 0;
   max-width: 100%;
+  height: 48px;
+  padding-block: 13px;
+  line-height: 20px;
   -webkit-appearance: none;
   appearance: none;
   text-align: left;
 }
 .field__input[type=date]::-webkit-date-and-time-value {
+  min-height: 20px;
   margin: 0;
+  line-height: 20px;
   text-align: left;
 }
 
@@ -4516,12 +4521,20 @@ button.paybar__order {
 }
 
 .step__part {
-  display: grid;
-  gap: var(--step-3);
+  display: flow-root;
   min-width: 0;
   margin: 0;
   padding: 0;
   border: 0;
+}
+.step__part > * + * {
+  margin-top: var(--step-3);
+}
+.step__part > .step__title {
+  margin-bottom: var(--step-3);
+}
+.step__part > .step__title + * {
+  margin-top: 0;
 }
 
 @media (max-width: 759px) {

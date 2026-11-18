@@ -230,17 +230,24 @@
 // Date on iPhone: Safari draws its own date control with a minimum width of its own and the
 // value centred — it ran past the card's right edge (Артём, 18.11). Take it back to the field's
 // width and alignment; the native date picker still opens on tap.
+// Without its own look Safari puts the value at the top of a fixed-height field, so the height
+// is split into padding and one 20 px line: 13 + 20 + 13 + borders = 48 px, value in the middle.
 .field__input[type="date"] {
   display: block;
   width: 100%;
   min-width: 0;
   max-width: 100%;
+  height: 48px;
+  padding-block: 13px;
+  line-height: 20px;
   -webkit-appearance: none;
   appearance: none;
   text-align: left;
 
   &::-webkit-date-and-time-value {
+    min-height: 20px;
     margin: 0;
+    line-height: 20px;
     text-align: left;
   }
 }
