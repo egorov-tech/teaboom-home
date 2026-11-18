@@ -2799,14 +2799,32 @@ body::before {
   }
   .facets[open] {
     position: fixed;
-    inset: auto 0 0;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
     width: 100%;
+    height: 100%;
     max-width: none;
-    max-height: min(86dvh, 760px);
+    max-height: none;
     margin: 0;
     padding: 0;
-    background: var(--paper);
+    background: transparent;
     border: 0;
+    overflow: visible;
+  }
+}
+@media (max-width: 1059px) and (min-width: 760px) {
+  .facets[open] {
+    flex-direction: row;
+  }
+}
+@media (max-width: 1059px) {
+  .facets[open] .facets__panel {
+    width: 100%;
+    height: auto;
+    max-height: min(86dvh, 760px);
+    background: var(--paper);
     border-radius: var(--radius-lg) var(--radius-lg) 0 0;
     box-shadow: 0 -12px 40px rgba(27, 27, 27, 0.18);
     overflow: hidden;
@@ -2814,11 +2832,10 @@ body::before {
   }
 }
 @media (max-width: 1059px) and (min-width: 760px) {
-  .facets[open] {
-    inset: 0 0 0 auto;
+  .facets[open] .facets__panel {
     width: min(420px, 90vw);
+    height: 100%;
     max-height: none;
-    height: 100dvh;
     border-radius: var(--radius-lg) 0 0 var(--radius-lg);
     animation-name: facets-side;
   }
@@ -2896,6 +2913,7 @@ body::before {
 }
 .facets__body {
   flex: 1 1 auto;
+  min-height: 0;
   overflow: auto;
   overscroll-behavior: contain;
   padding: var(--step-1) var(--step-5) var(--step-4);
