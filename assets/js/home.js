@@ -3,19 +3,6 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-  // ---------- Fonts ----------
-  // Oswald and Open Sans load once the page is up; until then the system grotesque is used.
-  const fontsHref = document.currentScript?.dataset.fonts;
-  if (fontsHref) {
-    const addFonts = () => {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = fontsHref;
-      document.head.append(link);
-    };
-    if (document.readyState === "complete") addFonts();
-    else window.addEventListener("load", addFonts, { once: true });
-  }
   const scrollBehavior = () => (reduceMotion.matches ? "auto" : "smooth");
 
   // ---------- Reveal: shared open/close for dropdown panels ----------

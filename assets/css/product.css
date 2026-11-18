@@ -61,6 +61,20 @@
   }
 }
 
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/open-sans.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url("../fonts/oswald.woff2") format("woff2");
+}
 *,
 *::before,
 *::after {
@@ -246,6 +260,25 @@ body::before {
   flex: 1 0 auto;
 }
 
+.js:not(.switch-ready) [data-switch][hidden] {
+  display: grid;
+}
+.js:not(.switch-ready) [data-switch-pane] ~ [data-switch-pane] {
+  display: none;
+}
+
+.js .awaits-cart > main,
+.js .awaits-cart > .footer,
+.js .awaits-cart .paybar {
+  visibility: hidden;
+  animation: reveal-anyway 0s 1s forwards;
+}
+
+@keyframes reveal-anyway {
+  to {
+    visibility: visible;
+  }
+}
 .reveal {
   opacity: 0;
   transform: translateY(-8px);
@@ -2674,55 +2707,31 @@ body::before {
   pointer-events: none;
   animation: steep-out 300ms var(--ease-out) 1150ms both;
 }
-.steep__leaf {
-  width: clamp(96px, 16vw, 132px);
+.steep__logo {
+  width: clamp(110px, 14vw, 150px);
   height: auto;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   overflow: visible;
-  animation: steep-leaf 400ms var(--ease-out) both;
+  animation: steep-tilt 700ms var(--ease-out) both;
 }
-.steep__half, .steep__vein, .steep__rib {
-  fill: none;
-  stroke: var(--tea);
-  stroke-width: 2.4;
-  stroke-dasharray: 130;
-  stroke-dashoffset: 130;
-  animation: steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+.steep__bowl, .steep__tea, .steep__steam {
+  fill: var(--ink);
 }
-.steep__half {
-  fill: var(--tea);
-  fill-opacity: 0;
-  animation: steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards, steep-fill 300ms ease-out 820ms forwards;
+.steep__steam {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: steep-steam 460ms var(--ease-out) 560ms forwards;
 }
-.steep__vein {
-  stroke: var(--brand-deep);
-  stroke-width: 2.8;
-  animation-delay: 160ms;
+.steep__steam--high {
+  animation-delay: 660ms;
 }
-.steep__half--left {
-  animation-delay: 60ms, 820ms;
-}
-.steep__half--right {
-  animation-delay: 120ms, 860ms;
-}
-.steep__rib {
-  stroke: var(--brand);
-  stroke-width: 1.8;
-  stroke-dasharray: 40;
-  stroke-dashoffset: 40;
-}
-.steep__rib--l1 {
-  animation-delay: 300ms;
-}
-.steep__rib--r1 {
-  animation-delay: 340ms;
-}
-.steep__rib--l2 {
-  animation-delay: 380ms;
-}
-.steep__rib--r2 {
-  animation-delay: 420ms;
+.steep__shadow {
+  width: clamp(84px, 11vw, 120px);
+  height: 14px;
+  margin-top: calc(var(--step-4) * -1 - 4px);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(27, 27, 27, 0.18), transparent);
+  animation: steep-shadow 700ms var(--ease-out) both;
 }
 .steep__name {
   font-family: var(--font-display);
@@ -2730,7 +2739,7 @@ body::before {
   font-size: clamp(20px, 2vw, 26px);
   letter-spacing: 0.02em;
   color: var(--ink);
-  animation: steep-name 360ms var(--ease-out) 620ms both;
+  animation: steep-name 320ms var(--ease-out) 600ms both;
 }
 
 .masthead,
@@ -2744,23 +2753,33 @@ body::before {
     animation: none;
   }
 }
-@keyframes steep-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes steep-fill {
-  to {
-    fill-opacity: 0.9;
-  }
-}
-@keyframes steep-leaf {
+@keyframes steep-tilt {
   from {
-    transform: scale(0.8) rotate(-8deg);
+    transform: perspective(600px) rotateX(38deg) translateY(14px) scale(0.94);
     opacity: 0;
   }
   to {
-    transform: scale(1) rotate(0);
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes steep-steam {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scaleX(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes steep-shadow {
+  from {
+    transform: scaleX(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
     opacity: 1;
   }
 }

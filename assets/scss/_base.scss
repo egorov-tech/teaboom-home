@@ -197,3 +197,35 @@ body::before {
     flex: 1 0 auto;
   }
 }
+
+// Pages drawn by script (Артём, 18.11: «прыгает при обновлении»). The browser paints what it
+// has parsed while it fetches the scripts, so the first frame showed the no-script state and
+// then jumped. The «js» class is set in <head> before that paint:
+// — tabs (login): the first frame already shows the tab row and only the first pane;
+// — cart and checkout: the contents come from the browser's cart, so <main> and the footer
+//   stay invisible (still laid out) for the few milliseconds until the script draws them.
+//   If the script never runs, they show after 1 s anyway.
+.js:not(.switch-ready) {
+  [data-switch][hidden] {
+    display: grid;
+  }
+
+  [data-switch-pane] ~ [data-switch-pane] {
+    display: none;
+  }
+}
+
+.js .awaits-cart {
+  > main,
+  > .footer,
+  .paybar {
+    visibility: hidden;
+    animation: reveal-anyway 0s 1s forwards;
+  }
+}
+
+@keyframes reveal-anyway {
+  to {
+    visibility: visible;
+  }
+}

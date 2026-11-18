@@ -39,6 +39,7 @@
     // login.html#register opens the right tab (links from the header, checkout, etc.).
     // Without JS all forms stay on the page one under another; with JS — tabs.
     list.hidden = false;
+    document.documentElement.classList.add("switch-ready");
     const fromHash = () => {
       const tab = tabs.find((t) => `#${t.dataset.switchTab}` === location.hash);
       if (tab) show(tab);

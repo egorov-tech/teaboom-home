@@ -1,0 +1,22 @@
+// Self-hosted Open Sans and Oswald (Open Font License), built from the same sources Google Fonts
+// serves (github.com/google/fonts), so the metrics match what the site used before.
+// One file per family: variable weight (Open Sans 400–700, Oswald 500–600), only the
+// characters the site needs — Cyrillic, Latin, digits, «» — № − and the like. Both are
+// preloaded in <head>, so text is drawn in its own font from the first paint and does not
+// jump on load or reload. Rebuild: tools/fonts.md.
+
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/open-sans.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url("../fonts/oswald.woff2") format("woff2");
+}

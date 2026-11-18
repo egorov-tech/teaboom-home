@@ -10,9 +10,10 @@
   <meta name="theme-color" content="#f5d730">
   <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
 
-  <!-- Google Fonts arrive after the page has loaded (home.js); the system grotesque stands in
-       until then, so text and the first banner never wait for a third-party font. -->
-  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Oswald:wght@500;600&display=swap"></noscript>
+  <!-- Fonts are self-hosted (assets/fonts, 63 KB together) and preloaded, so text is drawn in
+       its own font from the first paint and never jumps on load or reload. -->
+  <link rel="preload" href="assets/fonts/open-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/oswald.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preload" as="image" type="image/webp" fetchpriority="high"
         imagesrcset="assets/images/banners/anchan-wide-480.webp 480w, assets/images/banners/anchan-wide.webp 910w"
         imagesizes="(min-width: 1200px) 736px, (min-width: 768px) 66vw, 92vw">
@@ -1270,6 +1271,6 @@
   <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
   <script src="assets/js/gallery.js" defer></script>
-  <script src="assets/js/home.js" defer data-fonts="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&amp;family=Oswald:wght@500;600&amp;display=swap"></script>
+  <script src="assets/js/home.js" defer></script>
 </body>
 </html>

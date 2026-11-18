@@ -60,6 +60,20 @@
   }
 }
 
+@font-face {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/open-sans.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Oswald";
+  font-style: normal;
+  font-weight: 500 600;
+  font-display: swap;
+  src: url("../fonts/oswald.woff2") format("woff2");
+}
 *,
 *::before,
 *::after {
@@ -245,6 +259,25 @@ body::before {
   flex: 1 0 auto;
 }
 
+.js:not(.switch-ready) [data-switch][hidden] {
+  display: grid;
+}
+.js:not(.switch-ready) [data-switch-pane] ~ [data-switch-pane] {
+  display: none;
+}
+
+.js .awaits-cart > main,
+.js .awaits-cart > .footer,
+.js .awaits-cart .paybar {
+  visibility: hidden;
+  animation: reveal-anyway 0s 1s forwards;
+}
+
+@keyframes reveal-anyway {
+  to {
+    visibility: visible;
+  }
+}
 .reveal {
   opacity: 0;
   transform: translateY(-8px);

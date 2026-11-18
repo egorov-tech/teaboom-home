@@ -145,4 +145,6 @@
 
   cart.onChange(render);
   render();
+  // The cart is drawn: show the page (see .awaits-cart in _base.scss).
+  document.body.classList.remove("awaits-cart");
 })();

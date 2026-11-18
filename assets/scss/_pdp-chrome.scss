@@ -1,11 +1,10 @@
 @use "tokens" as *;
 
-// Opening sequence on the product page only: leaf draws, then the page settles.
+// Opening sequence on the product page only: the logo pours, then the page settles.
 // Menu/search/cart live in _shell.scss — do not duplicate them here.
 
-// Timeline (once per tab): leaf grows in 0–400ms, strokes draw by ~950ms, the halves fill
-// and the shop name fades in, then the layer leaves at 1150–1450ms. Before, the layer faded
-// out at 560ms while the strokes were still drawing, so almost nothing was seen.
+// Timeline: the logo plays by ~1100ms and the shop name fades in, then the layer leaves at
+// 1150–1450ms. Arrivals only — a reload or Back shows the page at once (is-warm).
 .steep {
   position: fixed;
   inset: 0;
@@ -18,70 +17,42 @@
   pointer-events: none;
   animation: steep-out 300ms var(--ease-out) 1150ms both;
 
-  &__leaf {
-    width: clamp(96px, 16vw, 132px);
+  // Variant A (Артём, 18.11): the shop's own mark, redrawn as vector from the logo. The bowl
+  // tips up towards you, tea pours in with a wave (SMIL clip in the markup) and the
+  // lettering surfaces with it, then the steam rises. 0–700ms bowl, 120–880ms tea,
+  // 560–1100ms steam, out at 1150ms.
+  &__logo {
+    width: clamp(110px, 14vw, 150px);
     height: auto;
-    stroke-linecap: round;
-    stroke-linejoin: round;
     overflow: visible;
-    animation: steep-leaf 400ms var(--ease-out) both;
+    animation: steep-tilt 700ms var(--ease-out) both;
   }
 
-  &__half,
-  &__vein,
-  &__rib {
-    fill: none;
-    stroke: var(--tea);
-    stroke-width: 2.4;
-    stroke-dasharray: 130;
-    stroke-dashoffset: 130;
-    animation: steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards;
+  &__bowl,
+  &__tea,
+  &__steam {
+    fill: var(--ink);
   }
 
-  // Each half closes along the vein, so a fill paints exactly one side of the leaf.
-  &__half {
-    fill: var(--tea);
-    fill-opacity: 0;
-    animation:
-      steep-draw 600ms cubic-bezier(0.45, 0, 0.2, 1) forwards,
-      steep-fill 300ms ease-out 820ms forwards;
+  &__steam {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: steep-steam 460ms var(--ease-out) 560ms forwards;
   }
 
-  &__vein {
-    stroke: var(--brand-deep);
-    stroke-width: 2.8;
-    animation-delay: 160ms;
+  &__steam--high {
+    animation-delay: 660ms;
   }
 
-  &__half--left {
-    animation-delay: 60ms, 820ms;
-  }
-
-  &__half--right {
-    animation-delay: 120ms, 860ms;
-  }
-
-  &__rib {
-    stroke: var(--brand);
-    stroke-width: 1.8;
-    stroke-dasharray: 40;
-    stroke-dashoffset: 40;
-  }
-
-  &__rib--l1 {
-    animation-delay: 300ms;
-  }
-
-  &__rib--r1 {
-    animation-delay: 340ms;
-  }
-
-  &__rib--l2 {
-    animation-delay: 380ms;
-  }
-
-  &__rib--r2 {
-    animation-delay: 420ms;
+  // Soft contact shadow: gives the tilt its depth.
+  &__shadow {
+    width: clamp(84px, 11vw, 120px);
+    height: 14px;
+    margin-top: calc(var(--step-4) * -1 - 4px);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(27 27 27 / 18%), transparent);
+    animation: steep-shadow 700ms var(--ease-out) both;
   }
 
   &__name {
@@ -90,7 +61,7 @@
     font-size: clamp(20px, 2vw, 26px);
     letter-spacing: 0.02em;
     color: var(--ink);
-    animation: steep-name 360ms var(--ease-out) 620ms both;
+    animation: steep-name 320ms var(--ease-out) 600ms both;
   }
 }
 
@@ -105,25 +76,35 @@
   .page { animation: none; }
 }
 
-@keyframes steep-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-@keyframes steep-fill {
-  to {
-    fill-opacity: 0.9;
-  }
-}
-
-@keyframes steep-leaf {
+@keyframes steep-tilt {
   from {
-    transform: scale(0.8) rotate(-8deg);
+    transform: perspective(600px) rotateX(38deg) translateY(14px) scale(0.94);
     opacity: 0;
   }
   to {
-    transform: scale(1) rotate(0);
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes steep-steam {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scaleX(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes steep-shadow {
+  from {
+    transform: scaleX(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
     opacity: 1;
   }
 }
@@ -146,7 +127,7 @@
   }
 }
 
-// Movement only, no fade: the opaque leaf layer already hides the page, and a page that
+// Movement only, no fade: the opaque intro layer already hides the page, and a page that
 // paints at opacity 0 never gets a Largest Contentful Paint recorded (Lighthouse: NO_LCP).
 @keyframes settle {
   from {
