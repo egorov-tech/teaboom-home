@@ -20,7 +20,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.evaluate(() => { const s = document.querySelector('.product__summary'); const lh = parseFloat(getComputedStyle(s).lineHeight); return s.getBoundingClientRect().height <= lh * 2 + 1; }), '33: краткое описание — не больше 2 строк');
   await p.locator('.product__more').tap(); await p.waitForTimeout(600);
   ok(JSON.stringify(await visible(p, '[data-panel]')) === '["about"]' && new URL(p.url()).hash === '#about', '33: «Читать полностью» → вкладка «Описание»');
-  await p.goBack(); await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(300);
+  await p.goBack(); await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
   // п. 15: thumbnails under the photo on the phone too, no dots
   ok(await p.locator('.gallery').isVisible() && await p.locator('[data-gallery-thumb]').count() === 4, '15: телефон — ряд из 4 миниатюр под фото');
   ok(await p.locator('[data-gallery-dot]').count() === 0, '15: точек нет');
@@ -57,11 +57,11 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   const ride = await p.evaluate(async () => {
     const d = document.getElementById('delivery'); d.open = true;
     const r = (s) => document.querySelector(s).getBoundingClientRect();
-    scrollTo(0, 500); await new Promise((f) => setTimeout(f, 250));
+    scrollTo({ top: 500, left: 0, behavior: 'instant' }); await new Promise((f) => setTimeout(f, 250));
     const mid = r('.product__media').top;
-    scrollTo(0, r('.details').top + scrollY - 200); await new Promise((f) => setTimeout(f, 250));
+    scrollTo({ top: r('.details').top + scrollY - 200, left: 0, behavior: 'instant' }); await new Promise((f) => setTimeout(f, 250));
     const gap = r('.details').top - r('.product__media').bottom;
-    d.open = false; scrollTo(0, 0);
+    d.open = false; scrollTo({ top: 0, left: 0, behavior: 'instant' });
     return { mid: Math.round(mid), gap: Math.round(gap) };
   });
   ok(ride.mid > 60 && ride.mid < 120 && ride.gap >= 24, `35: фото едет рядом с открытой доставкой и останавливается до «Описания» (${JSON.stringify(ride)})`);

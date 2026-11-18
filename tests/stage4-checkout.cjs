@@ -79,7 +79,7 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok(await p.evaluate(() => window.TeaboomCart.items().length) === 1, '26: корзина после демо-заказа не очищается');
 
     // Phone pay bar submits the same form
-    await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(300);
+    await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
     ok(await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '3' + NB + '590,40' + NB + '₽', '26: телефон — панель «Итого · Заказать»');
     ok((await p.getAttribute('[data-paybar] button', 'form')) === 'order' && (await p.getAttribute('[data-paybar] button', 'type')) === 'submit', '26: кнопка панели отправляет ту же форму');
     ok(await overflow(p) <= 0, '26: 390 — без прокрутки вбок');
@@ -111,11 +111,11 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     // From the moment the block reaches the header down to the end of the form.
     const start = await p.evaluate(() => document.querySelector('[data-summary]').getBoundingClientRect().top + scrollY);
     const end = await p.evaluate(() => document.querySelector('.checkout__layout').getBoundingClientRect().bottom + scrollY - innerHeight);
-    for (const y of [start + 120, (start + end) / 2, end]) { await p.evaluate((y) => scrollTo(0, y), Math.round(y)); await p.waitForTimeout(200); all = all && await inView(); }
+    for (const y of [start + 120, (start + end) / 2, end]) { await p.evaluate((y) => scrollTo({ top: y, left: 0, behavior: 'instant' }), Math.round(y)); await p.waitForTimeout(200); all = all && await inView(); }
     ok(all, '26: «Заказать» видна всё время, пока листается форма');
     await p.locator('[data-brief-more]').click(); await p.waitForTimeout(300);
     ok(await p.locator('.brief__line:not([hidden])').count() === 9 && (await p.textContent('[data-brief-more]')).trim() === 'Свернуть', '26: «Ещё» раскрывает весь список');
-    await p.evaluate(() => scrollTo(0, document.documentElement.scrollHeight)); await p.waitForTimeout(300);
+    await p.evaluate(() => scrollTo({ top: document.documentElement.scrollHeight, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
     ok(await inView(), '26: раскрытый длинный список — «Заказать» всё равно достижима');
     await c.close();
   }

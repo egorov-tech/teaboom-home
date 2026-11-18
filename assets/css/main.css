@@ -282,6 +282,11 @@ body::before {
   outline: none;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 .reveal {
   opacity: 0;
   transform: translateY(-8px);
@@ -1756,7 +1761,7 @@ body::before {
   position: absolute;
   top: calc(50% - var(--pager-pill-h) / 2);
   left: calc(50% - var(--pager-pill-w) / 2);
-  width: 0;
+  width: var(--pager-pill-h);
   height: var(--pager-pill-h);
   border-radius: calc(var(--pager-pill-h) / 2);
   background: var(--ink);
@@ -1817,7 +1822,7 @@ body::before {
 
 @keyframes banners-pager-fill {
   from {
-    width: 0;
+    width: var(--pager-pill-h);
   }
   to {
     width: var(--pager-pill-w);

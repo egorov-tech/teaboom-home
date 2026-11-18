@@ -143,7 +143,7 @@
         position: absolute;
         top: calc(50% - (var(--pager-pill-h) / 2));
         left: calc(50% - (var(--pager-pill-w) / 2));
-        width: 0;
+        width: var(--pager-pill-h);
         height: var(--pager-pill-h);
         border-radius: calc(var(--pager-pill-h) / 2);
         background: var(--ink);
@@ -222,9 +222,11 @@
   }
 }
 
+// Starts as a 6 × 6 dot and stretches into the pill: narrower than its height the bar could
+// not round its ends and showed a hard flat stripe (Артём, 18.11).
 @keyframes banners-pager-fill {
   from {
-    width: 0;
+    width: var(--pager-pill-h);
   }
 
   to {

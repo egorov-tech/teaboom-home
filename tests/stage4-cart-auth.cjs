@@ -38,7 +38,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   ok(await p.locator('[data-paybar]').isHidden(), '25: кнопка «Заказать» на экране — панель скрыта');
   // A second line pushes «Заказать» below the first screen: then the bar stands in for it.
   await p.evaluate(() => window.TeaboomCart.fill([...window.TeaboomCart.items(), { sku: '01306', name: 'Ананасовый улун', pack: '100 г', price: 326.4, old: 349.2, img: '', url: 'product.html', qty: 1 }]));
-  await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(400);
+  await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(400);
   const below = await p.evaluate(() => document.querySelector('[data-order]').getBoundingClientRect().top > innerHeight);
   ok(below && await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '6' + NB + '796,40' + NB + '₽', '25: «Заказать» ниже экрана — панель «Итого 6 796,40 ₽ · Заказать»');
   await p.locator('[data-line-remove]').nth(1).tap(); await p.waitForTimeout(200);

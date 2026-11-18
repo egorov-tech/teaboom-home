@@ -27,6 +27,14 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('[data-facets]').isVisible() && await p.locator('[data-facets-open]').isHidden(), '17: компьютер — фильтры колонкой слева, кнопки «Фильтры» нет');
   const groups = await p.$$eval('.facets__title', (ls) => ls.map((l) => l.textContent.trim()));
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Категория', 'Фасовка', 'Сорт']), '17: 4 группы, как на сайте (одиночные скрыты)');
+  // Артём, 18.11: a value chosen far down the list — the page goes back up to the new list start.
+  await p.evaluate(() => scrollTo({ top: document.querySelector('.category__grid').getBoundingClientRect().bottom + scrollY - 600, left: 0, behavior: 'instant' }));
+  await p.waitForTimeout(300);
+  await p.locator('[data-facet][value="16__Натуральный"]').evaluate((e) => e.click()); await p.waitForTimeout(1200);
+  const barTop = await p.evaluate(() => Math.round(document.querySelector('.category__bar').getBoundingClientRect().top));
+  ok(barTop >= 0 && barTop < 200, `фильтр внизу страницы → плавно наверх к выдаче (сортировка на ${barTop} px)`);
+  await p.locator('[data-facet][value="16__Натуральный"]').evaluate((e) => e.click()); await p.waitForTimeout(800);
+  await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' }));
   ok(await p.locator('.category__subcats, .category__subcat').count() === 0, '37: кнопок подкатегорий нет — только фильтр «Категория»');
   const gaps = await p.evaluate(() => {
     const bar = document.querySelector('.category__bar').getBoundingClientRect();
@@ -113,7 +121,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
     // Two points inside the grid's run (below it the panel leaves with the page, as it should).
     const run = await p.evaluate(() => { const l = document.querySelector('.category__layout').getBoundingClientRect(); return { top: l.top + scrollY, bottom: l.bottom + scrollY }; });
     for (const y of [Math.round(run.top + 400), Math.round(run.bottom - h - 40)]) {
-      await p.evaluate((y) => scrollTo(0, y), y); await p.waitForTimeout(250);
+      await p.evaluate((y) => scrollTo({ top: y, left: 0, behavior: 'instant' }), y); await p.waitForTimeout(250);
       const r = await p.evaluate(() => { const d = document.querySelector('[data-facets]').getBoundingClientRect(); const m = document.querySelector('[data-masthead]').getBoundingClientRect(); return { top: d.top, bottom: d.bottom, head: m.bottom, h: innerHeight }; });
       ok(r.top >= r.head - 1 && r.bottom <= r.h, `17: ${w}×${h}, прокрутка ${y} — колонка целиком на экране под шапкой (${Math.round(r.top)}–${Math.round(r.bottom)} из ${r.h})`);
     }

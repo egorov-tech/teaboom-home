@@ -283,6 +283,11 @@ body::before {
   outline: none;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
 .reveal {
   opacity: 0;
   transform: translateY(-8px);

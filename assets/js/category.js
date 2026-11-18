@@ -204,12 +204,17 @@
     drawPager(state, pages);
   };
 
+  // scroll: true — always back to the bar (a page change); "up" — only when the list has gone
+  // above the window (a filter or sorting chosen far down): the shopper sees the new list start.
+  // Smooth unless the system asks for less motion (html scroll-behavior, _base.scss).
   const go = ({ push = true, scroll = false } = {}) => {
     render();
     const url = href(state);
     if (push) history.pushState(null, "", url);
     else history.replaceState(null, "", url);
-    if (scroll) root.querySelector(".category__bar").scrollIntoView({ block: "start" });
+    const bar = root.querySelector(".category__bar");
+    const above = bar.getBoundingClientRect().top < 0;
+    if (scroll === true || (scroll === "up" && above)) bar.scrollIntoView({ block: "start" });
   };
 
   // ---------- Filters panel: inline column on wide screens, a modal sheet below 1060 px ----------
@@ -271,7 +276,8 @@
     box.addEventListener("change", () => {
       state.f = box.checked ? [...state.f, box.value] : state.f.filter((k) => k !== box.value);
       state.page = 1;
-      go();
+      // In the column on a computer the list changes in place; on phones the sheet covers it.
+      go({ scroll: wide.matches ? "up" : false });
     })
   );
 
@@ -309,7 +315,7 @@
   select.addEventListener("change", () => {
     state.sort = select.value;
     state.page = 1;
-    go();
+    go({ scroll: "up" });
   });
 
   pagerList.addEventListener("click", (e) => {

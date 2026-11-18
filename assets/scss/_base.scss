@@ -235,3 +235,11 @@ body::before {
 [tabindex="-1"]:focus {
   outline: none;
 }
+
+// Smooth scrolling across the site (Артём, 18.11): anchor jumps (rating → reviews, «Доставка и
+// оплата»), back to the list after a filter, «наверх». Off when the system asks for less motion.
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
