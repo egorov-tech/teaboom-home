@@ -229,3 +229,9 @@ body::before {
     visibility: visible;
   }
 }
+
+// Dialog titles take the focus when a sheet opens (autofocus + tabindex="-1"): a screen reader
+// starts from the title and Safari no longer rings the close button. No ring on the title itself.
+[tabindex="-1"]:focus {
+  outline: none;
+}

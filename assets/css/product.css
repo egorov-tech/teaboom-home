@@ -279,6 +279,10 @@ body::before {
     visibility: visible;
   }
 }
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(-8px);

@@ -278,6 +278,10 @@ body::before {
     visibility: visible;
   }
 }
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 .reveal {
   opacity: 0;
   transform: translateY(-8px);
@@ -3418,6 +3422,20 @@ body::before {
   }
 }
 
+.field__input[type=date] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+}
+.field__input[type=date]::-webkit-date-and-time-value {
+  margin: 0;
+  text-align: left;
+}
+
 .auth {
   padding-block: var(--step-5) var(--step-8);
 }
@@ -4144,6 +4162,26 @@ body::before {
 .step__title + * {
   clear: both;
 }
+fieldset.step {
+  display: flow-root;
+}
+fieldset.step > * + * {
+  margin-top: var(--step-4);
+}
+fieldset.step > .step__title {
+  margin-bottom: var(--step-4);
+}
+fieldset.step > .step__title + * {
+  margin-top: 0;
+}
+
+fieldset.step--person > * + * {
+  margin-top: var(--step-3);
+}
+fieldset.step--person > .step__title {
+  margin-bottom: var(--step-3);
+}
+
 .step__note {
   margin: 0;
   font-size: 13px;

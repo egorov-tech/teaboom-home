@@ -75,6 +75,35 @@
     }
   }
 
+  // Safari ignores a float inside a grid, so on iPhone the heading stayed on the card's top
+  // border (Артём, 18.11). A bordered fieldset card is therefore a plain block: the float works
+  // everywhere, and the spacing the grid gap gave comes from margins instead.
+  @at-root fieldset#{&} {
+    display: flow-root;
+
+    > * + * {
+      margin-top: var(--step-4);
+    }
+
+    > .step__title {
+      margin-bottom: var(--step-4);
+    }
+
+    > .step__title + * {
+      margin-top: 0;
+    }
+  }
+
+  @at-root fieldset#{&}--person {
+    > * + * {
+      margin-top: var(--step-3);
+    }
+
+    > .step__title {
+      margin-bottom: var(--step-3);
+    }
+  }
+
   &__note {
     margin: 0;
     font-size: 13px;
