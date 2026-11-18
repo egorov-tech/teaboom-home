@@ -27,6 +27,17 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('[data-facets]').isVisible() && await p.locator('[data-facets-open]').isHidden(), '17: компьютер — фильтры колонкой слева, кнопки «Фильтры» нет');
   const groups = await p.$$eval('.facets__title', (ls) => ls.map((l) => l.textContent.trim()));
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Категория', 'Фасовка', 'Сорт']), '17: 4 группы, как на сайте (одиночные скрыты)');
+  // п. 43: «Вы смотрели» in the category — the same block as on the product page; it shows the
+  // history (here: the marked example) and writes nothing, a category is not a product.
+  ok(await p.locator('[data-viewed]').isVisible() && await p.locator('.seen').count() === 5 && await p.evaluate(() => localStorage.getItem('teaboom-viewed-v1') === null), '43: «Вы смотрели» в категории — пример с пометкой, история не пишется');
+  // пп. 40, 45: the first 5 values, «Показать все (N)» only when 2 or more are hidden.
+  const sort = p.locator('.facets__group', { hasText: 'Сорт' });
+  const visibleIn = (g) => g.locator('li:not([hidden]) .facet').count();
+  ok(await visibleIn(sort) === 5 && (await sort.locator('[data-facets-more]').textContent()).trim() === 'Показать все (7)', '45: «Сорт» — 5 значений и «Показать все (7)»');
+  await sort.locator('[data-facets-more]').click(); await p.waitForTimeout(200);
+  ok(await visibleIn(sort) === 7 && (await sort.locator('[data-facets-more]').textContent()).trim() === 'Свернуть', '45: «Показать все» раскрывает все 7, кнопка — «Свернуть»');
+  await sort.locator('[data-facets-more]').click(); await p.waitForTimeout(200);
+  ok(await p.locator('[data-facets-more]').count() === 1, '45: группы до 6 значений — целиком, без кнопки (никаких «показать ещё 1»)');
   // Артём, 18.11: a value chosen far down the list — the page goes back up to the new list start.
   await p.evaluate(() => scrollTo({ top: document.querySelector('.category__grid').getBoundingClientRect().bottom + scrollY - 600, left: 0, behavior: 'instant' }));
   await p.waitForTimeout(300);
@@ -116,7 +127,6 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
         return Math.abs(after - head);
       });
       ok(jump < 1, '17: вкл/выкл «Сбросить» не сдвигает заголовок фильтров');
-      ok(await p.locator('[data-facets-more]').count() === 0 && await p.locator('.facets__group', { hasText: 'Сорт' }).locator('.facet').count() === 7, '40: «Сорт» (7 значений, меньше 15) показан целиком, без «Ещё»');
     }
     // Two points inside the grid's run (below it the panel leaves with the page, as it should).
     const run = await p.evaluate(() => { const l = document.querySelector('.category__layout').getBoundingClientRect(); return { top: l.top + scrollY, bottom: l.bottom + scrollY }; });

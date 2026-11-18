@@ -809,8 +809,10 @@ def render_filters(c, by_slug):
             vals = sorted(vals, key=lambda v: pack_qty(v["value"])[0])
         gid = f'fg-{g["id"]}'
         rows = []
-        # п. 40 (Антон, 18.11): up to 15 values — all of them; more than 15 — the first 10 and «Ещё N».
-        shown = 10 if len(vals) > 15 else len(vals)
+        # пп. 40, 45 (Антон и Ксения, 18.11): the first 5 values, the rest behind «Показать все (N)» —
+        # but only when at least 2 are hidden: never «show 1 more» (Антон), never a long list
+        # before the fold (Ксения). Up to 6 values: all of them at once.
+        shown = 5 if len(vals) - 5 >= 2 else len(vals)
         for i, v in enumerate(vals):
             key = filter_key(g["id"], v["value"])
             extra = " data-extra hidden" if i >= shown else ""
@@ -823,7 +825,7 @@ def render_filters(c, by_slug):
                 </label>
               </li>''')
         rest = len(vals) - shown
-        more = (f'\n            <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Ещё {rest}</button>'
+        more = (f'\n            <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Показать все ({len(vals)})</button>'
                 if rest else "")
         groups.append(f'''          <fieldset class="facets__group">
             <legend class="facets__title" id="{gid}">{esc(g["title"])}</legend>
@@ -918,6 +920,7 @@ def render_category(c, mast, foot, dock):
         .replace("{{COUNT}}", first).replace("{{TOTAL}}", str(len(items)))
         .replace("{{FACETS}}", render_filters(c, own)).replace("{{SORTING}}", sorting)
         .replace("{{GOODS}}", "\n".join(cards)).replace("{{PAGER}}", pager).replace("{{SEO}}", seo_html)
+        .replace("{{VIEWED}}", render_viewed(sample=next(x["pdp"]["viewed_example"] for x in products if x.get("pdp", {}).get("viewed_example"))))
         .replace("{{JSONLD}}", json.dumps(ld, ensure_ascii=False, indent=2))
     )
     assert "{{" not in out, c["page"]
@@ -1071,17 +1074,18 @@ def render_related(p):
 def seen_item(p, url):
     """One «Вы смотрели» entry: what the browser remembers about a product page."""
     low = min(v["price"] for v in p["variants"])
-    return {"slug": p["slug"], "name": p["name"], "url": url,
+    # Names go into the page by script, past typeset_html: bind short words here («Улун с хризантемой»).
+    return {"slug": p["slug"], "name": typeset_text(p["name"]), "url": url,
             "img": f"assets/images/products/{p['slug']}-280.jpg",
             "price": low, "from": len(p["variants"]) > 1}
 
 
-def render_viewed(p):
-    """п. 44 (Ксения, 18.11): products this shopper opened — kept in the browser (on the shop the
-    module does it). The page adds itself to the list; until there is anything else to show, the
-    block shows a marked example of real products."""
-    ex = p["pdp"].get("viewed_example")
-    me = seen_item(p, p["pdp"]["page"])
+def render_viewed(p=None, sample=None):
+    """пп. 43, 44 (Ксения, 18.11): products this shopper opened — kept in the browser (on the shop
+    the module does it). A product page adds itself to the list; a category page only shows it.
+    Until there is anything to show, the block shows a marked example of real products."""
+    ex = (p["pdp"].get("viewed_example") if p else None) or sample
+    me = seen_item(p, p["pdp"]["page"]) if p else None
     sample = [seen_item(catalog_product(s), site(catalog_product(s)["url"])) for s in (ex["slugs"] if ex else [])]
     note = f'\n      <p class="more__note" data-viewed-note hidden>{typo(ex["note"])}</p>' if ex else ""
     return f'''    <section class="more more--seen" aria-labelledby="viewed-title" data-viewed hidden>
