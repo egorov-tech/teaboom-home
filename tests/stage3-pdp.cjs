@@ -46,6 +46,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   const specsText = (await p.textContent('.specs')).replace(/\u00a0/g, ' ');
   ok(await p.locator('.specs__row').count() === 11 && specsText.includes('Количество2 ч. л. на 500 мл') && specsText.includes('Заваривать1–3 мин при 80–85 °C'), '36: заваривание двумя строками — «Количество» и «Заваривать» (13 → 11 строк)');
   ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
+  ok(await p.locator('.rates__group').count() === 4 && await p.locator('.rates__list > li').count() === 12 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('СДЭК по России (заказ от 10 000 ₽) бесплатно'), '47: доставка — 4 группы, 12 строк, текст Ксении');
   ok(await p.locator('details.promise#delivery').count() === 1 && await p.locator('.promise__list').count() === 0, '35: «Доставка и оплата» — один раскрывающийся блок под кнопкой');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
   ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }) && await p.locator('.product__more').isHidden(), '33: компьютер — как было: название в колонке покупки, без «Читать полностью»');

@@ -2619,6 +2619,61 @@ body::before {
   }
 }
 
+.rates {
+  display: grid;
+  gap: var(--step-4);
+  margin-top: var(--step-3);
+}
+.rates__title {
+  margin: 0 0 var(--step-1);
+  font: 600 14px/1.4 var(--font-text);
+  color: var(--ink);
+}
+.rates__note {
+  font-weight: 400;
+  color: var(--muted);
+}
+.rates__list.rates__list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.rates__list.rates__list > li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--step-3);
+  padding-block: 6px;
+  border-top: 1px solid var(--line);
+}
+.rates__list.rates__list > li:first-child {
+  border-top: 0;
+}
+.rates__name {
+  min-width: 0;
+}
+.rates__price {
+  flex: none;
+  max-width: 50%;
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+@media (min-width: 900px) {
+  .rates__price {
+    max-width: none;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 900px) {
+  .promise .delivery .rates {
+    margin-top: 0;
+  }
+}
+
 .buy {
   margin-top: clamp(28px, 3.4vw, 40px);
 }

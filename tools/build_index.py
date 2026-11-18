@@ -477,16 +477,30 @@ def render_brew(p, aside=False):
 def render_promise():
     """п. 35 (Антон, 18.11): delivery and payment in one place — a disclosure under «В корзину»
     (texts from /shipping/ and /payment/), instead of short facts here plus a tab below."""
-    delivery = "\n".join(f"                <li>{typo(x)}</li>" for x in service["delivery"])
+    # п. 47 (Ксения, 18.11): delivery as a price list — her text word for word, by group,
+    # the way price lists read: what on the left, how much on the right.
+    groups = []
+    for g in service["delivery_rates"]["groups"]:
+        rows = "\n".join(
+            f'                    <li><span class="rates__name">{typo(n)}</span> <span class="rates__price">{typo(v)}</span></li>'
+            for n, v in g["rows"])
+        note = f' <span class="rates__note">({typo(g["note"])})</span>' if g.get("note") else ""
+        groups.append(f'''                <section class="rates__group">
+                  <h4 class="rates__title">{typo(g["title"])}{note}</h4>
+                  <ul class="rates__list">
+{rows}
+                  </ul>
+                </section>''')
+    delivery = "\n".join(groups)
     payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])
     return f'''          <details class="promise" id="delivery">
             <summary class="promise__toggle">Доставка и оплата</summary>
             <div class="delivery">
               <div>
                 <h3>Доставка</h3>
-                <ul>
+                <div class="rates">
 {delivery}
-                </ul>
+                </div>
                 <a class="delivery__more" href="{SITE}/shipping/">Все способы доставки</a>
               </div>
               <div>
