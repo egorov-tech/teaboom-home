@@ -994,6 +994,8 @@ def main():
             .replace("{{PDP_BUY_SALE}}", ' class="is-sale"' if pv0["old"] else "")
             .replace("{{PDP_BUY_PRICE}}", money(pv0["price"]))
             .replace("{{DETAILS}}", render_details(pdp))
+            .replace("{{RELATED}}", render_related(pdp))
+            .replace("{{VIEWED}}", render_viewed(pdp))
             .replace("{{BREW}}", "")
             .replace("{{PROMISE}}", render_promise())
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
@@ -1001,6 +1003,68 @@ def main():
         assert "{{" not in pout, d["page"]
         (ROOT / d["page"]).write_text(demo_links(typeset_html(pout)), encoding="utf-8")
         print("ok", d["page"], len(pout))
+
+
+# ---------- product page: «Похожие и сопутствующие товары» (п. 46), «Вы смотрели» (п. 44) ----------
+def catalog_product(slug):
+    """A product by slug from the demo products or the imported category (live data)."""
+    own = {p["slug"]: p for p in products}
+    cat = {p["slug"]: p for c in categories for p in c["products"]}
+    return own.get(slug) or cat[slug]
+
+
+def render_related(p):
+    """п. 46 (Ксения, 18.11): the shop's own list from the admin, as full catalogue tiles — packs,
+    price per 100 g and «В корзину» right here (teaboom.ru now shows a photo and a name only).
+    Only products in stock; the product itself never. A filled-up example is marked as such."""
+    rel = p["pdp"].get("related")
+    if not rel:
+        return ""
+    slugs = [s for s in rel["site"] + rel.get("example", []) if s != p["slug"]]
+    if not slugs:
+        return ""
+    tiles = "\n".join(render_tile(101 + i, catalog_product(s), live_links=True)[0] for i, s in enumerate(slugs))
+    note = f'\n      <p class="more__note">{typo(rel["note"])}</p>' if rel.get("example") else ""
+    return f'''    <section class="more" aria-labelledby="related-title" data-rail>
+      <div class="more__head">
+        <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
+        <div class="more__arrows" data-rail-arrows hidden>
+          <button class="more__arrow press" type="button" aria-label="Назад" data-rail-prev>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="more__arrow press" type="button" aria-label="Вперёд" data-rail-next>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>{note}
+      <ul class="goods__grid more__rail" data-rail-track data-strip>
+{tiles}
+      </ul>
+    </section>'''
+
+
+def seen_item(p, url):
+    """One «Вы смотрели» entry: what the browser remembers about a product page."""
+    low = min(v["price"] for v in p["variants"])
+    return {"slug": p["slug"], "name": p["name"], "url": url,
+            "img": f"assets/images/products/{p['slug']}-280.jpg",
+            "price": low, "from": len(p["variants"]) > 1}
+
+
+def render_viewed(p):
+    """п. 44 (Ксения, 18.11): products this shopper opened — kept in the browser (on the shop the
+    module does it). The page adds itself to the list; until there is anything else to show, the
+    block shows a marked example of real products."""
+    ex = p["pdp"].get("viewed_example")
+    me = seen_item(p, p["pdp"]["page"])
+    sample = [seen_item(catalog_product(s), site(catalog_product(s)["url"])) for s in (ex["slugs"] if ex else [])]
+    note = f'\n      <p class="more__note" data-viewed-note hidden>{typo(ex["note"])}</p>' if ex else ""
+    return f'''    <section class="more more--seen" aria-labelledby="viewed-title" data-viewed hidden>
+      <h2 class="more__title" id="viewed-title">Вы смотрели</h2>{note}
+      <ul class="seen-list" data-viewed-list data-strip></ul>
+      <script type="application/json" data-viewed-me>{json.dumps(me, ensure_ascii=False)}</script>
+      <script type="application/json" data-viewed-sample>{json.dumps(sample, ensure_ascii=False)}</script>
+    </section>'''
 
 
 # ---------- cart, checkout, login, password reset (пп. 25–27) ----------

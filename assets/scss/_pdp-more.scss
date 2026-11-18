@@ -1,0 +1,194 @@
+@use "tokens" as *;
+@use "strip";
+
+// After the product details: «Похожие и сопутствующие товары» (п. 46) and «Вы смотрели» (п. 44).
+// Both are rows of the shop's own parts — the catalogue tile and a small link card — so nothing
+// here invents a new look. Headings match «Описание / Характеристики / Отзывы».
+.more {
+  margin-top: clamp(40px, 5vw, 64px);
+
+  & + & {
+    margin-top: clamp(32px, 4vw, 48px);
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--step-4);
+    margin-bottom: var(--step-4);
+  }
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: clamp(22px, 1.2vw + 16px, 28px);
+    line-height: 1.1;
+  }
+
+  &--seen &__title {
+    margin-bottom: var(--step-4);
+  }
+
+  // «пример заполнения» — the same quiet note as under the sample reviews.
+  &__note {
+    max-width: 70ch;
+    margin: calc(var(--step-2) * -1) 0 var(--step-4);
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+
+  &__arrows {
+    display: flex;
+    flex: none;
+    gap: var(--step-2);
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__arrow {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color var(--ease), opacity var(--ease);
+
+    &:disabled {
+      opacity: 0.35;
+      cursor: default;
+    }
+
+    @media (hover: hover) {
+      &:not(:disabled):hover {
+        border-color: var(--ink);
+      }
+    }
+  }
+
+  // The catalogue grid laid out as one row: same tile, same subgrid (photo, name, packs, buy on
+  // one line across the row). Phones see two tiles and the edge of a third — the cue to swipe;
+  // tablets three and a bit; computers four, with arrows once there are more.
+  &__rail.goods__grid {
+    --cols: 2.15;
+    grid-template-columns: none;
+    grid-template-rows: auto 1fr auto auto;
+    grid-auto-flow: column;
+    grid-auto-columns: calc((100% - var(--grid-gap-x) * (var(--cols) - 1)) / var(--cols));
+    margin: 0 calc(var(--gutter) * -1);
+    padding: 2px var(--gutter) var(--step-2);
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--gutter);
+    @include strip.side-strip;
+
+    // Positioned bits inside a tile (screen-reader labels, badges) must measure from the tile:
+    // measured from the page, those of off-screen tiles stretched the phone page sideways.
+    > li {
+      position: relative;
+      scroll-snap-align: start;
+    }
+
+    @media (min-width: $bp-tablet) {
+      --cols: 3.2;
+    }
+
+    // Wide screens: the row sits inside the page edges; four tiles fill it exactly.
+    @media (min-width: $bp-split) {
+      --cols: 4;
+      margin: 0;
+      padding: 2px 0 var(--step-2);
+      scroll-padding-inline: 0;
+    }
+  }
+}
+
+// «Вы смотрели»: small link cards — photo, name, price — in one row that scrolls sideways.
+.seen-list {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(232px, 1fr);
+  gap: var(--step-3);
+  margin: 0 calc(var(--gutter) * -1);
+  padding: 2px var(--gutter) var(--step-2);
+  list-style: none;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  @include strip.side-strip;
+
+  > li {
+    scroll-snap-align: start;
+  }
+
+  @media (min-width: $bp-split) {
+    grid-auto-columns: calc((100% - var(--step-3) * 4) / 5);
+    margin: 0;
+    padding: 2px 0 var(--step-2);
+    scroll-padding-inline: 0;
+  }
+}
+
+.seen {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  column-gap: var(--step-3);
+  align-items: start;
+  height: 100%;
+  min-height: 88px;
+  padding: var(--step-3);
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease);
+
+  &__photo {
+    grid-row: 1 / span 2;
+    width: 64px;
+    height: 64px;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+
+  &__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  &__price {
+    margin-top: var(--step-1);
+    font-size: 14px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--line-strong);
+    }
+
+    &:hover .seen__name {
+      text-decoration: underline;
+    }
+  }
+}

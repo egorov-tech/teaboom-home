@@ -106,5 +106,17 @@ class Reviews(unittest.TestCase):
         self.assertEqual(b.typo("<script>"), "&lt;script&gt;")
 
 
+class Related(unittest.TestCase):
+    """п. 46: the product itself never shows in its own «Похожие»."""
+
+    def test_no_self(self):
+        p = copy.deepcopy(next(x for x in b.products if "pdp" in x))
+        p["pdp"]["related"] = {"site": [p["slug"], "molochnyj-ulun-tajvani-1"], "example": [], "note": ""}
+        h = b.render_related(p)
+        self.assertNotIn(f'data-slug="{p["slug"]}"', h)
+        self.assertIn('data-slug="molochnyj-ulun-tajvani-1"', h)
+        self.assertNotIn("more__note", h)
+
+
 if __name__ == "__main__":
     unittest.main()

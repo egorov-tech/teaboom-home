@@ -195,6 +195,28 @@
       "text": "Вкус приятный, сладковатый. Для ежедневного чая чуть ярковат ананас, но гостям заходит отлично."
      }
     ]
+   },
+   "related": {
+    "site": [
+     "molochnyj-ulun-tajvani-1"
+    ],
+    "example": [
+     "ulun-tropicheskij",
+     "ulun-medovaya-dinya",
+     "zemlyanichnij-ulun-1-kategorii"
+    ],
+    "note": "Пример заполнения: из списка в админке teaboom.ru в наличии сейчас только «Молочный улун (Тайвань)», остальные три плитки — улуны из каталога.",
+    "captured": "2026-11-18"
+   },
+   "viewed_example": {
+    "slugs": [
+     "te-guan-letnii",
+     "chaj-zhenshen-ulun",
+     "ulun-s-hrizantemoi",
+     "slivochnij-ulun",
+     "zhasminovij-ulun"
+    ],
+    "note": "Пример: здесь будут товары, которые покупатель открывал на сайте. Своя история появится, когда откроете другие карточки."
    }
   }
  },
