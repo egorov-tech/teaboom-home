@@ -2326,14 +2326,14 @@ body::before {
 }
 .good__name a {
   display: block;
-  min-height: var(--tap);
+  padding-block: 2px;
   color: var(--ink);
   text-decoration: none;
 }
-@media (max-width: 767px) {
+@media (min-width: 768px) {
   .good__name a {
-    min-height: 0;
-    padding-block: 2px;
+    padding-block: 9px;
+    margin-block: -9px;
   }
 }
 @media (hover: hover) {
@@ -2547,56 +2547,6 @@ body::before {
   font-weight: 500;
   font-size: clamp(32px, 2.4vw + 20px, 48px);
   line-height: 1.05;
-}
-.category__subcats {
-  margin-top: var(--step-4);
-}
-.category__subcats ul {
-  display: flex;
-  gap: var(--step-2);
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  white-space: nowrap;
-  min-width: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
-}
-.category__subcats ul::-webkit-scrollbar {
-  display: none;
-}
-.category__subcats ul[data-more=end] {
-  -webkit-mask-image: var(--fade);
-  mask-image: var(--fade);
-}
-.category__subcats ul[data-more=start] {
-  --fade: linear-gradient(to left, #000 calc(100% - 56px), transparent);
-  -webkit-mask-image: var(--fade);
-  mask-image: var(--fade);
-}
-.category__subcats ul[data-more=both] {
-  --fade: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
-  -webkit-mask-image: var(--fade);
-  mask-image: var(--fade);
-}
-.category__subcat {
-  display: inline-flex;
-  align-items: center;
-  min-height: 40px;
-  padding: 0 var(--step-4);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 14px;
-  text-decoration: none;
-  transition: border-color var(--ease);
-}
-@media (hover: hover) {
-  .category__subcat:hover {
-    border-color: var(--line-strong);
-  }
 }
 .category__bar {
   scroll-margin-top: calc(var(--pin-h) + var(--step-4));
@@ -3099,9 +3049,7 @@ body::before {
   margin: 0 0 var(--step-4);
 }
 .chips[hidden] {
-  display: flex;
-  visibility: hidden;
-  pointer-events: none;
+  display: none;
 }
 .chips__list {
   display: contents;

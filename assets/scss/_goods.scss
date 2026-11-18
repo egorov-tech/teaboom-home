@@ -240,15 +240,18 @@
       letter-spacing: -0.03em;
     }
 
+    // п. 39 (Антон, 18.11): the name takes only its own lines, so the row is as tall as its
+    // longest name (subgrid) — one line, two or three. The tap area stays ≥ 40 px: padding
+    // grows it, the negative margin keeps it out of the layout.
     a {
       display: block;
-      min-height: var(--tap);
+      padding-block: 2px;
       color: var(--ink);
       text-decoration: none;
 
-      @media (max-width: #{$bp-tablet - 1px}) {
-        min-height: 0;
-        padding-block: 2px;
+      @media (min-width: $bp-tablet) {
+        padding-block: 9px;
+        margin-block: -9px;
       }
 
       @media (hover: hover) {

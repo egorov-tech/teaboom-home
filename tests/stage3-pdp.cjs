@@ -14,6 +14,13 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
 
   let c = await b.newContext(phone);
   let p = await open(c, 'product.html');
+  // п. 33: phone — category, name and rating above the photo; summary 2 lines + link to «Описание»
+  const y = (sel) => p.evaluate((s) => document.querySelector(s).getBoundingClientRect().top, sel);
+  ok(await y('.product__title') < await y('.product__media') && await y('.rating') < await y('.product__media'), '33: телефон — название и рейтинг над фото');
+  ok(await p.evaluate(() => { const s = document.querySelector('.product__summary'); const lh = parseFloat(getComputedStyle(s).lineHeight); return s.getBoundingClientRect().height <= lh * 2 + 1; }), '33: краткое описание — не больше 2 строк');
+  await p.locator('.product__more').tap(); await p.waitForTimeout(600);
+  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["about"]' && new URL(p.url()).hash === '#about', '33: «Читать полностью» → вкладка «Описание»');
+  await p.goBack(); await p.evaluate(() => scrollTo(0, 0)); await p.waitForTimeout(300);
   // п. 15: thumbnails under the photo on the phone too, no dots
   ok(await p.locator('.gallery').isVisible() && await p.locator('[data-gallery-thumb]').count() === 4, '15: телефон — ряд из 4 миниатюр под фото');
   ok(await p.locator('[data-gallery-dot]').count() === 0, '15: точек нет');
@@ -36,10 +43,13 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('[data-tab="specs"]').getAttribute('aria-selected') === 'true', '23: стрелка вправо → «Характеристики»');
   await p.keyboard.press('End');
   ok(JSON.stringify(await visible(p, '[data-panel]')) === '["reviews"]' && await p.locator('[data-tab]').count() === 3, '23 + 35: вкладок три, End → «Отзывы» (доставка — под кнопкой)');
-  ok(await p.locator('.specs__row').count() === 10 && (await p.textContent('.specs')).replace(/\u00a0/g, ' ').includes('Заваривание2 ч. л. на 500 мл, вода 80–85 °C, 1–3 мин'), '36: заваривание одной строкой, как на эскизе (13 → 10 строк)');
+  const specsText = (await p.textContent('.specs')).replace(/\u00a0/g, ' ');
+  ok(await p.locator('.specs__row').count() === 11 && specsText.includes('Количество2 ч. л. на 500 мл') && specsText.includes('Заваривать1–3 мин при 80–85 °C'), '36: заваривание двумя строками — «Количество» и «Заваривать» (13 → 11 строк)');
   ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
   ok(await p.locator('details.promise#delivery').count() === 1 && await p.locator('.promise__list').count() === 0, '35: «Доставка и оплата» — один раскрывающийся блок под кнопкой');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
+  ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }) && await p.locator('.product__more').isHidden(), '33: компьютер — как было: название в колонке покупки, без «Читать полностью»');
+  ok(await p.evaluate(() => { const d = document.getElementById('delivery'); d.open = true; const cols = [...d.querySelectorAll('.delivery > div')].map((x) => Math.round(x.getBoundingClientRect().left)); d.open = false; return cols.length === 2 && cols[0] === cols[1]; }), '35: компьютер — «Доставка» и «Оплата» одна под другой, не двумя узкими колонками');
   ok((await visible(p, '[data-panel]')).length === 3 && !(await p.locator('[data-tabs]').isVisible()), '23: шире 760 px — разделы подряд');
   await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(300);
   ok((await visible(p, '[data-panel]')).length === 1, '23: обратно на телефон — одна вкладка');

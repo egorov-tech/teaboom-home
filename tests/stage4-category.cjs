@@ -27,6 +27,24 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('[data-facets]').isVisible() && await p.locator('[data-facets-open]').isHidden(), '17: компьютер — фильтры колонкой слева, кнопки «Фильтры» нет');
   const groups = await p.$$eval('.facets__title', (ls) => ls.map((l) => l.textContent.trim()));
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Категория', 'Фасовка', 'Сорт']), '17: 4 группы, как на сайте (одиночные скрыты)');
+  ok(await p.locator('.category__subcats, .category__subcat').count() === 0, '37: кнопок подкатегорий нет — только фильтр «Категория»');
+  const gaps = await p.evaluate(() => {
+    const bar = document.querySelector('.category__bar').getBoundingClientRect();
+    const li = [...document.querySelectorAll('.category__grid > li:not([hidden])')].map((e) => e.getBoundingClientRect());
+    const rows = [...new Set(li.map((r) => Math.round(r.top)))];
+    const first = li.filter((r) => Math.round(r.top) === rows[0]);
+    // per row: do the pack chips share one line, and how much room is left above them
+    // under the longest name (≈ the 12 px gap — no reserved empty line)
+    const names = rows.map((t) => {
+      const tiles = [...document.querySelectorAll('.category__grid > li:not([hidden])')].filter((e) => Math.round(e.getBoundingClientRect().top) === t);
+      const packs = tiles.map((e) => Math.round(e.querySelector(".packs__grid").getBoundingClientRect().top));
+      const room = Math.min(...tiles.map((e) => e.querySelector(".packs__grid").getBoundingClientRect().top - e.querySelector('.good__name').getBoundingClientRect().bottom));
+      return { line: packs.every((y) => y === packs[0]), room: Math.round(room) };
+    });
+    return { top: Math.round(li[0].top - bar.bottom), row: Math.round(rows[1] - Math.max(...first.map((r) => r.bottom))), names };
+  });
+  ok(gaps.top <= 17 && gaps.row === 16, `38: сортировка → плитка ${gaps.top} px; между рядами ${gaps.row} px, как на главной (п. 20)`);
+  ok(gaps.names.every((r) => r.line && r.room <= 14), `39: название в ряду одной высоты, ряд из однострочных не держит лишнюю строку (${JSON.stringify(gaps.names)})`);
   ok(await p.locator('.category__grid > li:not([hidden])').count() === 12 && await p.evaluate(() => getComputedStyle(document.querySelector('.category__grid')).gridTemplateColumns.split(' ').length) === 3, '17: 12 плиток в 3 колонки — 4 полных ряда');
   await p.locator('.facet', { hasText: 'Натуральный' }).click(); await p.waitForTimeout(200);
   ok(await countText(p) === 'Найдено 75 товаров' && await shownMatch(p, ['16__Натуральный']), '17: «Натуральный» → 75, все плитки натуральные');

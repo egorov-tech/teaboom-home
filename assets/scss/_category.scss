@@ -1,7 +1,7 @@
 @use "tokens" as *;
 @use "strip";
 
-// п. 17: category page on the accepted tile grid. Breadcrumbs → H1 → subcategories →
+// п. 17: category page on the accepted tile grid. Breadcrumbs → H1 →
 // count · filters · sorting → tiles → pages → the category text (.about, as on the home page).
 .category {
   padding-block: var(--step-5) var(--step-7);
@@ -15,40 +15,6 @@
     font-weight: 500;
     font-size: clamp(32px, 2.4vw + 20px, 48px);
     line-height: 1.05;
-  }
-
-  &__subcats {
-    margin-top: var(--step-4);
-
-    ul {
-      display: flex;
-      gap: var(--step-2);
-      margin: 0;
-      padding: 0;
-      list-style: none;
-      white-space: nowrap;
-      @include strip.side-strip;
-    }
-  }
-
-  &__subcat {
-    display: inline-flex;
-    align-items: center;
-    min-height: 40px;
-    padding: 0 var(--step-4);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--paper);
-    color: var(--ink);
-    font-size: 14px;
-    text-decoration: none;
-    transition: border-color var(--ease);
-
-    @media (hover: hover) {
-      &:hover {
-        border-color: var(--line-strong);
-      }
-    }
   }
 
   &__bar {
@@ -630,11 +596,10 @@
   min-height: 36px;
   margin: 0 0 var(--step-4);
 
-  // Override the UA [hidden] { display: none } so the chip-row height stays reserved.
+  // п. 38 (Антон, 18.11): no reserved empty row — sorting sits 16 px above the tiles; the row
+  // appears only once a filter is chosen (a shift the user caused, not a jump).
   &[hidden] {
-    display: flex;
-    visibility: hidden;
-    pointer-events: none;
+    display: none;
   }
 
   &__list {

@@ -335,7 +335,7 @@ SHORT = ("в", "во", "с", "со", "к", "ко", "у", "о", "об", "и", "а
 NAMES = ("Почта", "Октябрьское", "Народного", "МЦК", "Apple", "Google", "г.", "м.", "ул.", "д.", "№", "т.")
 _SHORT_RE = re.compile(r"(^|[\s(«„\u00a0])(" + "|".join(SHORT) + r") (?=\S)", re.IGNORECASE)
 _NAME_RE = re.compile(r"(^|[\s(«\u00a0])(" + "|".join(re.escape(n) for n in NAMES) + r") (?=\S)")
-_NUM_RE = re.compile(r"(\d) (₽|г\b|кг|мл|мин|минут|км|шт|%)")
+_NUM_RE = re.compile(r"(\d) (₽|г\b|кг|мл|мин|минут|км|шт|%|°C)")
 
 
 def typeset_text(t):
@@ -521,18 +521,19 @@ def render_rating(p):
 
 
 def spec_rows(specs):
-    """п. 36 (Антон, 18.11; эскиз п. 23): four brewing facts → one row «Заваривание: 2 ч. л. на
-    500 мл, вода 80–85 °C, 1–3 мин» in place of the first of them."""
+    """п. 36 (Антон, 18.11): four brewing facts → two rows in place of the first of them:
+    «Количество: 2 ч. л. на 500 мл» and «Заваривать: 1–3 мин при 80–85 °C»."""
     keys = [k for k, _ in BREW_KEYS]
     d = dict(specs)
     if not all(k in d for k in keys):
         return specs
-    brew = f'{d["Количество"]} на {d["Объём"]}, вода {d["Температура воды"]}, {d["Время заваривания"]}'
+    brew = [("Количество", f'{d["Количество"]} на {d["Объём"]}'),
+            ("Заваривать", f'{d["Время заваривания"]} при {d["Температура воды"]}')]
     out, done = [], False
     for k, v in specs:
         if k in keys:
             if not done:
-                out.append(("Заваривание", brew))
+                out.extend(brew)
                 done = True
             continue
         out.append((k, v))
@@ -840,12 +841,9 @@ def render_category(c, mast, foot, dock):
     crumbs = ('      <ol class="breadcrumbs__list" data-strip>\n        <li class="breadcrumbs__item"><a href="./">Начало</a></li>\n'
               + "".join(f'        <li class="breadcrumbs__item"><a href="{site(u)}">{esc(n)}</a></li>\n' for n, u in c["breadcrumbs"])
               + f'        <li class="breadcrumbs__item"><span aria-current="page">{esc(c["title"])}</span></li>\n      </ol>')
-    subcats = "\n".join(f'          <li><a class="category__subcat" href="{site(u)}">{esc(n)}</a></li>' for n, u in c["subcats"])
-    subcats = f'''      <nav class="category__subcats" aria-label="Подкатегории">
-        <ul data-strip>
-{subcats}
-        </ul>
-      </nav>'''
+    # п. 37 (Антон, 18.11): subcategory buttons repeated the «Категория» filter next to them —
+    # only the filter stays. Redirects of the subcategory pages are for SEO and the backend.
+    subcats = ""
     sorting = "\n".join(f'            <option value="{v}"{" selected" if i == 0 else ""}>{esc(n)}</option>' for i, (v, n) in enumerate(c["sorting"]))
     cur = ' aria-current="page"'
     nums = []
@@ -1001,7 +999,7 @@ def main():
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
         )
         assert "{{" not in pout, d["page"]
-        (ROOT / d["page"]).write_text(demo_links(pout), encoding="utf-8")
+        (ROOT / d["page"]).write_text(demo_links(typeset_html(pout)), encoding="utf-8")
         print("ok", d["page"], len(pout))
 
 
