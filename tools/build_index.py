@@ -593,9 +593,12 @@ def render_details(p):
                 <li class="review review--all">
                   <a class="review__all" href="{esc(site(d["source"]["url"].replace(SITE, "")))}#reviews_for_product">Все {all_n} {plural(all_n, "отзыв", "отзыва", "отзывов")}</a>
                 </li>'''
-        reviews_body = f'''{note}              <ul class="reviews__list" data-rail-track data-strip>
+        reviews_body = f'''{note}              <div class="rail__frame">
+                <ul class="reviews__list" data-rail-track data-strip>
 {items}{more}
-              </ul>'''
+                </ul>
+{rail_arrows()}
+              </div>'''
     else:
         reviews_body = '              <p class="reviews__empty">Ещё никто не оставлял отзывов. Будьте первым!</p>'
     write = site(d["source"]["url"].replace(SITE, ""))
@@ -636,7 +639,6 @@ def render_details(p):
             <div class="reviews" data-rail>
               <div class="reviews__head">
                 <h2 class="details__title">Отзывы</h2>
-{rail_arrows()}
                 <a class="reviews__write press" href="{esc(write)}#reviews_for_product">Оставить отзыв</a>
               </div>
 {reviews_body}
@@ -1063,11 +1065,13 @@ def render_related(p):
     return f'''    <section class="more" aria-labelledby="related-title" data-rail>
       <div class="more__head">
         <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
-{rail_arrows()}
       </div>{note}
-      <ul class="goods__grid more__rail" data-rail-track data-strip>
+      <div class="rail__frame">
+        <ul class="goods__grid more__rail" data-rail-track data-strip>
 {tiles}
-      </ul>
+        </ul>
+{rail_arrows()}
+      </div>
     </section>'''
 
 

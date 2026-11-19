@@ -1907,39 +1907,6 @@ body::before {
   line-height: 1.04;
   letter-spacing: -0.015em;
 }
-.product__summary {
-  margin-top: var(--step-4);
-  max-width: 46ch;
-  color: var(--ink-soft);
-}
-@media (max-width: 759px) {
-  .product__summary {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    overflow: hidden;
-  }
-}
-.product__more {
-  display: none;
-}
-@media (max-width: 759px) {
-  .product__more {
-    display: inline-flex;
-    align-items: center;
-    align-self: start;
-    justify-self: start;
-    min-height: 40px;
-    color: var(--ink);
-    font-size: 14px;
-    font-weight: 600;
-    text-decoration: underline;
-    text-decoration-thickness: 2px;
-    text-decoration-color: var(--brand-deep);
-    text-underline-offset: 4px;
-  }
-}
 .product__ids {
   display: flex;
   flex-wrap: wrap;
@@ -2151,12 +2118,6 @@ body::before {
   .reviews__list {
     --cols: 3;
   }
-}
-.reviews__head .rail__arrows {
-  margin-left: auto;
-}
-.reviews__head .rail__arrows:not([hidden]) + .reviews__write {
-  margin-left: 0;
 }
 
 .review {
@@ -3358,10 +3319,16 @@ body::before {
   }
 }
 
+.rail__frame {
+  position: relative;
+}
 .rail__arrows {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex: none;
-  gap: var(--step-2);
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
 }
 .rail__arrows[hidden] {
   display: none;
@@ -3371,17 +3338,23 @@ body::before {
   place-items: center;
   width: var(--tap);
   height: var(--tap);
+  margin-inline: calc(var(--tap) / -2);
   padding: 0;
   color: var(--ink);
   background: var(--paper);
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(27, 27, 27, 0.12);
   cursor: pointer;
-  transition: border-color var(--ease), opacity var(--ease);
+  pointer-events: auto;
+  transition: opacity var(--ease), border-color var(--ease), transform 160ms var(--ease-out);
 }
 .rail__arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
+  opacity: 0;
+  pointer-events: none;
+}
+.rail__arrow:active {
+  transform: scale(0.96);
 }
 @media (hover: hover) {
   .rail__arrow:not(:disabled):hover {

@@ -14,13 +14,11 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
 
   let c = await b.newContext(phone);
   let p = await open(c, 'product.html');
-  // п. 33: phone — category, name and rating above the photo; summary 2 lines + link to «Описание»
+  // п. 33: phone — category, name and rating above the photo. The short summary is gone (Антон, 19.11:
+  // it repeats «Описание» and «Читать полностью» made the page jump).
   const y = (sel) => p.evaluate((s) => document.querySelector(s).getBoundingClientRect().top, sel);
   ok(await y('.product__title') < await y('.product__media') && await y('.rating') < await y('.product__media'), '33: телефон — название и рейтинг над фото');
-  ok(await p.evaluate(() => { const s = document.querySelector('.product__summary'); const lh = parseFloat(getComputedStyle(s).lineHeight); return s.getBoundingClientRect().height <= lh * 2 + 1; }), '33: краткое описание — не больше 2 строк');
-  await p.locator('.product__more').tap(); await p.waitForTimeout(600);
-  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["about"]' && new URL(p.url()).hash === '#about', '33: «Читать полностью» → вкладка «Описание»');
-  await p.goBack(); await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
+  ok(await p.locator('.product__summary, .product__more').count() === 0, '33: краткого описания и «Читать полностью» нет');
   // п. 15: thumbnails under the photo on the phone too, no dots
   ok(await p.locator('.gallery').isVisible() && await p.locator('[data-gallery-thumb]').count() === 4, '15: телефон — ряд из 4 миниатюр под фото');
   ok(await p.locator('[data-gallery-dot]').count() === 0, '15: точек нет');
@@ -51,7 +49,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('.rates__list > li').count() === 5 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('по России от 10 000 ₽ — бесплатно'), '47: доставка — 5 строк по примеру Ксении: способ, условие, цена');
   ok(await p.locator('details.promise#delivery').count() === 1 && await p.locator('.promise__list').count() === 0, '35: «Доставка и оплата» — один раскрывающийся блок под кнопкой');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
-  ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }) && await p.locator('.product__more').isHidden(), '33: компьютер — как было: название в колонке покупки, без «Читать полностью»');
+  ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }), '33: компьютер — название в колонке покупки');
   ok(await p.evaluate(() => { const d = document.getElementById('delivery'); d.open = true; const cols = [...d.querySelectorAll('.delivery > div')].map((x) => Math.round(x.getBoundingClientRect().left)); d.open = false; return cols.length === 2 && cols[0] === cols[1]; }), '35: компьютер — «Доставка» и «Оплата» одна под другой, не двумя узкими колонками');
   // Артём, 18.11: with «Доставка и оплата» open the photo rides along and stops before «Описание»
   const ride = await p.evaluate(async () => {
@@ -85,6 +83,12 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   c = await b.newContext({ viewport: { width: 1440, height: 900 } }); p = await open(c, 'product.html');
   await p.locator('[data-gallery-thumb]').nth(1).click(); await p.waitForTimeout(800);
   ok(await shown(p) === 1 && (await p.locator('.shot__image').nth(1).getAttribute('src')) !== null, '15: компьютер — миниатюра 2 показывает фото 2');
+  await c.close();
+
+  // Reviews arrows (computer, a mouse): on the row, level with the cards — not in the heading (Антон, 19.11).
+  c = await b.newContext({ viewport: { width: 1200, height: 900 } });
+  p = await open(c, 'product.html');
+  ok(await p.evaluate(() => { const n = document.querySelector('.reviews [data-rail-next]'); const l = document.querySelector('.reviews__list'); if (!n || n.closest('[hidden]')) return false; const a = n.getBoundingClientRect(), r = l.getBoundingClientRect(); const mid = a.top + a.height / 2; return mid > r.top && mid < r.bottom; }), 'отзывы: стрелка на уровне карточек, не в шапке (Антон, 19.11)');
   await c.close();
 
   ok(errors.length === 0, 'нет ошибок JS ' + errors.join('; '));

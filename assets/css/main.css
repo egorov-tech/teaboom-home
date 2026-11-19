@@ -5192,10 +5192,16 @@ button.paybar__order {
   }
 }
 
+.rail__frame {
+  position: relative;
+}
 .rail__arrows {
+  position: absolute;
+  inset: 0;
   display: flex;
-  flex: none;
-  gap: var(--step-2);
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: none;
 }
 .rail__arrows[hidden] {
   display: none;
@@ -5205,17 +5211,23 @@ button.paybar__order {
   place-items: center;
   width: var(--tap);
   height: var(--tap);
+  margin-inline: calc(var(--tap) / -2);
   padding: 0;
   color: var(--ink);
   background: var(--paper);
-  border: 1px solid var(--line-strong);
+  border: 1px solid var(--line);
   border-radius: 50%;
+  box-shadow: 0 4px 14px rgba(27, 27, 27, 0.12);
   cursor: pointer;
-  transition: border-color var(--ease), opacity var(--ease);
+  pointer-events: auto;
+  transition: opacity var(--ease), border-color var(--ease), transform 160ms var(--ease-out);
 }
 .rail__arrow:disabled {
-  opacity: 0.35;
-  cursor: default;
+  opacity: 0;
+  pointer-events: none;
+}
+.rail__arrow:active {
+  transform: scale(0.96);
 }
 @media (hover: hover) {
   .rail__arrow:not(:disabled):hover {

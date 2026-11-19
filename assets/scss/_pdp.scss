@@ -129,40 +129,6 @@
     letter-spacing: -0.015em;
   }
 
-  &__summary {
-    margin-top: var(--step-4);
-    max-width: 46ch;
-    color: var(--ink-soft);
-
-    // п. 33 (Антон, 18.11): two lines on phones, the rest is in «Описание».
-    @media (max-width: #{$bp-phone - 1px}) {
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      line-clamp: 2;
-      overflow: hidden;
-    }
-  }
-
-  &__more {
-    display: none;
-
-    @media (max-width: #{$bp-phone - 1px}) {
-      display: inline-flex;
-      align-items: center;
-      align-self: start;
-      justify-self: start;
-      min-height: 40px;
-      color: var(--ink);
-      font-size: 14px;
-      font-weight: 600;
-      text-decoration: underline;
-      text-decoration-thickness: 2px;
-      text-decoration-color: var(--brand-deep);
-      text-underline-offset: 4px;
-    }
-  }
-
   &__ids {
     display: flex;
     flex-wrap: wrap;
@@ -391,13 +357,6 @@
     }
   }
 
-  &__head .rail__arrows {
-    margin-left: auto;
-  }
-
-  &__head .rail__arrows:not([hidden]) + .reviews__write {
-    margin-left: 0;
-  }
 }
 
 // Variant A (Артём, 18.11): who wrote it first — avatar, name, date — then the stars, then the

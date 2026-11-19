@@ -276,8 +276,6 @@
             <span class="rating__link">12 отзывов</span>
           </a>
 
-          <p class="product__summary">Светлый фуцзяньский улун с ароматом ананаса.</p>
-          <a class="product__more" href="#about">Читать полностью</a>
 
           <p class="product__ids">
             <span class="product__sku">Артикул <b data-out="sku">01306</b></span>
@@ -449,18 +447,11 @@
             <div class="reviews" data-rail>
               <div class="reviews__head">
                 <h2 class="details__title">Отзывы</h2>
-        <div class="rail__arrows" data-rail-arrows hidden>
-          <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="rail__arrow press" type="button" aria-label="Вперёд" data-rail-next>
-            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
                 <a class="reviews__write press" href="https://teaboom.ru/product/ananasovyj-ulun#reviews_for_product">Оставить отзыв</a>
               </div>
               <p class="reviews__sample">Пример оформления блока. На teaboom.ru у этого товара отзывов пока нет — оценка, имена и тексты условные; на сайте их подставит модуль отзывов.</p>
-              <ul class="reviews__list" data-rail-track data-strip>
+              <div class="rail__frame">
+                <ul class="reviews__list" data-rail-track data-strip>
                 <li class="review">
                   <div class="review__who">
                     <span class="review__avatar" aria-hidden="true">М</span>
@@ -491,15 +482,7 @@
                 <li class="review review--all">
                   <a class="review__all" href="https://teaboom.ru/product/ananasovyj-ulun#reviews_for_product">Все 12 отзывов</a>
                 </li>
-              </ul>
-            </div>
-          </div>
-        </section>
-      </article>
-
-    <section class="more" aria-labelledby="related-title" data-rail>
-      <div class="more__head">
-        <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
+                </ul>
         <div class="rail__arrows" data-rail-arrows hidden>
           <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -508,9 +491,19 @@
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </article>
+
+    <section class="more" aria-labelledby="related-title" data-rail>
+      <div class="more__head">
+        <h2 class="more__title" id="related-title">Похожие и сопутствующие товары</h2>
       </div>
       <p class="more__note">Пример заполнения: из списка в админке teaboom.ru в наличии сейчас только «Молочный улун (Тайвань)», остальные три плитки — улуны из каталога.</p>
-      <ul class="goods__grid more__rail" data-rail-track data-strip>
+      <div class="rail__frame">
+        <ul class="goods__grid more__rail" data-rail-track data-strip>
         <li>
           <article class="good" aria-labelledby="good-101-name" data-good data-slug="molochnyj-ulun-tajvani-1">
             <div class="good__media">
@@ -731,7 +724,16 @@
             </div>
           </article>
         </li>
-      </ul>
+        </ul>
+        <div class="rail__arrows" data-rail-arrows hidden>
+          <button class="rail__arrow press" type="button" aria-label="Назад" data-rail-prev>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="rail__arrow press" type="button" aria-label="Вперёд" data-rail-next>
+            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
     </section>
 
     <section class="more more--seen" aria-labelledby="viewed-title" data-viewed hidden>

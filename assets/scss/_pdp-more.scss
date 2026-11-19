@@ -158,13 +158,21 @@
   }
 }
 
-// Arrows of a sideways row (data-rail in more.js): «Похожие», reviews. Shown only for a mouse,
-// only when the row does not fit.
+// Arrows of a sideways row (data-rail in more.js): «Похожие», reviews. They sit on the row itself,
+// at its sides and level with the cards — not in the heading, away from what they move (Антон,
+// 19.11). Shown only for a mouse and only when the row does not fit; the arrow at an end hides.
 .rail {
+  &__frame {
+    position: relative;
+  }
+
   &__arrows {
+    position: absolute;
+    inset: 0;
     display: flex;
-    flex: none;
-    gap: var(--step-2);
+    align-items: center;
+    justify-content: space-between;
+    pointer-events: none;
 
     &[hidden] {
       display: none;
@@ -176,17 +184,24 @@
     place-items: center;
     width: var(--tap);
     height: var(--tap);
+    margin-inline: calc(var(--tap) / -2);
     padding: 0;
     color: var(--ink);
     background: var(--paper);
-    border: 1px solid var(--line-strong);
+    border: 1px solid var(--line);
     border-radius: 50%;
+    box-shadow: 0 4px 14px rgb(27 27 27 / 12%);
     cursor: pointer;
-    transition: border-color var(--ease), opacity var(--ease);
+    pointer-events: auto;
+    transition: opacity var(--ease), border-color var(--ease), transform 160ms var(--ease-out);
 
     &:disabled {
-      opacity: 0.35;
-      cursor: default;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    &:active {
+      transform: scale(0.96);
     }
 
     @media (hover: hover) {
