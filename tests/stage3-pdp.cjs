@@ -14,6 +14,8 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
 
   let c = await b.newContext(phone);
   let p = await open(c, 'product.html');
+  // Антон, 19.11: on a phone the breadcrumbs open at their tail — the nearest category in view.
+  ok(await p.evaluate(() => { const s = document.querySelector('.breadcrumbs__list'); const max = s.scrollWidth - s.clientWidth; return max > 0 && s.scrollLeft >= max - 2 && s.dataset.more === 'start'; }), 'крошки на телефоне показаны с конца — ближайшая категория видна');
   // п. 33: phone — category, name and rating above the photo. The short summary is gone (Антон, 19.11:
   // it repeats «Описание» and «Читать полностью» made the page jump).
   const y = (sel) => p.evaluate((s) => document.querySelector(s).getBoundingClientRect().top, sel);

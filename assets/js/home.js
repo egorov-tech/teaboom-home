@@ -319,6 +319,11 @@
     };
     strip.addEventListener("scroll", syncFade, { passive: true });
     window.addEventListener("resize", syncFade, { passive: true });
+    // Breadcrumbs open at their tail (Антон, 19.11): a shopper who came from search to a product
+    // goes up to the nearest category, not to the root. The start is a swipe away (fade on the left).
+    if (strip.matches(".breadcrumbs__list") && strip.scrollWidth > strip.clientWidth) {
+      strip.scrollTo({ left: strip.scrollWidth, behavior: "instant" });
+    }
     syncFade();
 
     strip.addEventListener("focusin", (event) => {
