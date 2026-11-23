@@ -452,6 +452,102 @@
     color: var(--ink);
   }
 
+  // п. 45 (Ксения, 23.11): the title is the fold button on a computer (category.js). Phones and
+  // tablets keep every group open in the sheet (accepted), so there it reads as a plain heading.
+  &__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--step-2);
+    width: 100%;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+
+    &:disabled {
+      cursor: default;
+    }
+
+    @media (min-width: $bp-split) {
+      min-height: 40px;
+      margin-block: calc(var(--step-2) * -1);
+      cursor: pointer;
+
+      &::after {
+        content: "";
+        flex: none;
+        width: 8px;
+        height: 8px;
+        margin: 0 4px 0 auto;
+        border-right: 1.6px solid currentColor;
+        border-bottom: 1.6px solid currentColor;
+        transform: translateY(-2px) rotate(45deg);
+        transition: transform 200ms var(--ease-out);
+      }
+
+      &[aria-expanded="true"]::after {
+        transform: translateY(2px) rotate(-135deg);
+      }
+
+      @media (hover: hover) {
+        &:hover .facets__name {
+          text-decoration: underline;
+          text-underline-offset: 3px;
+        }
+      }
+    }
+  }
+
+  // How many values are chosen in the group — seen even when it is folded.
+  &__picked {
+    display: inline-grid;
+    place-items: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    font: 700 12px/1 var(--font-text);
+    color: var(--ink);
+    background: var(--brand);
+    border-radius: 999px;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Folding: rows 1fr → 0fr animates the real height; folded content is inert (category.js).
+  &__fold {
+    clear: both;
+    display: grid;
+    grid-template-rows: 1fr;
+    transition: grid-template-rows 220ms var(--ease-out);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  &__fold-inner {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__group.is-folded &__fold {
+    grid-template-rows: 0fr;
+  }
+
+  @media (min-width: $bp-split) {
+    &__group.is-folded {
+      padding-bottom: var(--step-3);
+    }
+
+    &__group.is-folded &__title {
+      margin-bottom: 0;
+    }
+  }
+
   &__list {
     clear: both;
     display: grid;

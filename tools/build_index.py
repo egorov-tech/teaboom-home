@@ -845,11 +845,22 @@ def render_filters(c, by_slug):
         rest = len(vals) - shown
         more = (f'\n            <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Показать все ({len(vals)})</button>'
                 if rest else "")
-        groups.append(f'''          <fieldset class="facets__group">
-            <legend class="facets__title" id="{gid}">{esc(g["title"])}</legend>
+        # п. 45 (Ксения, 23.11): on a computer every group folds under its title (an arrow, as on
+        # shop.rusteaco.ru); a group with a chosen value stays open. Without JS all are open.
+        groups.append(f'''          <fieldset class="facets__group" data-facets-group>
+            <legend class="facets__title" id="{gid}">
+              <button class="facets__toggle" type="button" aria-expanded="true" aria-controls="{gid}-values" data-facets-toggle>
+                <span class="facets__name">{esc(g["title"])}</span>
+                <span class="facets__picked" data-facets-picked hidden></span>
+              </button>
+            </legend>
+            <div class="facets__fold" id="{gid}-values" data-facets-fold>
+              <div class="facets__fold-inner">
             <ul class="facets__list">
 {chr(10).join(rows)}
             </ul>{more}
+              </div>
+            </div>
           </fieldset>''')
     return "\n".join(groups)
 

@@ -412,8 +412,15 @@
               </button>
             </header>
             <div class="facets__body">
-          <fieldset class="facets__group">
-            <legend class="facets__title" id="fg-3">Страна произрастания</legend>
+          <fieldset class="facets__group" data-facets-group>
+            <legend class="facets__title" id="fg-3">
+              <button class="facets__toggle" type="button" aria-expanded="true" aria-controls="fg-3-values" data-facets-toggle>
+                <span class="facets__name">Страна произрастания</span>
+                <span class="facets__picked" data-facets-picked hidden></span>
+              </button>
+            </legend>
+            <div class="facets__fold" id="fg-3-values" data-facets-fold>
+              <div class="facets__fold-inner">
             <ul class="facets__list">
               <li>
                 <label class="facet">
@@ -440,9 +447,18 @@
                 </label>
               </li>
             </ul>
+              </div>
+            </div>
           </fieldset>
-          <fieldset class="facets__group">
-            <legend class="facets__title" id="fg-34">Фасовка</legend>
+          <fieldset class="facets__group" data-facets-group>
+            <legend class="facets__title" id="fg-34">
+              <button class="facets__toggle" type="button" aria-expanded="true" aria-controls="fg-34-values" data-facets-toggle>
+                <span class="facets__name">Фасовка</span>
+                <span class="facets__picked" data-facets-picked hidden></span>
+              </button>
+            </legend>
+            <div class="facets__fold" id="fg-34-values" data-facets-fold>
+              <div class="facets__fold-inner">
             <ul class="facets__list">
               <li>
                 <label class="facet">
@@ -469,9 +485,18 @@
                 </label>
               </li>
             </ul>
+              </div>
+            </div>
           </fieldset>
-          <fieldset class="facets__group">
-            <legend class="facets__title" id="fg-57">Сорт</legend>
+          <fieldset class="facets__group" data-facets-group>
+            <legend class="facets__title" id="fg-57">
+              <button class="facets__toggle" type="button" aria-expanded="true" aria-controls="fg-57-values" data-facets-toggle>
+                <span class="facets__name">Сорт</span>
+                <span class="facets__picked" data-facets-picked hidden></span>
+              </button>
+            </legend>
+            <div class="facets__fold" id="fg-57-values" data-facets-fold>
+              <div class="facets__fold-inner">
             <ul class="facets__list">
               <li>
                 <label class="facet">
@@ -531,6 +556,8 @@
               </li>
             </ul>
             <button class="facets__more" type="button" aria-expanded="false" data-facets-more>Показать все (7)</button>
+              </div>
+            </div>
           </fieldset>
             </div>
             <footer class="facets__foot">

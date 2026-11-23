@@ -193,6 +193,14 @@
     resetBtns.forEach((btn) => {
       btn.disabled = picked === 0;
     });
+    // The chosen count next to each group title (seen when the group is folded too).
+    root.querySelectorAll("[data-facets-group]").forEach((group) => {
+      const n = group.querySelectorAll("[data-facet]:checked").length;
+      const tag = group.querySelector("[data-facets-picked]");
+      tag.hidden = n === 0;
+      tag.textContent = String(n);
+      tag.setAttribute("aria-label", `выбрано: ${n}`);
+    });
     // A chosen value inside a folded group is always shown.
     root.querySelectorAll("[data-extra]").forEach((li) => {
       const group = li.closest(".facets__group");
@@ -306,6 +314,25 @@
       if (open) btn.closest(".facets__group").querySelector("[data-extra] [data-facet]")?.focus();
     });
   });
+  // п. 45 (Ксения, 23.11): on a computer the groups fold under their titles; a group with a
+  // chosen value opens. Phones and tablets keep the accepted sheet with every group open.
+  const groups = [...root.querySelectorAll("[data-facets-group]")];
+  const fold = (group, open) => {
+    group.classList.toggle("is-folded", !open);
+    group.querySelector("[data-facets-toggle]").setAttribute("aria-expanded", String(open));
+    group.querySelector("[data-facets-fold]").inert = !open;
+  };
+  const arrange = () => {
+    groups.forEach((group) => {
+      const toggle = group.querySelector("[data-facets-toggle]");
+      toggle.disabled = !wide.matches;
+      fold(group, !wide.matches || !!group.querySelector("[data-facet]:checked"));
+    });
+  };
+  groups.forEach((group) => {
+    group.querySelector("[data-facets-toggle]").addEventListener("click", () => fold(group, group.classList.contains("is-folded")));
+  });
+  wide.addEventListener("change", arrange);
   root.querySelector("[data-chips-reset]").addEventListener("click", resetAll);
   root.querySelector("[data-empty-reset]").addEventListener("click", resetAll);
 
@@ -336,7 +363,10 @@
   window.addEventListener("popstate", () => {
     state = read();
     render();
+    // «Назад» may bring back a value inside a folded group — open it so the choice is seen.
+    if (wide.matches) groups.forEach((group) => group.querySelector("[data-facet]:checked") && fold(group, true));
   });
 
   go({ push: false });
+  arrange();
 })();

@@ -25,8 +25,19 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   let c = await b.newContext({ viewport: { width: 1440, height: 900 } });
   let p = await open(c, 'category-ulun.html');
   ok(await p.locator('[data-facets]').isVisible() && await p.locator('[data-facets-open]').isHidden(), '17: компьютер — фильтры колонкой слева, кнопки «Фильтры» нет');
-  const groups = await p.$$eval('.facets__title', (ls) => ls.map((l) => l.textContent.trim()));
+  const groups = await p.$$eval('.facets__name', (ls) => ls.map((l) => l.textContent.trim()));
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Фасовка', 'Сорт']), '17 + 42: группы как на сайте (одиночные скрыты), без «Категории» — её заменяют подкатегории');
+  // п. 45 (Ксения, 23.11): on a computer the groups fold under their titles, as on rusteaco.
+  ok(await p.locator('.facets__group.is-folded').count() === 3 && await p.locator('.facets__fold').first().evaluate((e) => e.inert && e.getBoundingClientRect().height < 1), '45: компьютер — все группы свёрнуты под стрелку, свёрнутое недоступно с клавиатуры');
+  ok(await p.evaluate(() => [...document.querySelectorAll('.facets__toggle')].every((t) => t.getBoundingClientRect().height >= 40)), '45: заголовок группы — кнопка не ниже 40 px');
+  const country = p.locator('.facets__group', { hasText: 'Страна произрастания' });
+  await country.locator('.facets__toggle').click(); await p.waitForTimeout(400);
+  ok(await country.locator('.facets__toggle').getAttribute('aria-expanded') === 'true' && await country.locator('.facet', { hasText: 'Китай' }).isVisible(), '45: клик по заголовку раскрывает группу');
+  await country.locator('.facets__toggle').click(); await p.waitForTimeout(400);
+  ok(await country.evaluate((g) => g.classList.contains('is-folded')), '45: повторный клик сворачивает');
+  // The rest of this run needs every group open.
+  for (const t of await p.locator('.facets__toggle').all()) if ((await t.getAttribute('aria-expanded')) === 'false') await t.click();
+  await p.waitForTimeout(400);
   // п. 43: «Вы смотрели» in the category — the same block as on the product page; it shows the
   // history (here: the marked example) and writes nothing, a category is not a product.
   ok(await p.locator('[data-viewed]').isVisible() && await p.locator('.seen').count() === 5 && await p.evaluate(() => localStorage.getItem('teaboom-viewed-v1') === null), '43: «Вы смотрели» в категории — пример с пометкой, история не пишется');
@@ -101,6 +112,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await p.locator('[data-empty-reset]').click(); await p.waitForTimeout(200);
   ok(await countText(p) === '143 товара', '17: «Сбросить фильтры» в пустом состоянии');
   await p.goto(base + 'category-ulun.html?f=3__Нет___57__Габа___3__Тайвань', { waitUntil: 'networkidle' });
+  ok(await p.evaluate(() => [...document.querySelectorAll('[data-facets-group]')].map((g) => (g.classList.contains('is-folded') ? 0 : 1) + ':' + g.querySelector('[data-facets-picked]').textContent).join(' ')) === '1:1 0:0 1:1', '45: группы с выбором из адреса открыты, у заголовка — сколько выбрано; остальные свёрнуты');
   ok(await countText(p) === 'Найдено 51 товар', '17: неизвестное значение в адресе пропускается, остальное работает (51)');
   await p.goto(base + 'category-ulun.html?f=16__Натуральный', { waitUntil: 'networkidle' });
   ok(await countText(p) === '143 товара', '42: старый адрес с «Категорией» не ломает страницу — показан весь улун');
@@ -153,6 +165,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(row, '17: «Фильтры» и сортировка в одной строке');
   await p.locator('[data-facets-open]').tap(); await p.waitForTimeout(400);
   ok(await p.evaluate(() => document.querySelector('[data-facets]').matches(':modal')), '17: «Фильтры» открывают панель поверх страницы');
+  ok(await p.evaluate(() => [...document.querySelectorAll('[data-facets-group]')].every((g) => !g.classList.contains('is-folded') && g.querySelector('[data-facets-toggle]').disabled)), '45: телефон — шторка как принята: все группы открыты, заголовки не сворачиваются');
   await p.locator('.facet', { hasText: 'Тайвань' }).tap(); await p.waitForTimeout(200);
   ok((await p.textContent('[data-facets-total]')).trim() === '64 товара', '17: кнопка «Показать 64 товара» — итог до закрытия');
   await p.keyboard.press('Escape'); await p.waitForTimeout(150);
