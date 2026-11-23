@@ -139,6 +139,16 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     await c.close();
   }
 
+  // п. 25 (Антон, 23.11): only the lines ticked in the cart make the order.
+  {
+    const c = await b.newContext({ viewport: { width: 1440, height: 900 } });
+    await c.addInitScript(() => { if (!sessionStorage.getItem('seeded')) { sessionStorage.setItem('seeded', '1'); localStorage.setItem('teaboom-demo-cart-v2', JSON.stringify([
+      { sku: '01285', name: 'Улун Медовая Дыня', pack: '1 кг', price: 1294, img: '', url: 'product.html', qty: 1 },
+      { sku: '01306', name: 'Ананасовый улун', pack: '100 г', price: 326.4, img: '', url: 'product.html', qty: 1, off: true }])); } });
+    const p = await open(c, 'checkout.html');
+    ok(await p.locator('.brief__line').count() === 1 && (await p.textContent('.brief__line')).includes('Медовая Дыня'), '25 → 26: в оформлении только отмеченные в корзине товары');
+    await c.close();
+  }
   ok(errors.length === 0, '26: без ошибок JS' + (errors.length ? ' — ' + errors.join(' | ') : ''));
   } finally {
     await b.close();

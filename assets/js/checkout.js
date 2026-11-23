@@ -56,7 +56,7 @@
   };
 
   let orderInView = false;
-  const syncBar = (has = cart.items().length > 0) => {
+  const syncBar = (has = cart.picked().length > 0) => {
     if (paybar) paybar.hidden = !has || orderInView;
   };
   const order = root.querySelector("[data-order]");
@@ -109,7 +109,9 @@
     li.querySelector("[data-brief-sum]").textContent = money(item.price * item.qty);
   };
 
-  const render = (items = cart.items()) => {
+  // п. 25: only the lines ticked in the cart make the order; the rest wait in the cart.
+  const render = (all = cart.items()) => {
+    const items = all.filter((x) => !x.off);
     const has = items.length > 0;
     root.querySelector("[data-checkout-empty]").hidden = has;
     root.querySelector("[data-checkout-full]").hidden = !has;

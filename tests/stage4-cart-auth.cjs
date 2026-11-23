@@ -36,20 +36,40 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   // pay bar: hidden while the summary's own «Заказать» is on screen
   await p.locator('[data-order]').scrollIntoViewIfNeeded(); await p.waitForTimeout(300);
   ok(await p.locator('[data-paybar]').isHidden(), '25: кнопка «Заказать» на экране — панель скрыта');
-  // A second line pushes «Заказать» below the first screen: then the bar stands in for it.
-  await p.evaluate(() => window.TeaboomCart.fill([...window.TeaboomCart.items(), { sku: '01306', name: 'Ананасовый улун', pack: '100 г', price: 326.4, old: 349.2, img: '', url: 'product.html', qty: 1 }]));
+  // More lines push the order button below the first screen: then the bar stands in for it.
+  await p.evaluate(() => window.TeaboomCart.fill([...window.TeaboomCart.items(),
+    { sku: '01306', name: 'Ананасовый улун', pack: '100 г', price: 326.4, old: 349.2, img: '', url: 'product.html', qty: 1 },
+    { sku: '01307', name: 'Ананасовый улун', pack: '500 г', price: 1430, old: 0, img: '', url: 'product.html', qty: 1 }]));
   await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(400);
   const below = await p.evaluate(() => document.querySelector('[data-order]').getBoundingClientRect().top > innerHeight);
-  ok(below && await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '6' + NB + '796,40' + NB + '₽', '25: «Заказать» ниже экрана — панель «Итого 6 796,40 ₽ · Заказать»');
-  await p.locator('[data-line-remove]').nth(1).tap(); await p.waitForTimeout(200);
+  ok(below && await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '8' + NB + '226,40' + NB + '₽' && rub(await p.textContent('[data-order-bar]')) === 'Перейти к оформлению', '25: кнопка ниже экрана — панель «Итого 8 226,40 ₽ · Перейти к оформлению»');
+  ok(await p.locator('.summary__row').count() === 1 && (await p.textContent('.summary__row')).includes('Итого') && rub(await p.textContent('[data-order]')) === 'Перейти к оформлению', '25 (Антон, 23.11): в итоге только «Итого», кнопка «Перейти к оформлению»');
+  // Removed: the row stays crossed out with «Вернуть»; «Вернуть» puts it back in place.
+  const line = (sku) => p.locator(`[data-line][data-sku="${sku}"]`);
+  await line('01306').locator('[data-line-remove]').tap(); await p.waitForTimeout(250);
+  ok(await line('01306').evaluate((l) => l.classList.contains('is-gone')) && await line('01306').locator('[data-line-back]').isVisible() && await line('01306').locator('[data-qty]').isHidden() && (await p.textContent('[data-total-bar]')) === '7' + NB + '900' + NB + '₽', '25: удалённый товар остаётся зачёркнутым с «Вернуть», итог без него');
+  ok(await p.evaluate(() => document.activeElement?.matches('[data-line-back]')), '25: фокус — на «Вернуть»');
+  await line('01306').locator('[data-line-back]').tap(); await p.waitForTimeout(250);
+  ok(!(await line('01306').evaluate((l) => l.classList.contains('is-gone'))) && await p.evaluate(() => window.TeaboomCart.items().map((x) => x.sku).join()) === '01285,01306,01307', '25: «Вернуть» — строка снова в корзине и на своём месте');
+  // Ticks: an unticked line stays in the cart, out of this order and its total.
+  await line('01307').locator('.line__pick').tap(); await p.waitForTimeout(250);
+  ok((await p.textContent('[data-picked-count]')) === 'Выбрано 2 из 3' && (await p.textContent('[data-total-bar]')) === '6' + NB + '796,40' + NB + '₽' && await p.evaluate(() => window.TeaboomCart.items().length === 3 && window.TeaboomCart.picked().length === 2), '25: снятая галочка — товар в корзине, но не в заказе и не в итоге');
+  ok(await p.locator('[data-pick-all]').evaluate((x) => x.indeterminate), '25: «Выбрать все» — частично');
+  await p.locator('.lines__head .pick').tap(); await p.waitForTimeout(250);
+  ok((await p.textContent('[data-picked-count]')) === 'Выбрано 3 из 3', '25: «Выбрать все» отмечает всё');
+  await p.locator('.lines__head .pick').tap(); await p.waitForTimeout(250);
+  ok((await p.textContent('[data-total-bar]')) === '0' + NB + '₽' && await p.locator('[data-none]').isVisible() && (await p.getAttribute('[data-order]', 'aria-disabled')) === 'true', '25: ничего не отмечено — 0 ₽, кнопка ждёт, подсказка «Отметьте товары…»');
+  await p.locator('.lines__head .pick').tap(); await p.waitForTimeout(250);
   ok(await overflow(p) <= 0, '25: телефон — без горизонтальной прокрутки');
+  ok(await p.evaluate(() => [...document.querySelectorAll('.line__pick, .lines__head .pick, [data-line-back]')].filter((e) => e.getClientRects().length).every((e) => { const r = e.getBoundingClientRect(); return r.width >= 40 && r.height >= 40; })), '25: галочки и «Вернуть» — цель не меньше 40 px');
   await p.locator('[data-coupon] button').tap();
   ok((await p.textContent('[data-coupon-note]')).includes('Введите код купона'), '25: пустой купон — подсказка');
   await p.fill('#coupon', 'TEA10'); await p.locator('[data-coupon] button').tap();
   ok((await p.textContent('[data-coupon-note]')).startsWith('Демо:'), '25: купон в демо честно помечен');
-  await p.locator('[data-line-remove]').tap(); await p.waitForTimeout(200);
-  ok(await p.locator('[data-basket-empty]').isVisible() && (await p.textContent('[data-cart-count]')).trim() === '0', '25: удаление — пустая корзина, счётчик 0');
-  ok(await p.evaluate(() => document.activeElement?.closest('[data-basket-empty]') !== null), '25: после удаления фокус не теряется');
+  for (const sku of ['01285', '01306', '01307']) { await line(sku).locator('[data-line-remove]').tap(); await p.waitForTimeout(200); }
+  ok((await p.textContent('[data-cart-count]')).trim() === '0' && await p.locator('[data-line].is-gone').count() === 3 && await p.locator('[data-paybar]').isHidden(), '25: всё удалено — счётчик 0, строки с «Вернуть» до ухода со страницы');
+  await p.reload({ waitUntil: 'networkidle' });
+  ok(await p.locator('[data-basket-empty]').isVisible(), '25: после ухода со страницы — «Ваша корзина пуста»');
   await c.close();
 
   // ---------- Cart: sample + desktop ----------
@@ -61,7 +81,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   const sticky = await p.evaluate(() => getComputedStyle(document.querySelector('[data-summary]')).position);
   ok(sticky === 'sticky', '25: компьютер — итог закреплён справа');
   await p.locator('[data-qty-dec]').first().click(); await p.locator('[data-qty-dec]').first().click(); await p.waitForTimeout(150);
-  ok(await p.locator('[data-line]').count() === 1, '25: «−» на 1 шт. убирает строку');
+  ok(await p.locator('[data-line]:not(.is-gone)').count() === 1 && await p.locator('[data-line].is-gone [data-line-back]').count() === 1, '25: «−» на 1 шт. убирает товар, строка остаётся с «Вернуть»');
   await c.close();
 
   // ---------- Product page and home → cart ----------

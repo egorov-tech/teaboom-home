@@ -120,6 +120,16 @@
   };
 
   const remove = (sku) => save(items().filter((x) => x.sku !== sku));
+  // п. 25 (Антон, 23.11): «Вернуть» puts a removed line back where it was.
+  const restore = (item, at = Infinity) => {
+    const list = items().filter((x) => x.sku !== item.sku);
+    list.splice(Math.min(at, list.length), 0, { ...item, qty: Math.max(1, Number(item.qty) || 1) });
+    save(list);
+  };
+  // п. 25: a ticked line goes into the order; an unticked one stays in the cart for later.
+  const setPicked = (sku, on) => save(items().map((x) => (x.sku === sku ? { ...x, off: !on } : x)));
+  const setAllPicked = (on) => save(items().map((x) => ({ ...x, off: !on })));
+  const picked = () => items().filter((x) => !x.off);
   const clear = () => save([]);
   const fill = (list) => save(list.map((x) => ({ ...x, qty: Math.max(1, Number(x.qty) || 1) })));
   const onChange = (fn) => listeners.add(fn);
@@ -134,5 +144,5 @@
 
   paint(count());
 
-  window.TeaboomCart = { read, add, bump, fly, paint, items, setQty, remove, clear, fill, onChange };
+  window.TeaboomCart = { read, add, bump, fly, paint, items, picked, setQty, remove, restore, setPicked, setAllPicked, clear, fill, onChange };
 })();

@@ -102,11 +102,34 @@
   }
 }
 
+// Rows lay out by the list's own width, not the screen's: at 900–1059 px the summary column
+// takes 340 px and a screen-width rule squeezed the name to a letter per line (Ксения, 23.11).
+.basket__lines {
+  container-type: inline-size;
+  min-width: 0;
+}
+
+// п. 25 (Антон, 23.11): «Выбрать все» and how many lines go into this order, above the list.
+.lines__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--step-3);
+  padding: 0 var(--step-4) var(--step-2);
+
+  @container (min-width: 660px) {
+    padding-inline: var(--step-5);
+  }
+}
+
+.lines__picked {
+  font-size: 13px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
 .lines {
   @include surface;
-  // Rows lay out by the list's own width, not the screen's: at 900–1059 px the summary column
-  // takes 340 px and a screen-width rule squeezed the name to a letter per line (Ксения, 23.11).
-  container-type: inline-size;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -118,6 +141,7 @@
   display: grid;
   // Phones: the «− N +» stepper starts under the photo, so it never runs into the sum
   // even at 320 px with a five-digit total.
+  position: relative;
   grid-template-columns: 72px minmax(0, 1fr) auto;
   grid-template-areas:
     "photo info remove"
@@ -136,10 +160,104 @@
   }
 
   @container (min-width: 660px) {
-    grid-template-columns: 88px minmax(0, 1fr) auto 120px 44px;
-    grid-template-areas: "photo info qty money remove";
+    grid-template-columns: 20px 88px minmax(0, 1fr) auto 120px 44px;
+    grid-template-areas: "pick photo info qty money remove";
     gap: var(--step-4);
     padding: var(--step-4) var(--step-5);
+  }
+
+  // Narrow rows: the tick sits on the photo's corner (the name keeps its width); its 40 px
+  // target is centred on the box. Wide rows: a column of its own before the photo.
+  & &__pick {
+    position: absolute;
+    z-index: 1;
+    top: calc(var(--step-4) - 12px);
+    left: calc(var(--step-4) - 12px);
+    justify-content: center;
+    width: 40px;
+
+    .pick__box {
+      box-shadow: 0 0 0 2px var(--paper);
+    }
+  }
+
+  @media (max-width: 359px) {
+    & .line__pick {
+      top: calc(var(--step-3) - 12px);
+      left: calc(var(--step-3) - 12px);
+    }
+  }
+
+  @container (min-width: 660px) {
+    & .line__pick {
+      position: relative;
+      inset: auto;
+      grid-area: pick;
+      align-self: center;
+      margin-inline: -10px;
+    }
+  }
+
+  // Not ticked: still in the cart, just not in this order.
+  &.is-off &__photo {
+    opacity: 0.55;
+  }
+
+  &.is-off &__money {
+    color: var(--muted);
+  }
+
+  // Removed on this page: crossed out, «Вернуть» where the quantity was.
+  &.is-gone &__photo {
+    opacity: 0.4;
+  }
+
+  &.is-gone &__name {
+    color: var(--muted);
+    text-decoration: line-through;
+  }
+
+  &.is-gone &__money {
+    visibility: hidden;
+  }
+
+  &.is-gone .pick {
+    visibility: hidden;
+  }
+
+  &__gone {
+    grid-area: qty;
+    display: flex;
+    align-items: center;
+    gap: var(--step-3);
+    margin: 0;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__gone-note {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__back {
+    min-height: 40px;
+    padding: 0 var(--step-4);
+    font: 600 14px/1 var(--font-text);
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: border-color var(--ease);
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: var(--ink);
+      }
+    }
   }
 
   &__photo {
@@ -204,6 +322,11 @@
 
   &__remove {
     grid-area: remove;
+
+    &[hidden] {
+      display: none;
+    }
+
     justify-self: end;
     align-self: start;
     display: grid;
@@ -230,8 +353,75 @@
   }
 }
 
+// Tick box: the filters' checkbox look; a 40 px target around a 20 px box.
+.pick {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  cursor: pointer;
+
+  &__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  &__box {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    background: var(--paper);
+    border: 1.5px solid var(--line-strong);
+    border-radius: 5px;
+    transition: background-color var(--ease), border-color var(--ease);
+  }
+
+  &__input:checked ~ &__box {
+    background: var(--ink)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 10.5 3.2 3L15 6.5'/%3E%3C/svg%3E")
+      center / 15px no-repeat;
+    border-color: var(--ink);
+  }
+
+  &__input:indeterminate ~ &__box {
+    background: var(--ink)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5.5 10h9'/%3E%3C/svg%3E")
+      center / 15px no-repeat;
+    border-color: var(--ink);
+  }
+
+  &__input:focus-visible ~ &__box {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  &__input:disabled {
+    cursor: default;
+  }
+
+  @media (hover: hover) {
+    &:hover &__input:not(:checked, :disabled) ~ &__box {
+      border-color: var(--ink);
+    }
+  }
+}
+
 .qty {
   grid-area: qty;
+
+  &[hidden] {
+    display: none;
+  }
+
   display: inline-grid;
   grid-template-columns: 40px 44px 40px;
   justify-self: start;
@@ -317,6 +507,13 @@
       margin-top: var(--step-2);
       padding-top: var(--step-3);
       border-top: 1px solid var(--line);
+
+      // п. 25: «Итого» is now the only row — the list's own hairline is enough.
+      &:first-child {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: 0;
+      }
       font-size: 18px;
       font-weight: 700;
 
@@ -346,6 +543,16 @@
 
     &:hover {
       color: var(--ink);
+    }
+  }
+
+  &__none {
+    margin: calc(var(--step-2) * -1) 0 0;
+    font-size: 13px;
+    color: var(--muted);
+
+    &[hidden] {
+      display: none;
     }
   }
 }
@@ -473,14 +680,17 @@
     color: var(--muted);
   }
 
+  // «Перейти к оформлению» may take two lines on a 320 px phone rather than squeeze the total.
   &__order {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-width: 132px;
+    max-width: 62%;
     min-height: 44px;
-    padding: 0 16px;
-    font: 700 14px/1 var(--font-text);
+    padding: 4px 14px;
+    font: 700 14px/1.15 var(--font-text);
+    text-align: center;
     color: var(--ink);
     text-decoration: none;
     background: var(--brand);
@@ -501,4 +711,11 @@
   @media (max-width: #{$bp-phone - 1px}) {
     padding: var(--step-4);
   }
+}
+
+// No line ticked: the order buttons wait in place (no jump), the hint under the summary says why.
+.summary__order.is-waiting,
+.paybar__order.is-waiting {
+  opacity: 0.45;
+  cursor: not-allowed;
 }

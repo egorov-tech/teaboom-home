@@ -169,6 +169,15 @@
       <div class="basket__layout" data-basket-full hidden>
         <section class="basket__lines" aria-labelledby="lines-title">
           <h2 class="visually-hidden" id="lines-title">Товары в корзине</h2>
+          <!-- п. 25 (Антон, 23.11): ticks choose what goes into this order; the rest stays here. -->
+          <div class="lines__head">
+            <label class="pick">
+              <input class="pick__input" type="checkbox" checked data-pick-all>
+              <span class="pick__box" aria-hidden="true"></span>
+              <span class="pick__label">Выбрать все</span>
+            </label>
+            <span class="lines__picked" data-picked-count aria-live="polite"></span>
+          </div>
           <ul class="lines" data-lines></ul>
         </section>
 
@@ -184,25 +193,16 @@
             <p class="coupon__note" id="coupon-note" role="status" data-coupon-note hidden></p>
           </form>
 
+          <!-- п. 25 (Антон, 23.11): delivery and payment are chosen at checkout — here only «Итого»
+               for the ticked lines, and the button says what comes next. -->
           <dl class="summary__list">
-            <div class="summary__row">
-              <dt>Сумма</dt>
-              <dd data-sum></dd>
-            </div>
-            <div class="summary__row">
-              <dt>Доставка <span class="summary__how">самовывоз, ул.&nbsp;Народного Ополчения,&nbsp;47</span></dt>
-              <dd>0&nbsp;₽</dd>
-            </div>
-            <div class="summary__row">
-              <dt>Оплата <span class="summary__how">при самовывозе</span></dt>
-              <dd>0&nbsp;₽</dd>
-            </div>
             <div class="summary__row summary__row--total">
               <dt>Итого</dt>
               <dd data-total></dd>
             </div>
           </dl>
-          <a class="summary__order cta press" href="checkout.html" data-order>Заказать</a>
+          <a class="summary__order cta press" href="checkout.html" data-order>Перейти к оформлению</a>
+          <p class="summary__none" data-none hidden>Отметьте товары, которые хотите заказать.</p>
         </aside>
       </div>
     </div>
@@ -210,12 +210,16 @@
     <!-- Phones: the total and «Заказать» stay in reach above the tab bar. -->
     <div class="paybar" data-paybar hidden>
       <p class="paybar__total"><span class="paybar__label">Итого</span> <span data-total-bar></span></p>
-      <a class="paybar__order press" href="checkout.html">Заказать</a>
+      <a class="paybar__order press" href="checkout.html" data-order-bar>Перейти к оформлению</a>
     </div>
   </main>
 
   <template data-line-template>
     <li class="line" data-line>
+      <label class="pick line__pick">
+        <input class="pick__input" type="checkbox" checked data-line-pick>
+        <span class="pick__box" aria-hidden="true"></span>
+      </label>
       <a class="line__photo" href="" tabindex="-1" aria-hidden="true" data-line-link><img class="line__image" src="" alt="" width="96" height="96" loading="lazy" decoding="async" data-line-image></a>
       <div class="line__info">
         <a class="line__name" href="" data-line-link data-line-name></a>
@@ -229,6 +233,10 @@
       <p class="line__money">
         <span class="line__sum" data-line-sum></span>
         <span class="line__each" data-line-each></span>
+      </p>
+      <p class="line__gone" data-line-gone hidden>
+        <span class="line__gone-note">Удалено</span>
+        <button class="line__back press" type="button" data-line-back>Вернуть</button>
       </p>
       <button class="line__remove press" type="button" data-line-remove>
         <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3.5 5.5h13M8 5.5V4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5M5.5 5.5l.7 10.2a1.5 1.5 0 0 0 1.5 1.3h4.6a1.5 1.5 0 0 0 1.5-1.3l.7-10.2"/></svg>
