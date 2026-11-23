@@ -147,6 +147,24 @@
     margin-bottom: 0;
   }
 
+  // Артём, 24.11: «Доставка и оплата» над колонками «Доставка» и «Оплата» читалось дважды. The two
+  // columns are the section's own headings now (in the section title's size); the combined
+  // heading stays for screen readers and the page outline.
+  #delivery > &__title {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  #delivery .delivery h3 {
+    margin-bottom: var(--step-1);
+    font-size: clamp(22px, 1.2vw + 16px, 28px);
+    line-height: 1.1;
+  }
+
   // Tabs name the panels on phones: the headings stay for screen readers only.
   &.is-tabbed &__title {
     position: absolute;

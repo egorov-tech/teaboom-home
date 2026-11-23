@@ -114,16 +114,28 @@
     outline-offset: 3px;
   }
 
-  // Chosen: the yellow accent is the chip's own top edge (border + 2 px inset), ink on the sides
-  // and bottom. Being part of the border it follows the rounded corners exactly — before, a
-  // separate bar over the border bent at the corners (Артём, 18.11: «линии сверху кривые»).
+  // Chosen: one even 2 px ink frame, and the yellow accent as a cap inside it along the top —
+  // a strip clipped by the frame's inner curve. A yellow top border met the ink sides on a
+  // diagonal and left thin tails at the corners (Артём, 18.11 and 24.11).
+  &__body::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto;
+    height: 4px;
+    background: var(--brand);
+    border-radius: calc(var(--radius-md) - 2px) calc(var(--radius-md) - 2px) 0 0;
+    opacity: 0;
+    transition: opacity var(--ease);
+  }
+
   &__input:checked + &__body {
-    border-color: var(--brand) var(--ink) var(--ink);
-    box-shadow:
-      inset 0 2px 0 var(--brand),
-      inset 1px 0 0 var(--ink),
-      inset -1px 0 0 var(--ink),
-      inset 0 -1px 0 var(--ink);
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+
+  &__input:checked + &__body::before {
+    inset: 1px 1px auto;
+    opacity: 1;
   }
 }
 
@@ -161,5 +173,42 @@
     .pack__weight {
       font-size: 14px;
     }
+  }
+}
+
+// Антон, 23.11: how many of this pack are already in the cart — a small brand badge on the
+// chip's corner (the same yellow as the cart count in the header).
+.pack__in {
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  font: 700 12px/1 var(--font-text);
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  background: var(--brand);
+  border: 2px solid var(--paper);
+  border-radius: 999px;
+  pointer-events: none;
+  animation: pack-in 220ms var(--ease-out);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes pack-in {
+  from {
+    transform: scale(0.6);
+    opacity: 0;
   }
 }

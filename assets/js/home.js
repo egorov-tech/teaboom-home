@@ -649,7 +649,6 @@
 
   // ---------- Demo cart (shared with product.html via assets/js/cart.js) ----------
   document.querySelectorAll("[data-add]").forEach((button) => {
-    const label = button.textContent;
     let timer;
 
     button.addEventListener("click", () => {
@@ -689,8 +688,8 @@
       button.classList.add("is-added");
       clearTimeout(timer);
       timer = setTimeout(() => {
-        button.textContent = label;
         button.classList.remove("is-added");
+        window.TeaboomCart.mark(); // «Добавить ещё» — the pack is in the cart now
       }, 1600);
     });
   });

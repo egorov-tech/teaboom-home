@@ -377,21 +377,47 @@
     text-transform: uppercase;
     color: var(--ink);
     text-decoration: none;
+    position: relative;
     background: none;
     border: 0;
-    border-bottom: 2px solid transparent;
     cursor: pointer;
-    transition: border-color var(--ease), color var(--ease);
+    transition: color var(--ease);
 
-    &[aria-current="page"],
-    &[aria-expanded="true"] {
-      border-bottom-color: var(--brand-deep);
+    // Артём, 24.11: the underline sits close under the word (not at the 44 px box's bottom)
+    // and draws in from the left instead of blinking on.
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 8px;
+      height: 2px;
+      background: var(--brand);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 240ms var(--ease-out), background-color var(--ease);
+    }
+
+    &[aria-current="page"]::after,
+    &[aria-expanded="true"]::after {
+      background: var(--brand-deep);
+      transform: scaleX(1);
     }
 
     @media (hover: hover) {
       &:hover {
         color: var(--ink);
-        border-bottom-color: var(--brand);
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::after {
+        transition: none;
       }
     }
   }

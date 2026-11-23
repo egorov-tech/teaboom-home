@@ -24,6 +24,9 @@
     } catch (e) {}
   };
 
+  // «Чайник …, 1 шт» — a piece item's only pack says nothing: the name alone (Артём, 24.11).
+  const title = (item) => (/^1\s*шт\.?$/i.test(String(item.pack || "").trim()) || !item.pack ? item.name : `${item.name}, ${item.pack}`);
+
   const count = (list = items()) => list.reduce((n, x) => n + Number(x.qty), 0);
   const read = () => count();
 
@@ -41,9 +44,40 @@
     if (cart) cart.classList.toggle("is-filled", n > 0);
   };
 
+  // Антон, 23.11: a tile shows what is already in the cart — a count on the pack chip (the
+  // weights differ, so the mark belongs to the pack) and «Добавить ещё» on the button when the
+  // chosen pack is there. Tiles: the radio's value is the артикул; product page: data-sku.
+  const mark = (list = items()) => {
+    const qty = new Map(list.map((x) => [String(x.sku), Number(x.qty)]));
+    document.querySelectorAll(".pack__input").forEach((input) => {
+      const sku = input.dataset.sku || input.value;
+      const pack = input.closest(".pack");
+      if (!pack) return;
+      const n = qty.get(String(sku)) || 0;
+      let tag = pack.querySelector(".pack__in");
+      if (n && !tag) {
+        tag = document.createElement("span");
+        tag.className = "pack__in";
+        pack.append(tag);
+      }
+      if (tag) {
+        tag.hidden = !n;
+        tag.innerHTML = n ? `${n}<span class="visually-hidden"> в корзине</span>` : "";
+      }
+      pack.classList.toggle("is-in-cart", n > 0);
+    });
+    document.querySelectorAll("[data-good]").forEach((good) => {
+      const button = good.querySelector("[data-add]");
+      const chosen = good.querySelector(".pack__input:checked");
+      if (!button || !chosen || button.classList.contains("is-added")) return;
+      button.textContent = qty.get(String(chosen.dataset.sku || chosen.value)) ? "Добавить ещё" : "В корзину";
+    });
+  };
+
   const save = (list) => {
     store(list);
     paint(count(list));
+    mark(list);
     listeners.forEach((fn) => fn(list));
   };
 
@@ -110,6 +144,7 @@
       bump();
     }, delay);
     if (label && statusEl()) statusEl().textContent = label;
+    mark(list);
     listeners.forEach((fn) => fn(list));
     return next;
   };
@@ -139,10 +174,16 @@
     if (e.key !== KEY) return;
     const list = items();
     paint(count(list));
+    mark(list);
     listeners.forEach((fn) => fn(list));
   });
 
   paint(count());
+  mark();
+  // A different pack chosen on a tile → the button follows it.
+  document.addEventListener("change", (e) => {
+    if (e.target.matches?.(".pack__input")) mark();
+  });
 
-  window.TeaboomCart = { read, add, bump, fly, paint, items, picked, setQty, remove, restore, setPicked, setAllPicked, clear, fill, onChange };
+  window.TeaboomCart = { title, mark, read, add, bump, fly, paint, items, picked, setQty, remove, restore, setPicked, setAllPicked, clear, fill, onChange };
 })();
