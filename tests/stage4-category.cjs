@@ -1,6 +1,6 @@
 // Category filters, п. 17 (полный шаблон). BASE=http://127.0.0.1:8890/ node tests/stage4-category.cjs
-// Numbers come from data/categories.json (live teaboom.ru, 17.11): Натуральный 75, with it
-// Китай 20 / Тайвань 54 / Вьетнам 1, «С жасмином» 0; Китай + Ароматизированный 58.
+// Numbers come from data/categories.json (live teaboom.ru, 17.11): Тайвань 64, with it Габа 51 /
+// Дун Дин 1 / Да Хун Пао 0; Габа + Дун Дин 54. «Категория» is not a filter since п. 42.
 const { chromium } = require(process.env.PW || '/Users/ghpr/.npm/_npx/e41f203b7505f1fb/node_modules/playwright');
 const base = process.env.BASE || 'http://127.0.0.1:8890/';
 let fails = 0;
@@ -26,7 +26,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   let p = await open(c, 'category-ulun.html');
   ok(await p.locator('[data-facets]').isVisible() && await p.locator('[data-facets-open]').isHidden(), '17: компьютер — фильтры колонкой слева, кнопки «Фильтры» нет');
   const groups = await p.$$eval('.facets__title', (ls) => ls.map((l) => l.textContent.trim()));
-  ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Категория', 'Фасовка', 'Сорт']), '17: 4 группы, как на сайте (одиночные скрыты)');
+  ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Фасовка', 'Сорт']), '17 + 42: группы как на сайте (одиночные скрыты), без «Категории» — её заменяют подкатегории');
   // п. 43: «Вы смотрели» in the category — the same block as on the product page; it shows the
   // history (here: the marked example) and writes nothing, a category is not a product.
   ok(await p.locator('[data-viewed]').isVisible() && await p.locator('.seen').count() === 5 && await p.evaluate(() => localStorage.getItem('teaboom-viewed-v1') === null), '43: «Вы смотрели» в категории — пример с пометкой, история не пишется');
@@ -41,12 +41,17 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   // Артём, 18.11: a value chosen far down the list — the page goes back up to the new list start.
   await p.evaluate(() => scrollTo({ top: document.querySelector('.category__grid').getBoundingClientRect().bottom + scrollY - 600, left: 0, behavior: 'instant' }));
   await p.waitForTimeout(300);
-  await p.locator('[data-facet][value="16__Натуральный"]').evaluate((e) => e.click()); await p.waitForTimeout(1200);
+  await p.locator('[data-facet][value="3__Тайвань"]').evaluate((e) => e.click()); await p.waitForTimeout(1200);
   const barTop = await p.evaluate(() => Math.round(document.querySelector('.category__bar').getBoundingClientRect().top));
   ok(barTop >= 0 && barTop < 200, `фильтр внизу страницы → плавно наверх к выдаче (сортировка на ${barTop} px)`);
-  await p.locator('[data-facet][value="16__Натуральный"]').evaluate((e) => e.click()); await p.waitForTimeout(800);
+  await p.locator('[data-facet][value="3__Тайвань"]').evaluate((e) => e.click()); await p.waitForTimeout(800);
   await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' }));
-  ok(await p.locator('.category__subcats, .category__subcat').count() === 0, '37: кнопок подкатегорий нет — только фильтр «Категория»');
+  // п. 42 (решение Ксении, 23.11): child categories as links under the title; the «Категория»
+  // filter that repeated them is gone (п. 37: one way of the same choice).
+  const subs = await p.$$eval('.category__subcats a', (a) => a.map((x) => [x.textContent.trim(), new URL(x.href).pathname]));
+  ok(JSON.stringify(subs) === JSON.stringify([['Натуральный улун', '/category-naturalnyj-ulun'], ['Ароматизированный улун', '/category-aromatizirovannyj-ulun']]), `42: подкатегории ссылками под заголовком ${JSON.stringify(subs)}`);
+  ok(await p.evaluate(() => { const h = document.querySelector('.category__title').getBoundingClientRect(); const s = document.querySelector('.category__subcats').getBoundingClientRect(); return s.top > h.bottom && s.top - h.bottom < 40; }) && await p.locator('[data-facet][value^="16__"]').count() === 0, '42: теги сразу под заголовком, группы «Категория» в фильтрах нет');
+  ok(await p.evaluate(() => [...document.querySelectorAll('.category__subcat')].every((a) => a.getBoundingClientRect().height >= 40)), '42: теги не ниже 40 px');
   const gaps = await p.evaluate(() => {
     const bar = document.querySelector('.category__bar').getBoundingClientRect();
     const li = [...document.querySelectorAll('.category__grid > li:not([hidden])')].map((e) => e.getBoundingClientRect());
@@ -65,44 +70,46 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(gaps.top <= 17 && gaps.row === 16, `38: сортировка → плитка ${gaps.top} px; между рядами ${gaps.row} px, как на главной (п. 20)`);
   ok(gaps.names.every((r) => r.line && r.room <= 14), `39: название в ряду одной высоты, ряд из однострочных не держит лишнюю строку (${JSON.stringify(gaps.names)})`);
   ok(await p.locator('.category__grid > li:not([hidden])').count() === 12 && await p.evaluate(() => getComputedStyle(document.querySelector('.category__grid')).gridTemplateColumns.split(' ').length) === 3, '17: 12 плиток в 3 колонки — 4 полных ряда');
-  await p.locator('.facet', { hasText: 'Натуральный' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Найдено 75 товаров' && await shownMatch(p, ['16__Натуральный']), '17: «Натуральный» → 75, все плитки натуральные');
-  ok(new URL(p.url()).searchParams.get('f') === '16__Натуральный', '17: адрес как на сайте — ?f=16__Натуральный');
-  ok(await facetCount(p, '3__Китай') === '20' && await facetCount(p, '3__Тайвань') === '54' && await facetCount(p, '3__Вьетнам') === '1', '17: счётчики пересчитаны: Китай 20, Тайвань 54, Вьетнам 1');
-  ok(await p.locator('[data-facet][value="57__С жасмином"]').isDisabled(), '17: «С жасмином» дал бы 0 — недоступен');
-  await p.locator('.facet', { hasText: 'Китай' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Найдено 20 товаров' && new URL(p.url()).searchParams.get('f') === '16__Натуральный___3__Китай', '17: + Китай → 20; f=16__Натуральный___3__Китай');
   await p.locator('.facet', { hasText: 'Тайвань' }).click(); await p.waitForTimeout(200);
-  ok(await countText(p) === 'Найдено 74 товара' && await shownMatch(p, ['16__Натуральный', '3__Китай', '3__Тайвань']), '17: Китай или Тайвань внутри группы → 74');
+  ok(await countText(p) === 'Найдено 64 товара' && await shownMatch(p, ['3__Тайвань']), '17: «Тайвань» → 64, все плитки тайваньские');
+  ok(new URL(p.url()).searchParams.get('f') === '3__Тайвань', '17: адрес как на сайте — ?f=3__Тайвань');
+  ok(await facetCount(p, '57__Габа') === '51' && await facetCount(p, '57__Дун Дин') === '1', '17: счётчики пересчитаны: Габа 51, Дун Дин 1');
+  ok(await p.locator('[data-facet][value="57__Да Хун Пао и Жоу Гуй"]').isDisabled(), '17: «Да Хун Пао» дал бы 0 — недоступен');
+  await p.locator('.facet', { hasText: 'Габа' }).click(); await p.waitForTimeout(200);
+  ok(await countText(p) === 'Найдено 51 товар' && new URL(p.url()).searchParams.get('f') === '3__Тайвань___57__Габа', '17: + Габа → 51; f=3__Тайвань___57__Габа');
+  await p.locator('.facet', { hasText: 'Дун Дин' }).click(); await p.waitForTimeout(200);
+  ok(await countText(p) === 'Найдено 52 товара' && await shownMatch(p, ['3__Тайвань', '57__Габа', '57__Дун Дин']), '17: Габа или Дун Дин внутри группы → 52');
   ok(await p.locator('.chips__chip').count() === 3, '17: три выбранных фильтра чипами над плиткой');
-  await p.locator('.chips__chip', { hasText: 'Натуральный' }).click(); await p.waitForTimeout(200);
-  ok(!(await p.locator('[data-facet][value="16__Натуральный"]').isChecked()) && await countText(p) === 'Найдено 142 товара', '17: чип снят → отметка снята, Китай + Тайвань = 142');
+  await p.locator('.chips__chip', { hasText: 'Тайвань' }).click(); await p.waitForTimeout(200);
+  ok(!(await p.locator('[data-facet][value="3__Тайвань"]').isChecked()) && await countText(p) === 'Найдено 54 товара', '17: чип снят → отметка снята, Габа + Дун Дин = 54');
   await p.selectOption('[data-sort]', '-effective_price'); await p.waitForTimeout(200);
   await p.locator('[data-pager] [data-page="2"]:not(.pager__link--step)').click(); await p.waitForTimeout(300);
   const q = new URL(p.url()).searchParams;
-  ok(q.get('sorting') === '-effective_price' && q.get('start') === '2' && q.get('f') === '3__Китай___3__Тайвань', '17: фильтры + сортировка + страница в одном адресе');
-  await p.locator('.facet', { hasText: 'Ароматизированный' }).click(); await p.waitForTimeout(200);
+  ok(q.get('sorting') === '-effective_price' && q.get('start') === '2' && q.get('f') === '57__Габа___57__Дун Дин', '17: фильтры + сортировка + страница в одном адресе');
+  await p.locator('.facet', { hasText: 'Вьетнам' }).click(); await p.waitForTimeout(200);
   ok(new URL(p.url()).searchParams.get('start') === null, '17: новый фильтр возвращает на первую страницу');
   await p.goBack(); await p.waitForTimeout(300);
-  ok(await countText(p) === 'Найдено 142 товара' && (await p.getAttribute('[data-pager] [aria-current="page"]', 'data-page')) === '2' && !(await p.locator('[data-facet][value="16__Ароматизированный"]').isChecked()), '17: «Назад» возвращает прошлый выбор и страницу');
+  ok(await countText(p) === 'Найдено 54 товара' && (await p.getAttribute('[data-pager] [aria-current="page"]', 'data-page')) === '2' && !(await p.locator('[data-facet][value="3__Вьетнам"]').isChecked()), '17: «Назад» возвращает прошлый выбор и страницу');
   await p.locator('[data-chips-reset]').click(); await p.waitForTimeout(200);
   ok(await countText(p) === '143 товара' && await p.locator('[data-chips]').isHidden(), '17: «Сбросить все» → 143, чипов нет');
   await c.close();
 
   // Empty result + reset
   c = await b.newContext({ viewport: { width: 1440, height: 900 } });
-  p = await open(c, 'category-ulun.html?f=57__С жасмином___16__Натуральный');
+  p = await open(c, 'category-ulun.html?f=57__Женьшень___3__Вьетнам');
   ok(await p.locator('[data-empty]').isVisible() && await p.locator('[data-list]').isHidden() && await p.locator('[data-pager]').isHidden(), '17: пустой результат — «Ничего не нашлось», без плитки и страниц');
   await p.locator('[data-empty-reset]').click(); await p.waitForTimeout(200);
   ok(await countText(p) === '143 товара', '17: «Сбросить фильтры» в пустом состоянии');
-  await p.goto(base + 'category-ulun.html?f=3__Нет___16__Ароматизированный___3__Китай', { waitUntil: 'networkidle' });
-  ok(await countText(p) === 'Найдено 58 товаров', '17: неизвестное значение в адресе пропускается, остальное работает (58)');
+  await p.goto(base + 'category-ulun.html?f=3__Нет___57__Габа___3__Тайвань', { waitUntil: 'networkidle' });
+  ok(await countText(p) === 'Найдено 51 товар', '17: неизвестное значение в адресе пропускается, остальное работает (51)');
+  await p.goto(base + 'category-ulun.html?f=16__Натуральный', { waitUntil: 'networkidle' });
+  ok(await countText(p) === '143 товара', '42: старый адрес с «Категорией» не ломает страницу — показан весь улун');
   await c.close();
 
   // ---------- Desktop panel: no overlap with counts, no mid-word breaks, stays in view ----------
   for (const [w, h] of [[1060, 768], [1280, 800], [1440, 900]]) {
     c = await b.newContext({ viewport: { width: w, height: h } });
-    p = await open(c, 'category-ulun.html?f=16__Натуральный___57__Габа');
+    p = await open(c, 'category-ulun.html?f=3__Тайвань___57__Габа');
     const bad = await p.evaluate(() => [...document.querySelectorAll('.facet')].filter((f) => {
       const l = f.querySelector('.facet__label');
       const n = f.querySelector('[data-facet-count]').getBoundingClientRect();

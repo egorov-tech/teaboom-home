@@ -805,6 +805,9 @@ def render_filters(c, by_slug):
         vals = [v for v in g["values"] if v["slugs"]]
         if len(vals) < 2:
             continue
+        # п. 42: with subcategory links under the title this group would repeat them.
+        if g["title"] == "Категория" and c.get("subcats"):
+            continue
         # Packs read like the tiles (500 г, 1 кг, 5 кг), lightest first; the key keeps the
         # site's value («1000 г»), so the address stays the shop's.
         if g["title"] == "Фасовка":
@@ -877,9 +880,17 @@ def render_category(c, mast, foot, dock):
     crumbs = ('      <ol class="breadcrumbs__list" data-strip>\n        <li class="breadcrumbs__item"><a href="./">Начало</a></li>\n'
               + "".join(f'        <li class="breadcrumbs__item"><a href="{site(u)}">{esc(n)}</a></li>\n' for n, u in c["breadcrumbs"])
               + f'        <li class="breadcrumbs__item"><span aria-current="page">{esc(c["title"])}</span></li>\n      </ol>')
-    # п. 37 (Антон, 18.11): subcategory buttons repeated the «Категория» filter next to them —
-    # only the filter stays. Redirects of the subcategory pages are for SEO and the backend.
+    # п. 42 (решение Ксении, 23.11): child categories are links under the title — for going there
+    # and for internal links; none in the admin → no row at all. The «Категория» filter group
+    # that repeats them is left out (п. 37: no two ways of the same choice side by side).
     subcats = ""
+    if c.get("subcats"):
+        links = "\n".join(f'          <li><a class="category__subcat" href="{site(u)}">{esc(n)}</a></li>' for n, u in c["subcats"])
+        subcats = f'''      <nav class="category__subcats" aria-label="Подкатегории">
+        <ul data-strip>
+{links}
+        </ul>
+      </nav>'''
     sorting = "\n".join(f'            <option value="{v}"{" selected" if i == 0 else ""}>{esc(n)}</option>' for i, (v, n) in enumerate(c["sorting"]))
     cur = ' aria-current="page"'
     nums = []

@@ -2595,6 +2595,59 @@ body::before {
   font-size: clamp(32px, 2.4vw + 20px, 48px);
   line-height: 1.05;
 }
+.category__subcats {
+  margin-top: var(--step-4);
+}
+.category__subcats ul {
+  display: flex;
+  gap: var(--step-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  white-space: nowrap;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
+}
+.category__subcats ul::-webkit-scrollbar {
+  display: none;
+}
+.category__subcats ul[data-more=end] {
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
+}
+.category__subcats ul[data-more=start] {
+  --fade: linear-gradient(to left, #000 calc(100% - 56px), transparent);
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
+}
+.category__subcats ul[data-more=both] {
+  --fade: linear-gradient(to right, transparent, #000 56px, #000 calc(100% - 56px), transparent);
+  -webkit-mask-image: var(--fade);
+  mask-image: var(--fade);
+}
+.category__subcat {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--step-4);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  text-decoration: none;
+  transition: border-color var(--ease), transform 160ms var(--ease-out);
+}
+.category__subcat:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) {
+  .category__subcat:hover {
+    border-color: var(--ink);
+  }
+}
 .category__bar {
   scroll-margin-top: calc(var(--pin-h) + var(--step-4));
   display: flex;
@@ -3802,6 +3855,7 @@ body::before {
   background: var(--paper);
   border: 1px solid var(--line);
   border-radius: var(--surface-radius);
+  container-type: inline-size;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -3824,7 +3878,7 @@ body::before {
     padding: var(--step-3);
   }
 }
-@media (min-width: 768px) {
+@container (min-width: 660px) {
   .line {
     grid-template-columns: 88px minmax(0, 1fr) auto 120px 44px;
     grid-template-areas: "photo info qty money remove";
@@ -3898,7 +3952,7 @@ body::before {
   border-radius: var(--radius-md);
   cursor: pointer;
 }
-@media (min-width: 768px) {
+@container (min-width: 660px) {
   .line__remove {
     align-self: center;
     margin: 0;

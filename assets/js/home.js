@@ -105,6 +105,7 @@
     // Phone chrome is already a short floating capsule (logo + search + cart). Shrinking it
     // on scroll only jittered the layout — keep compact for tablet/desktop sticky bars.
     const phoneShell = window.matchMedia(`(max-width: ${760 - 1}px)`);
+    const bar = document.querySelector(".masthead__bar .search");
     let compact = false;
     let ticking = false;
 
@@ -119,9 +120,19 @@
         return;
       }
       const y = window.scrollY || window.pageYOffset || 0;
+      // The compact bar brings its own search field, so it may only appear once the menu bar
+      // with the big search has gone under the sticky header, and must leave as soon as that bar
+      // comes back — otherwise two search fields show at once (Антон, 23.11, ~1500 px). The
+      // header keeps its height in both modes, so a 12 px gap is enough against jitter.
+      // Compact mode slides the bar up by --pin-trim, so the field is gone once it is above the
+      // bar's compact bottom edge, not its full height.
+      const trim = parseFloat(getComputedStyle(masthead).getPropertyValue("--pin-trim")) || 0;
+      const gone = bar ? bar.getBoundingClientRect().bottom + y - (masthead.offsetHeight - trim) : 0;
+      const enter = Math.max(ENTER, gone + 12);
+      const exit = Math.max(EXIT, gone);
       let next = compact;
-      if (!compact && y > ENTER) next = true;
-      if (compact && y < EXIT) next = false;
+      if (!compact && y > enter) next = true;
+      if (compact && y < exit) next = false;
       if (next !== compact) {
         compact = next;
         masthead.classList.toggle("is-compact", compact);

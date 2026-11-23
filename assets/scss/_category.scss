@@ -18,6 +18,45 @@
     line-height: 1.05;
   }
 
+  // п. 42: child categories — links under the title; phones keep them on one line and swipe.
+  &__subcats {
+    margin-top: var(--step-4);
+
+    ul {
+      display: flex;
+      gap: var(--step-2);
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      white-space: nowrap;
+      @include strip.side-strip;
+    }
+  }
+
+  &__subcat {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 var(--step-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: var(--paper);
+    color: var(--ink);
+    font-size: 14px;
+    text-decoration: none;
+    transition: border-color var(--ease), transform 160ms var(--ease-out);
+
+    &:active {
+      transform: scale(0.97);
+    }
+
+    @media (hover: hover) {
+      &:hover {
+        border-color: var(--ink);
+      }
+    }
+  }
+
   &__bar {
     // A page change scrolls here: keep the bar below the sticky header.
     scroll-margin-top: calc(var(--pin-h) + var(--step-4));
