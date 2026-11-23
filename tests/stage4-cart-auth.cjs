@@ -152,12 +152,30 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   ok(new URL(p.url()).pathname.endsWith('login.html'), '27: «Кабинет» в нижней панели ведёт на вход');
   await c.close();
 
+  // п. 27 (Антон и Ксения, 23.11): what to do and what comes in the letter; help only after sending.
   c = await b.newContext(phone); p = await open(c, 'password-reset.html');
-  ok((await p.textContent('h1')).trim() === 'Сброс пароля' && await p.locator('.auth__aside .steps').count() === 0 && (await p.textContent('.auth__aside .notice')).includes('проверьте папку «Спам»'), '27: сброс пароля — каркас входа, справа только текст сайта про «Спам», без придуманных шагов');
+  ok((await p.textContent('h1')).trim() === 'Сброс пароля' && !(await p.textContent('.auth__main')).includes('Форма сброса пароля') && rub(await p.textContent('.form__lead')).startsWith('Введите email, указанный при регистрации'), '27: без «Форма сброса пароля» — подсказка, что делать');
+  ok(await p.locator('[data-reset-sent]').first().isHidden() && !rub(await p.locator('body').innerText()).includes('Не пришло письмо?') && rub(await p.textContent('.auth__aside .notice')).includes('Войти и сменить пароль'), '27: до отправки — что придёт в письме, «Не пришло письмо?» не показано');
   ok(await p.locator('a.auth__back').isVisible() && (await p.getAttribute('a.auth__back', 'href')) === 'login.html', '27: сброс пароля — кнопка «Вернуться к авторизации»');
-  await p.fill('#reset-email', 'name@mail.ru'); await p.locator('.form__submit').tap();
-  ok((await p.textContent('[data-done]')).includes('name@mail.ru'), '27: сброс пароля — демо-сообщение с адресом');
+  await p.locator('[data-form="reset"] .form__submit').tap(); await p.waitForTimeout(200);
+  ok((await p.textContent('#reset-email-error')).trim() === 'Введите email' && await p.locator('[data-reset-sent]').first().isHidden(), '27: пустой email — ошибка, экран не меняется');
+  await p.fill('#reset-email', 'name@mail.ru'); await p.locator('[data-form="reset"] .form__submit').tap(); await p.waitForTimeout(300);
+  ok(await p.locator('[data-reset-ask]').first().isHidden() && rub(await p.textContent('[data-reset-sent] .sent__text')).includes('name@mail.ru') && await p.evaluate(() => document.activeElement?.id === 'sent-title'), '27: после отправки — «Письмо отправлено» на name@mail.ru, фокус на заголовке');
+  ok(await p.locator('[data-resend]').isDisabled() && rub(await p.textContent('[data-resend]')).startsWith('Отправить ещё раз через') && await p.locator('.sent__login').isVisible(), '27: «Отправить ещё раз» с паузой, «Вернуться ко входу» на месте');
+  ok((await p.inputValue('#help-email')) === 'name@mail.ru' && rub(await p.locator('body').innerText()).includes('Не пришло письмо?'), '27: «Не пришло письмо?» и форма обратной связи — после отправки, email подставлен');
+  await p.locator('[data-form="help"] button[type="submit"]').tap(); await p.waitForTimeout(200);
+  ok((await p.textContent('[data-form="help"] [data-done]')).startsWith('Демо:'), '27: сообщение в магазин — демо честно помечено');
+  await p.locator('[data-change-email]').tap(); await p.waitForTimeout(200);
+  ok(await p.locator('[data-reset-ask]').first().isVisible() && await p.evaluate(() => document.activeElement?.id === 'reset-email'), '27: «Указать другой email» — обратно к форме, фокус в поле');
   ok(await overflow(p) <= 0, '27: сброс пароля — без горизонтальной прокрутки');
+  await c.close();
+
+  // Login: Ксения's text (чат 23.11, 16:58) in place of the old notice.
+  c = await b.newContext(phone); p = await open(c, 'login.html');
+  const aside = rub(await p.textContent('.auth__aside'));
+  ok(aside.includes('Создайте учётную запись, и следующие покупки займут меньше времени') && aside.includes('Вход через Google, Twitter и Facebook больше недоступен') && !aside.includes('Уважаемые посетители'), '27: вход — текст Ксении о пользе учётной записи');
+  await p.locator('.auth__aside a[href="#pane-link"]').tap(); await p.waitForTimeout(200);
+  ok(await p.locator('#pane-link').isVisible(), '27: ссылка «Быстрый вход» в тексте открывает вкладку');
   await c.close();
 
   c = await b.newContext({ viewport: { width: 1440, height: 900 } });

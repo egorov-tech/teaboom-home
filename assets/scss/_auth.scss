@@ -257,3 +257,82 @@
   }
 
 }
+
+// п. 27: the reset page after sending — where the letter went, then the actions in one column.
+.sent {
+  align-content: start;
+
+  &__text,
+  &__demo {
+    margin: 0;
+  }
+
+  &__text b {
+    overflow-wrap: anywhere;
+  }
+
+  &__demo {
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__actions {
+    display: grid;
+    gap: var(--step-3);
+  }
+
+  &__login {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    font-weight: 600;
+    color: var(--tea);
+    text-underline-offset: 3px;
+  }
+
+  &__status {
+    margin: 0;
+    font-size: 14px;
+    color: var(--ink-soft);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  .auth__subtitle:focus {
+    outline: none;
+  }
+
+  .form__submit:disabled {
+    color: var(--muted);
+    background: var(--canvas);
+    border-color: var(--line);
+    cursor: default;
+  }
+}
+
+.notice__list {
+  display: grid;
+  gap: var(--step-2);
+  margin: var(--step-2) 0;
+  padding-left: 1.2em;
+}
+
+.help__text {
+  min-height: 96px;
+  padding-block: 12px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+// Two notices one under another on the login page (Ксения's text, п. 27).
+.auth__aside > .notice + .notice {
+  margin-top: calc(var(--step-2) * -1);
+}
+
+.auth__main[hidden],
+.auth__aside[hidden] {
+  display: none;
+}

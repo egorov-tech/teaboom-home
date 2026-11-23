@@ -41,7 +41,8 @@
     list.hidden = false;
     document.documentElement.classList.add("switch-ready");
     const fromHash = () => {
-      const tab = tabs.find((t) => `#${t.dataset.switchTab}` === location.hash);
+      // #register or #pane-register (a link to the pane itself) — both open the tab.
+      const tab = tabs.find((t) => [`#${t.dataset.switchTab}`, `#pane-${t.dataset.switchTab}`].includes(location.hash));
       if (tab) show(tab);
     };
     show(tabs.find((t) => t.getAttribute("aria-selected") === "true") || tabs[0]);
@@ -168,14 +169,14 @@
     link: (f) => `Демо: на сайте сюда отправится письмо со ссылкой для входа — ${f.email.value.trim()}.`,
     login: () => "Демо: на сайте здесь выполнится вход и откроется личный кабинет.",
     register: () => "Демо: на сайте здесь создастся учётная запись и выполнится вход.",
-    reset: (f) => `Демо: на сайте сюда отправится письмо со ссылкой для смены пароля — ${f.email.value.trim()}.`,
+    help: () => "Демо: на сайте сообщение уйдёт в магазин, ответ придёт на этот адрес.",
     checkout: () => "Демо: на сайте здесь заказ уйдёт в магазин. Заказ не отправлен, корзина сохранена.",
   };
 
   document.querySelectorAll("form[data-form]").forEach((form) => {
     const inputs = [...form.querySelectorAll(".field__input")];
     // Checkout: the message sits by «Заказать» in the summary, outside the form.
-    const done = form.querySelector("[data-done]") || document.querySelector(`[data-done="${form.id}"]`);
+    const done = form.querySelector("[data-done]") || (form.id ? document.querySelector(`[data-done="${form.id}"]`) : null);
 
     // Errors appear after the first try, then follow the typing.
     inputs.forEach((input) => {
@@ -205,8 +206,64 @@
         done.textContent = (DONE[form.dataset.form] || (() => "Демо: форма заполнена верно."))(form);
         done.hidden = false;
       }
+      form.dispatchEvent(new CustomEvent("demo:sent"));
     });
   });
+
+  // ---------- Password reset (п. 27, Антон и Ксения, 23.11) ----------
+  // After sending: where the letter went, «Отправить ещё раз» (with a pause, as mail services
+  // need), «Указать другой email», back to login, and «не пришло письмо» help with a message form.
+  const reset = document.querySelector("[data-reset]");
+  if (reset) {
+    const form = reset.querySelector('form[data-form="reset"]');
+    const email = form.querySelector('input[type="email"]');
+    const ask = reset.querySelectorAll("[data-reset-ask]");
+    const sent = reset.querySelectorAll("[data-reset-sent]");
+    const again = reset.querySelector("[data-resend]");
+    const status = reset.querySelector("[data-resend-status]");
+    const WAIT = 30;
+    let timer = 0;
+    const hold = () => {
+      let left = WAIT;
+      window.clearInterval(timer);
+      again.disabled = true;
+      again.textContent = `Отправить ещё раз через ${left} с`;
+      timer = window.setInterval(() => {
+        left -= 1;
+        if (left > 0) {
+          again.textContent = `Отправить ещё раз через ${left} с`;
+          return;
+        }
+        window.clearInterval(timer);
+        again.disabled = false;
+        again.textContent = "Отправить ещё раз";
+      }, 1000);
+    };
+    const showSent = (on) => {
+      ask.forEach((el) => (el.hidden = on));
+      sent.forEach((el) => (el.hidden = !on));
+    };
+    form.addEventListener("demo:sent", () => {
+      const to = email.value.trim();
+      reset.querySelector("[data-sent-email]").textContent = to;
+      const helpEmail = reset.querySelector("#help-email");
+      if (helpEmail && !helpEmail.value) helpEmail.value = to;
+      status.textContent = "";
+      showSent(true);
+      hold();
+      reset.querySelector("#sent-title").focus();
+    });
+    again.addEventListener("click", () => {
+      status.textContent = `Демо: письмо отправлено ещё раз на ${email.value.trim()}.`;
+      hold();
+    });
+    reset.querySelector("[data-change-email]").addEventListener("click", () => {
+      window.clearInterval(timer);
+      showSent(false);
+      email.focus();
+      email.select();
+    });
+  }
 
   // ---------- Coupon (cart, checkout) ----------
   // The shop checks the code; the demo has no list of codes, so it says so plainly.
