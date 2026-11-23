@@ -349,53 +349,10 @@
               </div>
             </div>
           </form>
-          <details class="promise" id="delivery">
-            <summary class="promise__toggle">Доставка и оплата</summary>
-            <div class="delivery">
-              <div>
-                <h3>Доставка</h3>
-                <div class="rates">
-                <ul class="rates__list">
-                  <li>
-                    <span class="rates__name">Самовывоз</span>
-                    <span class="rates__price">бесплатно</span>
-                    <span class="rates__note">ул. Народного Ополчения, 47; м. Октябрьское поле, выход № 1; МЦК Панфиловская</span>
-                  </li>
-                  <li>
-                    <span class="rates__name">Курьер по Москве</span>
-                    <span class="rates__price">400 ₽</span>
-                    <span class="rates__note">в пределах МКАД; от 3500 ₽ — бесплатно</span>
-                  </li>
-                  <li>
-                    <span class="rates__name">Курьер по Московской области</span>
-                    <span class="rates__price">25 ₽/км</span>
-                    <span class="rates__note">от МКАД</span>
-                  </li>
-                  <li>
-                    <span class="rates__name">Почта России</span>
-                    <span class="rates__price">400 ₽ + тариф</span>
-                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
-                  </li>
-                  <li>
-                    <span class="rates__name">СДЭК</span>
-                    <span class="rates__price">400 ₽ + тариф</span>
-                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
-                  </li>
-                </ul>
-                </div>
-                <a class="delivery__more" href="https://teaboom.ru/shipping/">Все способы доставки</a>
-              </div>
-              <div>
-                <h3>Оплата</h3>
-                <ul>
-                <li>Наличными или переводом на Сбербанк — курьеру и при самовывозе.</li>
-                <li>Банковской картой онлайн через ЮKassa.</li>
-                <li>По счёту — для физических и юридических лиц.</li>
-                </ul>
-                <a class="delivery__more" href="https://teaboom.ru/payment/">Все способы оплаты</a>
-              </div>
-            </div>
-          </details>
+          <a class="promise" href="#delivery">
+            <span class="promise__title">Доставка и оплата</span>
+            <span class="promise__hint">Самовывоз бесплатно · Курьер по Москве 400 ₽</span>
+          </a>
         </div>
 
 
@@ -405,6 +362,7 @@
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы <span class="details__count">12</span></button>
+            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -491,6 +449,54 @@
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
         </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
+            <h2 class="details__title">Доставка и оплата</h2>
+            <div class="delivery">
+              <div>
+                <h3>Доставка</h3>
+                <div class="rates">
+                <ul class="rates__list">
+                  <li>
+                    <span class="rates__name">Самовывоз</span>
+                    <span class="rates__price">бесплатно</span>
+                    <span class="rates__note">ул. Народного Ополчения, 47; м. Октябрьское поле, выход № 1; МЦК Панфиловская</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Курьер по Москве</span>
+                    <span class="rates__price">400 ₽</span>
+                    <span class="rates__note">в пределах МКАД; от 3500 ₽ — бесплатно</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Курьер по Московской области</span>
+                    <span class="rates__price">25 ₽/км</span>
+                    <span class="rates__note">от МКАД</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">Почта России</span>
+                    <span class="rates__price">400 ₽ + тариф</span>
+                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                  </li>
+                  <li>
+                    <span class="rates__name">СДЭК</span>
+                    <span class="rates__price">400 ₽ + тариф</span>
+                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                  </li>
+                </ul>
+                </div>
+                <a class="delivery__more" href="https://teaboom.ru/shipping/">Все способы доставки</a>
+              </div>
+              <div>
+                <h3>Оплата</h3>
+                <ul>
+                <li>Наличными или переводом на Сбербанк — курьеру и при самовывозе.</li>
+                <li>Банковской картой онлайн через ЮKassa.</li>
+                <li>По счёту — для физических и юридических лиц.</li>
+                </ul>
+                <a class="delivery__more" href="https://teaboom.ru/payment/">Все способы оплаты</a>
               </div>
             </div>
           </div>

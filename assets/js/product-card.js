@@ -210,14 +210,4 @@
   window.addEventListener("hashchange", fromHash);
   if (location.hash) fromHash();
 
-  // п. 35: «Доставка и оплата» is a disclosure under the button; #delivery opens it.
-  const openDelivery = () => {
-    const box = document.getElementById("delivery");
-    if (location.hash === "#delivery" && box?.tagName === "DETAILS") {
-      box.open = true;
-      box.scrollIntoView({ block: "start" });
-    }
-  };
-  window.addEventListener("hashchange", openDelivery);
-  openDelivery();
 })();

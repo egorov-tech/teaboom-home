@@ -474,28 +474,24 @@ def render_brew(p, aside=False):
         </section>'''
 
 
-def render_promise():
-    """п. 35 (Антон, 18.11): delivery and payment in one place — a disclosure under «В корзину»
-    (texts from /shipping/ and /payment/), instead of short facts here plus a tab below."""
+def render_delivery_body():
+    """Delivery and payment terms (п. 47: Ксения's rows; payment and links from /payment/)."""
     # п. 47 (Ксения, 18.11): her delivery text, cut down the way her example shows — one row per
-    # way: name, the condition under it, the price on the right. The block opens on demand.
+    # way: name, the condition under it, the price on the right.
     rows = "\n".join(
         f'''                  <li>
                     <span class="rates__name">{typo(r["name"])}</span>
                     <span class="rates__price">{typo(r["price"])}</span>
                     <span class="rates__note">{typo(r["note"])}</span>
                   </li>''' for r in service["delivery_rates"]["rows"])
-    delivery = f'''                <ul class="rates__list">
-{rows}
-                </ul>'''
     payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])
-    return f'''          <details class="promise" id="delivery">
-            <summary class="promise__toggle">Доставка и оплата</summary>
-            <div class="delivery">
+    return f'''            <div class="delivery">
               <div>
                 <h3>Доставка</h3>
                 <div class="rates">
-{delivery}
+                <ul class="rates__list">
+{rows}
+                </ul>
                 </div>
                 <a class="delivery__more" href="{SITE}/shipping/">Все способы доставки</a>
               </div>
@@ -506,8 +502,19 @@ def render_promise():
                 </ul>
                 <a class="delivery__more" href="{SITE}/payment/">Все способы оплаты</a>
               </div>
-            </div>
-          </details>'''
+            </div>'''
+
+
+def render_promise():
+    """п. 23 (Антон, 23.11; вариант Артёма «вкладка»): under «В корзину» one line that leads to the
+    «Доставка и оплата» tab — the terms themselves live only there (п. 35: one place, no copy),
+    so the buy column never grows past the photos."""
+    r = service["delivery_rates"]["rows"]
+    hint = f'{typo(r[0]["name"])} {typo(r[0]["price"])} · {typo(r[1]["name"])} {typo(r[1]["price"])}'
+    return f'''          <a class="promise" href="#delivery">
+            <span class="promise__title">Доставка и оплата</span>
+            <span class="promise__hint">{hint}</span>
+          </a>'''
 
 
 def render_rating(p):
@@ -563,7 +570,7 @@ def rail_arrows():
 
 
 def render_details(p):
-    """п. 23: Описание · Характеристики · Отзывы (доставка и оплата — под кнопкой, п. 35). Tabs on phones (JS),
+    """п. 23: Описание · Характеристики · Отзывы · Доставка и оплата (Антон, 23.11). Tabs on phones (JS),
     the same sections one under another on wider screens and without JS."""
     d = p["pdp"]
     rs = d["reviews"]
@@ -609,6 +616,7 @@ def render_details(p):
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы{count}</button>
+            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -643,6 +651,11 @@ def render_details(p):
               </div>
 {reviews_body}
             </div>
+          </div>
+
+          <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
+            <h2 class="details__title">Доставка и оплата</h2>
+{render_delivery_body()}
           </div>
         </section>'''
 

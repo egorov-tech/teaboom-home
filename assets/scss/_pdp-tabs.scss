@@ -350,101 +350,55 @@
   }
 }
 
-// Short delivery facts under «В корзину» (from /shipping/); the full terms are a section below.
-// п. 35: «Доставка и оплата» — one disclosure under «В корзину», a full-width row with a hairline
-// above and a chevron; opens to the shop's delivery and payment terms.
+// п. 23 (Антон, 23.11): under «В корзину» one row that leads to the «Доставка и оплата» tab — the
+// terms live only there, so the buy column stays level with the photos. Same hairline row as the
+// old disclosure; the chevron points to where it goes.
 .promise {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  column-gap: var(--step-3);
+  row-gap: 2px;
+  min-height: 56px;
   margin-top: var(--step-5);
+  padding-block: var(--step-2);
+  color: var(--ink);
+  text-decoration: none;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 
-  &__toggle {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--step-3);
-    min-height: 52px;
+  &__title {
     font-weight: 600;
-    color: var(--ink);
-    cursor: pointer;
-    list-style: none;
-
-    &::-webkit-details-marker {
-      display: none;
-    }
-
-    &::after {
-      content: "";
-      flex: none;
-      width: 9px;
-      height: 9px;
-      margin-right: 4px;
-      border-right: 1.8px solid currentColor;
-      border-bottom: 1.8px solid currentColor;
-      transform: translateY(-3px) rotate(45deg);
-      transition: transform var(--ease);
-    }
-
-    &:focus {
-      outline: none;
-    }
-
-    // The site's focus ring (_base.scss) — keyboard only, not after a mouse click.
-    &:focus-visible {
-      outline: 2px solid var(--tea);
-      outline-offset: 3px;
-      border-radius: var(--radius-sm);
-    }
   }
 
-  &[open] &__toggle::after {
-    transform: translateY(2px) rotate(-135deg);
+  &__hint {
+    grid-row: 2;
+    font-size: 13px;
+    line-height: 1.45;
+    color: var(--muted);
   }
 
-  .delivery {
-    padding-bottom: var(--step-4);
+  &::after {
+    content: "";
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: 9px;
+    height: 9px;
+    margin-right: 6px;
+    border-top: 1.8px solid currentColor;
+    border-right: 1.8px solid currentColor;
+    transform: rotate(45deg);
+    transition: transform 160ms var(--ease-out);
   }
 
-  // п. 35, computer (Артём, 18.11): two narrow columns in the ~520 px buy column read squashed.
-  // One column instead: the group name on the left, its points as plain rows on the right.
-  @media (min-width: $bp-mid) {
-    .delivery {
-      grid-template-columns: minmax(0, 1fr);
-      gap: 0;
-      padding-bottom: var(--step-2);
-      font-size: 14px;
-      line-height: 1.5;
-
-      > div {
-        display: grid;
-        grid-template-columns: 96px minmax(0, 1fr);
-        column-gap: var(--step-5);
-        align-items: start;
-        padding-block: var(--step-4);
-
-        & + div {
-          border-top: 1px solid var(--line);
-        }
-      }
-
-      h3 {
-        grid-row: span 2;
-        font: 600 14px/1.5 var(--font-text);
-      }
-
-      ul {
-        gap: var(--step-2);
-        margin: 0;
-        padding: 0;
-        list-style: none;
-      }
+  @media (hover: hover) {
+    &:hover &__title {
+      text-decoration: underline;
+      text-underline-offset: 3px;
     }
 
-    .delivery__more {
-      grid-column: 2;
-      justify-self: start;
-      min-height: 40px;
-      margin-top: var(--step-1);
+    &:hover::after {
+      transform: translateX(3px) rotate(45deg);
     }
   }
 }
@@ -524,9 +478,3 @@
   }
 }
 
-// On the computer the list sits right of its «Доставка» label (.promise), no extra top gap.
-.promise .delivery .rates {
-  @media (min-width: $bp-mid) {
-    margin-top: 0;
-  }
-}
