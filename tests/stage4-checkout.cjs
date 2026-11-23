@@ -13,7 +13,13 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
   const phone = { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true };
   const open = async (ctx, url) => { const p = await ctx.newPage(); p.on('pageerror', (e) => errors.push(url + ': ' + e.message)); await p.goto(base + url, { waitUntil: 'networkidle' }); return p; };
   const overflow = (p) => p.evaluate(() => document.documentElement.scrollWidth - innerWidth);
-  const pick = (p, value) => p.locator(`.choice:has(input[name="shipping-method"][value="${value}"]) .choice__name`).click();
+  // п. 26 (схема Антона): the way first, then the shop's method inside its panel.
+  const WAY = { 5: 'pickup', 6: 'pickup', 9: 'pickup', 1: 'courier', 7: 'post', 8: 'post' };
+  const pick = async (p, value) => {
+    await p.locator(`.way:has(input[value="${WAY[value]}"])`).click();
+    const choice = p.locator(`.choice:has(input[name="shipping-method"][value="${value}"])`);
+    if (await choice.isVisible()) await choice.locator('.choice__name').click();
+  };
   const visiblePay = (p) => p.$$eval('input[name="payment_method"]', (xs) => xs.filter((x) => !x.closest('[hidden]')).map((x) => x.value));
 
   try {
@@ -33,8 +39,9 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
 
     // Blocks in the shop's order, texts as on teaboom.ru
     const titles = (await p.$$eval('.step__title', (xs) => xs.map((x) => x.textContent.replace(/\u00a0/g, ' ').trim())));
-    ok(JSON.stringify(titles) === JSON.stringify(['Оформить заказ как', 'Получатель и адрес доставки', 'Дата доставки', 'Комментарий', 'Доставка', 'Оплата']), '26: блоки по порядку сайта');
-    ok((await p.textContent('#step-address')).replace(/\u00a0/g, ' ').includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: подсказка к адресу дословно');
+    ok(JSON.stringify(titles) === JSON.stringify(['Кто покупает', 'Как получить заказ', 'Получатель', 'Оплата', 'Комментарий']), `26 (Антон, 23.11): шаги по схеме — кто, как получить, получатель, оплата, комментарий ${JSON.stringify(titles)}`);
+    ok(await p.locator('.way').count() === 3 && await p.locator('[data-way-panel="pickup"]').isVisible() && await p.locator('[data-way-panel="courier"]').isHidden() && await p.locator('[data-way-panel="post"]').isHidden(), '26: три способа получения, открыты детали только выбранного (самовывоз)');
+    ok((await p.textContent('[data-way-panel="courier"]')).replace(/\u00a0/g, ' ').includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: адрес — в деталях курьера, подсказка дословно');
     ok(await p.locator('input[name="shipping-method"]').count() === 6, '26: шесть способов доставки');
     ok(await p.locator('input[name="shipping-method"]:checked').getAttribute('value') === '5', '26: по умолчанию самовывоз с Народного Ополчения');
     const today = await p.evaluate(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; });
@@ -45,6 +52,8 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     await pick(p, '1');
     ok((await p.textContent('[data-ship-cost]')) === '400' + NB + '₽' && (await p.textContent('[data-total]')) === '1' + NB + '052,80' + NB + '₽', '26: курьер до 3 500 ₽ — +400 ₽, итог 1 052,80 ₽');
     ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['cash-courier', '4']), '26: курьер — «Наличные курьеру» и ЮKassa');
+    ok(await p.locator('[data-way-panel="courier"]').isVisible() && await p.locator('[data-way-panel="pickup"]').isHidden() && await p.locator('#street').isEnabled() && await p.locator('[data-way-panel="pickup"] input').first().isDisabled(), '26: курьер — адрес и дата; поля других способов не уходят в форму');
+    ok(rub(await p.textContent('[data-receive-sum]')) === 'Получение: Доставка курьером, 400 ₽' && rub(await p.textContent('[data-way-price="courier"]')) === '400 ₽', '26: в оплате — сводка способа получения; цена на карточке способа');
     await pick(p, '8');
     ok(JSON.stringify(await visiblePay(p)) === JSON.stringify(['prepay', '4']) && rub(await p.textContent('[data-ship-how]')).includes('тариф CDEK'), '26: СДЭК — предоплата, тариф СДЭК отдельно');
     await pick(p, '5');
@@ -73,16 +82,16 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok((await p.textContent('#phone-error')).includes('+7'), '26: короткий телефон — подсказка с примером');
     await p.fill('#phone', ''); await p.focus('#phone'); await p.keyboard.type('9991234567'); await p.waitForTimeout(50);
     ok((await p.inputValue('#phone')) === '+7 (999) 123-45-67', '26: маска собирает +7 (999) 123-45-67');
-    await p.locator('.summary__order').click();
-    const done = p.locator('[data-done="order"]');
-    ok(await done.isVisible() && (await done.textContent()).startsWith('Демо:'), '26: верная форма — демо-сообщение, заказ не отправлен');
-    ok(await p.evaluate(() => window.TeaboomCart.items().length) === 1, '26: корзина после демо-заказа не очищается');
-
     // Phone pay bar submits the same form
     await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
     ok(await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '3' + NB + '590,40' + NB + '₽', '26: телефон — панель «Итого · Заказать»');
     ok((await p.getAttribute('[data-paybar] button', 'form')) === 'order' && (await p.getAttribute('[data-paybar] button', 'type')) === 'submit', '26: кнопка панели отправляет ту же форму');
     ok(await overflow(p) <= 0, '26: 390 — без прокрутки вбок');
+    // Valid form → «Спасибо, заказ оформлен» with the next steps for the way (схема: подтверждение).
+    await p.locator('.summary__order').click(); await p.waitForTimeout(400);
+    ok(await p.locator('[data-placed]').isVisible() && await p.locator('#order').isHidden() && rub(await p.textContent('[data-placed]')).includes('Демо:') && rub(await p.textContent('[data-placed-body]')).includes('Курьер позвонит'), '26: верная форма — экран «Заказ оформлен» для курьера, честно помечен «Демо»');
+    ok(await p.evaluate(() => document.activeElement?.id === 'placed-title') && await p.locator('[data-order]').isHidden() && await p.locator('[data-paybar]').isHidden(), '26: фокус на подтверждении, «Заказать» больше нет');
+    ok(await p.evaluate(() => window.TeaboomCart.items().length) === 1, '26: корзина после демо-заказа не очищается');
     await c.close();
 
     // ---------- Widths ----------
@@ -132,6 +141,7 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok(await typeIn('+380671234567') === '+380 (67) 123-45-67' && !(await errOf()), '26: Украина — +380 (67) 123-45-67');
     ok(await typeIn('+77011234567') === '+7 (701) 123-45-67' && !(await errOf()), '26: Казахстан — +7 (701) 123-45-67');
     ok(await typeIn('+4915123456789') === '+4915123456789' && !(await errOf()), '26: другие страны — международный номер без маски');
+    await p.locator('.way:has(input[value="courier"])').click(); await p.waitForTimeout(200);
     await p.fill('#phone', ''); await p.selectOption('#country', 'BY'); await p.locator('#phone').focus();
     ok((await p.inputValue('#phone')).trim() === '+375', '26: страна «Белоруссия» — пустое поле начинается с +375');
     await p.keyboard.type('29123', { delay: 5 }); await p.locator('#email').click();

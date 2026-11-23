@@ -38,6 +38,25 @@
   const nameOf = (input) => input.closest(".choice").querySelector(".choice__name").textContent.trim();
   const shipInput = () => ships.find((x) => x.checked) || ships[0];
 
+  // п. 26 (Антон, 23.11): first how to get the order, then its details. The way (courier /
+  // pick-up point / pickup) shows its own panel; the shop's shipping-method follows it — the
+  // last one chosen inside that panel, or its first.
+  const ways = [...form.querySelectorAll("[data-way]")];
+  const panelOf = (way) => form.querySelector(`[data-way-panel="${way}"]`);
+  const syncWay = () => {
+    const way = ways.find((x) => x.checked)?.value || "pickup";
+    ways.forEach((x) => {
+      const panel = panelOf(x.value);
+      panel.hidden = x.value !== way;
+      panel.querySelectorAll("input, select, textarea").forEach((el) => (el.disabled = x.value !== way));
+    });
+    const panel = panelOf(way);
+    if (!panel.contains(shipInput()) || !shipInput().checked) {
+      const first = panel.querySelector("input[name='shipping-method']");
+      if (first) first.checked = true;
+    }
+  };
+
   // Payment methods the chosen delivery and person type allow; a hidden choice is also disabled,
   // so it never reaches the server.
   const syncPay = () => {
@@ -103,7 +122,7 @@
     if (item.img) img.src = item.img;
     else img.removeAttribute("src");
     const name = li.querySelector("[data-brief-name]");
-    name.textContent = `${item.name}, ${item.pack}`;
+    name.textContent = cart.title(item);
     name.setAttribute("href", item.url || "#");
     li.querySelector("[data-brief-each]").textContent = `${item.qty} × ${money(item.price)}`;
     li.querySelector("[data-brief-sum]").textContent = money(item.price * item.qty);
@@ -141,11 +160,18 @@
 
     const ship = shipInput();
     const cost = shipCost(ship.dataset.ship, sum);
+    // Prices on the three ways — the same rules as the delivery list (teaboom.ru/shipping/).
+    const free = sum >= FREE_FROM;
+    root.querySelector('[data-way-price="courier"]').textContent = free ? "бесплатно" : `${money(400)}`;
+    root.querySelector('[data-way-price="post"]').textContent = sum >= RUSSIA_FREE_FROM ? "бесплатно" : `${free ? money(0) : money(400)} + тариф`;
+    root.querySelector('[data-way-price="pickup"]').textContent = "бесплатно";
     let how = nameOf(ship);
     if (ship.dataset.tariff) {
       how += sum >= RUSSIA_FREE_FROM ? ", доставка по России бесплатная" : `, тариф ${ship.dataset.tariff} отдельно`;
     }
     root.querySelector("[data-ship-how]").textContent = how;
+    // The payment step opens with what was chosen above (схема: «итоговая сводка по способу получения»).
+    root.querySelector("[data-receive-sum]").textContent = `Получение: ${how}, ${cost ? money(cost) : "бесплатно"}`;
     root.querySelector("[data-ship-cost]").textContent = money(cost);
     const pay = pays.find((x) => x.checked && !x.disabled);
     root.querySelector("[data-pay-how]").textContent = pay ? nameOf(pay) : "";
@@ -156,10 +182,37 @@
   };
 
   form.addEventListener("change", (e) => {
-    if (e.target.matches("[name='shipping-method'], [data-person]")) syncPay();
+    if (e.target.matches("[data-way]")) syncWay();
+    if (e.target.matches("[name='shipping-method'], [data-person], [data-way]")) syncPay();
     if (e.target.matches("[type='radio']")) render();
   });
 
+  // After «Заказать» (valid form, forms.js): the next steps for the chosen way.
+  const placed = root.querySelector("[data-placed]");
+  form.addEventListener("demo:sent", () => {
+    const ship = shipInput();
+    const kind = ship.dataset.ship;
+    const body = placed.querySelector("[data-placed-body]");
+    const phone = '<a href="tel:+74951201551">+7 (495) 120-15-51</a>';
+    const lines = {
+      pickup: [`Пункт самовывоза: ${nameOf(ship).replace(/^Самовывоз \(|\)$/g, "")}.`, ship.closest(".choice").querySelector(".choice__desc").textContent.trim(), "Часы работы: пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00."],
+      courier: ["Курьер позвонит, чтобы договориться о времени.", "Доставка по Москве в пределах МКАД: до 3 500 ₽ — 400 ₽, от 3 500 ₽ — бесплатно."],
+      post: [`Отправим через ${{ CDEK: "СДЭК", "Почты России": "Почту России" }[ship.dataset.tariff] || ship.dataset.tariff} в выбранный пункт выдачи.`, "Ссылку на оплату и трек-номер пришлём на почту."],
+    }[kind] || [];
+    body.innerHTML = lines.map((t) => `<p>${t}</p>`).join("") + `<p>Вопросы по заказу: ${phone}.</p>`;
+    form.hidden = true;
+    placed.hidden = false;
+    // Placed: nothing left to press in the summary.
+    root.querySelector("[data-order]").hidden = true;
+    orderInView = true;
+    if (paybar) paybar.hidden = true;
+    const done = root.querySelector('[data-done="order"]');
+    if (done) done.hidden = true;
+    placed.querySelector("#placed-title").focus();
+    placed.scrollIntoView({ block: "start" });
+  });
+
+  syncWay();
   syncPay();
   cart.onChange(render);
   render();

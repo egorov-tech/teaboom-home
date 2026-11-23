@@ -167,10 +167,15 @@
       <div class="checkout__layout" data-checkout-full hidden>
         <!-- Blocks, texts and field names as on teaboom.ru/checkout (seen signed in, 17.11): the shop's
              backend reads invoice-*, shipping-method (5, 6, 9, 1, 7, 8), payment_method (1, 4, …). -->
+        <!-- п. 26 (Антон, 23.11; схема «Teaboom, checkout» на Яндекс Доске): who buys → how to get it
+             (courier / pick-up point / pickup, each with its own details) → recipient → payment
+             with a summary of the chosen way → comment; the order cost stays in view on every
+             step. «Блок схемы ≠ экран»: the steps are blocks of one page. Field names are the
+             shop's own (invoice-*, shipping-method 5, 6, 9, 1, 7, 8, payment_method). -->
         <form class="order" id="order" action="/checkout" method="post" novalidate data-form="checkout">
 
           <fieldset class="step step--person">
-            <legend class="step__title">Оформить заказ как</legend>
+            <legend class="step__title">Кто покупает</legend>
             <!-- Same segmented control as the login tabs: two short options, one line. -->
             <div class="segment">
               <label class="segment__item">
@@ -185,38 +190,41 @@
             <p class="step__note">(выставление счета доступно только для юр.&nbsp;лиц)</p>
           </fieldset>
 
-          <fieldset class="step" id="step-address">
-            <legend class="step__title">Получатель и адрес доставки</legend>
-            <div class="step__pair">
-              <div class="field">
-                <label class="field__label" for="first-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
-                <input class="field__input" id="first-name" name="invoice-firstname" type="text" autocomplete="given-name" enterkeyhint="next" autocapitalize="words" required maxlength="150" aria-describedby="first-name-error">
-                <p class="field__error" id="first-name-error" data-error hidden></p>
-              </div>
-              <div class="field">
-                <label class="field__label" for="last-name">Фамилия</label>
-                <input class="field__input" id="last-name" name="invoice-lastname" type="text" autocomplete="family-name" enterkeyhint="next" autocapitalize="words" maxlength="150" aria-describedby="last-name-error">
-                <p class="field__error" id="last-name-error" data-error hidden></p>
-              </div>
-            </div>
-            <div class="field">
-              <label class="field__label" for="email">Email <span class="field__req" aria-hidden="true">*</span></label>
-              <input class="field__input" id="email" name="invoice-email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" autocapitalize="off" spellcheck="false" required maxlength="254" placeholder="you@mail.ru" aria-describedby="email-error">
-              <p class="field__error" id="email-error" data-error hidden></p>
-            </div>
-            <div class="step__pair">
-              <div class="field">
-                <label class="field__label" for="phone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
-                <input class="field__input" id="phone" name="invoice-phone" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" required maxlength="20" placeholder="+7 (999) 123-45-67" aria-describedby="phone-error" data-phone>
-                <p class="field__error" id="phone-error" data-error hidden></p>
-              </div>
-              <div class="field">
-                <label class="field__label" for="phone2">Доп. телефон</label>
-                <input class="field__input" id="phone2" name="invoice-phone1" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" maxlength="20" placeholder="+7 (999) 123-45-67" aria-describedby="phone2-error" data-phone>
-                <p class="field__error" id="phone2-error" data-error hidden></p>
-              </div>
+          <fieldset class="step" id="step-receive">
+            <legend class="step__title">Как получить заказ</legend>
+            <div class="ways">
+              <label class="way">
+                <input class="way__input" type="radio" name="receive" value="courier" data-way>
+                <span class="way__name">Курьером</span>
+                <span class="way__desc">Москва в&nbsp;пределах МКАД и&nbsp;область</span>
+                <span class="way__price" data-way-price="courier"></span>
+              </label>
+              <label class="way">
+                <input class="way__input" type="radio" name="receive" value="post" data-way>
+                <span class="way__name">В&nbsp;пункт выдачи</span>
+                <span class="way__desc">Почта России или СДЭК, по&nbsp;России и&nbsp;СНГ</span>
+                <span class="way__price" data-way-price="post"></span>
+              </label>
+              <label class="way">
+                <input class="way__input" type="radio" name="receive" value="pickup" checked data-way>
+                <span class="way__name">Самовывоз</span>
+                <span class="way__desc">Три точки в&nbsp;Москве</span>
+                <span class="way__price" data-way-price="pickup"></span>
+              </label>
             </div>
 
+            <div class="way-panel" data-way-panel="courier" hidden>
+              <!-- One courier method: its radio stays for the form, its terms read as a note. -->
+              <div class="choices" hidden>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping-method" value="1" data-ship="courier">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">Доставка курьером</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">По Москве в пределах МКАД: до 3&nbsp;500&nbsp;₽ — 400&nbsp;₽, от 3&nbsp;500&nbsp;₽ — бесплатно. По Московской области — 25&nbsp;₽/км от МКАД.</span>
+              </label>
+              </div>
+              <p class="step__note">По Москве в&nbsp;пределах МКАД: до&nbsp;3&nbsp;500&nbsp;₽&nbsp;— 400&nbsp;₽, от&nbsp;3&nbsp;500&nbsp;₽&nbsp;— бесплатно. По&nbsp;Московской области&nbsp;— 25&nbsp;₽/км от&nbsp;МКАД.</p>
             <div class="address">
               <p class="address__title">Адрес</p>
               <p class="step__note" id="address-note">не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять</p>
@@ -277,31 +285,51 @@
                 </div>
               </details>
             </div>
-          </fieldset>
-
-          <!-- Two small blocks of the site in one card: date on the left, comment on the right. -->
-          <div class="step step--split">
-            <fieldset class="step__part">
-              <legend class="step__title">Дата доставки</legend>
-              <div class="field">
-                <label class="visually-hidden" for="delivery-date">Дата доставки</label>
-                <input class="field__input" id="delivery-date" name="delivery_date" type="date" aria-describedby="delivery-date-note" data-date>
-                <p class="step__note" id="delivery-date-note">* предпочтительная дата доставки</p>
+              <div class="step__pair step__pair--top">
+                <div class="field">
+                  <label class="field__label" for="delivery-date">Дата доставки</label>
+                  <input class="field__input" id="delivery-date" name="delivery_date" type="date" aria-describedby="delivery-date-note" data-date>
+                  <p class="step__note" id="delivery-date-note">* предпочтительная дата доставки</p>
+                </div>
+                <div class="field">
+                  <label class="field__label" for="delivery-time">Удобное время</label>
+                  <input class="field__input" id="delivery-time" name="delivery_time" type="text" autocomplete="off" placeholder="например, после 18:00">
+                </div>
               </div>
-            </fieldset>
-            <fieldset class="step__part">
-              <legend class="step__title">Комментарий</legend>
-              <div class="field">
-                <label class="visually-hidden" for="comment">Комментарий к заказу</label>
-                <textarea class="field__input field__input--area" id="comment" name="message" rows="3" maxlength="2000"></textarea>
-              </div>
-            </fieldset>
-          </div>
+            </div>
 
-          <!-- Prices from teaboom.ru/shipping/: courier, Почта and CDEK cost 400 ₽ below 3 500 ₽. -->
-          <fieldset class="step" id="step-delivery">
-            <legend class="step__title">Доставка</legend>
-            <div class="choices">
+            <div class="way-panel" data-way-panel="post" hidden>
+              <div class="choices">
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping-method" value="7" data-ship="post" data-tariff="Почты России">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">до пункта отправления Почта России в г.&nbsp;Москва</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">Доставка до отделения, тариф Почты России рассчитывается и оплачивается отдельно. От 10&nbsp;000&nbsp;₽ — доставка по России бесплатная.</span>
+              </label>
+              <label class="choice choice--card">
+                <input class="choice__input" type="radio" name="shipping-method" value="8" data-ship="post" data-tariff="CDEK">
+                <span class="choice__mark" aria-hidden="true"></span>
+                <span class="choice__name">до пункта отправления CDEK в г.&nbsp;Москва</span>
+                <span class="choice__price" data-ship-price></span>
+                <span class="choice__desc">Доставка до пункта отправления, тариф CDEK рассчитывается и оплачивается отдельно. Пункт выдачи можно указать в комментарии.</span>
+              </label>
+              </div>
+              <div class="step__pair">
+                <div class="field">
+                  <label class="field__label" for="pvz-city">Город</label>
+                  <input class="field__input" id="pvz-city" name="pvz_city" type="text" autocomplete="address-level2">
+                </div>
+                <div class="field">
+                  <label class="field__label" for="pvz-point">Пункт выдачи</label>
+                  <input class="field__input" id="pvz-point" name="pvz_point" type="text" autocomplete="off" placeholder="адрес или код пункта" aria-describedby="pvz-note">
+                </div>
+              </div>
+              <p class="step__note" id="pvz-note">Демо: на&nbsp;сайте здесь будут карта и&nbsp;список пунктов выбранной службы со&nbsp;сроками и&nbsp;часами работы.</p>
+            </div>
+
+            <div class="way-panel" data-way-panel="pickup">
+              <div class="choices">
               <label class="choice choice--card">
                 <input class="choice__input" type="radio" name="shipping-method" value="5" checked data-ship="pickup">
                 <span class="choice__mark" aria-hidden="true"></span>
@@ -323,33 +351,49 @@
                 <span class="choice__price" data-ship-price></span>
                 <span class="choice__desc">У турникетов выхода, из МЦК можно не выходить.</span>
               </label>
-              <label class="choice choice--card">
-                <input class="choice__input" type="radio" name="shipping-method" value="1" data-ship="courier">
-                <span class="choice__mark" aria-hidden="true"></span>
-                <span class="choice__name">Доставка курьером</span>
-                <span class="choice__price" data-ship-price></span>
-                <span class="choice__desc">По Москве в пределах МКАД: до 3&nbsp;500&nbsp;₽ — 400&nbsp;₽, от 3&nbsp;500&nbsp;₽ — бесплатно. По Московской области — 25&nbsp;₽/км от МКАД.</span>
-              </label>
-              <label class="choice choice--card">
-                <input class="choice__input" type="radio" name="shipping-method" value="7" data-ship="post" data-tariff="Почты России">
-                <span class="choice__mark" aria-hidden="true"></span>
-                <span class="choice__name">до пункта отправления Почта России в г.&nbsp;Москва</span>
-                <span class="choice__price" data-ship-price></span>
-                <span class="choice__desc">Доставка до отделения, тариф Почты России рассчитывается и оплачивается отдельно. От 10&nbsp;000&nbsp;₽ — доставка по России бесплатная.</span>
-              </label>
-              <label class="choice choice--card">
-                <input class="choice__input" type="radio" name="shipping-method" value="8" data-ship="post" data-tariff="CDEK">
-                <span class="choice__mark" aria-hidden="true"></span>
-                <span class="choice__name">до пункта отправления CDEK в г.&nbsp;Москва</span>
-                <span class="choice__price" data-ship-price></span>
-                <span class="choice__desc">Доставка до пункта отправления, тариф CDEK рассчитывается и оплачивается отдельно. Пункт выдачи можно указать в комментарии.</span>
-              </label>
+              </div>
+              <p class="step__note">Часы работы: пн&#8288;–&#8288;пт с&nbsp;10:00 до&nbsp;19:00, сб&#8288;–&#8288;вс с&nbsp;12:00 до&nbsp;16:00.</p>
             </div>
+          </fieldset>
+
+          <fieldset class="step" id="step-address">
+            <legend class="step__title">Получатель</legend>
+            <div class="step__pair">
+              <div class="field">
+                <label class="field__label" for="first-name">Имя <span class="field__req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="first-name" name="invoice-firstname" type="text" autocomplete="given-name" enterkeyhint="next" autocapitalize="words" required maxlength="150" aria-describedby="first-name-error">
+                <p class="field__error" id="first-name-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="last-name">Фамилия</label>
+                <input class="field__input" id="last-name" name="invoice-lastname" type="text" autocomplete="family-name" enterkeyhint="next" autocapitalize="words" maxlength="150" aria-describedby="last-name-error">
+                <p class="field__error" id="last-name-error" data-error hidden></p>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field__label" for="email">Email <span class="field__req" aria-hidden="true">*</span></label>
+              <input class="field__input" id="email" name="invoice-email" type="email" autocomplete="email" inputmode="email" enterkeyhint="next" autocapitalize="off" spellcheck="false" required maxlength="254" placeholder="you@mail.ru" aria-describedby="email-error">
+              <p class="field__error" id="email-error" data-error hidden></p>
+            </div>
+            <div class="step__pair">
+              <div class="field">
+                <label class="field__label" for="phone">Телефон <span class="field__req" aria-hidden="true">*</span></label>
+                <input class="field__input" id="phone" name="invoice-phone" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" required maxlength="20" placeholder="+7 (999) 123-45-67" aria-describedby="phone-error" data-phone>
+                <p class="field__error" id="phone-error" data-error hidden></p>
+              </div>
+              <div class="field">
+                <label class="field__label" for="phone2">Доп. телефон</label>
+                <input class="field__input" id="phone2" name="invoice-phone1" type="tel" autocomplete="tel" inputmode="tel" enterkeyhint="next" maxlength="20" placeholder="+7 (999) 123-45-67" aria-describedby="phone2-error" data-phone>
+                <p class="field__error" id="phone2-error" data-error hidden></p>
+              </div>
+            </div>
+
           </fieldset>
 
           <!-- Methods from teaboom.ru/payment/; which ones a delivery allows — data-pay-when. -->
           <fieldset class="step" id="step-payment">
             <legend class="step__title">Оплата</legend>
+            <p class="step__receive" data-receive-sum></p>
             <div class="choices">
               <label class="choice choice--card" data-pay-when="pickup">
                 <input class="choice__input" type="radio" name="payment_method" value="1" checked>
@@ -383,7 +427,23 @@
               </label>
             </div>
           </fieldset>
+
+          <fieldset class="step" id="step-comment">
+            <legend class="step__title">Комментарий</legend>
+            <div class="field">
+              <label class="visually-hidden" for="comment">Комментарий к заказу</label>
+              <textarea class="field__input field__input--area" id="comment" name="message" rows="3" maxlength="2000"></textarea>
+            </div>
+          </fieldset>
         </form>
+
+        <!-- After «Заказать»: what happens next, by the way chosen (схема: подтверждение заказа). -->
+        <section class="placed" aria-labelledby="placed-title" data-placed hidden>
+          <h2 class="placed__title" id="placed-title" tabindex="-1">Спасибо, заказ оформлен</h2>
+          <p class="placed__demo">Демо: на&nbsp;сайте заказ уйдёт в&nbsp;магазин. Сейчас он&nbsp;не&nbsp;отправлен, корзина сохранена.</p>
+          <div class="placed__body" data-placed-body></div>
+          <a class="auth__back press" href="./">На главную</a>
+        </section>
 
         <aside class="summary" aria-labelledby="summary-title" data-summary>
           <div class="summary__head">

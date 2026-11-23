@@ -47,11 +47,21 @@
     }
   }
 
+  // Артём, 24.11: an empty cart is not a dead end and does not end at the footer on a phone —
+  // the way to the catalogue, then «Вы смотрели»; the page holds at least a screen.
   &__empty {
     display: grid;
     gap: var(--step-3);
     justify-items: start;
+    align-content: start;
+    min-height: calc(100svh - var(--pin-h) - 140px);
     padding: var(--step-6) 0;
+
+    > .more {
+      justify-self: stretch;
+      min-width: 0;
+      margin-top: var(--step-6);
+    }
 
     &[hidden] {
       display: none;
@@ -117,7 +127,16 @@
   gap: var(--step-3);
   padding: 0 var(--step-4) var(--step-2);
 
-  @container (min-width: 660px) {
+  // The head's box sits on the rows' tick column (24 px column, 20 px box → 2 px in).
+  .pick {
+    margin-left: 2px;
+  }
+
+  @media (max-width: 359px) {
+    padding-inline: var(--step-3);
+  }
+
+  @container (min-width: 560px) {
     padding-inline: var(--step-5);
   }
 }
@@ -135,89 +154,86 @@
   list-style: none;
 }
 
-// One row: photo · name + артикул · qty · money · remove. Phones: photo left, the rest
-// stacks; qty and money share the bottom line.
+// One row (Артём, 24.11 — redesign): tick · photo · name + артикул · sum · bin on the first
+// line; the «− N +» stepper under the name. The tick has its own column at every width, level
+// with the photo's middle, so ticks, photos and names run on clean verticals.
+// Narrow (the list < 560 px): the stepper and the sum share the second line under the photo.
 .line {
-  display: grid;
-  // Phones: the «− N +» stepper starts under the photo, so it never runs into the sum
-  // even at 320 px with a five-digit total.
   position: relative;
-  grid-template-columns: 72px minmax(0, 1fr) auto;
+  display: grid;
+  grid-template-columns: 24px 64px minmax(0, 1fr) auto 40px;
   grid-template-areas:
-    "photo info remove"
-    "qty qty money";
-  gap: var(--step-2) var(--step-3);
+    "pick photo info info remove"
+    ". qty qty money money";
+  column-gap: var(--step-3);
+  row-gap: var(--step-3);
   align-items: center;
-  padding: var(--step-4);
+  padding: var(--step-4) var(--step-3) var(--step-4) var(--step-4);
+  transition: background-color var(--ease);
 
   & + & {
     border-top: 1px solid var(--line);
   }
 
   @media (max-width: 359px) {
-    grid-template-columns: 56px minmax(0, 1fr) auto;
-    padding: var(--step-3);
+    grid-template-columns: 24px 56px minmax(0, 1fr) auto 40px;
+    padding-left: var(--step-3);
   }
 
-  @container (min-width: 660px) {
-    grid-template-columns: 20px 88px minmax(0, 1fr) auto 120px 44px;
-    grid-template-areas: "pick photo info qty money remove";
-    gap: var(--step-4);
-    padding: var(--step-4) var(--step-5);
+  @container (min-width: 560px) {
+    grid-template-columns: 24px 88px minmax(0, 1fr) minmax(104px, auto) 40px;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "pick photo info money remove"
+      "pick photo qty money remove";
+    column-gap: var(--step-4);
+    row-gap: var(--step-2);
+    padding: var(--step-4) var(--step-3) var(--step-4) var(--step-5);
   }
 
-  // Narrow rows: the tick sits on the photo's corner (the name keeps its width); its 40 px
-  // target is centred on the box. Wide rows: a column of its own before the photo.
   & &__pick {
-    position: absolute;
-    z-index: 1;
-    top: calc(var(--step-4) - 12px);
-    left: calc(var(--step-4) - 12px);
+    grid-area: pick;
+    align-self: center;
+    justify-self: center;
     justify-content: center;
     width: 40px;
-
-    .pick__box {
-      box-shadow: 0 0 0 2px var(--paper);
-    }
+    margin-inline: -8px;
   }
 
-  @media (max-width: 359px) {
-    & .line__pick {
-      top: calc(var(--step-3) - 12px);
-      left: calc(var(--step-3) - 12px);
-    }
-  }
-
-  @container (min-width: 660px) {
-    & .line__pick {
-      position: relative;
-      inset: auto;
-      grid-area: pick;
+  // Narrow: centred on the photo (row 1), not on the whole two-line row.
+  @container (max-width: 559px) {
+    & &__pick {
       align-self: center;
-      margin-inline: -10px;
     }
   }
 
-  // Not ticked: still in the cart, just not in this order.
+  // Not ticked: still in the cart, just not in this order — dimmed, never hidden.
   &.is-off &__photo {
-    opacity: 0.55;
+    opacity: 0.5;
   }
 
   &.is-off &__money {
     color: var(--muted);
   }
 
-  // Removed on this page: crossed out, «Вернуть» where the quantity was.
-  &.is-gone &__photo {
-    opacity: 0.4;
+  // Removed on this page: the row stays (name and sum crossed out, both still readable),
+  // with «Вернуть» where the stepper was — an undo, not a dead end.
+  &.is-gone {
+    background: color-mix(in srgb, var(--canvas) 70%, var(--paper));
   }
 
-  &.is-gone &__name {
+  &.is-gone &__photo {
+    opacity: 0.35;
+  }
+
+  &.is-gone &__name,
+  &.is-gone &__sum {
     color: var(--muted);
     text-decoration: line-through;
+    text-decoration-thickness: 1px;
   }
 
-  &.is-gone &__money {
+  &.is-gone &__each {
     visibility: hidden;
   }
 
@@ -227,10 +243,16 @@
 
   &__gone {
     grid-area: qty;
-    display: flex;
+    justify-self: start;
+    display: inline-flex;
     align-items: center;
-    gap: var(--step-3);
+    gap: var(--step-2);
+    min-height: 44px;
     margin: 0;
+    padding: 0 4px 0 var(--step-3);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 999px;
 
     &[hidden] {
       display: none;
@@ -240,34 +262,57 @@
   &__gone-note {
     font-size: 13px;
     color: var(--muted);
+    white-space: nowrap;
   }
 
   &__back {
-    min-height: 40px;
-    padding: 0 var(--step-4);
-    font: 600 14px/1 var(--font-text);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 0 var(--step-3);
+    font: 700 13px/1 var(--font-text);
     color: var(--ink);
-    background: var(--paper);
-    border: 1px solid var(--line-strong);
-    border-radius: var(--radius-md);
+    background: var(--brand);
+    border: 0;
+    border-radius: 999px;
     cursor: pointer;
-    transition: border-color var(--ease);
+    transition: background-color var(--ease), transform 160ms var(--ease-out);
+
+    // a 40 px target around the 36 px pill
+    &::before {
+      content: "";
+      position: absolute;
+      inset: -2px;
+    }
+
+    position: relative;
+
+    &:active {
+      transform: scale(0.97);
+    }
 
     @media (hover: hover) {
       &:hover {
-        border-color: var(--ink);
+        background: var(--brand-deep);
       }
     }
   }
 
   &__photo {
     grid-area: photo;
-    align-self: start;
+    align-self: center;
     display: block;
     aspect-ratio: 1;
     border-radius: var(--radius-md);
     overflow: hidden;
     background: var(--canvas);
+  }
+
+  @container (min-width: 560px) {
+    &__photo {
+      align-self: start;
+    }
   }
 
   &__image {
@@ -278,14 +323,30 @@
 
   &__info {
     grid-area: info;
+    align-self: center;
     min-width: 0;
   }
 
+  @container (min-width: 560px) {
+    &__info {
+      align-self: end;
+    }
+  }
+
   &__name {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
     font-weight: 600;
+    line-height: 1.35;
     color: var(--ink);
     text-decoration: none;
-    overflow-wrap: break-word;
+    // Long Russian words in a narrow column break with a hyphen, never mid-word bare.
+    hyphens: auto;
+    -webkit-hyphens: auto;
+    overflow-wrap: normal;
 
     @media (hover: hover) {
       &:hover {
@@ -295,7 +356,7 @@
   }
 
   &__sku {
-    margin: 2px 0 0;
+    margin: 4px 0 0;
     font-size: 13px;
     color: var(--muted);
   }
@@ -304,12 +365,14 @@
     grid-area: money;
     display: grid;
     justify-items: end;
+    gap: 2px;
     margin: 0;
     text-align: right;
     font-variant-numeric: tabular-nums;
   }
 
   &__sum {
+    font-size: 16px;
     font-weight: 700;
     white-space: nowrap;
   }
@@ -322,33 +385,37 @@
 
   &__remove {
     grid-area: remove;
-
-    &[hidden] {
-      display: none;
-    }
-
     justify-self: end;
-    align-self: start;
+    align-self: center;
     display: grid;
     place-items: center;
-    width: var(--tap);
-    height: var(--tap);
-    margin: -10px -10px 0 0;
+    width: 40px;
+    height: 40px;
     color: var(--muted);
     background: none;
     border: 0;
     border-radius: var(--radius-md);
     cursor: pointer;
+    transition: color var(--ease), background-color var(--ease);
 
-    @container (min-width: 660px) {
-      align-self: center;
-      margin: 0;
+    &[hidden] {
+      display: grid;
+      visibility: hidden;
     }
 
     @media (hover: hover) {
       &:hover {
         color: var(--cut);
+        background: var(--canvas);
       }
+    }
+  }
+
+  // Narrow rows: the bin stays at the top right, level with the name.
+  @container (max-width: 559px) {
+    &__remove {
+      align-self: start;
+      margin-top: -8px;
     }
   }
 }

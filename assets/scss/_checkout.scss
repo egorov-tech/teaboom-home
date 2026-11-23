@@ -115,6 +115,11 @@
     display: grid;
     gap: var(--step-4);
 
+    // Fields with a note under one of them: tops line up, the note hangs below.
+    &--top {
+      align-items: start;
+    }
+
     @media (min-width: $bp-wide) {
       grid-template-columns: 1fr 1fr;
     }
@@ -549,4 +554,229 @@ button.paybar__order {
       border-bottom: 0;
     }
   }
+}
+
+// п. 26 (Антон, 23.11): «Как получить заказ» — three ways first, the details of the chosen one
+// under them. A way is chosen like a pack chip: an even ink frame with the yellow cap inside.
+.ways {
+  display: grid;
+  gap: var(--step-2);
+
+  @media (min-width: $bp-wide) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.way {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "name price"
+    "desc desc";
+  align-content: start;
+  gap: 2px var(--step-3);
+  min-height: 76px;
+  padding: var(--step-3) var(--step-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--ease), transform 160ms var(--ease-out);
+
+  @media (min-width: $bp-wide) {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "name" "desc" "price";
+    gap: 2px;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 4px;
+    background: var(--brand);
+    border-radius: calc(var(--radius-md) - 2px) calc(var(--radius-md) - 2px) 0 0;
+    opacity: 0;
+    transition: opacity var(--ease);
+  }
+
+  &:has(:checked) {
+    border-color: var(--ink);
+    box-shadow: inset 0 0 0 1px var(--ink);
+  }
+
+  &:has(:checked)::before {
+    opacity: 1;
+  }
+
+  &:has(:focus-visible) {
+    outline: 2px solid var(--tea);
+    outline-offset: 3px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  @media (hover: hover) {
+    &:not(:has(:checked)):hover {
+      border-color: var(--ink-soft);
+    }
+  }
+
+  &__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0;
+    cursor: inherit;
+  }
+
+  &__name {
+    grid-area: name;
+    font-weight: 700;
+    font-size: 15px;
+    line-height: 20px;
+  }
+
+  &__desc {
+    grid-area: desc;
+    font-size: 13px;
+    line-height: 18px;
+    color: var(--muted);
+  }
+
+  &__price {
+    grid-area: price;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+
+    @media (min-width: $bp-wide) {
+      margin-top: var(--step-2);
+    }
+  }
+}
+
+.way-panel {
+  display: grid;
+  gap: var(--step-4);
+  margin-top: var(--step-2);
+  padding-top: var(--step-4);
+  border-top: 1px dashed var(--line-strong);
+  animation: way-in 220ms var(--ease-out);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+
+  // The courier panel's address block keeps its own heading; no second top margin.
+  .address {
+    margin-top: 0;
+  }
+}
+
+@keyframes way-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+}
+
+.step__login {
+  margin: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
+
+  a {
+    font-weight: 600;
+    color: var(--tea);
+    text-underline-offset: 3px;
+  }
+}
+
+// Payment opens with what was chosen above (схема: «итоговая сводка по способу получения»).
+.step__receive {
+  margin: 0;
+  padding: var(--step-2) var(--step-3);
+  font-size: 14px;
+  color: var(--ink-soft);
+  background: var(--canvas);
+  border-radius: var(--radius-md);
+
+  &:empty {
+    display: none;
+  }
+}
+
+// After «Заказать»: the order is placed — what happens next for the chosen way.
+.order[hidden] {
+  display: none;
+}
+
+.placed {
+  scroll-margin-top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4));
+  grid-column: 1;
+  grid-row: 1;
+  display: grid;
+  gap: var(--step-4);
+  align-content: start;
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__title {
+    margin: 0;
+    font: 500 clamp(24px, 1.2vw + 18px, 32px) / 1.1 var(--font-display);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__demo {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  &__body {
+    display: grid;
+    gap: var(--step-2);
+    font-size: 15px;
+    color: var(--ink-soft);
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      font-weight: 700;
+      color: var(--ink);
+      white-space: nowrap;
+    }
+  }
+
+  .auth__back {
+    justify-self: start;
+    width: auto;
+  }
+}
+
+.summary__order[hidden] {
+  display: none;
 }

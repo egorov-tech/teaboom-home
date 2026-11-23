@@ -36,7 +36,7 @@
   const gone = new Map(); // sku → { item, at }
 
   const fillLine = (li, item, removed = false) => {
-    const title = `${item.name}, ${item.pack}`;
+    const title = window.TeaboomCart.title(item);
     li.dataset.sku = item.sku;
     li.classList.toggle("is-gone", removed);
     li.classList.toggle("is-off", !removed && !!item.off);
@@ -158,13 +158,13 @@
       // Its place among the lines still in the cart.
       const before = [...list.querySelectorAll("[data-line]")].slice(0, [...list.children].indexOf(e.target.closest("[data-line]"))).filter((li) => !li.classList.contains("is-gone")).length;
       cart.restore(g.item, before);
-      say(`${g.item.name}, ${g.item.pack} — снова в корзине.`);
+      say(`${window.TeaboomCart.title(g.item)} — снова в корзине.`);
       list.querySelector(`[data-line][data-sku="${CSS.escape(sku)}"] [data-line-name]`)?.focus();
       return;
     }
     const item = itemOf(sku);
     if (!item) return;
-    const title = `${item.name}, ${item.pack}`;
+    const title = window.TeaboomCart.title(item);
     if (e.target.closest("[data-qty-inc]")) {
       cart.setQty(sku, item.qty + 1);
       say(`${title}: ${item.qty + 1} шт.`);

@@ -1160,6 +1160,10 @@ def render_service_pages():
         tpl = (ROOT / "tools" / f"{name}.template.html").read_text(encoding="utf-8")
         out = (tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
                .replace("{{SAMPLE}}", cart_sample()))
+        if "{{VIEWED}}" in out:
+            # Артём, 24.11: an empty cart showed the footer at once — it offers what this shopper
+            # looked at instead (the same «Вы смотрели» as the category; an example until there is any).
+            out = out.replace("{{VIEWED}}", render_viewed(sample=next(x["pdp"]["viewed_example"] for x in products if x.get("pdp", {}).get("viewed_example"))))
         assert "{{" not in out, name
         (ROOT / f"{name}.html").write_text(demo_links(typeset_html(out)), encoding="utf-8")
         print("ok", f"{name}.html", len(out))

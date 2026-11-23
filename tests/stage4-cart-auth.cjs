@@ -49,6 +49,7 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   await line('01306').locator('[data-line-remove]').tap(); await p.waitForTimeout(250);
   ok(await line('01306').evaluate((l) => l.classList.contains('is-gone')) && await line('01306').locator('[data-line-back]').isVisible() && await line('01306').locator('[data-qty]').isHidden() && (await p.textContent('[data-total-bar]')) === '7' + NB + '900' + NB + '₽', '25: удалённый товар остаётся зачёркнутым с «Вернуть», итог без него');
   ok(await p.evaluate(() => document.activeElement?.matches('[data-line-back]')), '25: фокус — на «Вернуть»');
+  ok(await line('01306').locator('.line__sum').isVisible() && await line('01306').locator('.line__sum').evaluate((e) => getComputedStyle(e).textDecorationLine.includes('line-through')), '25 (Артём, 24.11): у удалённого цена видна, зачёркнута');
   await line('01306').locator('[data-line-back]').tap(); await p.waitForTimeout(250);
   ok(!(await line('01306').evaluate((l) => l.classList.contains('is-gone'))) && await p.evaluate(() => window.TeaboomCart.items().map((x) => x.sku).join()) === '01285,01306,01307', '25: «Вернуть» — строка снова в корзине и на своём месте');
   // Ticks: an unticked line stays in the cart, out of this order and its total.
@@ -185,6 +186,29 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
 
   c = await b.newContext({ ...phone, javaScriptEnabled: false }); p = await c.newPage(); await p.goto(base + 'login.html', { waitUntil: 'load' });
   ok(await p.locator('#pane-link form').isVisible() && await p.locator('#pane-login form').isVisible() && await p.locator('#pane-register form').isVisible() && await p.locator('[data-switch]').isHidden(), 'без JS: все три формы видны, вкладок нет');
+  await c.close();
+
+  // Артём, 24.11: an empty cart offers «Вы смотрели» and does not end at the footer on a phone.
+  c = await b.newContext(phone); p = await open(c, 'cart.html');
+  ok(await p.locator('[data-basket-empty] [data-viewed]').isVisible() && await p.evaluate(() => document.querySelector('.footer').getBoundingClientRect().top >= innerHeight - 1), '25: пустая корзина — «Вы смотрели», футер не на первом экране');
+  // «1 шт» says nothing for a piece item — the name alone.
+  await p.evaluate(() => window.TeaboomCart.fill([{ sku: '02994', name: 'Чайник «Лотос»', pack: '1 шт', price: 459, img: '', url: '#', qty: 1 }]));
+  await p.waitForTimeout(200);
+  ok(rub(await p.textContent('[data-line-name]')) === 'Чайник «Лотос»', '25: штучный товар — без «, 1 шт» в названии');
+  await c.close();
+
+  // Антон, 23.11: a tile shows what is already in the cart — a count on the pack, «Добавить ещё».
+  c = await b.newContext({ viewport: { width: 1440, height: 900 } }); p = await open(c, 'category-ulun.html');
+  const tile = p.locator('[data-good]').first();
+  await tile.locator('[data-add]').click(); await p.waitForTimeout(300); await tile.locator('[data-add]').click(); await p.waitForTimeout(2000);
+  ok(rub(await tile.locator('.pack.is-in-cart .pack__in').textContent()) === '2 в корзине' && rub(await tile.locator('[data-add]').textContent()) === 'Добавить ещё', '«в корзине»: на фасовке «2», кнопка «Добавить ещё»');
+  await tile.locator('.pack').nth(1).click(); await p.waitForTimeout(200);
+  ok(rub(await tile.locator('[data-add]').textContent()) === 'В корзину', '«в корзине»: другая фасовка — снова «В корзину»');
+  await p.goto(base + 'index.html', { waitUntil: 'networkidle' });
+  const home = p.locator('.goods [data-good]').first();
+  await home.locator('[data-add]').click(); await p.waitForTimeout(2000);
+  await p.reload({ waitUntil: 'networkidle' });
+  ok(rub(await p.locator('.goods [data-good]').first().locator('.pack.is-in-cart .pack__in').textContent()) === '1 в корзине', '«в корзине»: на главной и после перезагрузки');
   await c.close();
 
   ok(errors.length === 0, 'нет ошибок JS ' + errors.join('; '));
