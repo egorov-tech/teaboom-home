@@ -316,6 +316,7 @@
   });
   // п. 45 (Ксения, 23.11): on a computer the groups fold under their titles; a group with a
   // chosen value opens. Phones and tablets keep the accepted sheet with every group open.
+  // Артём, 24.11: the first group starts open, so it is plain that the others open too.
   const groups = [...root.querySelectorAll("[data-facets-group]")];
   const fold = (group, open) => {
     group.classList.toggle("is-folded", !open);
@@ -323,10 +324,10 @@
     group.querySelector("[data-facets-fold]").inert = !open;
   };
   const arrange = () => {
-    groups.forEach((group) => {
+    groups.forEach((group, i) => {
       const toggle = group.querySelector("[data-facets-toggle]");
       toggle.disabled = !wide.matches;
-      fold(group, !wide.matches || !!group.querySelector("[data-facet]:checked"));
+      fold(group, !wide.matches || i === 0 || !!group.querySelector("[data-facet]:checked"));
     });
   };
   groups.forEach((group) => {

@@ -490,7 +490,7 @@ def render_delivery_body():
         return f'''                  <li>
                     <span class="rates__name">{typo(r["name"])}</span>
                     <span class="rates__price">{typo(r["price"])}</span>
-                    <span class="rates__note">{typo(r["note"])}{hint}</span>
+                    <span class="rates__note">{typo(r["note"])}</span>{hint}
                   </li>'''
     rows = "\n".join(row(r) for r in service["delivery_rates"]["rows"])
     payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])

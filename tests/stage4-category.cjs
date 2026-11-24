@@ -28,11 +28,11 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   const groups = await p.$$eval('.facets__name', (ls) => ls.map((l) => l.textContent.trim()));
   ok(JSON.stringify(groups) === JSON.stringify(['Страна произрастания', 'Фасовка', 'Сорт']), '17 + 42: группы как на сайте (одиночные скрыты), без «Категории» — её заменяют подкатегории');
   // п. 45 (Ксения, 23.11): on a computer the groups fold under their titles, as on rusteaco.
-  ok(await p.locator('.facets__group.is-folded').count() === 3 && await p.locator('.facets__fold').first().evaluate((e) => e.inert && e.getBoundingClientRect().height < 1), '45: компьютер — все группы свёрнуты под стрелку, свёрнутое недоступно с клавиатуры');
+  ok(await p.evaluate(() => [...document.querySelectorAll('[data-facets-group]')].map((g) => g.classList.contains('is-folded') ? 0 : 1).join('')) === '100' && await p.locator('.facets__fold').nth(1).evaluate((e) => e.inert && e.getBoundingClientRect().height < 1), '45 (Артём, 24.11): компьютер — первая группа открыта, остальные под стрелкой; свёрнутое недоступно с клавиатуры');
   ok(await p.evaluate(() => [...document.querySelectorAll('.facets__toggle')].every((t) => t.getBoundingClientRect().height >= 40)), '45: заголовок группы — кнопка не ниже 40 px');
-  const country = p.locator('.facets__group', { hasText: 'Страна произрастания' });
+  const country = p.locator('.facets__group', { hasText: 'Фасовка' });
   await country.locator('.facets__toggle').click(); await p.waitForTimeout(400);
-  ok(await country.locator('.facets__toggle').getAttribute('aria-expanded') === 'true' && await country.locator('.facet', { hasText: 'Китай' }).isVisible(), '45: клик по заголовку раскрывает группу');
+  ok(await country.locator('.facets__toggle').getAttribute('aria-expanded') === 'true' && await country.locator('.facet').first().isVisible(), '45: клик по заголовку раскрывает группу');
   await country.locator('.facets__toggle').click(); await p.waitForTimeout(400);
   ok(await country.evaluate((g) => g.classList.contains('is-folded')), '45: повторный клик сворачивает');
   // The rest of this run needs every group open.
