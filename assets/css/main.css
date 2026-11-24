@@ -2792,22 +2792,33 @@ body::before {
   mask-image: var(--fade);
 }
 .category__subcat {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-height: 40px;
-  padding: 0 var(--step-1);
-  border-bottom: 4px solid var(--brand);
+  padding: 0;
   color: var(--ink);
   font-size: 15px;
   text-decoration: none;
-  transition: border-color var(--ease), transform 160ms var(--ease-out);
+  transition: transform 160ms var(--ease-out);
+}
+.category__subcat::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(50% + 0.85em);
+  height: 3px;
+  border-radius: 999px;
+  background: var(--brand);
+  transition: background-color var(--ease);
 }
 .category__subcat:active {
   transform: scale(0.97);
 }
 @media (hover: hover) {
-  .category__subcat:hover {
-    border-color: var(--ink);
+  .category__subcat:hover::after {
+    background: var(--ink);
   }
 }
 .category__bar {

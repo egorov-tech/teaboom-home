@@ -69,13 +69,13 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   if ((p.viewportSize() || {}).width >= 1060) {
     const lay = await p.evaluate(() => {
       const r = (s) => document.querySelector(s).getBoundingClientRect();
-      const tag = getComputedStyle(document.querySelector('.category__subcat'));
+      const tag = getComputedStyle(document.querySelector('.category__subcat')); const line = getComputedStyle(document.querySelector('.category__subcat'), '::after');
       return { inH1: !!document.querySelector('h1 [data-count]'), countRight: r('[data-count]').left > r('.category__title').right, countTop: r('[data-count]').bottom < r('.category__subcats').top,
         sort: r('.category__sort'), facets: r('.facets'), tile: r('.category__grid > li:not([hidden])'),
-        tagLine: [tag.borderTopWidth, tag.borderLeftWidth, tag.borderBottomWidth].join(' ') };
+        tagLine: [tag.borderTopWidth, tag.borderLeftWidth, tag.borderBottomWidth, line.height, line.borderTopLeftRadius !== '0px'].join(' ') };
     });
     ok(!lay.inH1 && lay.countRight && lay.countTop, 'Ксения 24.11: счётчик рядом с заголовком, не внутри <h1>');
-    ok(lay.tagLine === '0px 0px 4px', `Ксения 24.11: подкатегории без рамки, только линия 4 px снизу (${lay.tagLine})`);
+    ok(lay.tagLine === '0px 0px 0px 3px true', `подкатегории без рамки, линия снизу 3 px со скруглёнными концами (Ксения 24.11, Артём 25.11) (${lay.tagLine})`);
     ok(Math.abs(lay.sort.top - lay.tile.top) <= 1 && lay.facets.top > lay.sort.bottom && Math.abs(lay.sort.width - lay.facets.width) <= 1, `Ксения 24.11: сортировка над фильтрами во всю ширину, верх на линии плиток (${Math.round(lay.sort.top)} / ${Math.round(lay.tile.top)})`);
   }
   const gaps = await p.evaluate(() => {

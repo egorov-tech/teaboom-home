@@ -42,26 +42,38 @@
     }
   }
 
-  // Ксения, 24.11: no box like the sorting and the filters — a 4 px brand line underneath, the
-  // same yellow as the chosen pack's edge.
+  // Ксения, 24.11: no box like the sorting and the filters — a brand line underneath, the same
+  // yellow as the chosen pack's edge. Артём, 25.11: thinner, rounded ends, as wide as the words.
   &__subcat {
+    position: relative;
     display: inline-flex;
     align-items: center;
     min-height: 40px;
-    padding: 0 var(--step-1);
-    border-bottom: 4px solid var(--brand);
+    padding: 0;
     color: var(--ink);
     font-size: 15px;
     text-decoration: none;
-    transition: border-color var(--ease), transform 160ms var(--ease-out);
+    transition: transform 160ms var(--ease-out);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(50% + 0.85em); // just under the words; the 40 px tap area stays
+      height: 3px;
+      border-radius: 999px;
+      background: var(--brand);
+      transition: background-color var(--ease);
+    }
 
     &:active {
       transform: scale(0.97);
     }
 
     @media (hover: hover) {
-      &:hover {
-        border-color: var(--ink);
+      &:hover::after {
+        background: var(--ink);
       }
     }
   }
