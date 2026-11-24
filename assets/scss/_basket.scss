@@ -127,9 +127,9 @@
   gap: var(--step-3);
   padding: 0 var(--step-4) var(--step-2);
 
-  // The head's box sits on the rows' tick column (24 px column, 20 px box → 2 px in).
+  // The head's tick sits in line with the ticks on the photos (4 px into the photo).
   .pick {
-    margin-left: 2px;
+    margin-left: 4px;
   }
 
   @media (max-width: 359px) {
@@ -161,10 +161,10 @@
 .line {
   position: relative;
   display: grid;
-  grid-template-columns: 24px 64px minmax(0, 1fr) auto 40px;
+  grid-template-columns: 64px minmax(0, 1fr) auto 40px;
   grid-template-areas:
-    "pick photo info info remove"
-    ". qty qty money money";
+    "photo info info remove"
+    "qty qty money money";
   column-gap: var(--step-3);
   row-gap: var(--step-3);
   align-items: center;
@@ -176,35 +176,39 @@
   }
 
   @media (max-width: 359px) {
-    grid-template-columns: 24px 56px minmax(0, 1fr) auto 40px;
+    grid-template-columns: 56px minmax(0, 1fr) auto 40px;
     padding-left: var(--step-3);
   }
 
   @container (min-width: 560px) {
-    grid-template-columns: 24px 88px minmax(0, 1fr) minmax(104px, auto) 40px;
+    grid-template-columns: 88px minmax(0, 1fr) minmax(104px, auto) 40px;
     grid-template-rows: auto auto;
     grid-template-areas:
-      "pick photo info money remove"
-      "pick photo qty money remove";
+      "photo info money remove"
+      "photo qty money remove";
     column-gap: var(--step-4);
     row-gap: var(--step-2);
     padding: var(--step-4) var(--step-3) var(--step-4) var(--step-5);
   }
 
+  // Вариант A (Артём, 24.11): the tick is a round badge on the photo's corner — no column of its
+  // own. It shares the photo's cell; the 40 px label is the touch area, the 24 px circle sits
+  // 4 px into the photo.
   & &__pick {
-    grid-area: pick;
-    align-self: center;
-    justify-self: center;
+    z-index: 1;
+    grid-area: photo;
+    align-self: start;
+    justify-self: start;
     justify-content: center;
     width: 40px;
-    margin-inline: -8px;
+    height: 40px;
+    min-height: 40px;
+    margin: -4px 0 0 -4px;
   }
 
-  // Narrow: centred on the photo (row 1), not on the whole two-line row.
-  @container (max-width: 559px) {
-    & &__pick {
-      align-self: center;
-    }
+  // On a photo the empty circle needs a soft edge to read.
+  & &__pick .pick__box {
+    box-shadow: 0 1px 3px rgb(0 0 0 / 14%);
   }
 
   // Not ticked: still in the cart, just not in this order — dimmed, never hidden.
@@ -212,7 +216,8 @@
     opacity: 0.5;
   }
 
-  &.is-off &__money {
+  &.is-off &__money,
+  &.is-off &__name {
     color: var(--muted);
   }
 
@@ -444,25 +449,26 @@
 
   &__box {
     flex: none;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background: var(--paper);
     border: 1.5px solid var(--line-strong);
-    border-radius: 5px;
+    border-radius: 50%;
     transition: background-color var(--ease), border-color var(--ease);
   }
 
+  // A yellow circle with an ink tick — the site's «chosen» colours (chosen pack, delivery way).
   &__input:checked ~ &__box {
-    background: var(--ink)
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 10.5 3.2 3L15 6.5'/%3E%3C/svg%3E")
-      center / 15px no-repeat;
+    background: var(--brand)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%231b1b1b' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 10.5 3.2 3L15 6.5'/%3E%3C/svg%3E")
+      center / 16px no-repeat;
     border-color: var(--ink);
   }
 
   &__input:indeterminate ~ &__box {
-    background: var(--ink)
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5.5 10h9'/%3E%3C/svg%3E")
-      center / 15px no-repeat;
+    background: var(--brand)
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%231b1b1b' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M5.5 10h9'/%3E%3C/svg%3E")
+      center / 16px no-repeat;
     border-color: var(--ink);
   }
 
