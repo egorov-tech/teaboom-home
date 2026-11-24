@@ -42,8 +42,9 @@
     }
   }
 
-  // Ксения, 24.11: no box like the sorting and the filters — a brand line underneath, the same
-  // yellow as the chosen pack's edge. Артём, 25.11: thinner, rounded ends, as wide as the words.
+  // Ксения, 24.11: no box like the sorting and the filters — a 4 px brand line underneath, the
+  // same yellow as the chosen pack's edge; rounded ends, as wide as the words. Hover (Артём,
+  // 25.11): an ink line draws over it from the left — the site's dark frame colour, in motion.
   &__subcat {
     position: relative;
     display: inline-flex;
@@ -55,25 +56,45 @@
     text-decoration: none;
     transition: transform 160ms var(--ease-out);
 
+    &::before,
     &::after {
       content: "";
       position: absolute;
       left: 0;
       right: 0;
       top: calc(50% + 0.85em); // just under the words; the 40 px tap area stays
-      height: 3px;
+      height: 4px;
       border-radius: 999px;
+    }
+
+    &::before {
       background: var(--brand);
-      transition: background-color var(--ease);
+    }
+
+    &::after {
+      background: var(--ink);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 220ms var(--ease-out);
     }
 
     &:active {
       transform: scale(0.97);
     }
 
+    &:focus-visible::after {
+      transform: scaleX(1);
+    }
+
     @media (hover: hover) {
       &:hover::after {
-        background: var(--ink);
+        transform: scaleX(1);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &::after {
+        transition: none;
       }
     }
   }
