@@ -64,6 +64,20 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(JSON.stringify(subs) === JSON.stringify([['Натуральный улун', '/category-naturalnyj-ulun'], ['Ароматизированный улун', '/category-aromatizirovannyj-ulun']]), `42: подкатегории ссылками под заголовком ${JSON.stringify(subs)}`);
   ok(await p.evaluate(() => { const h = document.querySelector('.category__title').getBoundingClientRect(); const s = document.querySelector('.category__subcats').getBoundingClientRect(); return s.top > h.bottom && s.top - h.bottom < 40; }) && await p.locator('[data-facet][value^="16__"]').count() === 0, '42: теги сразу под заголовком, группы «Категория» в фильтрах нет');
   ok(await p.evaluate(() => [...document.querySelectorAll('.category__subcat')].every((a) => a.getBoundingClientRect().height >= 40)), '42: теги не ниже 40 px');
+  // Ксения, 24.11: the count by the title (not inside the <h1>), tags with a 4 px line only, the
+  // sorting heads the filter column — its top on the line of the first tiles (no «лесенка»).
+  if ((p.viewportSize() || {}).width >= 1060) {
+    const lay = await p.evaluate(() => {
+      const r = (s) => document.querySelector(s).getBoundingClientRect();
+      const tag = getComputedStyle(document.querySelector('.category__subcat'));
+      return { inH1: !!document.querySelector('h1 [data-count]'), countRight: r('[data-count]').left > r('.category__title').right, countTop: r('[data-count]').bottom < r('.category__subcats').top,
+        sort: r('.category__sort'), facets: r('.facets'), tile: r('.category__grid > li:not([hidden])'),
+        tagLine: [tag.borderTopWidth, tag.borderLeftWidth, tag.borderBottomWidth].join(' ') };
+    });
+    ok(!lay.inH1 && lay.countRight && lay.countTop, 'Ксения 24.11: счётчик рядом с заголовком, не внутри <h1>');
+    ok(lay.tagLine === '0px 0px 4px', `Ксения 24.11: подкатегории без рамки, только линия 4 px снизу (${lay.tagLine})`);
+    ok(Math.abs(lay.sort.top - lay.tile.top) <= 1 && lay.facets.top > lay.sort.bottom && Math.abs(lay.sort.width - lay.facets.width) <= 1, `Ксения 24.11: сортировка над фильтрами во всю ширину, верх на линии плиток (${Math.round(lay.sort.top)} / ${Math.round(lay.tile.top)})`);
+  }
   const gaps = await p.evaluate(() => {
     const bar = document.querySelector('.category__bar').getBoundingClientRect();
     const li = [...document.querySelectorAll('.category__grid > li:not([hidden])')].map((e) => e.getBoundingClientRect());

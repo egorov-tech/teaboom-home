@@ -478,8 +478,9 @@
   color: var(--ink);
   font: inherit;
   font-weight: 600;
+  // Антон, 24.11: a plain underline like the other links — the dotted one was easy to miss.
   text-decoration: underline;
-  text-decoration-style: dotted;
+  text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   cursor: pointer;
 

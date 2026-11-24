@@ -288,3 +288,99 @@
 }
 
 // Packs → _packs.scss · price → _price.scss · CTA → _cta.scss
+
+// Вариант C (Артём, 24.11, по замечанию Антона): «В корзине: N шт.» on the photo — the whole
+// product, whichever pack is chosen. Over the photo, so the tile keeps its height.
+.good__incart {
+  position: absolute;
+  left: var(--step-2);
+  bottom: var(--step-2);
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: calc(100% - var(--step-2) * 2);
+  height: 28px;
+  padding: 0 10px 0 8px;
+  font: 600 13px/1 var(--font-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgb(27 27 27 / 18%);
+  pointer-events: none;
+  animation: pack-in 220ms var(--ease-out);
+
+  svg {
+    flex: none;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+// The chosen pack is in the cart: the button becomes «− в корзине N шт. +» in the same slot and
+// at the same height as «В корзину» (_cta.scss), so nothing below moves.
+.good__stepper {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  align-items: stretch;
+  width: 100%;
+  min-height: 52px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius-md);
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (max-width: #{$bp-tablet - 1px}) {
+    min-height: 44px;
+    border-radius: 12px;
+  }
+}
+
+.good__step {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  font: 600 22px/1 var(--font-text);
+  color: inherit;
+  background: none;
+  border: 0;
+  border-radius: inherit;
+  cursor: pointer;
+  transition: background var(--ease), transform 160ms var(--ease-out);
+
+  @media (hover: hover) {
+    &:hover {
+      background: color-mix(in srgb, var(--brand) 30%, var(--paper));
+    }
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+}
+
+.good__step-count {
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  font: 700 15px/1.05 var(--font-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+
+  small {
+    font: 400 11px/1.15 var(--font-text);
+    color: var(--muted);
+  }
+}

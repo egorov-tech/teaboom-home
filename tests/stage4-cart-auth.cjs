@@ -175,6 +175,8 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   c = await b.newContext(phone); p = await open(c, 'login.html');
   const aside = rub(await p.textContent('.auth__aside'));
   ok(aside.includes('Создайте учётную запись, и следующие покупки займут меньше времени') && aside.includes('Вход через Google, Twitter и Facebook больше недоступен') && !aside.includes('Уважаемые посетители'), '27: вход — текст Ксении о пользе учётной записи');
+  // Ксения, 24.11: one block under «Уважаемый покупатель!», the «Спам» line below it.
+  ok(await p.locator('.auth__aside .notice').count() === 1 && rub(await p.textContent('.auth__aside .notice__title')) === 'Уважаемый покупатель!' && !aside.includes('Зачем учётная запись') && await p.evaluate(() => { const n = document.querySelector('.auth__aside .notice').getBoundingClientRect(); const h = document.querySelector('.auth__aside .auth__hint').getBoundingClientRect(); return h.top >= n.bottom; }), '27: вход — один блок «Уважаемый покупатель!», строка про «Спам» под ним');
   await p.locator('.auth__aside a[href="#pane-link"]').tap(); await p.waitForTimeout(200);
   ok(await p.locator('#pane-link').isVisible(), '27: ссылка «Быстрый вход» в тексте открывает вкладку');
   await c.close();
@@ -197,13 +199,20 @@ const rub = (s) => s.replace(/\s/g, ' ').trim();
   ok(rub(await p.textContent('[data-line-name]')) === 'Чайник «Лотос»', '25: штучный товар — без «, 1 шт» в названии');
   await c.close();
 
-  // Антон, 23.11: a tile shows what is already in the cart — a count on the pack, «Добавить ещё».
+  // Антон 23.11 / 24.11, вариант C: on a tile — the pack chip «×N», «В корзине: N шт.» on the
+  // photo whichever pack is chosen, the chosen pack's button turns into «− в корзине N шт. +».
   c = await b.newContext({ viewport: { width: 1440, height: 900 } }); p = await open(c, 'category-ulun.html');
   const tile = p.locator('[data-good]').first();
+  const h0 = await tile.evaluate((g) => g.getBoundingClientRect().height);
   await tile.locator('[data-add]').click(); await p.waitForTimeout(300); await tile.locator('[data-add]').click(); await p.waitForTimeout(2000);
-  ok(rub(await tile.locator('.pack.is-in-cart .pack__in').textContent()) === '2 в корзине' && rub(await tile.locator('[data-add]').textContent()) === 'Добавить ещё', '«в корзине»: на фасовке «2», кнопка «Добавить ещё»');
+  ok(rub(await tile.locator('.pack.is-in-cart .pack__in').textContent()) === '2 в корзине' && await tile.locator('.pack.is-in-cart .pack__in svg').count() === 1 && rub(await tile.locator('.good__incart').textContent()) === 'В корзине: 2 шт.' && await tile.locator('[data-add]').isHidden() && rub(await tile.locator('[data-step-n]').textContent()) === '2 шт.', '«в корзине»: значок на фасовке, плашка на фото, счётчик вместо кнопки');
+  ok(Math.abs(await tile.evaluate((g) => g.getBoundingClientRect().height) - h0) < 0.5, '«в корзине»: высота плитки со счётчиком не меняется');
+  await tile.locator('[data-step="1"]').click(); await p.waitForTimeout(900); // the header count follows the flying photo
+  ok(rub(await tile.locator('[data-step-n]').textContent()) === '3 шт.' && rub(await p.textContent('[data-cart-count]')) === '3', '«в корзине»: «+» добавляет упаковку');
+  await tile.locator('[data-step="-1"]').click(); await p.waitForTimeout(200);
+  ok(rub(await tile.locator('[data-step-n]').textContent()) === '2 шт.', '«в корзине»: «−» убирает упаковку');
   await tile.locator('.pack').nth(1).click(); await p.waitForTimeout(200);
-  ok(rub(await tile.locator('[data-add]').textContent()) === 'В корзину', '«в корзине»: другая фасовка — снова «В корзину»');
+  ok(rub(await tile.locator('[data-add]').textContent()) === 'В корзину' && await tile.locator('.good__incart').isVisible(), '«в корзине»: другая фасовка — «В корзину», плашка на фото остаётся');
   await p.goto(base + 'index.html', { waitUntil: 'networkidle' });
   const home = p.locator('.goods [data-good]').first();
   await home.locator('[data-add]').click(); await p.waitForTimeout(2000);

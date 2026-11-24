@@ -105,8 +105,9 @@
               </div>
               <p class="step__note">По Москве в&nbsp;пределах МКАД: до&nbsp;3&nbsp;500&nbsp;₽&nbsp;— 400&nbsp;₽, от&nbsp;3&nbsp;500&nbsp;₽&nbsp;— бесплатно. По&nbsp;Московской области&nbsp;— 25&nbsp;₽/км от&nbsp;МКАД.</p>
             <div class="address">
+              <!-- Владелец, 24.11 (чат 22:38–22:56): a delivery is not ordered without an address —
+                   town, street and house are required; the rest stays optional. -->
               <p class="address__title">Адрес</p>
-              <p class="step__note" id="address-note">не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять</p>
               <div class="address__grid">
                 <div class="field address__country">
                   <label class="field__label" for="country">Страна</label>
@@ -118,16 +119,19 @@
                   </select>
                 </div>
                 <div class="field address__city">
-                  <label class="field__label" for="locality">Населённый пункт</label>
-                  <input class="field__input" id="locality" name="invoice-city" type="text" autocomplete="address-level2" enterkeyhint="next" aria-describedby="address-note">
+                  <label class="field__label" for="locality">Населённый пункт <span class="field__req" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="locality" name="invoice-city" type="text" autocomplete="address-level2" enterkeyhint="next" required data-missing="Укажите населённый пункт" aria-describedby="locality-error">
+                  <p class="field__error" id="locality-error" data-error hidden></p>
                 </div>
                 <div class="field address__street">
-                  <label class="field__label" for="street">Улица</label>
-                  <input class="field__input" id="street" name="invoice-line1" type="text" autocomplete="address-line1" enterkeyhint="next">
+                  <label class="field__label" for="street">Улица <span class="field__req" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="street" name="invoice-line1" type="text" autocomplete="address-line1" enterkeyhint="next" required data-missing="Укажите улицу" aria-describedby="street-error">
+                  <p class="field__error" id="street-error" data-error hidden></p>
                 </div>
                 <div class="field">
-                  <label class="field__label" for="house">Дом</label>
-                  <input class="field__input" id="house" name="invoice-line2" type="text" autocomplete="off" enterkeyhint="next">
+                  <label class="field__label" for="house">Дом <span class="field__req" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="house" name="invoice-line2" type="text" autocomplete="off" enterkeyhint="next" required data-missing="Укажите дом" aria-describedby="house-error">
+                  <p class="field__error" id="house-error" data-error hidden></p>
                 </div>
                 <div class="field">
                   <label class="field__label" for="flat">Квартира</label>
@@ -196,12 +200,14 @@
               </div>
               <div class="step__pair">
                 <div class="field">
-                  <label class="field__label" for="pvz-city">Город</label>
-                  <input class="field__input" id="pvz-city" name="pvz_city" type="text" autocomplete="address-level2">
+                  <label class="field__label" for="pvz-city">Город <span class="field__req" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="pvz-city" name="pvz_city" type="text" autocomplete="address-level2" aria-describedby="pvz-city-error" required data-missing="Укажите город">
+                  <p class="field__error" id="pvz-city-error" data-error hidden></p>
                 </div>
                 <div class="field">
-                  <label class="field__label" for="pvz-point">Пункт выдачи</label>
-                  <input class="field__input" id="pvz-point" name="pvz_point" type="text" autocomplete="off" placeholder="адрес или код пункта" aria-describedby="pvz-note">
+                  <label class="field__label" for="pvz-point">Пункт выдачи <span class="field__req" aria-hidden="true">*</span></label>
+                  <input class="field__input" id="pvz-point" name="pvz_point" type="text" autocomplete="off" placeholder="адрес или код пункта" aria-describedby="pvz-point-error pvz-note" required data-missing="Укажите пункт выдачи">
+                  <p class="field__error" id="pvz-point-error" data-error hidden></p>
                 </div>
               </div>
               <p class="step__note" id="pvz-note">Демо: на&nbsp;сайте здесь будут карта и&nbsp;список пунктов выбранной службы со&nbsp;сроками и&nbsp;часами работы.</p>

@@ -6,8 +6,12 @@
 // is a child pinned to the bottom edge. JS: home.js TeaboomSheet adds .is-closing to play the
 // way out, then closes the dialog.
 
-$sheet-in: 340ms;
-$sheet-out: 240ms;
+// Ксения, 24.11: «открытие фильтров сделать более плавным». The old curve covered most of the way
+// in the first 100 ms and read as a snap; now a gentle ease-out over a little longer.
+$sheet-in: 420ms;
+$sheet-out: 280ms;
+$sheet-ease-in: cubic-bezier(0.3, 0.1, 0.2, 1);
+$sheet-ease-out: cubic-bezier(0.55, 0, 0.75, 0.4);
 
 @mixin sheet-dialog {
   width: 100%;
@@ -47,12 +51,12 @@ $sheet-out: 240ms;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: 0 -12px 40px rgb(27 27 27 / 18%);
   overflow: hidden;
-  animation: sheet-up $sheet-in cubic-bezier(0.32, 0.72, 0, 1);
+  animation: sheet-up $sheet-in $sheet-ease-in;
 }
 
 // Use inside the dialog: `.is-closing &` would not reach a panel class from a mixin.
 @mixin sheet-panel-closing {
-  animation: sheet-down $sheet-out cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: sheet-down $sheet-out $sheet-ease-out forwards;
 }
 
 @mixin sheet-head {

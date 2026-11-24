@@ -11,6 +11,15 @@
     margin-bottom: var(--step-4);
   }
 
+  // Ксения, 24.11: the count sits by the title, not hanging over the grid. It stays outside the
+  // <h1> (the heading is the category name only); filters update it (aria-live).
+  &__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: var(--step-3);
+  }
+
   &__title {
     font-family: var(--font-display);
     font-weight: 500;
@@ -24,7 +33,7 @@
 
     ul {
       display: flex;
-      gap: var(--step-2);
+      gap: var(--step-5);
       margin: 0;
       padding: 0;
       list-style: none;
@@ -33,16 +42,16 @@
     }
   }
 
+  // Ксения, 24.11: no box like the sorting and the filters — a 4 px brand line underneath, the
+  // same yellow as the chosen pack's edge.
   &__subcat {
     display: inline-flex;
     align-items: center;
     min-height: 40px;
-    padding: 0 var(--step-4);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-md);
-    background: var(--paper);
+    padding: 0 var(--step-1);
+    border-bottom: 4px solid var(--brand);
     color: var(--ink);
-    font-size: 14px;
+    font-size: 15px;
     text-decoration: none;
     transition: border-color var(--ease), transform 160ms var(--ease-out);
 
@@ -63,19 +72,15 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    justify-content: space-between;
     gap: var(--step-3) var(--step-4);
     margin: var(--step-5) 0 var(--step-4);
   }
 
   &__count {
-    margin-right: auto;
     color: var(--muted);
-    font-size: 14px;
+    font-size: 15px;
     font-variant-numeric: tabular-nums;
-
-    @media (max-width: #{$bp-phone - 1px}) {
-      flex: 1 1 100%;
-    }
   }
 
   &__filters,
@@ -120,8 +125,9 @@
       cursor: pointer;
     }
 
-    // Phones: filters and sorting share the row; the sorting label stays for screen readers.
-    @media (max-width: #{$bp-phone - 1px}) {
+    // Phones: filters and sorting share the row; computers: the sorting is the full width of the
+    // filter column above it (Ксения, 24.11). The label stays for screen readers.
+    @media (max-width: #{$bp-phone - 1px}), (min-width: $bp-split) {
       flex: 1 1 0;
 
       // Only the label's own text — not the value inside the dropdown button.
@@ -231,13 +237,31 @@
 // ≥1060: the panel is a column left of the grid (as on teaboom.ru), the grid keeps three
 // tiles a row so 12 per page fill four rows. Below: the same panel opens as a sheet from the
 // «Фильтры» button — from the bottom on phones, from the side on tablets.
+// Ксения, 24.11: the sorting heads the filter column, so the column and the first row of tiles
+// start on one line (no «лесенка»).
 .category__layout {
   @media (min-width: $bp-split) {
     display: grid;
     grid-template-columns: 312px minmax(0, 1fr);
-    gap: var(--step-6);
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "bar main"
+      "facets main";
+    gap: var(--step-3) var(--step-6);
     align-items: start;
     margin-top: var(--step-5);
+
+    > .category__bar {
+      grid-area: bar;
+    }
+
+    > .facets {
+      grid-area: facets;
+    }
+
+    > .category__main {
+      grid-area: main;
+    }
   }
 }
 
@@ -265,7 +289,7 @@
 
 .category__bar {
   @media (min-width: $bp-split) {
-    margin-top: 0;
+    margin: 0;
   }
 }
 
@@ -334,11 +358,11 @@
 
     &[open]::backdrop {
       background: rgb(27 27 27 / 42%);
-      animation: sheet-backdrop-in 340ms var(--ease-out);
+      animation: sheet-backdrop-in sheet.$sheet-in var(--ease-out);
     }
 
     &.is-closing::backdrop {
-      animation: sheet-backdrop-out 240ms ease forwards;
+      animation: sheet-backdrop-out sheet.$sheet-out ease forwards;
     }
 
     &[open] &__panel {
@@ -445,6 +469,12 @@
     padding: var(--step-3) 0 var(--step-2);
     border: 0;
 
+    // Ксения, 24.11: more air in the computer column — 10 px between values, 5 px more around
+    // the group titles.
+    @media (min-width: $bp-split) {
+      padding: calc(var(--step-3) + 5px) 0 calc(var(--step-2) + 5px);
+    }
+
     & + & {
       border-top: 1px solid var(--line);
     }
@@ -548,7 +578,7 @@
 
   @media (min-width: $bp-split) {
     &__group.is-folded {
-      padding-bottom: var(--step-3);
+      padding-bottom: calc(var(--step-3) + 5px);
     }
 
     &__group.is-folded &__title {
@@ -562,6 +592,11 @@
     margin: 0;
     padding: 0;
     list-style: none;
+
+    @media (min-width: $bp-split) {
+      gap: 10px;
+      padding-top: 5px;
+    }
 
     > li[hidden] {
       display: none;

@@ -37,6 +37,11 @@
     border-color: var(--tea);
     color: var(--paper);
   }
+
+  // A tile's button gives way to the in-cart counter (cart.js).
+  &[hidden] {
+    display: none;
+  }
 }
 
 // Home two-up tiles (~160–220px): desktop 52×15 CTA looks oversized and sharp vs the card.

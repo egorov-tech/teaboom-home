@@ -30,11 +30,28 @@
 {{CRUMBS}}
       </nav>
 
-      <h1 class="category__title">{{H1}}</h1>
+      <div class="category__head">
+        <h1 class="category__title">{{H1}}</h1>
+        <p class="category__count" data-count aria-live="polite">{{COUNT}}</p>
+      </div>
 
 {{SUBCATS}}
 
       <div class="category__layout">
+        <div class="category__bar">
+          <button class="category__filters press" type="button" aria-controls="facets" aria-haspopup="dialog" data-facets-open>
+            <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>
+            Фильтры
+            <span class="category__badge" data-facets-badge hidden></span>
+          </button>
+          <label class="category__sort">
+            <span>Сортировка</span>
+            <select data-sort data-select>
+{{SORTING}}
+            </select>
+          </label>
+        </div>
+
         <dialog class="facets" id="facets" aria-labelledby="facets-title" data-facets>
           <form class="facets__panel" method="dialog" data-facets-form>
             <header class="facets__head">
@@ -55,20 +72,6 @@
         </dialog>
 
         <div class="category__main">
-          <div class="category__bar">
-            <p class="category__count" data-count aria-live="polite">{{COUNT}}</p>
-            <button class="category__filters press" type="button" aria-controls="facets" aria-haspopup="dialog" data-facets-open>
-              <svg viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M3 5h14M6 10h8M8.5 15h3"/></svg>
-              Фильтры
-              <span class="category__badge" data-facets-badge hidden></span>
-            </button>
-            <label class="category__sort">
-              <span>Сортировка</span>
-              <select data-sort data-select>
-{{SORTING}}
-              </select>
-            </label>
-          </div>
 
           <div class="chips" data-chips hidden>
             <ul class="chips__list" aria-label="Выбранные фильтры" data-chips-list></ul>

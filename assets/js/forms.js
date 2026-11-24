@@ -132,7 +132,10 @@
   const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   const problem = (input) => {
+    // A field of a delivery way that is not chosen is disabled (checkout.js) — not asked for.
+    if (input.disabled) return "";
     const v = input.value.trim();
+    if (input.required && !v && input.dataset.missing) return input.dataset.missing;
     if (input.required && !v) {
       if (input.type === "email" || input.autocomplete === "username") return "Введите email";
       if (input.type === "password" || input.dataset.sameAs) return "Введите пароль";

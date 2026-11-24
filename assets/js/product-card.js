@@ -194,11 +194,20 @@
     });
   });
 
-  // The panel must be visible before the browser follows the #hash, so open it on click and
-  // let the normal jump (and Back) work.
+  // Ксения, 24.11: the rating → reviews move should glide. On click: open the panel, one smooth
+  // scroll (no native jump racing a second scroll), then put the #hash in the address so Back
+  // returns as before (hashchange below handles it).
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
   document.querySelectorAll('a[href^="#"]').forEach((link) => {
     const name = link.getAttribute("href").slice(1);
-    if (panels.some((p) => p.id === name)) link.addEventListener("click", () => show(name));
+    if (!panels.some((p) => p.id === name)) return;
+    link.addEventListener("click", (event) => {
+      if (event.defaultPrevented || event.metaKey || event.ctrlKey || event.shiftKey || event.button) return;
+      event.preventDefault();
+      show(name);
+      details.querySelector(`#${CSS.escape(name)}`)?.scrollIntoView({ behavior: reduce.matches ? "auto" : "smooth" });
+      if (location.hash !== `#${name}`) history.pushState(null, "", `#${name}`);
+    });
   });
 
   const fromHash = () => {

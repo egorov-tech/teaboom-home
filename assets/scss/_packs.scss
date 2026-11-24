@@ -176,26 +176,27 @@
   }
 }
 
-// Антон, 23.11: how many of this pack are already in the cart — a small brand badge on the
-// chip's corner (the same yellow as the cart count in the header).
+// A pack already in the cart (Антон 23.11 / 24.11, вариант C): the chip is tinted with the
+// brand yellow and carries a small cart-and-tick icon after the weight — seen whichever pack is
+// chosen; how many is on the photo and on the counter.
+.pack.is-in-cart .pack__body {
+  background: color-mix(in srgb, var(--brand) 30%, var(--paper));
+}
+
+// In the chip's corner, out of the flow: a narrow phone chip keeps one line and its height.
 .pack__in {
   position: absolute;
-  top: -7px;
-  right: -7px;
-  z-index: 1;
-  display: grid;
-  place-items: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 5px;
-  font: 700 12px/1 var(--font-text);
-  font-variant-numeric: tabular-nums;
+  top: 5px;
+  right: 5px;
+  display: flex;
   color: var(--ink);
-  background: var(--brand);
-  border: 2px solid var(--paper);
-  border-radius: 999px;
   pointer-events: none;
   animation: pack-in 220ms var(--ease-out);
+
+  svg {
+    width: 14px;
+    height: 14px;
+  }
 
   &[hidden] {
     display: none;
@@ -208,7 +209,6 @@
 
 @keyframes pack-in {
   from {
-    transform: scale(0.6);
     opacity: 0;
   }
 }

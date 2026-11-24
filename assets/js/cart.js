@@ -3,6 +3,7 @@
 // cart; here it lives in localStorage so home → product → cart works in one browser.
 (() => {
   const KEY = "teaboom-demo-cart-v2";
+  const NB = "\u00a0";
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const listeners = new Set();
 
@@ -44,33 +45,95 @@
     if (cart) cart.classList.toggle("is-filled", n > 0);
   };
 
-  // Антон, 23.11: a tile shows what is already in the cart — a count on the pack chip (the
-  // weights differ, so the mark belongs to the pack) and «Добавить ещё» on the button when the
-  // chosen pack is there. Tiles: the radio's value is the артикул; product page: data-sku.
+  // What is already in the cart, on a tile (Антон 23.11 and 24.11, вариант C — выбор Артёма):
+  // the pack chip turns yellow with a cart-and-tick icon (weights differ, so the mark belongs to
+  // the pack),
+  // the photo carries «В корзине: N шт.» whichever pack is chosen, and when the chosen pack is
+  // in the cart the button becomes a counter «− в корзине N шт. +». Tiles: the radio's value is
+  // the артикул; product page: data-sku.
+  const ICON = '<svg viewBox="0 0 20 20" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 3h2l2 10h9l1.8-7H6"/><path d="m8.5 8.5 1.8 1.8 3.4-3.6"/></svg>';
+  const skuOf = (input) => String(input.dataset.sku || input.value);
+
+  const stepper = (good, button) => {
+    let box = good.querySelector(".good__stepper");
+    if (box) return box;
+    box = document.createElement("div");
+    box.className = "good__stepper";
+    box.hidden = true;
+    box.innerHTML =
+      '<button class="good__step press" type="button" data-step="-1" aria-label="Убрать одну упаковку">−</button>' +
+      '<span class="good__step-count" aria-live="polite"><small>в корзине</small><b data-step-n></b></span>' +
+      '<button class="good__step press" type="button" data-step="1" aria-label="Добавить ещё одну упаковку">+</button>';
+    box.addEventListener("click", (event) => {
+      const step = event.target.closest("[data-step]");
+      if (!step) return;
+      const chosen = good.querySelector(".pack__input:checked");
+      if (!chosen) return;
+      const sku = skuOf(chosen);
+      if (step.dataset.step === "1") {
+        // The tile's own add (home.js) builds the line; «quiet» skips its «Добавлено» flash.
+        button.dataset.quiet = "1";
+        button.click();
+        delete button.dataset.quiet;
+      } else {
+        const line = items().find((x) => String(x.sku) === sku);
+        if (line) setQty(line.sku, Number(line.qty) - 1);
+      }
+    });
+    button.after(box);
+    return box;
+  };
+
   const mark = (list = items()) => {
     const qty = new Map(list.map((x) => [String(x.sku), Number(x.qty)]));
     document.querySelectorAll(".pack__input").forEach((input) => {
-      const sku = input.dataset.sku || input.value;
       const pack = input.closest(".pack");
       if (!pack) return;
-      const n = qty.get(String(sku)) || 0;
+      const n = qty.get(skuOf(input)) || 0;
       let tag = pack.querySelector(".pack__in");
       if (n && !tag) {
         tag = document.createElement("span");
         tag.className = "pack__in";
-        pack.append(tag);
+        (pack.querySelector(".pack__body") || pack).append(tag);
       }
       if (tag) {
         tag.hidden = !n;
-        tag.innerHTML = n ? `${n}<span class="visually-hidden"> в корзине</span>` : "";
+        // Антон, 24.11 (22:58): on the chip an icon, not a number — the count is on the photo
+        // and on the counter; a cart with a tick reads as «уже добавлено», not «добавить».
+        tag.innerHTML = n ? `${ICON}<span class="visually-hidden">${n} в корзине</span>` : "";
       }
       pack.classList.toggle("is-in-cart", n > 0);
     });
     document.querySelectorAll("[data-good]").forEach((good) => {
       const button = good.querySelector("[data-add]");
       const chosen = good.querySelector(".pack__input:checked");
-      if (!button || !chosen || button.classList.contains("is-added")) return;
-      button.textContent = qty.get(String(chosen.dataset.sku || chosen.value)) ? "Добавить ещё" : "В корзину";
+      const total = [...good.querySelectorAll(".pack__input")].reduce((sum, input) => sum + (qty.get(skuOf(input)) || 0), 0);
+
+      const media = good.querySelector(".good__media");
+      let pill = good.querySelector(".good__incart");
+      if (total && !pill && media) {
+        pill = document.createElement("span");
+        pill.className = "good__incart";
+        media.append(pill);
+      }
+      if (pill) {
+        pill.hidden = !total;
+        pill.innerHTML = total ? `${ICON}В корзине: ${total}${NB}шт.` : "";
+      }
+
+      if (!button || !chosen) return;
+      const n = qty.get(skuOf(chosen)) || 0;
+      // While the button flashes «Добавлено» it stays; the counter takes over after it.
+      if (button.classList.contains("is-added")) return;
+      button.textContent = "В корзину";
+      const box = n ? stepper(good, button) : good.querySelector(".good__stepper");
+      if (!box) return;
+      const had = box.contains(document.activeElement) || document.activeElement === button;
+      const wasCounter = !box.hidden;
+      box.hidden = !n;
+      button.hidden = !!n;
+      if (n) box.querySelector("[data-step-n]").textContent = `${n}${NB}шт.`;
+      if (had && wasCounter !== !!n) (n ? box.querySelector('[data-step="1"]') : button).focus({ preventScroll: true });
     });
   };
 

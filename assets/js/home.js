@@ -167,7 +167,6 @@
     const close = () => {
       if (!dialog.open) return Promise.resolve();
       if (closing) return closing;
-      if (reduceMotion.matches) { dialog.close(); return Promise.resolve(); }
       dialog.classList.add("is-closing");
       closing = new Promise((done) => {
         let timer = 0;
@@ -181,7 +180,7 @@
         };
         const onEnd = (event) => { if (event.target === panel) finish(); };
         panel.addEventListener("animationend", onEnd);
-        timer = window.setTimeout(finish, 360); // if animationend never comes
+        timer = window.setTimeout(finish, 420); // if animationend never comes
       });
       return closing;
     };
@@ -669,6 +668,19 @@
 
       if (!window.TeaboomCart) return;
 
+      // First the «Добавлено» flash (cart.js keeps the button while it shows), then the line;
+      // from the tile's counter (cart.js, «quiet») there is no flash — the count itself changes.
+      const quiet = !!button.dataset.quiet;
+      if (!quiet) {
+        button.textContent = "Добавлено";
+        button.classList.add("is-added");
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          button.classList.remove("is-added");
+          window.TeaboomCart.mark(); // the counter takes over — the pack is in the cart now
+        }, 1600);
+      }
+
       const first = good.querySelector(".good__image");
       window.TeaboomCart.add({
         photo,
@@ -683,14 +695,6 @@
           url: good.querySelector(".good__name a")?.getAttribute("href") || "",
         },
       });
-
-      button.textContent = "Добавлено";
-      button.classList.add("is-added");
-      clearTimeout(timer);
-      timer = setTimeout(() => {
-        button.classList.remove("is-added");
-        window.TeaboomCart.mark(); // «Добавить ещё» — the pack is in the cart now
-      }, 1600);
     });
   });
   // ---------- Back to top ----------
@@ -738,4 +742,29 @@
       if (event.detail === 0) masthead?.querySelector(".brand")?.focus({ preventScroll: true });
     });
   }
+})();
+
+// Антон, 24.11: on a phone the software keyboard lifts the pinned bars (tab bar, «Заказать»)
+// off the bottom edge and they drift while the page scrolls. While a text field has focus they
+// step aside; a short delay keeps them from flickering when focus moves to the next field.
+(() => {
+  "use strict";
+
+  const phone = window.matchMedia("(max-width: 759px) and (pointer: coarse)");
+  const root = document.documentElement;
+  const isTyping = (el) =>
+    !!el?.matches?.('input:not([type="checkbox"], [type="radio"], [type="button"], [type="submit"], [type="reset"], [type="range"], [type="color"], [type="file"], [type="image"]), textarea, [contenteditable="true"]');
+  let timer = 0;
+
+  document.addEventListener("focusin", (event) => {
+    if (!phone.matches || !isTyping(event.target)) return;
+    window.clearTimeout(timer);
+    root.classList.add("is-typing");
+  });
+  document.addEventListener("focusout", () => {
+    window.clearTimeout(timer);
+    timer = window.setTimeout(() => {
+      if (!isTyping(document.activeElement)) root.classList.remove("is-typing");
+    }, 150);
+  });
 })();

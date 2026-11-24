@@ -224,6 +224,30 @@
   .facets.is-closing::backdrop {
     animation: none !important;
   }
+
+  // Less motion, not none (Ксения, 24.11): the sheets fade in and out instead of sliding.
+  // !important on a class beats the global «animation-duration: 0.01ms» in _base.scss.
+  .sheet[open] .sheet__panel,
+  .facets[open] .facets__panel {
+    animation: sheet-fade-in 200ms ease-out !important;
+  }
+
+  .sheet.is-closing .sheet__panel,
+  .facets.is-closing .facets__panel {
+    animation: sheet-fade-out 160ms ease-in forwards !important;
+  }
+}
+
+@keyframes sheet-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes sheet-fade-out {
+  to {
+    opacity: 0;
+  }
 }
 
 @media (min-width: $bp-phone) {
@@ -246,5 +270,15 @@
     bottom: calc(
       var(--dock-h) + var(--chrome-edge) + var(--chrome-inset) + env(safe-area-inset-bottom, 0px) + 12px
     );
+  }
+}
+
+// Антон, 24.11: while the phone keyboard is open (home.js adds .is-typing) the pinned bars step
+// aside instead of floating mid-screen above the keyboard.
+@media (max-width: #{$bp-phone - 1px}) {
+  .is-typing .dock,
+  .is-typing .paybar,
+  .is-typing .buy__action.is-pinned {
+    display: none;
   }
 }

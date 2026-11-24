@@ -41,7 +41,7 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     const titles = (await p.$$eval('.step__title', (xs) => xs.map((x) => x.textContent.replace(/\u00a0/g, ' ').trim())));
     ok(JSON.stringify(titles) === JSON.stringify(['Кто покупает', 'Как получить заказ', 'Получатель', 'Оплата', 'Комментарий']), `26 (Антон, 23.11): шаги по схеме — кто, как получить, получатель, оплата, комментарий ${JSON.stringify(titles)}`);
     ok(await p.locator('.way').count() === 3 && await p.locator('[data-way-panel="pickup"]').isVisible() && await p.locator('[data-way-panel="courier"]').isHidden() && await p.locator('[data-way-panel="post"]').isHidden(), '26: три способа получения, открыты детали только выбранного (самовывоз)');
-    ok((await p.textContent('[data-way-panel="courier"]')).replace(/\u00a0/g, ' ').includes('не обязателен, мы уточним адрес по телефону, если вы не захотите его заполнять'), '26: адрес — в деталях курьера, подсказка дословно');
+    ok(!(await p.textContent('[data-way-panel="courier"]')).includes('не обязателен') && await p.locator('#locality[required], #street[required], #house[required]').count() === 3 && await p.locator('#flat[required]').count() === 0, '26 (владелец 24.11): адрес курьера обязателен — город, улица, дом; квартира — нет');
     ok(await p.locator('input[name="shipping-method"]').count() === 6, '26: шесть способов доставки');
     ok(await p.locator('input[name="shipping-method"]:checked').getAttribute('value') === '5', '26: по умолчанию самовывоз с Народного Ополчения');
     const today = await p.evaluate(() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; });
@@ -71,8 +71,11 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     // Validation
     await p.locator('.summary__order').click();
     ok((await p.textContent('#first-name-error')).trim() === 'Введите имя' && (await p.textContent('#email-error')).trim() === 'Введите email' && (await p.textContent('#phone-error')).trim() === 'Введите телефон', '26: пустая форма — имя, email, телефон');
-    ok(await p.evaluate(() => document.activeElement.id) === 'first-name', '26: фокус на первом поле с ошибкой');
-    ok(await p.locator('#last-name-error').isHidden() && await p.locator('#city-error').count() === 0, '26: фамилия и адрес не обязательны');
+    ok(await p.evaluate(() => document.activeElement.id) === 'locality', '26: фокус на первом поле с ошибкой (адрес — он выше получателя)');
+    ok(await p.locator('#last-name-error').isHidden(), '26: фамилия не обязательна');
+    // Владелец, 24.11: no delivery without an address.
+    ok(rub(await p.textContent('#locality-error')) === 'Укажите населённый пункт' && rub(await p.textContent('#street-error')) === 'Укажите улицу' && rub(await p.textContent('#house-error')) === 'Укажите дом', '26: курьер без адреса — «Укажите населённый пункт / улицу / дом»');
+    await p.fill('#locality', 'Москва'); await p.fill('#street', 'ул. Народного Ополчения'); await p.fill('#house', '47');
     ok(await p.locator('#country + .select__button, .address__country .select__button').count() >= 1, '26: страна — кастомный выпадающий список');
     await p.fill('#first-name', 'Анна'); await p.fill('#email', 'anna@mail.ru');
     await p.focus('#phone'); await p.waitForTimeout(50);
@@ -82,7 +85,10 @@ const line = (sku, price, qty) => ({ sku, name: 'Ананасовый улун',
     ok((await p.textContent('#phone-error')).includes('+7'), '26: короткий телефон — подсказка с примером');
     await p.fill('#phone', ''); await p.focus('#phone'); await p.keyboard.type('9991234567'); await p.waitForTimeout(50);
     ok((await p.inputValue('#phone')) === '+7 (999) 123-45-67', '26: маска собирает +7 (999) 123-45-67');
-    // Phone pay bar submits the same form
+    // Phone pay bar submits the same form. While a field is being typed in, the bar steps aside
+    // (Антон, 24.11: the keyboard lifted it off the bottom) — so leave the field first.
+    ok(await p.evaluate(() => document.documentElement.classList.contains('is-typing')) && await p.locator('[data-paybar]').isHidden(), '26: телефон — пока вводят текст, панель «Заказать» убрана (клавиатура)');
+    await p.evaluate(() => document.activeElement.blur()); await p.waitForTimeout(250);
     await p.evaluate(() => scrollTo({ top: 0, left: 0, behavior: 'instant' })); await p.waitForTimeout(300);
     ok(await p.locator('[data-paybar]').isVisible() && (await p.textContent('[data-total-bar]')) === '3' + NB + '590,40' + NB + '₽', '26: телефон — панель «Итого · Заказать»');
     ok((await p.getAttribute('[data-paybar] button', 'form')) === 'order' && (await p.getAttribute('[data-paybar] button', 'type')) === 'submit', '26: кнопка панели отправляет ту же форму');
