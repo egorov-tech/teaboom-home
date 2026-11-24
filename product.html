@@ -349,20 +349,16 @@
               </div>
             </div>
           </form>
-          <a class="promise" href="#delivery">
-            <span class="promise__title">Доставка и оплата</span>
-            <span class="promise__hint">Самовывоз бесплатно · Курьер по Москве 400 ₽</span>
-          </a>
         </div>
 
 
 
         <section class="details" aria-label="О товаре" data-details>
-          <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs data-strip hidden>
+          <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs hidden>
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы <span class="details__count">12</span></button>
-            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
+            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Оплата и получение</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -454,36 +450,40 @@
           </div>
 
           <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
-            <h2 class="details__title">Доставка и оплата</h2>
+            <h2 class="details__title">Оплата и получение</h2>
             <div class="delivery">
               <div>
-                <h3>Доставка</h3>
+                <h3>Получение</h3>
                 <div class="rates">
                 <ul class="rates__list">
                   <li>
                     <span class="rates__name">Самовывоз</span>
                     <span class="rates__price">бесплатно</span>
-                    <span class="rates__note">ул. Народного Ополчения, 47; м. Октябрьское поле, выход № 1; МЦК Панфиловская</span>
+                    <span class="rates__note">из офиса или у метро Октябрьское поле / МЦК Панфиловская
+                    <span class="rates__hint" data-hint>
+                      <button class="rates__hint-btn" type="button" aria-expanded="false" aria-controls="hint-pickup" data-hint-btn>Адрес</button>
+                      <span class="rates__hint-pop" id="hint-pickup" role="note" data-hint-pop hidden>ул. Народного Ополчения, 47; м. Октябрьское поле, выход № 1; МЦК Панфиловская</span>
+                    </span></span>
                   </li>
                   <li>
-                    <span class="rates__name">Курьер по Москве</span>
+                    <span class="rates__name">Курьером в пределах МКАД</span>
                     <span class="rates__price">400 ₽</span>
-                    <span class="rates__note">в пределах МКАД; от 3500 ₽ — бесплатно</span>
+                    <span class="rates__note">заказ свыше 3500 ₽ — бесплатно</span>
                   </li>
                   <li>
-                    <span class="rates__name">Курьер по Московской области</span>
+                    <span class="rates__name">Курьером за МКАД</span>
                     <span class="rates__price">25 ₽/км</span>
                     <span class="rates__note">от МКАД</span>
                   </li>
                   <li>
                     <span class="rates__name">Почта России</span>
                     <span class="rates__price">400 ₽ + тариф</span>
-                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                    <span class="rates__note">заказ свыше 3500 ₽ — только тариф Почты, свыше 10 000 ₽ — бесплатно</span>
                   </li>
                   <li>
                     <span class="rates__name">СДЭК</span>
                     <span class="rates__price">400 ₽ + тариф</span>
-                    <span class="rates__note">по России и СНГ, только предоплата; от 3500 ₽ — 0 ₽ + тариф, по России от 10 000 ₽ — бесплатно</span>
+                    <span class="rates__note">условия как у Почты России</span>
                   </li>
                 </ul>
                 </div>

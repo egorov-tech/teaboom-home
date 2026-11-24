@@ -2873,6 +2873,11 @@ body::before {
 .category__main {
   min-width: 0;
 }
+@media (min-width: 1060px) {
+  .category__main .seen-list {
+    grid-auto-columns: calc((100% - var(--step-3) * 2) / 3);
+  }
+}
 
 @media (min-width: 1060px) {
   .category__grid {

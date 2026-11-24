@@ -243,6 +243,14 @@
 
 .category__main {
   min-width: 0;
+
+  // п. 43 (Антон, 24.11): «Вы смотрели» sits under the listing, in its column — three tiles in
+  // sight like the grid above, the rest one swipe away.
+  .seen-list {
+    @media (min-width: $bp-split) {
+      grid-auto-columns: calc((100% - var(--step-3) * 2) / 3);
+    }
+  }
 }
 
 .category__grid {

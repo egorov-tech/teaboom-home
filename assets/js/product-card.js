@@ -162,7 +162,6 @@
       const on = tab.dataset.tab === name;
       tab.setAttribute("aria-selected", String(on));
       tab.tabIndex = on ? 0 : -1;
-      if (on && phone.matches) tab.scrollIntoView({ block: "nearest", inline: "nearest" });
     });
     panels.forEach((panel) => {
       panel.hidden = phone.matches && panel.id !== name;
@@ -179,7 +178,6 @@
       if (phone.matches) panel.setAttribute("role", "tabpanel");
       else panel.removeAttribute("role");
     });
-    tablist.dispatchEvent(new Event("scroll"));
   };
   phone.addEventListener("change", mode);
   mode();
@@ -211,3 +209,34 @@
   if (location.hash) fromHash();
 
 })();
+
+// п. 47 (Антон, 24.11): the pickup address in a small pop-up — a tap opens it, a tap elsewhere,
+// Esc or a second tap closes it.
+(() => {
+  const hints = [...document.querySelectorAll("[data-hint]")];
+  if (!hints.length) return;
+  const close = (except) => hints.forEach((h) => {
+    if (h === except) return;
+    h.querySelector("[data-hint-btn]").setAttribute("aria-expanded", "false");
+    h.querySelector("[data-hint-pop]").hidden = true;
+  });
+  hints.forEach((h) => {
+    const btn = h.querySelector("[data-hint-btn]");
+    const pop = h.querySelector("[data-hint-pop]");
+    btn.addEventListener("click", () => {
+      const open = btn.getAttribute("aria-expanded") !== "true";
+      close(h);
+      btn.setAttribute("aria-expanded", String(open));
+      pop.hidden = !open;
+    });
+  });
+  document.addEventListener("click", (e) => { if (!e.target.closest("[data-hint]")) close(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "Escape") return;
+    const open = hints.find((h) => !h.querySelector("[data-hint-pop]").hidden);
+    if (!open) return;
+    close();
+    open.querySelector("[data-hint-btn]").focus();
+  });
+})();
+

@@ -42,21 +42,23 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await p.locator('[data-tab="about"]').focus(); await p.keyboard.press('ArrowRight');
   ok(await p.locator('[data-tab="specs"]').getAttribute('aria-selected') === 'true', '23: стрелка вправо → «Характеристики»');
   await p.keyboard.press('End');
-  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["delivery"]' && await p.locator('[data-tab]').count() === 4, '23 (Антон, 23.11): вкладок четыре, End → «Доставка и оплата»');
+  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["delivery"]' && await p.locator('[data-tab]').count() === 4, '23 (Антон, 23.11): вкладок четыре, End → «Оплата и получение»');
   const specsText = (await p.textContent('.specs')).replace(/\u00a0/g, ' ');
   ok(await p.locator('.specs__row').count() === 11 && specsText.includes('Количество2 ч. л. на 500 мл') && specsText.includes('Заваривать1–3 мин при 80–85 °C'), '36: заваривание двумя строками — «Количество» и «Заваривать» (13 → 11 строк)');
   ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
   ok((await p.textContent('.review__all')).replace(/\u00a0/g, ' ').trim() === 'Все 12 отзывов', 'отзывы: «Отзывы 12», видно 3 — в конце ленты «Все 12 отзывов»');
   ok(await p.evaluate(() => { const t = document.querySelector('.reviews__list'); return getComputedStyle(t).overflowX === 'auto' && getComputedStyle(t).scrollSnapType.startsWith('x'); }), 'отзывы — лента со свайпом (как «Похожие»)');
-  ok(await p.locator('.rates__list > li').count() === 5 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('по России от 10 000 ₽ — бесплатно'), '47: доставка — 5 строк по примеру Ксении: способ, условие, цена');
-  ok(await p.locator('a.promise[href="#delivery"]').count() === 1 && await p.locator('.promise .rates').count() === 0 && await p.locator('#delivery .rates').count() === 1, '23 + 35: условия — только во вкладке, под кнопкой одна строка-ссылка');
+  ok(await p.locator('.rates__list > li').count() === 5 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('свыше 10 000 ₽ — бесплатно'), '47 (Антон, 24.11): короткий текст — 5 строк: способ, условие, цена');
+  ok((await p.textContent('[data-tab="delivery"]')).replace(/\u00a0/g, ' ').trim() === 'Оплата и получение' && (await p.textContent('#delivery .delivery h3')).trim() === 'Получение', '47: вкладка «Оплата и получение», внутри «Получение» и «Оплата»');
+  ok(await p.locator('.promise').count() === 0 && await p.locator('#delivery .rates').count() === 1, '23 + 35 (Антон, 24.11): условия только во вкладке, строки под кнопкой нет');
+  ok(await p.evaluate(() => { const r = [...document.querySelectorAll('[data-tab]')].map((t) => t.getBoundingClientRect()); const l = document.querySelector('[data-tabs]').getBoundingClientRect(); return r.every((x) => x.left >= l.left && x.right <= l.right && x.width > 0) && document.querySelector('[data-tabs]').scrollWidth <= document.querySelector('[data-tabs]').clientWidth; }), 'вкладки (Антон, 24.11): все четыре видны, ряд не прокручивается');
+  await p.locator('[data-tab="delivery"]').click(); await p.locator('[data-hint-btn]').click();
+  ok(await p.locator('[data-hint-pop]').isVisible() && (await p.textContent('[data-hint-pop]')).replace(/\u00a0/g, ' ').includes('Народного Ополчения'), '47: «Адрес» у самовывоза открывает подсказку с адресом');
+  await p.keyboard.press('Escape');
+  ok(!(await p.locator('[data-hint-pop]').isVisible()), '47: Esc закрывает подсказку');
   await p.setViewportSize({ width: 1200, height: 900 }); await p.waitForTimeout(300);
   ok(await p.evaluate(() => { const i = document.querySelector('.product__info'); const m = document.querySelector('.product__media'); return getComputedStyle(i).display !== 'contents' && i.getBoundingClientRect().left > m.getBoundingClientRect().right; }), '33: компьютер — название в колонке покупки');
-  // п. 23 (Антон, 23.11): the buy column never runs past the photos — the terms are a tab now.
-  ok(await p.evaluate(() => { const r = (x) => document.querySelector(x).getBoundingClientRect(); return r('.promise').bottom <= r('.product__media').bottom + 1; }), '23: компьютер — строка доставки не ниже фото');
   ok(await p.evaluate(() => { const cols = [...document.querySelectorAll('#delivery .delivery > div')].map((x) => Math.round(x.getBoundingClientRect().top)); return cols.length === 2 && cols[0] === cols[1]; }), '23: компьютер — во вкладке «Доставка» и «Оплата» рядом, двумя колонками');
-  await p.locator('.promise').click(); await p.waitForTimeout(1200);
-  ok(await p.evaluate(() => { const t = document.getElementById('delivery').getBoundingClientRect().top; return t >= 40 && t < 200; }), '23: строка под кнопкой ведёт к «Доставке и оплате»');
   await p.evaluate(() => { history.replaceState(null, '', location.pathname + location.search); scrollTo({ top: 0, left: 0, behavior: 'instant' }); });
   ok((await visible(p, '[data-panel]')).length === 4 && !(await p.locator('[data-tabs]').isVisible()), '23: шире 760 px — разделы подряд');
   await p.setViewportSize({ width: 390, height: 844 }); await p.waitForTimeout(300);
@@ -64,7 +66,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   await c.close();
 
   c = await b.newContext(phone); p = await open(c, 'product.html#delivery');
-  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["delivery"]', '23: адрес #delivery открывает вкладку «Доставка и оплата»');
+  ok(JSON.stringify(await visible(p, '[data-panel]')) === '["delivery"]', '23: адрес #delivery открывает вкладку «Оплата и получение»');
   await c.close();
 
   c = await b.newContext(phone); p = await open(c, 'product.html#specs');

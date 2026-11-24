@@ -475,19 +475,28 @@ def render_brew(p, aside=False):
 
 
 def render_delivery_body():
-    """Delivery and payment terms (п. 47: Ксения's rows; payment and links from /payment/)."""
+    """Payment and delivery terms (п. 47: Антон's short text, 24.11; payment and links from /payment/)."""
     # п. 47 (Ксения, 18.11): her delivery text, cut down the way her example shows — one row per
     # way: name, the condition under it, the price on the right.
-    rows = "\n".join(
-        f'''                  <li>
+    def row(r):
+        # Самовывоз: the short line Антон asked for; the full address waits in a small pop-up.
+        hint = ""
+        if r.get("hint"):
+            hint = f'''
+                    <span class="rates__hint" data-hint>
+                      <button class="rates__hint-btn" type="button" aria-expanded="false" aria-controls="hint-pickup" data-hint-btn>Адрес</button>
+                      <span class="rates__hint-pop" id="hint-pickup" role="note" data-hint-pop hidden>{typo(r["hint"])}</span>
+                    </span>'''
+        return f'''                  <li>
                     <span class="rates__name">{typo(r["name"])}</span>
                     <span class="rates__price">{typo(r["price"])}</span>
-                    <span class="rates__note">{typo(r["note"])}</span>
-                  </li>''' for r in service["delivery_rates"]["rows"])
+                    <span class="rates__note">{typo(r["note"])}{hint}</span>
+                  </li>'''
+    rows = "\n".join(row(r) for r in service["delivery_rates"]["rows"])
     payment = "\n".join(f"                <li>{typo(x)}</li>" for x in service["payment"])
     return f'''            <div class="delivery">
               <div>
-                <h3>Доставка</h3>
+                <h3>Получение</h3>
                 <div class="rates">
                 <ul class="rates__list">
 {rows}
@@ -503,18 +512,6 @@ def render_delivery_body():
                 <a class="delivery__more" href="{SITE}/payment/">Все способы оплаты</a>
               </div>
             </div>'''
-
-
-def render_promise():
-    """п. 23 (Антон, 23.11; вариант Артёма «вкладка»): under «В корзину» one line that leads to the
-    «Доставка и оплата» tab — the terms themselves live only there (п. 35: one place, no copy),
-    so the buy column never grows past the photos."""
-    r = service["delivery_rates"]["rows"]
-    hint = f'{typo(r[0]["name"])} {typo(r[0]["price"])} · {typo(r[1]["name"])} {typo(r[1]["price"])}'
-    return f'''          <a class="promise" href="#delivery">
-            <span class="promise__title">Доставка и оплата</span>
-            <span class="promise__hint">{hint}</span>
-          </a>'''
 
 
 def render_rating(p):
@@ -612,11 +609,11 @@ def render_details(p):
     total = len(rs) or (ex["count"] if ex else 0)
     count = f' <span class="details__count">{total}</span>' if total else ""
     return f'''        <section class="details" aria-label="О товаре" data-details>
-          <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs data-strip hidden>
+          <div class="details__tabs" role="tablist" aria-label="О товаре" data-tabs hidden>
             <button class="details__tab" type="button" role="tab" id="tab-about" aria-controls="about" aria-selected="true" data-tab="about">Описание</button>
             <button class="details__tab" type="button" role="tab" id="tab-specs" aria-controls="specs" aria-selected="false" tabindex="-1" data-tab="specs">Характеристики</button>
             <button class="details__tab" type="button" role="tab" id="tab-reviews" aria-controls="reviews" aria-selected="false" tabindex="-1" data-tab="reviews">Отзывы{count}</button>
-            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Доставка и оплата</button>
+            <button class="details__tab" type="button" role="tab" id="tab-delivery" aria-controls="delivery" aria-selected="false" tabindex="-1" data-tab="delivery">Оплата и получение</button>
           </div>
 
           <div class="details__panel" id="about" role="tabpanel" aria-labelledby="tab-about" data-panel>
@@ -654,7 +651,7 @@ def render_details(p):
           </div>
 
           <div class="details__panel" id="delivery" role="tabpanel" aria-labelledby="tab-delivery" data-panel>
-            <h2 class="details__title">Доставка и оплата</h2>
+            <h2 class="details__title">Оплата и получение</h2>
 {render_delivery_body()}
           </div>
         </section>'''
@@ -1069,7 +1066,6 @@ def main():
             .replace("{{RELATED}}", render_related(pdp))
             .replace("{{VIEWED}}", render_viewed(pdp))
             .replace("{{BREW}}", "")
-            .replace("{{PROMISE}}", render_promise())
             .replace("{{JSONLD}}", render_pdp_ld(pdp))
         )
         assert "{{" not in pout, d["page"]

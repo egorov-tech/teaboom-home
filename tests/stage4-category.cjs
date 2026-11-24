@@ -41,6 +41,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   // п. 43: «Вы смотрели» in the category — the same block as on the product page; it shows the
   // history (here: the marked example) and writes nothing, a category is not a product.
   ok(await p.locator('[data-viewed]').isVisible() && await p.locator('.seen').count() === 5 && await p.evaluate(() => localStorage.getItem('teaboom-viewed-v1') === null), '43: «Вы смотрели» в категории — пример с пометкой, история не пишется');
+  ok(await p.evaluate(() => { const v = document.querySelector('[data-viewed]'); const g = document.querySelector('.category__grid').getBoundingClientRect(); const r = v.getBoundingClientRect(); return v.closest('.category__main') && Math.abs(r.left - g.left) < 2 && r.top > g.bottom; }), '43 (Антон, 24.11): «Вы смотрели» под листингом, в его колонке');
   // пп. 40, 45: the first 5 values, «Показать все (N)» only when 2 or more are hidden.
   const sort = p.locator('.facets__group', { hasText: 'Сорт' });
   const visibleIn = (g) => g.locator('li:not([hidden]) .facet').count();
