@@ -487,6 +487,19 @@ def render_delivery_body():
                       <button class="rates__hint-btn" type="button" aria-expanded="false" aria-controls="hint-pickup" data-hint-btn>Адрес</button>
                       <span class="rates__hint-pop" id="hint-pickup" role="note" data-hint-pop hidden>{typo(r["hint"])}</span>
                     </span>'''
+        # 25.11 (Ксения, чат 16:28): a way with thresholds is its name and, under it, one line per
+        # threshold «до 3500 ₽ — 400 ₽». The team edits this text themselves, so any number of
+        # lines of any length must fit without breaking the row.
+        if r.get("lines"):
+            lines = "\n".join(
+                f'''                      <li><span class="rates__cond">{typo(c)}</span><span class="rates__val">{typo(v)}</span></li>'''
+                for c, v in r["lines"])
+            return f'''                  <li>
+                    <span class="rates__name">{typo(r["name"])}</span>
+                    <ul class="rates__lines">
+{lines}
+                    </ul>
+                  </li>'''
         return f'''                  <li>
                     <span class="rates__name">{typo(r["name"])}</span>
                     <span class="rates__price">{typo(r["price"])}</span>

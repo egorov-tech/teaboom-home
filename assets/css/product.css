@@ -2644,6 +2644,30 @@ body::before {
   line-height: 1.45;
   color: var(--muted);
 }
+.rates__lines.rates__lines {
+  grid-column: 1/-1;
+  display: grid;
+  grid-template-columns: minmax(5.8em, max-content) minmax(0, 1fr);
+  column-gap: var(--step-3);
+  row-gap: 2px;
+  margin: 2px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.rates__lines.rates__lines > li {
+  display: contents;
+}
+.rates__cond {
+  color: var(--muted);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+.rates__val {
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
 
 .rates__list > li:has(.rates__hint) .rates__note {
   grid-column: 1;

@@ -48,7 +48,18 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
   ok(await p.locator('.brew').count() === 0, '36: блока «Как заваривать» у покупки нет');
   ok((await p.textContent('.review__all')).replace(/\u00a0/g, ' ').trim() === 'Все 12 отзывов', 'отзывы: «Отзывы 12», видно 3 — в конце ленты «Все 12 отзывов»');
   ok(await p.evaluate(() => { const t = document.querySelector('.reviews__list'); return getComputedStyle(t).overflowX === 'auto' && getComputedStyle(t).scrollSnapType.startsWith('x'); }), 'отзывы — лента со свайпом (как «Похожие»)');
-  ok(await p.locator('.rates__list > li').count() === 5 && (await p.textContent('.rates')).replace(/\u00a0/g, ' ').includes('свыше 10 000 ₽ — бесплатно'), '47 (Антон, 24.11): короткий текст — 5 строк: способ, условие, цена');
+  {
+    const r = await p.evaluate(() => {
+      const t = (s) => (document.querySelector(s)?.textContent || '').replace(/\s+/g, ' ').trim();
+      const rows = [...document.querySelectorAll('.rates__list > li')];
+      const out = rows.find((li) => /за\sМКАД/.test(li.textContent));
+      const lines = out ? [...out.querySelectorAll('.rates__lines > li')].map((li) => li.textContent.replace(/\s+/g, ' ').trim()) : [];
+      const overflow = [...document.querySelectorAll('.rates__lines > li > span')].some((s) => s.getBoundingClientRect().right > document.querySelector('.rates').getBoundingClientRect().right + 1);
+      return { n: rows.length, lines, overflow, post: t('.rates').includes('от 10 000 ₽бесплатно') || /от 10 000 ₽\s*бесплатно/.test(t('.rates')) };
+    });
+    ok(r.n === 5 && r.lines.length === 2 && /до 3500 ₽\s*400 ₽ \+ 25 ₽ за каждый км от МКАД/.test(r.lines[0]) && /от 3500 ₽\s*только 25 ₽ за каждый км от МКАД/.test(r.lines[1]) && r.post && !r.overflow,
+      `47 (25.11, владелец + Ксения): курьер за МКАД по порогам, Почта/СДЭК строками до/от, текст не вылезает (${JSON.stringify(r)})`);
+  }
   ok((await p.textContent('[data-tab="delivery"]')).replace(/\u00a0/g, ' ').trim() === 'Оплата и получение' && (await p.textContent('#delivery .delivery h3')).trim() === 'Получение', '47: вкладка «Оплата и получение», внутри «Получение» и «Оплата»');
   ok(await p.locator('.promise').count() === 0 && await p.locator('#delivery .rates').count() === 1, '23 + 35 (Антон, 24.11): условия только во вкладке, строки под кнопкой нет');
   ok(await p.evaluate(() => { const r = [...document.querySelectorAll('[data-tab]')].map((t) => t.getBoundingClientRect()); const l = document.querySelector('[data-tabs]').getBoundingClientRect(); return r.every((x) => x.left >= l.left && x.right <= l.right && x.width > 0) && document.querySelector('[data-tabs]').scrollWidth <= document.querySelector('[data-tabs]').clientWidth; }), 'вкладки (Антон, 24.11): все четыре видны, ряд не прокручивается');
