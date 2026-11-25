@@ -184,7 +184,9 @@
     place-items: center;
     width: var(--tap);
     height: var(--tap);
-    margin-inline: calc(var(--tap) / -2);
+    // Half of the arrow hangs past the row — but never past the page gutter: in a narrow window
+    // the gutter (16 px) is less than half the arrow (22 px), so keep 4 px to the screen edge.
+    margin-inline: max(calc(var(--tap) / -2), calc(4px - var(--gutter)));
     padding: 0;
     color: var(--ink);
     background: var(--paper);

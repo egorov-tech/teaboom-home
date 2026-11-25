@@ -6080,7 +6080,7 @@ button.paybar__order {
   place-items: center;
   width: var(--tap);
   height: var(--tap);
-  margin-inline: calc(var(--tap) / -2);
+  margin-inline: max(var(--tap) / -2, 4px - var(--gutter));
   padding: 0;
   color: var(--ink);
   background: var(--paper);
