@@ -42,9 +42,10 @@
     }
   }
 
-  // Ксения, 24.11: no box like the sorting and the filters — a 4 px brand line underneath, the
-  // same yellow as the chosen pack's edge; rounded ends, as wide as the words. Hover (Артём,
-  // 25.11): an ink line draws over it from the left — the site's dark frame colour, in motion.
+  // Ксения, 24.11: no box like the sorting and the filters — a brand line under the words.
+  // 25.11 (Артём + Ксения, «как у навигации»): the line matches the main menu's underline —
+  // 2 px, the same gap under the word, 2 px radius, drawing in from the left in 240 ms.
+  // At rest it stays visible (these are links); hover/focus draws the ink line over it.
   &__subcat {
     position: relative;
     display: inline-flex;
@@ -62,9 +63,9 @@
       position: absolute;
       left: 0;
       right: 0;
-      top: calc(50% + 0.85em); // just under the words; the 40 px tap area stays
-      height: 4px;
-      border-radius: 999px;
+      bottom: 6px; // 12 px under the centre, as the menu's bottom: 8px in its 44 px box
+      height: 2px;
+      border-radius: 2px;
     }
 
     &::before {
@@ -75,7 +76,7 @@
       background: var(--ink);
       transform: scaleX(0);
       transform-origin: left center;
-      transition: transform 220ms var(--ease-out);
+      transition: transform 240ms var(--ease-out);
     }
 
     &:active {

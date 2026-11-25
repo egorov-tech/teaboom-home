@@ -2807,9 +2807,9 @@ body::before {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(50% + 0.85em);
-  height: 4px;
-  border-radius: 999px;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
 }
 .category__subcat::before {
   background: var(--brand);
@@ -2818,7 +2818,7 @@ body::before {
   background: var(--ink);
   transform: scaleX(0);
   transform-origin: left center;
-  transition: transform 220ms var(--ease-out);
+  transition: transform 240ms var(--ease-out);
 }
 .category__subcat:active {
   transform: scale(0.97);

@@ -75,7 +75,7 @@ const ok = (cond, name) => { console.log(`${cond ? 'PASS' : 'FAIL'} ${name}`); i
         tagLine: [tag.borderTopWidth, tag.borderLeftWidth, tag.borderBottomWidth, line.height, line.borderTopLeftRadius !== '0px'].join(' ') };
     });
     ok(!lay.inH1 && lay.countRight && lay.countTop, 'Ксения 24.11: счётчик рядом с заголовком, не внутри <h1>');
-    ok(lay.tagLine === '0px 0px 0px 4px true', `подкатегории без рамки, линия снизу 4 px со скруглёнными концами (Ксения 24.11) (${lay.tagLine})`);
+    ok(lay.tagLine === '0px 0px 0px 2px true', `подкатегории без рамки, линия снизу 2 px как у меню (Ксения 25.11) (${lay.tagLine})`);
     ok(Math.abs(lay.sort.top - lay.tile.top) <= 1 && lay.facets.top > lay.sort.bottom && Math.abs(lay.sort.width - lay.facets.width) <= 1, `Ксения 24.11: сортировка над фильтрами во всю ширину, верх на линии плиток (${Math.round(lay.sort.top)} / ${Math.round(lay.tile.top)})`);
   }
   const gaps = await p.evaluate(() => {
