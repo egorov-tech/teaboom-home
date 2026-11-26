@@ -132,6 +132,19 @@
   }
 }
 
+// Карточка (Артём, 27.11, вариант A): фасовка уже в корзине — на месте «В корзину» тот же счётчик,
+// что на плитке (_goods.scss .good__stepper), того же размера, что кнопка: ничего не сдвигается.
+.buy__row .buy__stepper {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: 52px;
+
+  @media (min-width: $bp-wide) {
+    flex: 0 0 auto;
+    min-width: 260px;
+  }
+}
+
 .fav--pdp {
   width: 52px;
   min-height: 52px;

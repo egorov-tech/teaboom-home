@@ -135,6 +135,15 @@
     }
   }
 
+  // Многострочное поле (комментарий к заказу, отзыв) — общее, из оформления.
+  &__input--area {
+    height: auto;
+    min-height: 96px;
+    padding-block: var(--step-3);
+    line-height: 1.45;
+    resize: vertical;
+  }
+
   &__error {
     margin: 0;
     font-size: 13px;

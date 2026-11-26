@@ -1663,6 +1663,13 @@ body::before {
   font-variant-numeric: tabular-nums;
 }
 
+.tag--reserve .tag__was[hidden],
+.price--reserve .price__was[hidden],
+.price--reserve .price__cut[hidden] {
+  display: inline;
+  visibility: hidden;
+}
+
 .footer {
   background: var(--paper);
   border-top: 1px solid var(--line);
@@ -2757,6 +2764,13 @@ body::before {
     z-index: 39;
     box-shadow: 0 4px 16px rgba(27, 27, 27, 0.08);
   }
+  .buy__action.is-pinned .buy__row .buy__stepper {
+    flex: 0 0 auto;
+    grid-template-columns: 40px minmax(0, 1fr) 40px;
+    min-width: 156px;
+    min-height: 44px;
+    border-radius: 10px;
+  }
   .buy__action .cta {
     margin: 0;
     width: auto;
@@ -2793,6 +2807,12 @@ body::before {
     width: 100%;
     min-height: 52px;
     font-size: 16px;
+  }
+  .buy__action:not(.is-pinned) .buy__stepper {
+    flex: 1 1 auto;
+    grid-template-columns: 44px minmax(0, 1fr) 44px;
+    min-height: 52px;
+    border-radius: var(--radius-md);
   }
   body:has(.buy__slot) .footer {
     --purchase-clearance: 72px;
@@ -3925,6 +3945,18 @@ body::before {
   margin-top: 0;
 }
 
+.buy__row .buy__stepper {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: 52px;
+}
+@media (min-width: 600px) {
+  .buy__row .buy__stepper {
+    flex: 0 0 auto;
+    min-width: 260px;
+  }
+}
+
 .fav--pdp {
   width: 52px;
   min-height: 52px;
@@ -3991,4 +4023,221 @@ body::before {
   from {
     opacity: 0;
   }
+}
+.form {
+  display: grid;
+  gap: var(--step-4);
+}
+.form__lead {
+  margin: 0;
+  color: var(--ink-soft);
+  max-width: 52ch;
+}
+.form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 52px;
+  margin-top: var(--step-1);
+  padding: 0 var(--step-5);
+  font: 700 15px/1.2 var(--font-text);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--brand);
+  border: 1px solid var(--brand-deep);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .form__submit:hover {
+    background: var(--brand-lift);
+  }
+}
+.form__done {
+  margin: 0;
+  padding: var(--step-3) var(--step-4);
+  color: var(--tea);
+  background: var(--value-bg);
+  border-radius: var(--radius-md);
+  font-size: 14px;
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+.field__label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.field__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--step-3);
+}
+.field__aside {
+  font-size: 14px;
+}
+.field .select {
+  display: block;
+  width: 100%;
+}
+.field .select__button {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--step-4);
+  font: 16px/1.2 var(--font-text);
+  font-weight: 400;
+}
+.field__input {
+  width: 100%;
+  height: 48px;
+  padding: 0 var(--step-4);
+  font: 16px/1.2 var(--font-text);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  transition: border-color var(--ease), box-shadow var(--ease);
+}
+.field__input::placeholder {
+  color: var(--muted);
+}
+.field__input:focus-visible {
+  outline: none;
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 70%, transparent);
+}
+.field__input[aria-invalid=true] {
+  border-color: var(--cut);
+}
+.field__secret {
+  position: relative;
+}
+.field__secret .field__input {
+  padding-right: 52px;
+}
+.field__peek {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+}
+.field__peek[aria-pressed=true] {
+  color: var(--ink);
+}
+.field__input--area {
+  height: auto;
+  min-height: 96px;
+  padding-block: var(--step-3);
+  line-height: 1.45;
+  resize: vertical;
+}
+.field__error {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--cut);
+}
+
+.check {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--step-3);
+  min-height: var(--tap);
+  font-size: 15px;
+  cursor: pointer;
+}
+.check__input {
+  position: absolute;
+  opacity: 0;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+}
+.check__box {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  transition: background var(--ease), border-color var(--ease);
+}
+.check__input:checked + .check__box {
+  background: var(--ink) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 10.5 3.2 3L15 6.5'/%3E%3C/svg%3E") center/16px no-repeat;
+  border-color: var(--ink);
+}
+.check__input:focus-visible + .check__box {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+.switch {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  padding: 4px;
+  background: color-mix(in srgb, var(--line) 60%, var(--canvas));
+  border-radius: calc(var(--radius-md) + 4px);
+}
+.switch[hidden] {
+  display: none;
+}
+.switch__tab {
+  min-height: var(--tap);
+  padding: 0 var(--step-3);
+  font: 600 14px/1.2 var(--font-text);
+  color: var(--ink-soft);
+  background: none;
+  border: 0;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.switch__tab[aria-selected=true] {
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgba(27, 27, 27, 0.12);
+}
+.switch__tab:focus-visible {
+  outline-offset: -2px;
+}
+@media (max-width: 420px) {
+  .switch__tab {
+    padding: 0 4px;
+    font-size: 13px;
+  }
+}
+
+.field__input[type=date] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 48px;
+  padding-block: 13px;
+  line-height: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+}
+.field__input[type=date]::-webkit-date-and-time-value {
+  min-height: 20px;
+  margin: 0;
+  line-height: 20px;
+  text-align: left;
 }

@@ -135,6 +135,23 @@
       if (n) box.querySelector("[data-step-n]").textContent = `${n}${NB}шт.`;
       if (had && wasCounter !== !!n) (n ? box.querySelector('[data-step="1"]') : button).focus({ preventScroll: true });
     });
+      // Карточка товара (Артём, 27.11, вариант A): у выбранной фасовки в корзине «В корзину» уступает
+    // место тому же счётчику «− в корзине N шт. +», что на плитке; «−» с 1 убирает товар.
+    document.querySelectorAll("[data-add-to-cart]").forEach((cta) => {
+      const scope = cta.closest(".product");
+      const chosen = scope && scope.querySelector(".pack__input:checked");
+      if (!chosen || cta.classList.contains("is-added")) return;
+      const n = qty.get(skuOf(chosen)) || 0;
+      const box = n ? stepper(scope, cta) : scope.querySelector(".good__stepper");
+      if (!box) return;
+      box.classList.add("buy__stepper");
+      const had = box.contains(document.activeElement) || document.activeElement === cta;
+      const wasCounter = !box.hidden;
+      box.hidden = !n;
+      cta.hidden = !!n;
+      if (n) box.querySelector("[data-step-n]").textContent = `${n}${NB}шт.`;
+      if (had && wasCounter !== !!n) (n ? box.querySelector('[data-step="1"]') : cta).focus({ preventScroll: true });
+    });
   };
 
   const save = (list) => {

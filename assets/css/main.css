@@ -1663,6 +1663,13 @@ body::before {
   font-variant-numeric: tabular-nums;
 }
 
+.tag--reserve .tag__was[hidden],
+.price--reserve .price__was[hidden],
+.price--reserve .price__cut[hidden] {
+  display: inline;
+  visibility: hidden;
+}
+
 .front {
   padding-block: var(--step-5) var(--step-5);
 }
@@ -3736,6 +3743,13 @@ body::before {
 .field__peek[aria-pressed=true] {
   color: var(--ink);
 }
+.field__input--area {
+  height: auto;
+  min-height: 96px;
+  padding-block: var(--step-3);
+  line-height: 1.45;
+  resize: vertical;
+}
 .field__error {
   margin: 0;
   font-size: 13px;
@@ -4917,13 +4931,6 @@ fieldset.step--person > .step__title {
 
 .field__req {
   color: var(--cut);
-}
-.field__input--area {
-  height: auto;
-  min-height: 96px;
-  padding-block: var(--step-3);
-  line-height: 1.45;
-  resize: vertical;
 }
 
 .address {
@@ -6210,6 +6217,18 @@ button.paybar__order {
 }
 .buy__row .cta {
   margin-top: 0;
+}
+
+.buy__row .buy__stepper {
+  flex: 1 1 auto;
+  width: auto;
+  min-height: 52px;
+}
+@media (min-width: 600px) {
+  .buy__row .buy__stepper {
+    flex: 0 0 auto;
+    min-width: 260px;
+  }
 }
 
 .fav--pdp {

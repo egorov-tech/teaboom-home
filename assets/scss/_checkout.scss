@@ -154,14 +154,6 @@
     color: var(--cut);
   }
 
-  &__input--area {
-    height: auto;
-    min-height: 96px;
-    padding-block: var(--step-3);
-    line-height: 1.45;
-    resize: vertical;
-  }
-
 }
 
 .address {

@@ -115,8 +115,12 @@
     const name = root.querySelector(".product__title")?.textContent.trim() || "Товар";
     const label = cta.querySelector(".cta__label");
 
-    cta.classList.add("is-added");
-    label.textContent = "Добавлено";
+    // «+» счётчика (cart.js, quiet) — без вспышки: меняется само число.
+    const quiet = !!cta.dataset.quiet;
+    if (!quiet) {
+      cta.classList.add("is-added");
+      label.textContent = "Добавлено";
+    }
 
     const shot = root.querySelector(".shot__image");
     window.TeaboomCart?.add({
@@ -134,9 +138,10 @@
     });
 
     window.clearTimeout(resetTimer);
-    resetTimer = window.setTimeout(() => {
+    if (!quiet) resetTimer = window.setTimeout(() => {
       cta.classList.remove("is-added");
       label.textContent = "В корзину";
+      window.TeaboomCart?.mark(); // фасовка уже в корзине — кнопку сменяет счётчик
     }, 1800);
   });
 })();

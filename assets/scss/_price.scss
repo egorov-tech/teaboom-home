@@ -165,3 +165,12 @@
     font-variant-numeric: tabular-nums;
   }
 }
+
+// Скидка не на всех фасовках товара (на сайте бывает): место под старую цену и скидку держится
+// всегда, невидимо, — при выборе фасовки без скидки строка цены не меняет высоту (прогон 27.11).
+.tag--reserve .tag__was[hidden],
+.price--reserve .price__was[hidden],
+.price--reserve .price__cut[hidden] {
+  display: inline;
+  visibility: hidden;
+}

@@ -38,6 +38,15 @@
       box-shadow: 0 4px 16px rgb(27 27 27 / 8%);
     }
 
+    // Закреплённая панель: счётчик той же высоты, что кнопка (44 px), — панель не прыгает.
+    &.is-pinned .buy__row .buy__stepper {
+      flex: 0 0 auto;
+      grid-template-columns: 40px minmax(0, 1fr) 40px;
+      min-width: 156px;
+      min-height: 44px;
+      border-radius: 10px;
+    }
+
     .cta {
       margin: 0;
       width: auto;
@@ -73,6 +82,13 @@
       width: 100%;
       min-height: 52px;
       font-size: 16px;
+    }
+
+    .buy__stepper {
+      flex: 1 1 auto;
+      grid-template-columns: 44px minmax(0, 1fr) 44px;
+      min-height: 52px;
+      border-radius: var(--radius-md);
     }
   }
 

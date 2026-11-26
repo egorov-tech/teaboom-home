@@ -278,7 +278,8 @@ def render_price(p, mode):
         first_rate, first_best = rate_info(p)[0]
         was_hidden = "" if v0["old"] else " hidden"
         was_val = money(v0["old"]) if v0["old"] else ""
-        return f'''              <p class="tag" aria-live="polite">
+        reserve = " tag--reserve" if any(v["old"] for v in p["variants"]) else ""
+        return f'''              <p class="tag{reserve}" aria-live="polite">
                 <span class="visually-hidden">Цена:</span>
                 <span class="tag__now{sale}" data-now>{money(v0["price"])}</span>
                 <span class="tag__was" data-was{was_hidden}><span class="visually-hidden">без скидки</span> <s data-was-value>{was_val}</s></span>
@@ -287,7 +288,8 @@ def render_price(p, mode):
     hidden = "" if v0["old"] else " hidden"
     was = money(v0["old"]) if v0["old"] else ""
     cut_txt = f"−{cut(v0['old'], v0['price'])}%" if v0["old"] else ""
-    return f'''            <div class="price" aria-live="polite" aria-atomic="true">
+    reserve = " price--reserve" if any(v["old"] for v in p["variants"]) else ""
+    return f'''            <div class="price{reserve}" aria-live="polite" aria-atomic="true">
               <p class="price__line">
                 <span class="visually-hidden">Цена:</span>
                 <span class="price__now{sale}" data-out="price">{money(v0["price"])}</span>
