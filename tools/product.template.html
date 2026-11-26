@@ -98,9 +98,12 @@
                   <span data-buy-pack>{{PDP_BUY_PACK}}</span>
                   <strong{{PDP_BUY_SALE}} data-buy-price>{{PDP_BUY_PRICE}}</strong>
                 </div>
-                <button class="cta" type="submit" data-add-to-cart>
-                  <span class="cta__label">В корзину</span>
-                </button>
+                <div class="buy__row">
+                  <button class="cta" type="submit" data-add-to-cart>
+                    <span class="cta__label">В корзину</span>
+                  </button>
+                  <button class="fav fav--pdp" type="button" aria-pressed="false" aria-label="Добавить в избранное: {{PDP_NAME_ATTR}}" data-fav="{{PDP_SLUG}}" data-fav-name="{{PDP_NAME_ATTR}}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+                </div>
               </div>
             </div>
           </form>
@@ -126,6 +129,7 @@
 
   <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/fav.js" defer></script>
   <script src="assets/js/gallery.js" defer></script>
   <script src="assets/js/home.js" defer></script>
   <script src="assets/js/product-card.js" defer></script>

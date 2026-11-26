@@ -762,7 +762,10 @@ def render_tile(idx, p, live_links=False):
           <article class="good" aria-labelledby="{pid}-name" data-good data-slug="{esc(p["slug"])}">
 {media}
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>{v0["sku"]}</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>{v0["sku"]}</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: {esc(p["name"])}" data-fav="{esc(p["slug"])}" data-fav-name="{esc(p["name"])}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="{pid}-name"><a href="{page}">{tile_name(p["name"])}</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -1067,6 +1070,8 @@ def main():
             .replace("{{LABEL_URL}}", esc(site(d["label"][1])))
             .replace("{{LABEL}}", esc(d["label"][0]))
             .replace("{{H1}}", esc(pdp["name"]))
+            .replace("{{PDP_SLUG}}", esc(pdp["slug"]))
+            .replace("{{PDP_NAME_ATTR}}", esc(pdp["name"]))
             .replace("{{RATING}}", render_rating(pdp))
             .replace("{{SUMMARY}}", typo(d["summary"]))
             .replace("{{PDP_PACKS}}", render_packs(pdp, "pdp"))

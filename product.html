@@ -104,6 +104,11 @@
         <a class="account press" href="login.html" aria-label="Вход в личный кабинет">
           <svg class="account__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.4"/><path d="M5.2 19.5a6.8 6.8 0 0 1 13.6 0"/></svg>
         </a>
+        <!-- Избранное (26.11): та же кнопка, что корзина; список — раздел кабинета на сайте. -->
+        <a class="cart cart--fav press" href="https://teaboom.ru/my-favorite-products" aria-label="Избранное" data-fav-link>
+          <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg>
+          <span class="cart__count" data-fav-count>0</span>
+        </a>
         <a class="cart" href="cart.html" data-cart>
           <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
           <span class="cart__label">Корзина</span>
@@ -343,9 +348,12 @@
                   <span data-buy-pack>100 г</span>
                   <strong class="is-sale" data-buy-price>326,40 ₽</strong>
                 </div>
-                <button class="cta" type="submit" data-add-to-cart>
-                  <span class="cta__label">В корзину</span>
-                </button>
+                <div class="buy__row">
+                  <button class="cta" type="submit" data-add-to-cart>
+                    <span class="cta__label">В корзину</span>
+                  </button>
+                  <button class="fav fav--pdp" type="button" aria-pressed="false" aria-label="Добавить в избранное: Ананасовый улун" data-fav="ananasovij-ulun" data-fav-name="Ананасовый улун"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+                </div>
               </div>
             </div>
           </form>
@@ -532,7 +540,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>03800</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>03800</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Молочный Улун (Тайвань)" data-fav="molochnyj-ulun-tajvani-1" data-fav-name="Молочный Улун (Тайвань)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-101-name"><a href="https://teaboom.ru/product/molochnyj-ulun-tajvani-1">Молочный Улун (Тайвань)</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -587,7 +598,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>10159</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>10159</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Улун Тропический" data-fav="ulun-tropicheskij" data-fav-name="Улун Тропический"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-102-name"><a href="https://teaboom.ru/product/ulun-tropicheskij">Улун Тропический</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -642,7 +656,10 @@
               <span class="good__badge" data-cut>−30%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>01283</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>01283</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Улун Медовая Дыня" data-fav="ulun-medovaya-dinya" data-fav-name="Улун Медовая Дыня"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-103-name"><a href="https://teaboom.ru/product/ulun-medovaya-dinya">Улун Медовая Дыня</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -697,7 +714,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>05209</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>05209</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Земляничный улун 1 категории" data-fav="zemlyanichnij-ulun-1-kategorii" data-fav-name="Земляничный улун 1 категории"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-104-name"><a href="https://teaboom.ru/product/zemlyanichnij-ulun-1-kategorii">Земляничный улун 1 категории</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -933,6 +953,7 @@
 
   <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/fav.js" defer></script>
   <script src="assets/js/gallery.js" defer></script>
   <script src="assets/js/home.js" defer></script>
   <script src="assets/js/product-card.js" defer></script>

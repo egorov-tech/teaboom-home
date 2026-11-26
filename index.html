@@ -271,6 +271,11 @@
         <a class="account press" href="login.html" aria-label="Вход в личный кабинет">
           <svg class="account__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.4"/><path d="M5.2 19.5a6.8 6.8 0 0 1 13.6 0"/></svg>
         </a>
+        <!-- Избранное (26.11): та же кнопка, что корзина; список — раздел кабинета на сайте. -->
+        <a class="cart cart--fav press" href="https://teaboom.ru/my-favorite-products" aria-label="Избранное" data-fav-link>
+          <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg>
+          <span class="cart__count" data-fav-count>0</span>
+        </a>
         <a class="cart" href="cart.html" data-cart>
           <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
           <span class="cart__label">Корзина</span>
@@ -638,7 +643,10 @@
               <span class="good__badge" data-cut>−7%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>01306</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>01306</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Ананасовый улун" data-fav="ananasovij-ulun" data-fav-name="Ананасовый улун"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-1-name"><a href="product.html">Ананасовый улун</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -693,7 +701,10 @@
               <span class="good__badge" data-cut>−13%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>01274</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>01274</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Дун Дин Улун (Улун с Морозного Пика)" data-fav="dun-din-ulun-ulun-is-moroznogo-pika" data-fav-name="Дун Дин Улун (Улун с Морозного Пика)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-2-name"><a href="product.html">Дун Дин Улун (Улун с Морозного Пика)</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -748,7 +759,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>05475</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>05475</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Кофе в зернах ароматизированный &quot;Тирамису&quot;" data-fav="kofe-v-zernah-aromatizirovannij-tiramisu" data-fav-name="Кофе в зернах ароматизированный &quot;Тирамису&quot;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-3-name"><a href="product.html">Кофе в зернах ароматизированный &quot;Тирамису&quot;</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -803,7 +817,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>04973</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>04973</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Кофе в зёрнах ароматизированный &quot;Бейлиз&quot;" data-fav="kofe-v-zyornah-aromatizirovannyj-bejliz" data-fav-name="Кофе в зёрнах ароматизированный &quot;Бейлиз&quot;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-4-name"><a href="product.html">Кофе в зёрнах ароматизированный &quot;Бейлиз&quot;</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -858,7 +875,10 @@
               <span class="good__badge" data-cut>−8%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>01325</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>01325</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Персиковый улун" data-fav="persikovij-ulun" data-fav-name="Персиковый улун"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-5-name"><a href="product.html">Персиковый улун</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -913,7 +933,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>10012</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>10012</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Чай зелёный ароматизированный &quot;Сокровища Японии&quot;" data-fav="chaj-zelyonyj-aromatizirovannyj-sokrovisha-yaponii" data-fav-name="Чай зелёный ароматизированный &quot;Сокровища Японии&quot;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-6-name"><a href="product.html">Чай зелёный ароматизированный &quot;Сокровища Японии&quot;</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -968,7 +991,10 @@
               <span class="good__badge" data-cut hidden></span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>04198</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>04198</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Чай чёрный ароматизированный &quot;Чёрный с чабрецом&quot;" data-fav="chaj-chyornij-aromatizirovannyj-chyornyj-s-chabrecom" data-fav-name="Чай чёрный ароматизированный &quot;Чёрный с чабрецом&quot;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-7-name"><a href="product.html">Чай чёрный ароматизированный &quot;Чёрный с чабрецом&quot;</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -1023,7 +1049,10 @@
               <span class="good__badge" data-cut>−37%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>02994</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>02994</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Чайник из жаропрочного стекла 600 мл &quot;Лотос&quot; с заварочной колбой" data-fav="chainik-iz-zharoprochnogo-stekla-600-ml-lotos-s-zavarochnoj-kolboj" data-fav-name="Чайник из жаропрочного стекла 600 мл &quot;Лотос&quot; с заварочной колбой"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-8-name"><a href="product.html">Чайник из жаропрочного стекла 600 мл &quot;Лотос&quot; с заварочной колбой</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -1066,7 +1095,10 @@
               <span class="good__badge" data-cut>−2%</span>
             </div>
             <div class="good__head">
-              <p class="good__sku">арт. <span data-sku>01160</span></p>
+              <div class="good__meta">
+                <p class="good__sku">арт. <span data-sku>01160</span></p>
+                <button class="fav fav--tile" type="button" aria-pressed="false" aria-label="Добавить в избранное: Шу Сян Люй Сенча (Сенча)" data-fav="shu-sian-lyuj-sencha" data-fav-name="Шу Сян Люй Сенча (Сенча)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg></button>
+              </div>
               <h3 class="good__name" id="good-9-name"><a href="product.html">Шу Сян Люй Сенча (Сенча)</a></h3>
             </div>
             <fieldset class="good__packs packs packs--compact">
@@ -1270,6 +1302,7 @@
 
   <script src="assets/js/format.js" defer></script>
   <script src="assets/js/cart.js" defer></script>
+  <script src="assets/js/fav.js" defer></script>
   <script src="assets/js/gallery.js" defer></script>
   <script src="assets/js/home.js" defer></script>
 </body>

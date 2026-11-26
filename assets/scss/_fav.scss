@@ -1,0 +1,209 @@
+@use "tokens" as *;
+
+// Избранное (Ксения 26.11; макеты согласованы: шапка и карточка — да, на плитке — без кружка
+// и не на фото). Данные на сайте — их готовый «Избранное» (ap_product_lists); в демо — fav.js.
+
+// Шапка: та же кнопка, что корзина (`.cart.cart--fav`) — высота, счётчик, бейдж на телефоне и
+// в компактной шапке берутся у неё. Отличие одно: сердечко всегда нейтральное, жёлтая только
+// корзина — главное действие шапки.
+.cart--fav {
+  gap: 6px;
+  margin-left: 0;
+  padding-inline: 12px;
+
+  .cart__icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.masthead.is-compact .cart.cart--fav {
+  background: var(--paper);
+  border-color: var(--line-strong);
+
+  .cart__count {
+    background: var(--brand);
+    color: var(--ink);
+  }
+}
+
+@media (max-width: #{$bp-phone - 1px}) {
+  .masthead .cart.cart--fav {
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+}
+
+// Кнопка-сердечко: плитка и карточка. Пустое — контур, в избранном — залито цветом цены со скидкой.
+.fav {
+  display: grid;
+  place-items: center;
+  flex: none;
+  padding: 0;
+  color: var(--muted);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: color var(--ease), transform 160ms var(--ease-out);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  path {
+    fill: transparent;
+    transition: fill var(--ease);
+  }
+
+  &[aria-pressed="true"] {
+    color: var(--cut);
+
+    path {
+      fill: currentColor;
+    }
+  }
+
+  &:active {
+    transform: scale(0.92);
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      color: var(--ink);
+    }
+
+    &[aria-pressed="true"]:hover {
+      color: var(--cut);
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+// Плитка: сердечко справа в строке артикула — не на фото (Ксения) и без кружка. Зона нажатия
+// 40×40, отрицательные поля не дают строке вырасти: высота плитки та же.
+.good__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--step-2);
+  min-width: 0;
+  margin-bottom: 2px; // как у артикула раньше — высота плитки прежняя
+
+  .good__sku {
+    margin-bottom: 0;
+  }
+}
+
+.fav--tile {
+  width: 40px;
+  height: 40px;
+  // Вверх зона доходит до фото, но не заходит на него (зазор 12 px; на телефоне 8 px), остальное —
+  // вниз: там название, оно стоит в разметке позже и при наложении получает нажатие само.
+  margin: -10px -10px -11px 0;
+  padding-bottom: 1px; // центр значка — по центру строки артикула при несимметричных полях
+
+  @media (max-width: #{$bp-phone - 1px}) {
+    margin-top: -8px;
+    margin-bottom: -13px;
+    padding-bottom: 5px;
+  }
+}
+
+// Карточка: квадрат по высоте «В корзину» рядом с ней. В закреплённой панели на телефоне его нет —
+// там только покупка.
+.buy__row {
+  display: flex;
+  gap: var(--step-2);
+  align-items: stretch;
+  margin-top: var(--step-5);
+
+  .cta {
+    margin-top: 0;
+  }
+}
+
+.fav--pdp {
+  width: 52px;
+  min-height: 52px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+
+  svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  @media (hover: hover) {
+    &:hover {
+      border-color: var(--ink);
+    }
+  }
+}
+
+@media (max-width: #{$bp-phone - 1px}) {
+  .buy__action .buy__row {
+    margin-top: 0;
+  }
+
+  .buy__action:not(.is-pinned) .buy__row {
+    width: 100%;
+
+    .cta {
+      flex: 1 1 auto;
+    }
+  }
+
+  .buy__action.is-pinned .fav--pdp {
+    display: none;
+  }
+}
+
+// Гость (на сайте избранное только после входа): подсказка у кнопки вместо зависшей загрузки.
+.fav-hint {
+  position: absolute;
+  z-index: 30;
+  width: min(280px, calc(100vw - 32px));
+  padding: 12px 14px;
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  box-shadow: 0 12px 28px -12px rgb(27 27 27 / 28%);
+  animation: fav-hint-in 160ms var(--ease-out);
+
+  a {
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-underline-offset: 3px;
+  }
+
+  &[hidden] {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+@keyframes fav-hint-in {
+  from {
+    opacity: 0;
+  }
+}
