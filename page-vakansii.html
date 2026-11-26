@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вакансии — интернет-магазин чая «Чайный Бум»</title>
+  <meta name="description" content="Пришлите свое резюме на INFO@TEABOOM.RU и может быть именно ВЫ станете сотрудником нашей команды! Фасовщик-комплектовщик (сборщик) от 30 000 до 35 000 руб. на руки Требуемый опыт р">
+  <!-- Demo for review: keep it out of search entirely. -->
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f5d730">
+  <link rel="icon" href="assets/images/favicon.png" type="image/png" sizes="16x16">
+  <!-- Fonts are self-hosted (assets/fonts, 63 KB together) and preloaded, so text is drawn in
+       its own font from the first paint and never jumps on load or reload. -->
+  <link rel="preload" href="assets/fonts/open-sans.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/oswald.woff2" as="font" type="font/woff2" crossorigin>
+  <!-- «js» before the first paint: the page is drawn in its scripted state from the start. -->
+  <script>document.documentElement.classList.add("js");</script>
+  <link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body class="fills-screen">
+  <a class="skip-link" href="#main">Перейти к содержимому</a>
+
+<!-- The header itself is the sticky bar (brand, contacts, cart). Menu, search and catalogue
+       follow it in normal flow and scroll away. Compact mode never changes the header height,
+       so nothing below it moves while scrolling. -->
+  <header class="masthead" data-masthead>
+      <div class="masthead__top wrap">
+        <a class="brand" href="./">
+          <img class="brand__mark" src="assets/images/logo.png" alt="" width="95" height="95">
+          <span class="brand__text">
+            <span class="brand__name">Чайный Бум</span>
+            <span class="brand__tagline">Интернет-магазин чая и посуды</span>
+          </span>
+          <span class="visually-hidden">— на главную</span>
+        </a>
+
+        <div class="masthead__contacts masthead__contacts--desk">
+          <a class="masthead__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>
+          <a class="masthead__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a>
+          <p class="masthead__hours">пн&#8288;–&#8288;пт&nbsp;с&nbsp;10:00&nbsp;до&nbsp;19:00, сб&#8288;–&#8288;вс&nbsp;с&nbsp;12:00&nbsp;до&nbsp;16:00</p>
+        </div>
+
+        <!-- Compact-only tools: search and phone stay reachable while the menu has scrolled away. -->
+        <div class="quick" data-quick>
+          <button class="quick__icon quick__toggle press" type="button" aria-expanded="false" aria-controls="search-field-info-quick-form" aria-label="Поиск по каталогу" data-quick-toggle>
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m12.7 12.7 4.3 4.3"/></svg>
+          </button>
+          <form class="quick__search" id="search-field-info-quick-form" role="search" action="https://teaboom.ru/search" method="get" data-quick-search>
+            <label class="visually-hidden" for="search-field-info-quick">Поиск по каталогу</label>
+            <svg class="quick__glass" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m12.7 12.7 4.3 4.3"/></svg>
+            <input class="quick__field" id="search-field-info-quick" type="search" name="q" placeholder="Чай или артикул" autocomplete="off" enterkeyhint="search">
+            <button class="quick__submit press" type="submit">Найти</button>
+            <button class="quick__close press" type="button" aria-label="Закрыть поиск" data-quick-close>
+              <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+            </button>
+          </form>
+          <a class="quick__phone" href="tel:+74951201551">
+            <svg class="quick__phone-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6.6 2.8 8.3 6.6 6.6 8a10.6 10.6 0 0 0 5.4 5.4l1.4-1.7 3.8 1.7-.6 2.8a1.6 1.6 0 0 1-1.6 1.2A14.4 14.4 0 0 1 1.8 4a1.6 1.6 0 0 1 1.2-1.6z"/></svg>
+            <span class="quick__number">+7 (495) 120-15-51</span>
+          </a>
+        </div>
+
+        <!-- Account + cart on the right. The account link shows from 760 px; phones reach the
+             cabinet from the dock («Кабинет», п. 19), so the compact phone header is unchanged. -->
+        <div class="masthead__tools">
+        <a class="account press" href="login.html" aria-label="Вход в личный кабинет">
+          <svg class="account__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.4"/><path d="M5.2 19.5a6.8 6.8 0 0 1 13.6 0"/></svg>
+        </a>
+        <!-- Избранное (26.11): та же кнопка, что корзина; список — раздел кабинета на сайте. -->
+        <a class="cart cart--fav press" href="https://teaboom.ru/my-favorite-products" aria-label="Избранное" data-fav-link>
+          <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 20s-7-4.35-7-10a4 4 0 0 1 7-2.65A4 4 0 0 1 19 10c0 5.65-7 10-7 10Z"/></svg>
+          <span class="cart__count" data-fav-count>0</span>
+        </a>
+        <a class="cart" href="cart.html" data-cart>
+          <svg class="cart__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg>
+          <span class="cart__label">Корзина</span>
+          <span class="cart__count" data-cart-count>0</span>
+          <span class="visually-hidden" data-cart-words>, товаров: 0</span>
+        </a>
+        </div>
+        <p class="visually-hidden" role="status" data-cart-status></p>
+      </div>
+  </header>
+
+    <div class="masthead__bottom">
+      <div class="masthead__contacts masthead__contacts--mobile wrap">
+        <a class="masthead__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>
+        <a class="masthead__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a>
+        <p class="masthead__hours">пн&#8288;–&#8288;пт&nbsp;с&nbsp;10:00&nbsp;до&nbsp;19:00, сб&#8288;–&#8288;вс&nbsp;с&nbsp;12:00&nbsp;до&nbsp;16:00</p>
+      </div>
+
+      <div class="masthead__bar wrap">
+        <nav class="menu" aria-label="Основное меню">
+          <ul class="menu__list">
+            <li><a class="menu__link" href="./">Главная</a></li>
+            <li>
+              <button class="menu__link press" type="button" aria-expanded="false" aria-controls="catalog" data-catalog-toggle>
+                Каталог
+                <svg class="menu__chevron" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M2.5 4.5 6 8l3.5-3.5"/></svg>
+              </button>
+            </li>
+            <li>
+              <a class="menu__link" href="https://teaboom.ru/category-podarki">
+                <svg class="menu__gift" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2" y="6" width="12" height="8" rx="1"/><path d="M1.5 6h13M8 6v8M8 6S6.8 2.5 5 3.2 5.6 6 8 6Zm0 0s1.2-3.5 3-2.8S10.4 6 8 6Z"/></svg>
+                Подарки
+              </a>
+            </li>
+            <li><a class="menu__link" href="https://teaboom.ru/pricelist">Прайслист</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/shop_reviews/">Отзывы</a></li>
+            <li><a class="menu__link" href="https://teaboom.ru/contact">Контакты</a></li>
+          </ul>
+        </nav>
+
+        <form class="search" role="search" action="https://teaboom.ru/search" method="get">
+          <label class="visually-hidden" for="search-field-info">Поиск по каталогу</label>
+          <input class="search__field" id="search-field-info" type="search" name="q" placeholder="Начните вводить название товара..." autocomplete="off" enterkeyhint="search">
+          <button class="search__submit press" type="submit">Найти</button>
+        </form>
+      </div>
+
+      <div class="catalog reveal" id="catalog" hidden data-catalog>
+        <div class="catalog__inner wrap">
+          <a class="catalog__all" href="https://teaboom.ru/category-root">Все категории</a>
+          <ul class="catalog__list">
+            <li><a class="catalog__link" href="https://teaboom.ru/category-podarki">Подарки</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-matcha">Матча</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-chernyy_tea">Черный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-chaj-zelyonyj-s-chernym-aromatizirovannyj">Чай зелёный с черным ароматизированный</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-zelenyj-chaj">Зеленый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-krasnyj-chaj">Красный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-belyj-chaj">Белый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-zheltyj-chaj">Желтый чай</a></li>
+            <li><a class="catalog__link" href="category-ulun.html">Улун</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-puer">Пуэр</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-travyanoj-chaj">Травяной чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-dobavki-k-chayu">Добавки к чаю</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-fruktovyj-chaj">Фруктовый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-mate-i-lapacho">Мате и лапачо</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-rojbush-hanibush-i-karkade-gibiskus">Ройбуш, ханибуш и каркаде (гибискус)</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-svyazannyj-chaj">Связанный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-kofe">Кофе</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-siropy-i-toppingi">Сиропы и топпинги</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-sladosti">Сладости</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-posuda-i-aksessuary">Посуда и аксессуары</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+  <main id="main" tabindex="-1">
+    <div class="info wrap">
+      <nav class="breadcrumbs" aria-label="Вы здесь">
+        <ol class="breadcrumbs__list" data-strip>
+          <li class="breadcrumbs__item"><a href="./">Главная</a></li>
+          <li class="breadcrumbs__item"><a href="pages.html">Информация</a></li>
+          <li class="breadcrumbs__item"><span aria-current="page">Вакансии</span></li>
+        </ol>
+      </nav>
+      <header class="info__head"><h1 class="info__title">Вакансии</h1></header>
+      <article class="info__sheet info-body">
+<p>Пришлите свое резюме на&nbsp;<a href="mailto:INFO@TEABOOM.RU">INFO@TEABOOM.RU</a>&nbsp;и может быть именно&nbsp;ВЫ&nbsp;станете сотрудником нашей команды!</p><h2 data-qa="vacancy-title"><br />Фасовщик-комплектовщик (сборщик)<br /><br />от 30&nbsp;000 до 35&nbsp;000 руб.&nbsp;на руки<br /><br /></h2><p>Требуемый опыт работы:&nbsp;1&ndash;3 года<br />Полная занятость,&nbsp;полный день</p><p></p><h4>Должностные обязанности:</h4><ul><li>Поддержание порядка на складе</li><li>Разгрузка-погрузка, наполнение товаром ячеек</li><li>Инвентаризация</li><li>Сбор заказов согласно накладной</li><li>Фасовка</li><li>Печать наклеек<br /><br /></li></ul><h4>Требования:<o:p></o:p></h4><ul><li>Опыт работы приветствуется</li><li>Ответственный</li></ul><h4><br /><br /><br />Тип занятости:</h4><ul><li>График работы 5/2 с 10:30 до 19:00 и с 18:00 до 23:00, в выходные можно выходить, если есть работа.</li><li>Переработки бывают, оплачиваются отдельно.</li></ul><p><br /><br /><br /></p><h2 data-qa="vacancy-title"><br />Оператор интернет-магазина<br /><br />от 35&nbsp;000 до 50 000 руб.&nbsp;на руки</h2><h4></h4><p><br />Требуемый опыт работы:&nbsp;1&ndash;3 года<br />Полная занятость,&nbsp;полный день, частичная занятось<br /><br /></p><h4><br />Должностные обязанности:</h4><ul><li>хорошо знать ассортимент магазина, разбираться в сортах чая, кофе, в моделях посуды и аксессуарах</li><li>оперативно предлагать замену, если товара нет в наличии</li><li>уметь выставлять счета клиентам, оформлять заказы</li></ul><h4><br /><br />Требования:<o:p></o:p></h4><ul><li>опыт работы в сфере продажи чая, кофе, посуды</li><li>оперативное решение вопросов</li><li>ответственность</li><li>стремление обучаться</li></ul><h4><br /><br /><br />Условия:</h4><ul><li style="background: transparent; border: 0px; margin: 0px 0px 5px; outline: none; padding: 0px; line-height: 1.57; position: relative;">График 5/2 или 7/0 с 10:00 до 18:00 или с 18:00 до 23:00.</li><li style="background: transparent; border: 0px; margin: 0px 0px 5px; outline: none; padding: 0px; line-height: 1.57; position: relative;">Условия по з/п могут быть увеличены, в случае, если сможете проявить себя с наилучшей стороны!!!</li></ul><p><br /><br /><br /></p><h2>Курьер</h2><h2></h2><h2>от 40 000 до 45 000 руб. на руки</h2><h3></h3><p></p><p>Требуемый опыт работы: 1&ndash;3 года</p><p>Полная занятость, полный день, частичная занятось</p><p></p><p></p><p></p><h4>Должностные обязанности:</h4><p></p><p>доставка заказов по запросу клиента весом до 20 кг по Москве и ближайшему Подмосковью (товары, продукты, подарки, документы)</p><p>оказывать высокий уровень сервиса</p><p></p><p>&nbsp;</p><h4>Требования:</h4><p></p><p>опыт работы в службах доставки от 6 мес</p><p>четкость, мобильность, пунктуальность, честность, ответственность</p><p>хорошее знание Москвы и Подмосковья</p><p></p><p></p><h4>Условия:</h4><h4></h4><p>стоимость доставки 250 руб. (в день от 6 до 15 доставок), ближе к НГ еще больше</p><p>доставка за МКАД оплачивается дополнительно из расчета 15 руб./км.</p><p>график работы 5\2 или 7/0, возможно плавающие выходные. С 9:00 до 23:00, либо c 9:00 до 18:00 или c 18:00 до 23:00</p><p>безлимитный проездной (платный транспорт за МКАД оплачивается отдельно)</p><p></p><h2 data-qa="vacancy-title"></h2>
+      </article>
+    </div>
+  </main>
+
+  <!-- Back-to-top: sticks to the bottom of the screen and stops right above the footer. -->
+  <div class="totop-rail">
+    <button class="totop press" type="button" aria-label="Наверх" data-totop>
+      <svg class="totop__ring" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <circle class="totop__track" cx="24" cy="24" r="22" />
+        <circle class="totop__progress" cx="24" cy="24" r="22" />
+      </svg>
+      <svg class="totop__arrow" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 15.5V4.5M5 9.5l5-5 5 5"/></svg>
+    </button>
+  </div>
+
+  <footer class="footer">
+    <div class="footer__grid wrap">
+      <section aria-labelledby="f-contacts">
+        <h2 class="footer__title" id="f-contacts">Контакты</h2>
+        <div class="footer__contacts">
+          <p><span class="footer__key">Адрес</span>Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</p>
+          <p>
+            <span class="footer__key">Телефоны</span>
+            <a class="footer__phone" href="tel:+74951201551">+7 (495) 120-15-51</a><br>
+            <a class="footer__phone" href="tel:+74957967974">+7 (495) 796-79-74</a>
+          </p>
+          <p><span class="footer__key">Email</span><a class="footer__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a></p>
+          <p><span class="footer__key">Режим работы</span>пн&#8288;–&#8288;пт&nbsp;с&nbsp;10:00&nbsp;до&nbsp;19:00, сб&#8288;–&#8288;вс&nbsp;с&nbsp;12:00&nbsp;до&nbsp;16:00</p>
+          <ul class="footer__social" aria-label="Мы в соцсетях">
+            <li><a href="https://t.me/Teaboom" rel="nofollow">Telegram</a></li>
+            <li><a href="https://vk.com/teaboom" rel="nofollow">ВКонтакте</a></li>
+            <li><a href="https://www.ok.ru/teaboom" rel="nofollow">Одноклассники</a></li>
+          </ul>
+        </div>
+      </section>
+      <nav aria-labelledby="f-company">
+        <h2 class="footer__title" id="f-company">Компания</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/nashi-servisy">Наши сервисы</a></li>
+          <li><a href="https://teaboom.ru/page/biznes-s-nami">Бизнес с нами</a></li>
+          <li><a href="page-vakansii.html">Вакансии</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-docs">
+        <h2 class="footer__title" id="f-docs">Документы</h2>
+        <ul class="footer__list">
+          <li><a href="https://teaboom.ru/page/dogovor">Договор-оферта</a></li>
+          <li><a href="https://teaboom.ru/page/sertifikaty">Сертификаты</a></li>
+          <li><a href="pages.html">Статьи о чае</a></li>
+          <li><a href="https://teaboom.ru/page/privacy-policy">Политика конфиденциальности</a></li>
+        </ul>
+      </nav>
+      <nav aria-labelledby="f-buyers">
+        <h2 class="footer__title" id="f-buyers">Покупателям</h2>
+        <ul class="footer__list">
+          <li><a href="shipping.html">Доставка</a></li>
+          <li><a href="payment.html">Оплата</a></li>
+          <li><a href="https://teaboom.ru/page/exchange-and-refund">Обмен и возврат</a></li>
+        </ul>
+      </nav>
+    </div>
+    <div class="footer__base wrap">
+      <p>© Все права защищены Teaboom.ru</p>
+      <p>ООО «Кассиопея», ИНН 7707798450</p>
+      <p></p>
+    </div>
+  </footer>
+
+  <!-- Mobile-only tab bar (п. 19). Relative URLs as on the live shop; missing demo routes are not QA'd. -->
+<nav class="dock" aria-label="Мобильная навигация" data-dock>
+  <a class="dock__item" href="./" data-dock-home>
+    <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-5v-6H10v6H5a1 1 0 0 1-1-1z"/></svg>
+    <span class="dock__label">Главная</span>
+  </a>
+  <button class="dock__item press" type="button" aria-expanded="false" aria-controls="dock-sheet" data-dock-catalog>
+    <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 6h14M5 12h14M5 18h14"/></svg>
+    <span class="dock__label">Каталог</span>
+  </button>
+  <a class="dock__item" href="login.html">
+    <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2a6.5 6.5 0 0 1 13 0"/></svg>
+    <span class="dock__label">Кабинет</span>
+  </a>
+  <a class="dock__item" href="tel:+74951201551">
+    <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.2 3.5 9.2 8l-2 1.8a12 12 0 0 0 6.5 6.5l1.7-2 4.8 2-.7 3.4A1.8 1.8 0 0 1 17.5 21 16.5 16.5 0 0 1 3 5.5a1.8 1.8 0 0 1 1.4-2z"/></svg>
+    <span class="dock__label">Звонок</span>
+  </a>
+  <a class="dock__item" href="https://teaboom.ru/login/?next=/pricelist/">
+    <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7 3.5h7l3 3V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1z"/><path d="M14 3.5V7h3M9 12h6M9 16h6"/></svg>
+    <span class="dock__label">Прайс</span>
+  </a>
+</nav>
+
+<dialog class="sheet" id="dock-sheet" aria-labelledby="dock-sheet-title" data-dock-sheet>
+  <div class="sheet__panel">
+    <header class="sheet__head">
+      <h2 class="sheet__title" id="dock-sheet-title" tabindex="-1" autofocus>Каталог и меню</h2>
+      <button class="sheet__close press" type="button" aria-label="Закрыть" data-dock-close>
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m5 5 10 10M15 5 5 15"/></svg>
+      </button>
+    </header>
+    <div class="sheet__body">
+      <section class="sheet__block" aria-labelledby="dock-cats-title">
+        <h3 class="sheet__label" id="dock-cats-title">Категории</h3>
+        <ul class="sheet__list">
+          <li><a class="sheet__link sheet__link--all" href="https://teaboom.ru/category-root">Все категории</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-podarki">Подарки</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-matcha">Матча</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-chernyy_tea">Черный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-chaj-zelyonyj-s-chernym-aromatizirovannyj">Чай зелёный с черным ароматизированный</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-zelenyj-chaj">Зеленый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-krasnyj-chaj">Красный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-belyj-chaj">Белый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-zheltyj-chaj">Желтый чай</a></li>
+            <li><a class="catalog__link" href="category-ulun.html">Улун</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-puer">Пуэр</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-travyanoj-chaj">Травяной чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-dobavki-k-chayu">Добавки к чаю</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-fruktovyj-chaj">Фруктовый чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-mate-i-lapacho">Мате и лапачо</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-rojbush-hanibush-i-karkade-gibiskus">Ройбуш, ханибуш и каркаде (гибискус)</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-svyazannyj-chaj">Связанный чай</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-kofe">Кофе</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-siropy-i-toppingi">Сиропы и топпинги</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-sladosti">Сладости</a></li>
+            <li><a class="catalog__link" href="https://teaboom.ru/category-posuda-i-aksessuary">Посуда и аксессуары</a></li>
+        </ul>
+      </section>
+      <section class="sheet__block" aria-labelledby="dock-menu-title">
+        <h3 class="sheet__label" id="dock-menu-title">Меню</h3>
+        <ul class="sheet__list">
+          <li><a class="sheet__link" href="./">Главная</a></li>
+          <li><a class="sheet__link" href="https://teaboom.ru/category-podarki">Подарки</a></li>
+          <li><a class="sheet__link" href="https://teaboom.ru/pricelist">Прайслист</a></li>
+          <li><a class="sheet__link" href="https://teaboom.ru/shop_reviews/">Отзывы</a></li>
+          <li><a class="sheet__link" href="https://teaboom.ru/contact">Контакты</a></li>
+        </ul>
+      </section>
+      <section class="sheet__block sheet__block--contacts" aria-labelledby="dock-contacts-title">
+        <h3 class="sheet__label" id="dock-contacts-title">Контакты</h3>
+        <a class="sheet__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>
+        <a class="sheet__mail" href="mailto:info@teaboom.ru">info@teaboom.ru</a>
+        <p class="sheet__hours">пн&#8288;–&#8288;пт&nbsp;с&nbsp;10:00&nbsp;до&nbsp;19:00, сб&#8288;–&#8288;вс&nbsp;с&nbsp;12:00&nbsp;до&nbsp;16:00</p>
+      </section>
+    </div>
+  </div>
+</dialog>
+
+
+  <script src="assets/js/format.js"></script>
+  <script src="assets/js/cart.js"></script>
+  <script src="assets/js/fav.js"></script>
+  <script src="assets/js/home.js"></script>
+  <script src="assets/js/info.js"></script>
+</body>
+</html>

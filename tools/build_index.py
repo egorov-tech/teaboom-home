@@ -797,6 +797,10 @@ def render_tile(idx, p, live_links=False):
 # team can walk home → category → product. Filters and the remaining pages stay on the shop.
 LOCAL = {
     f"{SITE}/category-ulun": "category-ulun.html",
+    f"{SITE}/shipping/": "shipping.html",
+    f"{SITE}/payment/": "payment.html",
+    f"{SITE}/pages": "pages.html",
+    f"{SITE}/page/vakansii": "page-vakansii.html",
     f"{SITE}/cart": "cart.html",
     f"{SITE}/checkout-dispatcher": "checkout.html",
     f"{SITE}/login": "login.html",
@@ -1183,6 +1187,73 @@ def render_service_pages():
         print("ok", f"{name}.html", len(out))
 
 
+# ---------- информационные страницы (Ксения 26.11: «Типовые страницы») ----------
+# Текст — HTML из их админки как есть (data/pages/*.html, снято с teaboom.ru 26.11). Три вида
+# одной системы: текстовая страница, список статей (/pages/), список способов (доставка, оплата).
+INFO_FILES = {
+    "vakansii": "page-vakansii.html",
+    "cikl-istoriya-razvitiya-chajnoj-kultury": "page-istoriya-chaya.html",
+    "pages": "pages.html",
+    "shipping": "shipping.html",
+    "payment": "payment.html",
+}
+
+
+def _content_of(raw):
+    i = raw.find('<div class="content">')
+    body = raw[i + len('<div class="content">'):] if i >= 0 else raw
+    body = body.rstrip()
+    while body.endswith("</div>"):
+        body = body[: -len("</div>")].rstrip()
+    return body
+
+
+def _plain(fragment):
+    text = re.sub(r"<[^>]+>", " ", fragment)
+    return re.sub(r"\s+", " ", html.unescape(text)).strip()
+
+
+def render_info_pages():
+    meta = json.loads((ROOT / "data/pages/_index.json").read_text(encoding="utf-8"))["pages"]
+    mast, foot, dock = shell("", "search-field-info", "")
+    local = {f"/page/{k}": v for k, v in INFO_FILES.items()} | {"/pages/": "pages.html", "/shipping/": "shipping.html", "/payment/": "payment.html"}
+    tpl = (ROOT / "tools/info.template.html").read_text(encoding="utf-8")
+    for key, out_name in INFO_FILES.items():
+        m = meta[key]
+        raw = (ROOT / f"data/pages/{key}.html").read_text(encoding="utf-8")
+        title = m["title"]
+        crumbs = ['          <li class="breadcrumbs__item"><a href="./">Главная</a></li>']
+        for href, name in m["crumbs"][1:-1]:
+            crumbs.append(f'          <li class="breadcrumbs__item"><a href="{local.get(href, site(href))}">{esc(name)}</a></li>')
+        crumbs.append(f'          <li class="breadcrumbs__item"><span aria-current="page">{esc(title)}</span></li>')
+        head = f'      <header class="info__head"><h1 class="info__title">{esc(title)}</h1></header>'
+        if key == "pages":
+            items = re.findall(r'<h3><a href="([^"]+)">\s*(.*?)\s*</a></h3>(.*?)</div></div></div>', raw, re.S)
+            lis = []
+            for href, name, body in items:
+                url = local.get(href, site(href))
+                lis.append(f'        <li class="post"><h2 class="post__title"><a href="{url}">{esc(html.unescape(name).strip())}</a></h2><p class="post__text">{esc(_plain(body))}</p></li>')
+            content = head + '\n      <ul class="posts">\n' + "\n".join(lis) + '\n      </ul>'
+            desc = "Статьи о чае: история чайной культуры, виды чая, как заваривать — «Чайный Бум»."
+        elif key in ("shipping", "payment"):
+            items = re.findall(r'<a name="([^"]+)"></a><div class="content"><h3>\s*\d+\.\s*(.*?)\s*</h3>\s*<div class="article-text[^"]*">(.*?)</div></div></div></div>', raw, re.S)
+            lis = [f'        <li class="method" id="{esc(anchor)}"><h2 class="method__title">{esc(html.unescape(name).strip())}</h2><div class="method__body info-body">{body.strip()}</div></li>' for anchor, name, body in items]
+            content = head + '\n      <ol class="methods">\n' + "\n".join(lis) + '\n      </ol>'
+            desc = f"{title} интернет-магазина чая «Чайный Бум»: " + ", ".join(_plain(n) for _, n, _ in items) + "."
+        else:
+            body = _content_of(raw)
+            content = head + f'\n      <article class="info__sheet info-body">\n{body}\n      </article>'
+            desc = _plain(body)[:180]
+        assert content.count("<li") >= 1 or key not in ("pages", "shipping", "payment"), key
+        out = (tpl.replace("{{MASTHEAD}}", mast).replace("{{FOOTER}}", foot).replace("{{DOCK}}", dock)
+               .replace("{{TITLE}}", esc(title)).replace("{{DESC}}", esc(desc))
+               .replace("{{CRUMBS}}", "\n".join(crumbs)).replace("{{CONTENT}}", content))
+        assert "{{" not in out, out_name
+        (ROOT / out_name).write_text(demo_links(typeset_html(out)), encoding="utf-8")
+        print("ok", out_name, len(out), "items:", content.count('class="post"') + content.count('class="method"'))
+
+
 if __name__ == "__main__":
     main()
     render_service_pages()
+    render_info_pages()

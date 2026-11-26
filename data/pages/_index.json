@@ -1,0 +1,88 @@
+{
+ "source": "teaboom.ru, HTML страниц из админки как есть (26.11.2026), только вырезан блок содержимого",
+ "pages": {
+  "vakansii": {
+   "title": "Вакансии",
+   "url": "https://teaboom.ru/page/vakansii",
+   "crumbs": [
+    [
+     "/",
+     "Главная"
+    ],
+    [
+     "/pages/",
+     "Информация"
+    ],
+    [
+     "/page/vakansii",
+     "Вакансии"
+    ]
+   ],
+   "bytes": 3394
+  },
+  "cikl-istoriya-razvitiya-chajnoj-kultury": {
+   "title": "Цикл «История развития чайной культуры»",
+   "url": "https://teaboom.ru/page/cikl-istoriya-razvitiya-chajnoj-kultury",
+   "crumbs": [
+    [
+     "/",
+     "Главная"
+    ],
+    [
+     "/pages/",
+     "Информация"
+    ],
+    [
+     "/page/cikl-istoriya-razvitiya-chajnoj-kultury",
+     "Цикл «История развития чайной культуры»"
+    ]
+   ],
+   "bytes": 10248
+  },
+  "shipping": {
+   "title": "Методы доставки",
+   "url": "https://teaboom.ru/shipping/",
+   "crumbs": [
+    [
+     "/",
+     "Главная"
+    ],
+    [
+     "/shipping/",
+     "Методы доставки"
+    ]
+   ],
+   "bytes": 10687
+  },
+  "payment": {
+   "title": "Методы оплаты",
+   "url": "https://teaboom.ru/payment/",
+   "crumbs": [
+    [
+     "/",
+     "Главная"
+    ],
+    [
+     "/shipping/",
+     "Методы оплаты"
+    ]
+   ],
+   "bytes": 1840
+  },
+  "pages": {
+   "title": "Информация",
+   "url": "https://teaboom.ru/pages/",
+   "crumbs": [
+    [
+     "/",
+     "Главная"
+    ],
+    [
+     "/pages/",
+     "Информация"
+    ]
+   ],
+   "bytes": 4802
+  }
+ }
+}
