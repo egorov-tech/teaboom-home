@@ -334,3 +334,120 @@
     }
   }
 }
+
+// 28.11: доставка и оплата — справа оглавление по способам (как на teaboom.ru) и «Остались вопросы?»:
+// телефон и часы рядом с условиями — меньше брошенных заказов из-за непонятной доставки/оплаты.
+// На телефоне оглавление не нужно (список короткий) — остаётся карточка с телефоном под списком.
+.methods-wrap {
+  display: grid;
+  gap: var(--step-5);
+
+  @media (min-width: $bp-split) {
+    grid-template-columns: minmax(0, 52rem) minmax(240px, 1fr);
+    align-items: start;
+  }
+
+  .methods {
+    max-width: none;
+  }
+}
+
+.methods-aside {
+  display: grid;
+  gap: var(--step-4);
+
+  @media (min-width: $bp-split) {
+    position: sticky;
+    top: calc(var(--pin-h, 72px) + var(--step-4));
+  }
+}
+
+.toc {
+  @media (max-width: #{$bp-split - 1px}) {
+    display: none;
+  }
+
+  &__title {
+    margin: 0 0 var(--step-2);
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  &__list {
+    display: grid;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-left: 2px solid var(--line);
+  }
+
+  &__link {
+    display: block;
+    padding: 8px 0 8px var(--step-4);
+    margin-left: -2px;
+    font-size: 15px;
+    line-height: 1.4;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: color var(--ease), border-color var(--ease);
+
+    @media (hover: hover) {
+      &:hover {
+        color: var(--ink);
+        border-left-color: var(--ink);
+      }
+    }
+  }
+}
+
+.ask {
+  display: grid;
+  gap: var(--step-2);
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg, 16px);
+
+  &__title {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+  }
+
+  &__phone {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--tap);
+    margin-top: var(--step-2);
+    padding: 0 var(--step-4);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--brand);
+    border: 1px solid var(--brand-deep);
+    border-radius: var(--radius-md);
+    font-variant-numeric: tabular-nums;
+  }
+
+  &__link {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    min-height: var(--tap);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    text-underline-offset: 3px;
+  }
+}

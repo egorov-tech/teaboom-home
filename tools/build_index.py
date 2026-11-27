@@ -1240,7 +1240,17 @@ def render_info_pages():
         elif key in ("shipping", "payment"):
             items = re.findall(r'<a name="([^"]+)"></a><div class="content"><h3>\s*\d+\.\s*(.*?)\s*</h3>\s*<div class="article-text[^"]*">(.*?)</div></div></div></div>', raw, re.S)
             lis = [f'        <li class="method" id="{esc(anchor)}"><h2 class="method__title">{esc(html.unescape(name).strip())}</h2><div class="method__body info-body">{body.strip()}</div></li>' for anchor, name, body in items]
-            content = head + '\n      <ol class="methods">\n' + "\n".join(lis) + '\n      </ol>'
+            # 28.11: справа — оглавление по способам (как на teaboom.ru) и «Остались вопросы?» с телефоном;
+            # та же разметка, что lfs/v2/info/methods.html на сервере.
+            toc = "\n".join(f'            <li><a class="toc__link" href="#{esc(anchor)}">{esc(html.unescape(name).strip())}</a></li>' for anchor, name, _ in items)
+            other = ("payment.html", "Способы оплаты") if key == "shipping" else ("shipping.html", "Способы доставки")
+            aside = ('\n        <aside class="methods-aside" aria-label="Навигация и помощь">'
+                     '\n          <nav class="toc" aria-labelledby="toc-title"><p class="toc__title" id="toc-title">На странице</p><ol class="toc__list">\n' + toc + '\n          </ol></nav>'
+                     '\n          <div class="ask"><p class="ask__title">Остались вопросы?</p><p class="ask__text">Подскажем, как удобнее получить и оплатить заказ. Работаем пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00.</p>'
+                     '<a class="ask__phone" href="tel:+74951201551">+7 (495) 120-15-51</a>'
+                     f'<a class="ask__link" href="{other[0]}">{other[1]}</a></div>'
+                     '\n        </aside>')
+            content = head + '\n      <div class="methods-wrap">\n      <ol class="methods">\n' + "\n".join(lis) + '\n      </ol>' + aside + '\n      </div>'
             desc = f"{title} интернет-магазина чая «Чайный Бум»: " + ", ".join(_plain(n) for _, n, _ in items) + "."
         else:
             body = _content_of(raw)

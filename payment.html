@@ -63,7 +63,7 @@
         <!-- Account + cart on the right. The account link shows from 760 px; phones reach the
              cabinet from the dock («Кабинет», п. 19), so the compact phone header is unchanged. -->
         <div class="masthead__tools">
-        <a class="account press" href="login.html" aria-label="Войти">
+        <a class="account account--guest press" href="login.html" aria-label="Войти">
           <svg class="account__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.4"/><path d="M5.2 19.5a6.8 6.8 0 0 1 13.6 0"/></svg>
           <span class="account__label">Войти</span>
         </a>
@@ -158,6 +158,7 @@
         </ol>
       </nav>
       <header class="info__head"><h1 class="info__title">Методы оплаты</h1></header>
+      <div class="methods-wrap">
       <ol class="methods">
         <li class="method" id="payment_2"><h2 class="method__title">Наличные курьеру</h2><div class="method__body info-body">Оплата заказа возможна наличными или переводом на Сбербанк.</div></li>
         <li class="method" id="payment_1"><h2 class="method__title">Оплата при самовывозе</h2><div class="method__body info-body">Оплата заказа возможна наличными или переводом на Сбербанк. Оплата заказа по карте возможна только через ЮKassa.</div></li>
@@ -165,6 +166,17 @@
         <li class="method" id="payment_5"><h2 class="method__title">Оплата по счету</h2><div class="method__body info-body"><span style="color: #000000;"><br />Оплата через выставление счета для физических и юридических лиц. Пожалуйста заполните ваши реквизиты в личном кабинете.</span></div></li>
         <li class="method" id="payment_6"><h2 class="method__title">Предоплата</h2><div class="method__body info-body"><span style="color: #000000;"><br />Оплата по ссылке через ЮKassa</span><br /><span style="color: #000000;">Перевод на Сбербанк, по запросу после оформления заказа</span></div></li>
       </ol>
+        <aside class="methods-aside" aria-label="Навигация и помощь">
+          <nav class="toc" aria-labelledby="toc-title"><p class="toc__title" id="toc-title">На странице</p><ol class="toc__list">
+            <li><a class="toc__link" href="#payment_2">Наличные курьеру</a></li>
+            <li><a class="toc__link" href="#payment_1">Оплата при самовывозе</a></li>
+            <li><a class="toc__link" href="#payment_4">ЮKassa</a></li>
+            <li><a class="toc__link" href="#payment_5">Оплата по счету</a></li>
+            <li><a class="toc__link" href="#payment_6">Предоплата</a></li>
+          </ol></nav>
+          <div class="ask"><p class="ask__title">Остались вопросы?</p><p class="ask__text">Подскажем, как удобнее получить и оплатить заказ. Работаем пн–пт с 10:00 до 19:00, сб–вс с 12:00 до 16:00.</p><a class="ask__phone" href="tel:+74951201551">+7 (495) 120-15-51</a><a class="ask__link" href="shipping.html">Способы доставки</a></div>
+        </aside>
+      </div>
     </div>
   </main>
 
@@ -244,7 +256,7 @@
   </button>
   <a class="dock__item" href="login.html">
     <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 19.2a6.5 6.5 0 0 1 13 0"/></svg>
-    <span class="dock__label">Кабинет</span>
+    <span class="dock__label">Вход</span>
   </a>
   <a class="dock__item" href="tel:+74951201551">
     <svg class="dock__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M7.2 3.5 9.2 8l-2 1.8a12 12 0 0 0 6.5 6.5l1.7-2 4.8 2-.7 3.4A1.8 1.8 0 0 1 17.5 21 16.5 16.5 0 0 1 3 5.5a1.8 1.8 0 0 1 1.4-2z"/></svg>

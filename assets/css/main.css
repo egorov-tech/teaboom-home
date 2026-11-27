@@ -6811,3 +6811,110 @@ button.paybar__order {
     font-size: 16px;
   }
 }
+
+.methods-wrap {
+  display: grid;
+  gap: var(--step-5);
+}
+@media (min-width: 1060px) {
+  .methods-wrap {
+    grid-template-columns: minmax(0, 52rem) minmax(240px, 1fr);
+    align-items: start;
+  }
+}
+.methods-wrap .methods {
+  max-width: none;
+}
+
+.methods-aside {
+  display: grid;
+  gap: var(--step-4);
+}
+@media (min-width: 1060px) {
+  .methods-aside {
+    position: sticky;
+    top: calc(var(--pin-h, 72px) + var(--step-4));
+  }
+}
+
+@media (max-width: 1059px) {
+  .toc {
+    display: none;
+  }
+}
+.toc__title {
+  margin: 0 0 var(--step-2);
+  font-size: 15px;
+  font-weight: 600;
+}
+.toc__list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 2px solid var(--line);
+}
+.toc__link {
+  display: block;
+  padding: 8px 0 8px var(--step-4);
+  margin-left: -2px;
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-left: 2px solid transparent;
+  transition: color var(--ease), border-color var(--ease);
+}
+@media (hover: hover) {
+  .toc__link:hover {
+    color: var(--ink);
+    border-left-color: var(--ink);
+  }
+}
+
+.ask {
+  display: grid;
+  gap: var(--step-2);
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg, 16px);
+}
+.ask__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  line-height: 1.2;
+}
+.ask__text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+.ask__phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--tap);
+  margin-top: var(--step-2);
+  padding: 0 var(--step-4);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  text-decoration: none;
+  background: var(--brand);
+  border: 1px solid var(--brand-deep);
+  border-radius: var(--radius-md);
+  font-variant-numeric: tabular-nums;
+}
+.ask__link {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  min-height: var(--tap);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
