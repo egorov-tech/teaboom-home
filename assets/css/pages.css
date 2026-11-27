@@ -302,3 +302,10 @@
 /* Новые страницы: одна колонка не шире экрана (без явной колонки сетка растягивалась по содержимому на 320 px). */
 .contacts, .shop-rv, .cert, .plist, .nf { grid-template-columns: minmax(0, 1fr); }
 .contacts { display: block; }
+
+/* 28.11: единый ритм шапки (как у каталога): крошки → заголовок 16 px. У отзывов и сертификата крошки —
+   элемент сетки с промежутком var(--step-5), поэтому их собственный отступ убираем. */
+.shop-rv > .breadcrumbs, .cert > .breadcrumbs { margin-bottom: calc(var(--step-4) - var(--step-5)); }
+.contacts .breadcrumbs { margin-bottom: var(--step-4); }
+.contacts .info__head { margin-bottom: var(--step-5); }
+.contacts { padding-top: var(--step-5); }

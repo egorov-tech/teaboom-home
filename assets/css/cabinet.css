@@ -697,3 +697,6 @@ a.cta, a.acc-empty__cta, .order__actions a.cta { text-decoration: none; }
 @media (prefers-reduced-motion: reduce) {
   .toast, .toast.is-leaving { animation-duration: 1ms; }
 }
+
+/* 28.11: единый ритм шапки — крошки → заголовок 16 px, как в каталоге и на страницах сайта. */
+.acc .breadcrumbs { margin-bottom: var(--step-4); }
