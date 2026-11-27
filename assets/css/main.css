@@ -1014,6 +1014,76 @@ body::before {
   }
 }
 
+/* Планшет (760–1059): в компактной шапке рядом с телефоном, входом, избранным и корзиной полю не хватало
+   места — оно сжималось до 8 px, и набранный текст шёл задом наперёд. Здесь поиск — иконка, поле
+   раскрывается поверх шапки, как на телефоне (home.js: тот же переключатель и закрытие). */
+@media (min-width: 760px) and (max-width: 1059px) {
+  .quick__toggle {
+    display: grid;
+  }
+  .quick__search {
+    display: none;
+  }
+  .masthead.is-searching .quick__search {
+    position: absolute;
+    inset: calc(50% - 22px) var(--gutter) auto;
+    z-index: 2;
+    display: flex;
+    max-width: none;
+    height: 44px;
+    box-shadow: 0 6px 20px rgba(27, 27, 27, 0.1);
+    animation: search-fade 200ms var(--ease-out);
+  }
+  .masthead.is-searching .quick__close {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    margin-left: 2px;
+    color: var(--ink-soft);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  .masthead.is-searching .quick__close svg {
+    width: 18px;
+    height: 18px;
+  }
+  .masthead.is-searching .brand,
+  .masthead.is-searching .quick__toggle,
+  .masthead.is-searching .quick__phone,
+  .masthead.is-searching .account,
+  .masthead.is-searching .cart {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 160ms var(--ease-out);
+  }
+}
+/* 1060–1279: номер телефона в компактной шапке съедал поле поиска (110 px) — здесь телефон иконкой. */
+@media (min-width: 1060px) and (max-width: 1279px) {
+  .quick__phone {
+    display: grid;
+    width: var(--tap);
+    padding: 0;
+    background: var(--paper);
+    border-color: var(--line-strong);
+  }
+  .quick__number {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+@media (min-width: 1060px) and (max-width: 1279px) and (hover: hover) {
+  .quick__phone:hover {
+    border-color: var(--ink);
+  }
+}
+
 @keyframes quick-in {
   from {
     opacity: 0;
