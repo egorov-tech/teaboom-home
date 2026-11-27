@@ -95,5 +95,26 @@ def main() -> None:
     print("built contacts.html")
 
 
+def build_404() -> None:
+    """404 на демо (технические страницы): та же разметка, что на сервере; пути — на страницы демо."""
+    import re
+    shell = (ROOT / "login.html").read_text(encoding="utf-8")
+    head, rest = shell.split('<main id="main" tabindex="-1">', 1)
+    _, tail = rest.split("</main>", 1)
+    head = head.replace('<link rel="stylesheet" href="assets/css/main.css">',
+                        '<link rel="stylesheet" href="assets/css/main.css">\n  <link rel="stylesheet" href="assets/css/pages.css">', 1)
+    head = re.sub(r"<title>[^<]*</title>", "<title>Страница не найдена — интернет-магазин чая «Чайный Бум»</title>", head, 1)
+    head = re.sub(r'<meta name="robots"[^>]*>', "", head).replace("</head>", '  <meta name="robots" content="noindex">\n</head>', 1)
+    main = (ROOT / "tools" / "account_src" / "404.html").read_text(encoding="utf-8")
+    for a, b in [('href="/"', 'href="index.html"'), ('href="/category-root"', 'href="category-ulun.html"'),
+                 ('href="/shipping/"', 'href="shipping.html"'), ('href="/payment/"', 'href="payment.html"'),
+                 ('href="/contact/"', 'href="contacts.html"'), ('href="/category-podarki"', 'href="https://teaboom.ru/category-podarki"'),
+                 ('action="/search"', 'action="https://teaboom.ru/search"')]:
+        main = main.replace(a, b)
+    (ROOT / "page-404.html").write_text(typeset_html(head + main + tail), encoding="utf-8")
+    print("built page-404.html")
+
+
 if __name__ == "__main__":
     main()
+    build_404()
