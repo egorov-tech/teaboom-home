@@ -1,4 +1,4 @@
-/* Контакты на демо (копия части contacts-srv.js сервера: часы и пометки; форма — в contacts.html, без отправки).
+/* Контакты на демо (часть contacts-srv.js сервера: часы, пометки, карта по нажатию; форма — в contacts.html).
    Контакты v2: «Написать нам» — их форма связи /lfs_contactcontact?ajax (ответ JSON с текстом), как
    «Не пришло письмо?» на сбросе пароля. Ошибки полей — forms-srv.js; итог — строкой под кнопкой и тостом. */
 (() => {
@@ -19,6 +19,17 @@
     const w = document.createTreeWalker(note, NodeFilter.SHOW_TEXT);
     const first = w.nextNode();
     if (first) first.nodeValue = first.nodeValue.replace(/^[\s\u00a0]+/, "");
+  });
+
+  // Карта — по нажатию (их cookie только после действия покупателя).
+  document.querySelectorAll("[data-map-show]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const box = btn.closest("[data-map-src]");
+      const f = document.createElement("iframe");
+      f.src = box.dataset.mapSrc; f.title = box.dataset.mapTitle || "Карта"; f.allowFullscreen = true;
+      box.replaceChildren(f);
+      f.focus({ preventScroll: true });
+    });
   });
 
 })();

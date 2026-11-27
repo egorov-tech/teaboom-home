@@ -2294,6 +2294,8 @@ body::before {
   font-size: 14px;
   line-height: 1.3;
   text-align: center;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 @media (min-width: 1060px) {
   .cats__name {

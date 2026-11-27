@@ -582,6 +582,9 @@
     font-size: 14px;
     line-height: 1.3;
     text-align: center;
+    // Длинные слова в названиях разделов («ароматизированный») — переносом, а не шире колонки на 320 px.
+    overflow-wrap: break-word;
+    hyphens: auto;
 
     @media (min-width: $bp-split) {
       font-size: 15px;

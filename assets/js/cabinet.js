@@ -36,6 +36,7 @@
       el.childNodes.forEach((n) => { if (n.nodeType === 3) n.nodeValue = n.nodeValue.replace(/"([^"]+)"/g, "«$1»"); });
     });
     legacy.querySelectorAll("h5").forEach((h) => {
+      h.setAttribute("aria-level", "2"); // их h5 — заголовки разделов страницы (после h1)
       const t = h.textContent.trim();
       if (/^Форма выбора юрлиц/.test(t)) {
         // Список их юрлиц: заголовок по-человечески; нет ни одного — блок не нужен.

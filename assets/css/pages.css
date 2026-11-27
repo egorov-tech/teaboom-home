@@ -105,6 +105,7 @@
   -webkit-text-stroke: 2px var(--ink);
   letter-spacing: 0.02em;
 }
+.nf__code::before { content: attr(data-code); } /* декор: текстом в псевдоэлементе — не читается и не мешает проверке контраста */
 .nf__title { margin: 0; font: 500 clamp(28px, 2vw + 20px, 40px)/1.1 var(--font-display); }
 .nf__text { margin: 0; max-width: 52ch; color: var(--ink-soft); }
 .nf__search { width: 100%; max-width: 520px; margin-top: var(--step-2); }
@@ -185,3 +186,119 @@
 .shop-rv__of { color: var(--muted); font-size: 14px; }
 .shop-rv__form { max-width: 640px; }
 .shop-rv__login { width: auto; justify-self: start; text-decoration: none; }
+
+/* ---------- Подарочный сертификат ---------- */
+.cert { display: grid; gap: var(--step-5); padding-block: var(--step-4) var(--step-7); }
+.cert .info__head { margin-bottom: 0; }
+.cert__grid { display: grid; gap: var(--step-5); grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 900px) {
+  .cert__grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: var(--step-6); }
+}
+/* Сам сертификат — согласованная кремово-золотая карточка их страницы; единственное место, где этот цвет. */
+.cert__card {
+  --gold: #c4a46a;
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: var(--step-1);
+  aspect-ratio: 1.6 / 1;
+  margin: 0;
+  padding: var(--step-6) var(--step-5);
+  text-align: center;
+  color: #3e4c3c;
+  background: #fbf8f2;
+  border: 2px solid var(--gold);
+  border-radius: var(--radius-sm);
+  outline: 1px solid var(--gold);
+  outline-offset: -10px;
+  box-shadow: 0 18px 40px -24px rgba(62, 76, 60, 0.45);
+  font-family: Georgia, "Times New Roman", serif;
+}
+@media (max-width: 479px) {
+  .cert__card { aspect-ratio: auto; padding-block: var(--step-6); }
+}
+.cert__logo { width: 48px; height: 48px; }
+.cert__brand { margin: 0; font-size: 12px; letter-spacing: 0.28em; }
+.cert__name { margin: 0; color: #87672a; /* золото темнее согласованного #b0893e — контраст текста 4.5+ */ font-size: clamp(18px, 1vw + 14px, 22px); letter-spacing: 0.05em; text-transform: uppercase; }
+.cert__rule { width: 140px; height: 1px; margin: var(--step-1) 0; background: var(--gold); }
+.cert__sum { margin: 0; font-size: clamp(34px, 3vw + 22px, 48px); line-height: 1.1; color: #2f3a2e; font-variant-numeric: lining-nums tabular-nums; }
+.cert__note { margin: 0; font-style: italic; font-size: 14px; }
+.cert__cats { margin: 0; font-size: 13px; letter-spacing: 0.14em; color: #2f3a2e; }
+.cert__buy .form { gap: var(--step-4); }
+.cert__presets { margin: 0; padding: 0; border: 0; min-width: 0; }
+.cert__chips { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--step-2); margin-top: 6px; }
+/* Номинал — как фасовка: рамка, выбранный — жирная рамка с жёлтой полосой. */
+.cert__chip {
+  min-height: 48px;
+  font: 600 15px/1 var(--font-text);
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-variant-numeric: tabular-nums;
+}
+.cert__chip[aria-pressed=true] { border: 2px solid var(--ink); box-shadow: inset 0 3px 0 var(--brand); }
+@media (hover: hover) { .cert__chip:hover { border-color: var(--ink); } }
+.cert .field__hint { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
+.cert__buy .form__submit { width: 100%; }
+.cert__login { width: auto; justify-self: start; text-decoration: none; }
+.cert__error { margin: 0; padding: var(--step-3) var(--step-4); color: var(--cut); background: var(--cut-bg); border-radius: var(--radius-md); font-size: 14px; }
+.cert__error a { color: inherit; font-weight: 600; }
+.cert__how { display: grid; gap: var(--step-3); max-width: 760px; }
+.cert__steps { display: grid; gap: var(--step-3); margin: 0; padding: 0; list-style: none; counter-reset: step; }
+.cert__steps li {
+  position: relative;
+  padding-left: 44px;
+  min-height: 32px;
+  color: var(--ink-soft);
+  counter-increment: step;
+}
+.cert__steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -2px;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brand) 45%, var(--paper));
+  font: 600 14px/1 var(--font-display);
+  color: var(--ink);
+}
+.cert__steps b { color: var(--ink); }
+
+/* ---------- Прайслист ---------- */
+.plist { display: grid; gap: var(--step-5); padding-block: var(--step-4) var(--step-7); }
+.plist .info__head { margin-bottom: 0; }
+.plist__grid { display: grid; gap: var(--step-5); grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 900px) { .plist__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 1000px; } }
+.plist__card { align-content: start; justify-items: start; }
+.plist__icon { color: var(--tea); }
+.plist__card form { display: grid; gap: var(--step-3); justify-items: start; width: 100%; }
+.plist__get { width: auto; min-width: 200px; min-height: 48px; }
+.plist__check { display: inline-flex; align-items: center; gap: var(--step-2); min-height: var(--tap); font-size: 15px; cursor: pointer; }
+.plist__check input { width: 20px; height: 20px; accent-color: var(--ink); }
+.place__map-show {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--step-2);
+  width: 100%;
+  font: 600 15px/1.2 var(--font-text);
+  color: var(--ink);
+  background: repeating-linear-gradient(135deg, var(--canvas) 0 14px, color-mix(in srgb, var(--canvas) 70%, var(--paper)) 14px 28px);
+  border: 0;
+  cursor: pointer;
+}
+.place__map-show svg { color: var(--tea); }
+@media (hover: hover) { .place__map-show:hover span { text-decoration: underline; text-underline-offset: 3px; } }
+.place__map-show:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+
+/* Новые страницы: одна колонка не шире экрана (без явной колонки сетка растягивалась по содержимому на 320 px). */
+.contacts, .shop-rv, .cert, .plist, .nf { grid-template-columns: minmax(0, 1fr); }
+.contacts { display: block; }

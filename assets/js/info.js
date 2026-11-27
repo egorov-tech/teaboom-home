@@ -47,6 +47,16 @@
       if (out !== node.nodeValue) node.nodeValue = out;
     }
 
+    // Уровни заголовков из админки прыгают (h2 → h4): для поисковиков и экранного диктора выравниваем
+    // aria-level (не больше предыдущего + 1), вид — прежний. Верхний уровень текста — h2 (h1 — заголовок страницы).
+    let prevLevel = 1;
+    body.querySelectorAll("h1, h2, h3, h4, h5, h6").forEach((h) => {
+      const level = Math.max(2, +h.tagName[1]);
+      const fixed = Math.min(level, prevLevel + 1);
+      if (fixed !== +h.tagName[1]) h.setAttribute("aria-level", String(fixed));
+      prevLevel = fixed;
+    });
+
     // Таблицы — в прокрутку, чтобы страница не становилась шире экрана.
     body.querySelectorAll("table").forEach((table) => {
       if (table.parentElement.classList.contains("info-table")) return;
