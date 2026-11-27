@@ -129,6 +129,18 @@
     border-radius: var(--radius-sm);
   }
 
+  &__photo--none {
+    display: grid;
+    place-items: center;
+    color: var(--muted);
+    background: color-mix(in srgb, var(--brand) 14%, var(--paper));
+
+    svg {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
   &__name {
     display: -webkit-box;
     -webkit-box-orient: vertical;

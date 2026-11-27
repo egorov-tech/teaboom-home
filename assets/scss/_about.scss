@@ -28,8 +28,13 @@
 
   &__body {
     display: grid;
+    grid-template-columns: minmax(0, 1fr); // колонка не растягивается по самому длинному слову текста
     gap: var(--step-4);
+    min-width: 0;
     max-width: 68ch;
     color: var(--ink-soft);
+    // 320 px: длинные слова из админки («полураспустившегося») переносятся, а не вылезают за край.
+    overflow-wrap: break-word;
+    hyphens: auto;
   }
 }

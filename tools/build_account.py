@@ -89,6 +89,15 @@ def main() -> None:
         '<link rel="stylesheet" href="assets/css/main.css">\n  <link rel="stylesheet" href="assets/css/cabinet.css">',
         1,
     )
+    # Кабинет — вход выполнен: в шапке кружок с первой буквой имени и «Кабинет» (как на сайте), не «Войти».
+    head = re.sub(r'<a class="account press" href="login\.html" aria-label="Войти">.*?</a>',
+                  '<a class="account account--in press" href="account.html" aria-label="Личный кабинет" title="anna@example.com">\n'
+                  '          <span class="account__avatar" aria-hidden="true">А</span>\n'
+                  '          <span class="account__label">Кабинет</span>\n        </a>', head, count=1, flags=re.S)
+    tail = re.sub(r'<a class="dock__item" href="login\.html">.*?</a>',
+                  '<a class="dock__item dock__item--in" href="account.html">\n'
+                  '    <span class="dock__avatar" aria-hidden="true">А</span>\n'
+                  '    <span class="dock__label">Кабинет</span>\n  </a>', tail, count=1, flags=re.S)
     tail = tail.replace("</body>", '  <script src="assets/js/cabinet.js"></script>\n  <script src="assets/js/account.js"></script>\n</body>', 1)
     for name, title in PAGES.items():
         src_path = SRC / f"{name}.html"

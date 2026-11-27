@@ -152,6 +152,22 @@
     opacity: 0;
   }
 
+  // Компактная шапка (27.11): вход/кабинет — квадрат с иконкой или буквой, без подписи (её читает
+  // экранный диктор): «Войти»/«Кабинет» отнимали у поля поиска ~60 px (на 1440 поле сжималось до 144 px).
+  .account {
+    width: var(--tap);
+    padding: 0;
+  }
+
+  .account__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
   // Up to desktop the compact cart keeps icon and count; the word stays for screen readers.
   .cart__label {
     @media (max-width: #{$bp-split - 1px}) {
@@ -240,63 +256,71 @@
   }
 }
 
-// Account: the cart's frame and size, the dock's person icon. Hidden on phones (dock has it).
-// Two states (гость / вошёл): одинаковый силуэт, но заливка + точка — иначе по контуру неясно.
+// Account (Артём 27.11: два состояния должны отличаться формой, а не оттенком). Как у магазинов
+// чая и маркетплейсов: гость — контурный человечек и «Войти»; вошёл — кружок с первой буквой имени
+// и «Кабинет». Рамка и высота — как у корзины; подпись — с 1060 px (как «Корзина»), ниже — квадрат.
+// На телефонах ссылки нет: вход и кабинет — в нижней панели.
 .account {
   position: relative;
   display: none;
-  place-items: center;
-  width: var(--tap);
+  align-items: center;
+  justify-content: center;
+  gap: var(--step-2);
+  min-width: var(--tap);
   height: var(--tap);
   flex: none;
   color: var(--ink);
+  text-decoration: none;
+  background: var(--paper);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 600;
   transition: border-color var(--ease), background-color var(--ease), color var(--ease);
 
   @media (min-width: $bp-phone) {
-    display: grid;
+    display: inline-flex;
+  }
+
+  @media (min-width: $bp-split) {
+    padding: 0 var(--step-4) 0 var(--step-3);
   }
 
   &__icon {
     width: 20px;
     height: 20px;
+    flex: none;
   }
 
-  &__mark {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    width: 8px;
-    height: 8px;
+  // Первая буква имени (или почты) на фирменном жёлтом — видно издалека, что вход выполнен.
+  &__avatar {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    flex: none;
     border-radius: 50%;
-    background: var(--tea);
-    border: 1.5px solid var(--paper);
-    pointer-events: none;
-  }
-
-  // Гость: только контур — «ещё не вошли».
-  &--guest {
-    color: var(--muted);
-    background: var(--paper);
-  }
-
-  // Вошёл: заливка человечка + жёлтый фон + зелёная точка.
-  &--in {
+    background: var(--brand);
+    box-shadow: inset 0 0 0 1px var(--brand-deep);
     color: var(--ink);
-    background: color-mix(in srgb, var(--brand) 40%, var(--paper));
-    border-color: var(--ink);
+    font: 700 13px/1 var(--font-text);
+    text-transform: uppercase;
+  }
+
+  &__label {
+    @media (max-width: #{$bp-split - 1px}) {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
   }
 
   @media (hover: hover) {
     &:hover {
-      color: var(--ink);
       border-color: var(--ink);
-    }
-
-    &--guest:hover {
-      color: var(--ink);
-      background: var(--paper);
     }
   }
 }
@@ -1136,6 +1160,53 @@ $bp-quick: 760px;
 
   .cart:not(.is-filled) .cart__count {
     display: none;
+  }
+
+  // ≤360: logo title + search + fav + cart no longer fit (fav added 26.11). Tighten the
+  // capsule; keep the shop name (п. 18) — do not drop it for an icon-only mark.
+  @media (max-width: 360px) {
+    :root {
+      --chrome-inset: 8px;
+    }
+
+    .masthead .wrap {
+      padding-inline: 8px;
+    }
+
+    .masthead__top {
+      column-gap: 6px;
+    }
+
+    .brand {
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .brand__mark {
+      flex: none;
+      width: 34px;
+      height: 34px;
+    }
+
+    .brand__name {
+      font-size: 15px;
+    }
+
+    .masthead__tools {
+      gap: 4px;
+    }
+
+    .quick__icon,
+    .cart {
+      width: 40px;
+      height: 40px;
+    }
+
+    .quick__icon svg,
+    .cart__icon {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   // Open search: the floating capsule *becomes* the field (not a second bar on top).

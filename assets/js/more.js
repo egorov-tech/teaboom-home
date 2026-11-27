@@ -7,7 +7,7 @@
   "use strict";
 
   // ---------- Row with arrows ----------
-  document.querySelectorAll("[data-rail]").forEach((rail) => {
+  const wireRail = (rail) => {
     const track = rail.querySelector("[data-rail-track]");
     const arrows = rail.querySelector("[data-rail-arrows]");
     const prev = rail.querySelector("[data-rail-prev]");
@@ -31,14 +31,16 @@
     track.addEventListener("scroll", update, { passive: true });
     if ("ResizeObserver" in window) new ResizeObserver(update).observe(track);
     update();
-  });
+  };
+  document.querySelectorAll("[data-rail]").forEach(wireRail);
 
   // ---------- «Вы смотрели» ----------
   const box = document.querySelector("[data-viewed]");
   if (!box) return;
   const KEY = "teaboom-viewed-v1";
-  const MAX_KEPT = 12;
-  const MAX_SHOWN = 8;
+  // Артём 27.11: «Вы смотрели» — длиннее, лента листается (стрелки с мышью, свайп на телефоне).
+  const MAX_KEPT = 20;
+  const MAX_SHOWN = 16;
   const read = (sel) => {
     try { return JSON.parse(box.querySelector(sel)?.textContent || "null"); } catch (e) { return null; }
   };
@@ -67,14 +69,26 @@
     const a = document.createElement("a");
     a.className = "seen";
     a.href = p.url;
-    const img = document.createElement("img");
-    img.className = "seen__photo";
-    img.src = p.img;
-    img.alt = "";
-    img.width = 64;
-    img.height = 64;
-    img.loading = "lazy";
-    img.decoding = "async";
+    // Нет фото или оно не открылось (27.11: «Сертификация» с битой картинкой) — светлая плашка с чашкой.
+    const blank = () => {
+      const ph = document.createElement("span");
+      ph.className = "seen__photo seen__photo--none";
+      ph.setAttribute("aria-hidden", "true");
+      ph.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false"><path d="M4 9h12v4a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M16 10h1.5a2.5 2.5 0 0 1 0 5H15.6"/><path d="M8 3.5c-.6.8-.6 1.7 0 2.5M12 3.5c-.6.8-.6 1.7 0 2.5"/></svg>';
+      return ph;
+    };
+    let img;
+    if (p.img) {
+      img = document.createElement("img");
+      img.className = "seen__photo";
+      img.src = p.img;
+      img.alt = "";
+      img.width = 64;
+      img.height = 64;
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.addEventListener("error", () => img.replaceWith(blank()), { once: true });
+    } else img = blank();
     const name = document.createElement("span");
     name.className = "seen__name";
     name.textContent = p.name;
@@ -86,4 +100,16 @@
     ul.append(li);
   });
   box.hidden = false;
+  // 27.11: лента длиннее — с мышью нужны стрелки, как у «Похожих» (та же разметка rail; телефон — свайп).
+  if (!ul.closest(".rail__frame")) {
+    const frame = document.createElement("div");
+    frame.className = "rail__frame";
+    ul.before(frame);
+    frame.append(ul);
+    ul.setAttribute("data-rail-track", "");
+    const arrow = (dir, label, d) => '<button class="rail__arrow press" type="button" aria-label="' + label + '" data-rail-' + dir + '><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="' + d + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
+    frame.insertAdjacentHTML("beforeend", '<div class="rail__arrows" data-rail-arrows hidden>' + arrow("prev", "Назад", "M15 5l-7 7 7 7") + arrow("next", "Вперёд", "M9 5l7 7-7 7") + "</div>");
+    box.setAttribute("data-rail", "");
+    wireRail(box);
+  }
 })();
