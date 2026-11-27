@@ -1,0 +1,91 @@
+/* Страницы сайта v2, которых не было в первых этапах: контакты (п. 31), далее — прайслист, отзывы, сертификат, 404.
+   Общие с демо (assets/css/pages.css). Компоненты — сайта: карточка .acc-card и .facts (cabinet.css),
+   кнопки .cta, поля .field, раскрытие .address__toggle. */
+
+/* ---------- Контакты ---------- */
+.contacts { padding-block: var(--step-4) var(--step-7); }
+.contacts__grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--step-5); }
+@media (min-width: 1060px) {
+  .contacts__grid { grid-template-columns: minmax(0, 1fr) 380px; align-items: start; gap: var(--step-6); }
+  .contacts__side { position: sticky; top: calc(var(--pin-h) - var(--pin-trim) + var(--step-4)); }
+}
+.contacts__places, .contacts__side { display: grid; gap: var(--step-5); min-width: 0; }
+
+.place {
+  display: grid;
+  gap: var(--step-4);
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--surface-radius);
+  min-width: 0;
+}
+.place__head { display: grid; gap: var(--step-2); justify-items: start; }
+.place__tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 var(--step-2);
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  color: var(--ink-soft);
+  background: var(--canvas);
+}
+.place__tag--pickup { color: var(--value); background: var(--value-bg); }
+.place__title { margin: 0; font: 500 clamp(20px, 1vw + 16px, 24px)/1.2 var(--font-display); }
+.place__facts { display: grid; gap: var(--step-3); margin: 0; }
+.place__facts > div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: var(--step-3); }
+.place__facts dt { font-size: 14px; color: var(--muted); }
+.place__facts dd { margin: 0; overflow-wrap: anywhere; }
+.place__facts a { color: var(--ink); text-underline-offset: 3px; }
+.place__phones { display: flex; flex-wrap: wrap; gap: var(--step-1) var(--step-4); }
+.place__phones a { font-weight: 600; font-variant-numeric: tabular-nums; white-space: nowrap; }
+@media (max-width: 479px) {
+  .place__facts > div { grid-template-columns: 1fr; gap: 2px; }
+}
+.place__note {
+  padding: var(--step-3) var(--step-4);
+  background: var(--canvas);
+  border-left: 3px solid var(--brand);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  color: var(--ink);
+  font-size: 15px;
+}
+.place__note p { margin: 0; }
+.place__note p + p { margin-top: var(--step-2); }
+.place__actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--step-3) var(--step-5); }
+.place__actions .cta { width: auto; min-height: 44px; text-decoration: none; }
+.place__route {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap);
+  font-weight: 600;
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+@media (max-width: 599px) {
+  .place__actions .cta { flex: 1 1 100%; }
+}
+/* Карта: место занято сразу, iframe грузится лениво — без сдвига. */
+.place__map {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--canvas);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+@media (max-width: 599px) {
+  .place__map { aspect-ratio: 4 / 3; }
+}
+.place__map iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+.contacts__form .form { gap: var(--step-4); }
+.contacts__text { min-height: 120px; resize: vertical; }
+.contacts__form .form__done { margin: 0; font-size: 14px; color: var(--value); }
+.contacts__form .form__done.is-error { color: var(--cut); }
+.contacts__req .facts > div { grid-template-columns: 150px minmax(0, 1fr); }
+.contacts__req[open] > .address__toggle { margin-bottom: var(--step-3); }
+.contacts__req:not([open]) { padding-block: var(--step-3); }
+.contacts__req > summary { display: flex; min-height: var(--tap); }
