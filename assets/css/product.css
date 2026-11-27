@@ -255,7 +255,8 @@ body::before {
   min-height: 100vh;
   min-height: 100dvh;
 }
-.fills-screen > main {
+.fills-screen > main,
+.fills-screen > .v2-root {
   flex: 1 0 auto;
 }
 
@@ -267,6 +268,7 @@ body::before {
 }
 
 .js .awaits-cart > main,
+.js .awaits-cart > .v2-root,
 .js .awaits-cart > .footer,
 .js .awaits-cart .paybar {
   visibility: hidden;
@@ -517,6 +519,7 @@ body::before {
 }
 
 .account {
+  position: relative;
   display: none;
   place-items: center;
   width: var(--tap);
@@ -525,7 +528,7 @@ body::before {
   color: var(--ink);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  transition: border-color var(--ease), background-color var(--ease);
+  transition: border-color var(--ease), background-color var(--ease), color var(--ease);
 }
 @media (min-width: 760px) {
   .account {
@@ -536,10 +539,34 @@ body::before {
   width: 20px;
   height: 20px;
 }
+.account__mark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tea);
+  border: 1.5px solid var(--paper);
+  pointer-events: none;
+}
+.account--guest {
+  color: var(--muted);
+  background: var(--paper);
+}
+.account--in {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--brand) 40%, var(--paper));
+  border-color: var(--ink);
+}
 @media (hover: hover) {
   .account:hover {
     color: var(--ink);
     border-color: var(--ink);
+  }
+  .account--guest:hover {
+    color: var(--ink);
+    background: var(--paper);
   }
 }
 
@@ -612,10 +639,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu::-webkit-scrollbar {
   display: none;
+}
+.menu {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -1495,6 +1524,12 @@ body::before {
   background: color-mix(in srgb, var(--brand) 30%, var(--paper));
 }
 
+.pack__incart,
+.pack .in_cart_amount,
+.pack [class*=in_cart_amount_] {
+  display: none !important;
+}
+
 .pack__in {
   position: absolute;
   top: 5px;
@@ -1836,10 +1871,12 @@ body::before {
     min-width: 0;
     overflow-x: auto;
     scrollbar-width: none;
-    --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
   }
   .breadcrumbs__list::-webkit-scrollbar {
     display: none;
+  }
+  .breadcrumbs__list {
+    --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
   }
   .breadcrumbs__list[data-more=end] {
     -webkit-mask-image: var(--fade);
@@ -2163,10 +2200,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .reviews__list::-webkit-scrollbar {
   display: none;
+}
+.reviews__list {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .reviews__list[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -3358,10 +3397,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .more__rail.goods__grid::-webkit-scrollbar {
   display: none;
+}
+.more__rail.goods__grid {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .more__rail.goods__grid[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -3408,10 +3449,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .seen-list::-webkit-scrollbar {
   display: none;
+}
+.seen-list {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .seen-list[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -3614,6 +3657,9 @@ body::before {
   height: 2px;
   border-radius: 2px;
   background: var(--brand);
+}
+.dock__item--in:not([aria-current=page]) {
+  color: var(--ink);
 }
 .dock__icon {
   width: 22px;
@@ -4206,7 +4252,6 @@ body::before {
   border: 0;
   border-radius: var(--radius-md);
   cursor: pointer;
-  white-space: nowrap;
 }
 .switch__tab[aria-selected=true] {
   color: var(--ink);
@@ -4215,6 +4260,9 @@ body::before {
 }
 .switch__tab:focus-visible {
   outline-offset: -2px;
+}
+.switch__tab {
+  white-space: nowrap;
 }
 @media (max-width: 420px) {
   .switch__tab {

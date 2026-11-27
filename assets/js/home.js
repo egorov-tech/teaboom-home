@@ -621,7 +621,6 @@
       const price = Number(input.dataset.price);
       const old = input.dataset.old ? Number(input.dataset.old) : null;
       now.textContent = money(price);
-      now.classList.toggle("is-sale", Boolean(old));
       sku.textContent = input.value;
       if (rate) {
         const isBest = input.hasAttribute("data-best");
@@ -629,11 +628,14 @@
         rate.classList.toggle("is-best", isBest);
         rate.querySelector("[data-best-note]").hidden = !isBest;
       }
-      if (old) {
+      const pct = old && old > price ? ((old - price) / old) * 100 : 0;
+      const sale = pct >= 1;
+      now.classList.toggle("is-sale", sale);
+      if (sale) {
         wasValue.textContent = money(old);
         was.hidden = false;
         // The shop only says "Скидка!"; the percentage comes from its own two prices.
-        cut.textContent = `−${Math.round(((old - price) / old) * 100)}%`;
+        cut.textContent = `−${Math.round(pct)}%`;
         cut.hidden = false;
       } else {
         was.hidden = true;

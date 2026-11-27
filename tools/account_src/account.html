@@ -1,0 +1,165 @@
+<main id="main" tabindex="-1">
+<div class="acc wrap" data-cabinet>
+  <nav class="breadcrumbs breadcrumbs--server" aria-label="Вы здесь">
+    <ul class="breadcrumbs__list" data-strip>
+      <li class="breadcrumbs__item"><a href="/">Главная</a></li>
+      <li class="breadcrumbs__item"><span aria-current="page">Личный кабинет</span></li>
+      
+    </ul>
+  </nav>
+
+  <div class="acc__head">
+    <h1 class="acc__title">Личный кабинет
+</h1>
+    <p class="acc__who"><span class="acc__email">anna@example.com</span><a class="acc__logout" href="/logout">Выйти</a></p>
+  </div>
+
+  <div class="acc__layout">
+    <nav class="acc__nav" aria-label="Разделы кабинета">
+      <ul class="acc__menu" data-strip>
+        <li class="acc__item"><a class="acc__link is-current" href="/my-account" aria-current="page"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="10" cy="6.5" r="3.5"/><path d="M3.5 17c.8-3.2 3.4-5 6.5-5s5.7 1.8 6.5 5"/></svg><span>Мои данные</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-orders"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 6.5h12l-1 10.5H5L4 6.5Z"/><path d="M7.5 8V5.5a2.5 2.5 0 0 1 5 0V8"/></svg><span>Вы заказывали</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-favorite-products"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 16.5s-6.5-3.8-6.5-8.3A3.3 3.3 0 0 1 10 6.6a3.3 3.3 0 0 1 6.5 1.6c0 4.5-6.5 8.3-6.5 8.3Z"/></svg><span>Избранное</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/company/"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="6" width="15" height="10.5" rx="1.5"/><path d="M7 6V4.5h6V6M2.5 10.5h15"/></svg><span>Юридические лица</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-addresses"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M10 17.5s5.5-5 5.5-9.5a5.5 5.5 0 0 0-11 0c0 4.5 5.5 9.5 5.5 9.5Z"/><circle cx="10" cy="8" r="2"/></svg><span>Адреса и телефоны</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-subscriptions/"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 13.5V9a5 5 0 0 1 10 0v4.5l1.5 1.5h-13L5 13.5Z"/><path d="M8.3 17a1.8 1.8 0 0 0 3.4 0"/></svg><span>Подписки</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-email"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="2.5" y="4.5" width="15" height="11" rx="1.5"/><path d="m3 5.5 7 5.5 7-5.5"/></svg><span>Смена email</span></a></li>
+
+        <li class="acc__item"><a class="acc__link" href="/my-password"><svg class="acc__icon" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="9" width="12" height="8.5" rx="1.5"/><path d="M6.5 9V6.5a3.5 3.5 0 0 1 7 0V9"/></svg><span>Смена пароля</span></a></li>
+
+      </ul>
+    </nav>
+    <div class="acc__main">
+
+
+
+
+<section class="acc-card" aria-labelledby="acc-orders-title">
+  <div class="acc-card__head">
+    <h2 class="acc-card__title" id="acc-orders-title">Последний заказ</h2>
+    <a class="acc-card__link" href="/my-orders">Все заказы</a>
+  </div>
+  
+    
+<article class="order order--big" aria-labelledby="order-1">
+  <header class="order__head">
+    <h3 class="order__num" id="order-1"><a href="/my-order/1">Заказ №&nbsp;1</a></h3>
+    <span class="order__date">от&nbsp;27 ноября 2026</span>
+    <span class="status status--going">Принят</span>
+
+  </header>
+  <ol class="track" aria-label="Где заказ">
+  <li class="track__step is-done is-now" aria-current="step"><span class="track__dot" aria-hidden="true"></span>Принят</li>
+  <li class="track__step"><span class="track__dot" aria-hidden="true"></span>Собран</li>
+  <li class="track__step"><span class="track__dot" aria-hidden="true"></span>Отправлен</li>
+  <li class="track__step"><span class="track__dot" aria-hidden="true"></span>Получен</li>
+</ol>
+
+
+  <div class="order__body">
+    <ul class="order__thumbs" aria-label="Состав заказа">
+      <li class="order__thumb"><img src="/media/images/e4bb1618-fb80-41e2-8758-86f884ce095d.jpg" alt="Ананасовый улун, 100 г" width="56" height="56" loading="lazy" decoding="async"></li>
+      
+    </ul>
+    <p class="order__sum"><span class="order__count">1 товар</span><b>326,40 ₽</b></p>
+  </div>
+  <div class="order__actions">
+    
+    <button class="cta press order__again" type="button" data-reorder>Повторить заказ</button><span hidden><i data-reorder-item data-id="1306" data-qty="1"></i></span>
+
+    <a class="order__more-link" href="/my-order/1">Подробнее</a>
+  </div>
+</article>
+
+
+    
+  
+</section>
+
+<div class="acc-grid">
+  <section class="acc-card" aria-labelledby="acc-profile-title">
+    <h2 class="acc-card__title" id="acc-profile-title">Мои данные</h2>
+    <form class="form acc-form" method="post" action="/my-account" novalidate data-form="profile">
+      <input type="hidden" name="action" value="profile">
+      <div class="acc-form__row">
+        <div class="field">
+          <label class="field__label" for="acc-firstname">Имя</label>
+          <input class="field__input" id="acc-firstname" type="text" name="firstname" maxlength="100" autocomplete="given-name" value="Анна" aria-describedby="acc-firstname-error">
+          <p class="field__error" id="acc-firstname-error" data-error hidden></p>
+        </div>
+        <div class="field">
+          <label class="field__label" for="acc-lastname">Фамилия</label>
+          <input class="field__input" id="acc-lastname" type="text" name="lastname" maxlength="100" autocomplete="family-name" value="Смирнова" aria-describedby="acc-lastname-error">
+          <p class="field__error" id="acc-lastname-error" data-error hidden></p>
+        </div>
+      </div>
+      <div class="field">
+        <label class="field__label" for="acc-email">Email&nbsp;— он&nbsp;же логин</label>
+        <input class="field__input" id="acc-email" type="email" name="email" required autocomplete="email" inputmode="email" value="anna@example.com" aria-describedby="acc-email-error">
+        <p class="field__error" id="acc-email-error" data-error hidden></p>
+      </div>
+      <div class="field">
+        <label class="field__label" for="acc-phone">Телефон</label>
+        <input class="field__input" id="acc-phone" type="tel" name="phone" maxlength="32" autocomplete="tel" inputmode="tel" data-phone placeholder="+7 (999) 123-45-67" value="+7 (900) 123-45-67" aria-describedby="acc-phone-error">
+        <p class="field__error" id="acc-phone-error" data-error hidden></p>
+      </div>
+      <button class="form__submit press" type="submit" data-sending="Сохраняем…">Сохранить</button>
+    </form>
+  </section>
+
+  <section class="acc-card" aria-labelledby="acc-pass-title">
+    <h2 class="acc-card__title" id="acc-pass-title">Смена пароля</h2>
+    
+<form class="form acc-form" method="post" action="/my-account" novalidate data-form="password">
+  <input type="hidden" name="action" value="password">
+  <div class="field">
+    <div class="field__row">
+      <label class="field__label" for="pw-old-d">Текущий пароль</label>
+      <a class="field__aside" href="/password-reset/">Забыли пароль?</a>
+    </div>
+    <div class="field__secret">
+      <input class="field__input" id="pw-old-d" name="old_password" type="password" autocomplete="current-password" required aria-describedby="pw-old-d-error">
+      <button class="field__peek press" type="button" aria-label="Показать пароль" aria-pressed="false" data-peek>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+</button>
+
+    </div>
+    <p class="field__error" id="pw-old-d-error" data-error hidden></p>
+  </div>
+  <div class="field">
+    <label class="field__label" for="pw-new-d">Новый пароль</label>
+    <div class="field__secret">
+      <input class="field__input" id="pw-new-d" name="new_password1" type="password" autocomplete="new-password" required aria-describedby="pw-new-d-error">
+      <button class="field__peek press" type="button" aria-label="Показать пароль" aria-pressed="false" data-peek>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+</button>
+
+    </div>
+    <p class="field__error" id="pw-new-d-error" data-error hidden></p>
+  </div>
+  <div class="field">
+    <label class="field__label" for="pw-again-d">Новый пароль ещё раз</label>
+    <div class="field__secret">
+      <input class="field__input" id="pw-again-d" name="new_password2" type="password" autocomplete="new-password" required data-same-as="pw-new-d" aria-describedby="pw-again-d-error">
+      <button class="field__peek press" type="button" aria-label="Показать пароль" aria-pressed="false" data-peek>
+<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
+</button>
+
+    </div>
+    <p class="field__error" id="pw-again-d-error" data-error hidden></p>
+  </div>
+  <button class="form__submit press" type="submit" data-sending="Меняем пароль…">Сменить пароль</button>
+</form>
+
+  </section>
+</div>
+    </div>
+  </div>
+</div>
+</main>

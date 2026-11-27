@@ -78,15 +78,17 @@
     out.price.textContent = formatPrice(pack.price);
     const buyPrice = root.querySelector("[data-buy-price]");
     buyPrice.textContent = formatPrice(pack.price);
-    buyPrice.classList.toggle("is-sale", pack.oldPrice > pack.price);
     root.querySelector("[data-buy-pack]").textContent = input.dataset.label;
-    // A pack without an old price shows no strike-through and no discount.
-    const sale = pack.oldPrice > pack.price;
+    // A pack without a real discount shows no strike-through and no «−0%» / «−1%» from noise.
+    const pct = pack.oldPrice > pack.price ? (1 - pack.price / pack.oldPrice) * 100 : 0;
+    const sale = pct >= 1;
+    const cut = Math.round(pct);
+    buyPrice.classList.toggle("is-sale", sale);
     out.price.classList.toggle("is-sale", sale);
     out.oldPrice.closest(".price__was").hidden = !sale;
     out.discount.hidden = !sale;
     out.oldPrice.textContent = sale ? formatPrice(pack.oldPrice) : "";
-    out.discount.textContent = sale ? `−${Math.round((1 - pack.price / pack.oldPrice) * 100)}%` : "";
+    out.discount.textContent = sale ? `−${cut}%` : "";
   };
 
   renderPacks();

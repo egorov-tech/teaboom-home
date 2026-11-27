@@ -1,3 +1,4 @@
+@charset "UTF-8";
 :root {
   --canvas: #fefcef;
   --paper: #fff;
@@ -255,7 +256,8 @@ body::before {
   min-height: 100vh;
   min-height: 100dvh;
 }
-.fills-screen > main {
+.fills-screen > main,
+.fills-screen > .v2-root {
   flex: 1 0 auto;
 }
 
@@ -267,6 +269,7 @@ body::before {
 }
 
 .js .awaits-cart > main,
+.js .awaits-cart > .v2-root,
 .js .awaits-cart > .footer,
 .js .awaits-cart .paybar {
   visibility: hidden;
@@ -517,6 +520,7 @@ body::before {
 }
 
 .account {
+  position: relative;
   display: none;
   place-items: center;
   width: var(--tap);
@@ -525,7 +529,7 @@ body::before {
   color: var(--ink);
   border: 1px solid var(--line-strong);
   border-radius: var(--radius-md);
-  transition: border-color var(--ease), background-color var(--ease);
+  transition: border-color var(--ease), background-color var(--ease), color var(--ease);
 }
 @media (min-width: 760px) {
   .account {
@@ -536,10 +540,34 @@ body::before {
   width: 20px;
   height: 20px;
 }
+.account__mark {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tea);
+  border: 1.5px solid var(--paper);
+  pointer-events: none;
+}
+.account--guest {
+  color: var(--muted);
+  background: var(--paper);
+}
+.account--in {
+  color: var(--ink);
+  background: color-mix(in srgb, var(--brand) 40%, var(--paper));
+  border-color: var(--ink);
+}
 @media (hover: hover) {
   .account:hover {
     color: var(--ink);
     border-color: var(--ink);
+  }
+  .account--guest:hover {
+    color: var(--ink);
+    background: var(--paper);
   }
 }
 
@@ -612,10 +640,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu::-webkit-scrollbar {
   display: none;
+}
+.menu {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .menu[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -1083,7 +1113,6 @@ body::before {
     border-color: var(--ink);
   }
 }
-
 @keyframes quick-in {
   from {
     opacity: 0;
@@ -1563,6 +1592,12 @@ body::before {
 
 .pack.is-in-cart .pack__body {
   background: color-mix(in srgb, var(--brand) 30%, var(--paper));
+}
+
+.pack__incart,
+.pack .in_cart_amount,
+.pack [class*=in_cart_amount_] {
+  display: none !important;
 }
 
 .pack__in {
@@ -2643,10 +2678,12 @@ body::before {
     min-width: 0;
     overflow-x: auto;
     scrollbar-width: none;
-    --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
   }
   .breadcrumbs__list::-webkit-scrollbar {
     display: none;
+  }
+  .breadcrumbs__list {
+    --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
   }
   .breadcrumbs__list[data-more=end] {
     -webkit-mask-image: var(--fade);
@@ -2849,10 +2886,12 @@ body::before {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .category__subcats ul::-webkit-scrollbar {
   display: none;
+}
+.category__subcats ul {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .category__subcats ul[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -3882,7 +3921,6 @@ body::before {
   border: 0;
   border-radius: var(--radius-md);
   cursor: pointer;
-  white-space: nowrap;
 }
 .switch__tab[aria-selected=true] {
   color: var(--ink);
@@ -3891,6 +3929,9 @@ body::before {
 }
 .switch__tab:focus-visible {
   outline-offset: -2px;
+}
+.switch__tab {
+  white-space: nowrap;
 }
 @media (max-width: 420px) {
   .switch__tab {
@@ -4443,12 +4484,14 @@ body::before {
   border-radius: 999px;
   cursor: pointer;
   transition: background-color var(--ease), transform 160ms var(--ease-out);
-  position: relative;
 }
 .line__back::before {
   content: "";
   position: absolute;
   inset: -2px;
+}
+.line__back {
+  position: relative;
 }
 .line__back:active {
   transform: scale(0.97);
@@ -4614,6 +4657,11 @@ body::before {
 
 .qty {
   grid-area: qty;
+}
+.qty[hidden] {
+  display: none;
+}
+.qty {
   display: inline-grid;
   grid-template-columns: 40px 44px 40px;
   justify-self: start;
@@ -4621,9 +4669,6 @@ body::before {
   border: 1px solid var(--line-strong);
   border-radius: 999px;
   background: var(--paper);
-}
-.qty[hidden] {
-  display: none;
 }
 .qty__btn {
   font-size: 18px;
@@ -4696,13 +4741,15 @@ body::before {
   margin-top: var(--step-2);
   padding-top: var(--step-3);
   border-top: 1px solid var(--line);
-  font-size: 18px;
-  font-weight: 700;
 }
 .summary__row--total:first-child {
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
+}
+.summary__row--total {
+  font-size: 18px;
+  font-weight: 700;
 }
 .summary__row--total dt {
   color: var(--ink);
@@ -5315,6 +5362,7 @@ button.paybar__order {
     margin-inline: calc(var(--step-4) * -1);
     border-inline: 0;
     border-radius: 0;
+    border-bottom: 0;
   }
   .choice {
     padding: var(--step-3) var(--step-4);
@@ -5322,12 +5370,13 @@ button.paybar__order {
   .choice__input {
     top: var(--step-3);
   }
-  .step:has(> .choices:last-child) {
+  .way-panel > .choices {
+    border-top: 0;
+  }
+  .step:has(> .choices:last-child),
+  .step:has(> #payment-inline:last-child) {
     overflow: hidden;
     padding-bottom: 0;
-  }
-  .step:has(> .choices:last-child) > .choices {
-    border-bottom: 0;
   }
 }
 .ways {
@@ -5741,6 +5790,9 @@ button.paybar__order {
   border-radius: 2px;
   background: var(--brand);
 }
+.dock__item--in:not([aria-current=page]) {
+  color: var(--ink);
+}
 .dock__icon {
   width: 22px;
   height: 22px;
@@ -6009,10 +6061,12 @@ button.paybar__order {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .more__rail.goods__grid::-webkit-scrollbar {
   display: none;
+}
+.more__rail.goods__grid {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .more__rail.goods__grid[data-more=end] {
   -webkit-mask-image: var(--fade);
@@ -6059,10 +6113,12 @@ button.paybar__order {
   min-width: 0;
   overflow-x: auto;
   scrollbar-width: none;
-  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .seen-list::-webkit-scrollbar {
   display: none;
+}
+.seen-list {
+  --fade: linear-gradient(to right, #000 calc(100% - 56px), transparent);
 }
 .seen-list[data-more=end] {
   -webkit-mask-image: var(--fade);

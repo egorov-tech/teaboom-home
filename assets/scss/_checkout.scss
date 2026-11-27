@@ -527,6 +527,9 @@ button.paybar__order {
     margin-inline: calc(var(--step-4) * -1);
     border-inline: 0;
     border-radius: 0;
+    // Without side borders a bottom stroke floats as a stray hairline above hours
+    // or the card edge (looked like a double line under the last row).
+    border-bottom: 0;
   }
 
   .choice {
@@ -537,14 +540,17 @@ button.paybar__order {
     top: var(--step-3);
   }
 
-  // The list closes the card: no empty strip under the last row.
-  .step:has(> .choices:last-child) {
+  // way-panel already draws a top rule — don't stack another from .choices.
+  .way-panel > .choices {
+    border-top: 0;
+  }
+
+  // Payment (and any step whose last block is the choice list): sit flush on the card edge.
+  // Nested #payment-inline / demo's bare .choices both count.
+  .step:has(> .choices:last-child),
+  .step:has(> #payment-inline:last-child) {
     overflow: hidden;
     padding-bottom: 0;
-
-    > .choices {
-      border-bottom: 0;
-    }
   }
 }
 

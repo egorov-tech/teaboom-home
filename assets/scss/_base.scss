@@ -187,13 +187,15 @@ body::before {
 // Short pages (cart, login, password reset, checkout — body.fills-screen): the page is a column
 // at least one screen tall and <main> takes the free space, so the footer sits at the bottom of
 // the window instead of floating mid-screen. No fixed heights; long pages are not affected.
+// На сервере <main> внутри .v2-root (не прямой потомок body) — растягиваем и обёртку.
 .fills-screen {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
 
-  > main {
+  > main,
+  > .v2-root {
     flex: 1 0 auto;
   }
 }
@@ -217,6 +219,7 @@ body::before {
 
 .js .awaits-cart {
   > main,
+  > .v2-root,
   > .footer,
   .paybar {
     visibility: hidden;

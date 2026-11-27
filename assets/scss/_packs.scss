@@ -183,6 +183,14 @@
   background: color-mix(in srgb, var(--brand) 30%, var(--paper));
 }
 
+// Legacy LFS badge (цифры «1» внизу фасовки). На сервере убрана из шаблона; прячем, если
+// старый HTML или jQuery ещё вставит .in_cart_amount_* — число дублирует счётчик у кнопки.
+.pack__incart,
+.pack .in_cart_amount,
+.pack [class*="in_cart_amount_"] {
+  display: none !important;
+}
+
 // In the chip's corner, out of the flow: a narrow phone chip keeps one line and its height.
 .pack__in {
   position: absolute;
