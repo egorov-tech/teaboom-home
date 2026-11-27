@@ -22,6 +22,11 @@
   });
 
   // Карта — по нажатию (их cookie только после действия покупателя).
+  // Своя статичная карта не открылась — показываем прежнюю кнопку живой карты.
+  document.querySelectorAll("[data-map-static] img").forEach((img) => {
+    const fail = () => { const box = img.closest("[data-map-src]"); img.closest("[data-map-static]").remove(); box.querySelector("[data-map-show]").hidden = false; };
+    if (img.complete && !img.naturalWidth) fail(); else img.addEventListener("error", fail, { once: true });
+  });
   document.querySelectorAll("[data-map-show]").forEach((btn) => {
     btn.addEventListener("click", () => {
       const box = btn.closest("[data-map-src]");

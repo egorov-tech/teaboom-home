@@ -1,0 +1,131 @@
+@use "tokens" as *;
+
+// Заставка с логотипом («наливается» чай). 28.11 (Артём): не только на карточке — при первом входе на сайт
+// в сеансе браузера с любой страницы; на карточке — как принято 18.11 (переход, не «Обновить»/«Назад»).
+// Когда показывать, решает скрипт в <head> (lfs/v2/base.html, класс is-warm — не показывать). Слой поверх всего
+// на ~1,4 с, нажатия не перехватывает; после анимации удаляется из страницы (parts/steep.html) — в слоях
+// шапки, выпадающих списков и всплывающих окон ничего не остаётся.
+
+// Timeline: the logo plays by ~1100ms and the shop name fades in, then the layer leaves at
+// 1150–1450ms. Arrivals only — a reload or Back shows the page at once (is-warm).
+.steep {
+  position: fixed;
+  inset: 0;
+  z-index: 50; // above sticky masthead for the handoff from home
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--step-4);
+  background: var(--canvas);
+  pointer-events: none;
+  animation: steep-out 300ms var(--ease-out) 1150ms both;
+
+  // Variant A (Артём, 18.11): the shop's own mark, redrawn as vector from the logo. The bowl
+  // tips up towards you, tea pours in with a wave (SMIL clip in the markup) and the
+  // lettering surfaces with it, then the steam rises. 0–700ms bowl, 120–880ms tea,
+  // 560–1100ms steam, out at 1150ms.
+  &__logo {
+    width: clamp(110px, 14vw, 150px);
+    height: auto;
+    overflow: visible;
+    animation: steep-tilt 700ms var(--ease-out) both;
+  }
+
+  &__bowl,
+  &__tea,
+  &__steam {
+    fill: var(--ink);
+  }
+
+  &__steam {
+    opacity: 0;
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: steep-steam 460ms var(--ease-out) 560ms forwards;
+  }
+
+  &__steam--high {
+    animation-delay: 660ms;
+  }
+
+  // Soft contact shadow: gives the tilt its depth.
+  &__shadow {
+    width: clamp(84px, 11vw, 120px);
+    height: 14px;
+    margin-top: calc(var(--step-4) * -1 - 4px);
+    border-radius: 50%;
+    background: radial-gradient(closest-side, rgb(27 27 27 / 18%), transparent);
+    animation: steep-shadow 700ms var(--ease-out) both;
+  }
+
+  &__name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: clamp(20px, 2vw, 26px);
+    letter-spacing: 0.02em;
+    color: var(--ink);
+    animation: steep-name 320ms var(--ease-out) 600ms both;
+  }
+}
+
+
+@keyframes steep-tilt {
+  from {
+    transform: perspective(600px) rotateX(38deg) translateY(14px) scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes steep-steam {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scaleX(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes steep-shadow {
+  from {
+    transform: scaleX(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@keyframes steep-name {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes steep-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+
+.is-warm .steep {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steep {
+    display: none;
+  }
+}

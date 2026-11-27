@@ -309,3 +309,12 @@
 .contacts .breadcrumbs { margin-bottom: var(--step-4); }
 .contacts .info__head { margin-bottom: var(--step-5); }
 .contacts { padding-top: var(--step-5); }
+
+/* 28.11: своя статичная карта точки (без рекламы и cookie Яндекса); клик — Яндекс Карты в новой вкладке. */
+.place__map-static { position: absolute; inset: 0; display: block; color: var(--ink); text-decoration: none; }
+.place__map-static picture, .place__map-static img { display: block; width: 100%; height: 100%; }
+.place__map-static img { object-fit: cover; }
+.place__map-open { position: absolute; left: var(--step-3); bottom: var(--step-3); display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--step-3); font-size: 14px; font-weight: 600; background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--radius-md); box-shadow: 0 2px 8px rgba(27, 27, 27, 0.08); }
+@media (hover: hover) { .place__map-static:hover .place__map-open { border-color: var(--ink); } }
+.place__map-static:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
+.place__map-show[hidden] { display: none; }

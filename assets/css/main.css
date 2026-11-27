@@ -1445,6 +1445,108 @@ body::before {
     transition: opacity 160ms var(--ease-out);
   }
 }
+.steep {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: var(--step-4);
+  background: var(--canvas);
+  pointer-events: none;
+  animation: steep-out 300ms var(--ease-out) 1150ms both;
+}
+.steep__logo {
+  width: clamp(110px, 14vw, 150px);
+  height: auto;
+  overflow: visible;
+  animation: steep-tilt 700ms var(--ease-out) both;
+}
+.steep__bowl, .steep__tea, .steep__steam {
+  fill: var(--ink);
+}
+.steep__steam {
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: steep-steam 460ms var(--ease-out) 560ms forwards;
+}
+.steep__steam--high {
+  animation-delay: 660ms;
+}
+.steep__shadow {
+  width: clamp(84px, 11vw, 120px);
+  height: 14px;
+  margin-top: calc(var(--step-4) * -1 - 4px);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(27, 27, 27, 0.18), transparent);
+  animation: steep-shadow 700ms var(--ease-out) both;
+}
+.steep__name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  animation: steep-name 320ms var(--ease-out) 600ms both;
+}
+
+@keyframes steep-tilt {
+  from {
+    transform: perspective(600px) rotateX(38deg) translateY(14px) scale(0.94);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes steep-steam {
+  from {
+    opacity: 0;
+    transform: translateY(26px) scaleX(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes steep-shadow {
+  from {
+    transform: scaleX(0.6);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes steep-name {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes steep-out {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
+.is-warm .steep {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .steep {
+    display: none;
+  }
+}
 .add,
 .cta {
   display: inline-flex;

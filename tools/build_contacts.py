@@ -7,6 +7,7 @@
 
 Запуск: python3 tools/build_contacts.py  (из корня репозитория).
 """
+import re as _re
 import sys
 from pathlib import Path
 
@@ -76,6 +77,14 @@ DEMO_JS = """
 """
 
 
+STEEP = '  <script src="assets/js/steep.js"></script>\n'
+
+
+def with_steep(html: str) -> str:
+    """28.11: заставка при первом входе (assets/js/steep.js) — первым элементом <body>."""
+    return html if "steep.js" in html else _re.sub(r"(<body[^>]*>\n?)", lambda m: m.group(1) + STEEP, html, count=1)
+
+
 def main() -> None:
     shell = (ROOT / "login.html").read_text(encoding="utf-8")
     head, rest = shell.split('<main id="main" tabindex="-1">', 1)
@@ -97,7 +106,7 @@ def main() -> None:
         main = main.replace("      </aside>", REQ + "      </aside>", 1)
     tail = tail.replace("</body>", '  <script src="assets/js/contacts.js"></script>' + DEMO_JS + "</body>", 1)
     out = typeset_html(head + main + tail)
-    (ROOT / "contacts.html").write_text(out, encoding="utf-8")
+    (ROOT / "contacts.html").write_text(with_steep(out), encoding="utf-8")
     print("built contacts.html")
 
 
@@ -117,7 +126,7 @@ def build_404() -> None:
                  ('href="/contact/"', 'href="contacts.html"'), ('href="/category-podarki"', 'href="https://teaboom.ru/category-podarki"'),
                  ('action="/search"', 'action="https://teaboom.ru/search"')]:
         main = main.replace(a, b)
-    (ROOT / "page-404.html").write_text(typeset_html(head + main + tail), encoding="utf-8")
+    (ROOT / "page-404.html").write_text(with_steep(typeset_html(head + main + tail)), encoding="utf-8")
     print("built page-404.html")
 
 
@@ -136,7 +145,7 @@ def build_shop_reviews() -> None:
                  ('href="?start=2"', 'href="https://teaboom.ru/shop_reviews/?start=2"')]:
         main = main.replace(a, b)
     tail = tail.replace("</body>", '  <script src="assets/js/typo.js"></script>\n</body>', 1)  # тексты отзывов — как на сервере
-    (ROOT / "shop-reviews.html").write_text(typeset_html(head + main + tail), encoding="utf-8")
+    (ROOT / "shop-reviews.html").write_text(with_steep(typeset_html(head + main + tail)), encoding="utf-8")
     print("built shop-reviews.html")
 
 

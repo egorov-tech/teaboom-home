@@ -23,6 +23,7 @@
   <link rel="stylesheet" href="assets/css/product.css">
 
   <script>
+      try { sessionStorage.setItem("tb-entered", "1"); } catch (e) {} // 28.11: дальше по демо — без заставки входа
     // The logo intro plays on every arrival at the product page (link, typed address).
     // A reload or Back/Forward is not an arrival, so the page shows at once.
     // ?intro forces it anyway (handy when showing the demo).
