@@ -26,27 +26,29 @@ LIVE = [
 ]
 
 # Реквизиты с teaboom.ru/contact/ (на песочнице организации по умолчанию нет).
+# Реквизиты (28.11): раздел внизу страницы, как на сервере (v2_requisites) и «Наши реквизиты» teaboom.ru.
 REQ = """
-        <details class="acc-card contacts__req">
-          <summary class="address__toggle">Реквизиты ООО «Кассиопея»</summary>
-          <dl class="facts">
-            <div><dt>ИНН</dt><dd>7707798450</dd></div>
-            <div><dt>КПП</dt><dd>771801001</dd></div>
-            <div><dt>ОГРН</dt><dd>1137746187996</dd></div>
-            <div><dt>Постановка на налоговый учёт</dt><dd>Инспекция Федеральной налоговой службы № 7 по г. Москве</dd></div>
-            <div><dt>Юридический адрес</dt><dd>107014, г. Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</dd></div>
-            <div><dt>Почтовый адрес</dt><dd>107014, г. Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</dd></div>
-            <div><dt>Расчётный счёт</dt><dd>40702810900000037250</dd></div>
-            <div><dt>Банк</dt><dd>Филиал «Центральный» Банка ВТБ ПАО, г. Москва</dd></div>
-            <div><dt>Корр. счёт</dt><dd>30101810145250000411</dd></div>
-            <div><dt>БИК</dt><dd>044525411</dd></div>
-            <div><dt>ОКПО</dt><dd>17234618</dd></div>
-            <div><dt>ОКВЭД</dt><dd>51.70</dd></div>
-            <div><dt>ОКАТО</dt><dd>45286585000</dd></div>
-            <div><dt>ОКФС, ОКОПФ</dt><dd>16, 12165</dd></div>
-            <div><dt>Генеральный директор</dt><dd>Дмитриев Антон Юрьевич</dd></div>
-          </dl>
-        </details>
+    <section class="acc-card contacts__req" aria-labelledby="req-title" data-req>
+      <div class="contacts__req-head">
+        <h2 class="acc-card__title" id="req-title">Реквизиты</h2>
+        <button class="contacts__req-copy press" type="button" data-req-copy>Скопировать реквизиты</button>
+      </div>
+      <div class="contacts__req-grid">
+        <div class="contacts__req-group">
+          <h3 class="contacts__req-title">Организация</h3>
+          <dl class="facts"><div><dt>Название</dt><dd>ООО «Кассиопея»</dd></div><div><dt>ИНН</dt><dd>7707798450</dd></div><div><dt>КПП</dt><dd>771801001</dd></div><div><dt>ОГРН</dt><dd>1137746187996</dd></div><div><dt>ОКПО</dt><dd>17234618</dd></div><div><dt>ОКВЭД</dt><dd>51.70</dd></div><div><dt>ОКАТО</dt><dd>45286585000</dd></div><div><dt>ОКФС, ОКОПФ</dt><dd>16, 12165</dd></div><div><dt>Генеральный директор</dt><dd>Дмитриев Антон Юрьевич</dd></div></dl>
+        </div>
+        <div class="contacts__req-group">
+          <h3 class="contacts__req-title">Адреса</h3>
+          <dl class="facts"><div><dt>Юридический адрес</dt><dd>107014, г. Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</dd></div><div><dt>Почтовый адрес</dt><dd>107014, г. Москва, ул. 1-я Боевская, д. 2/12, стр. 4, пом. 1/1</dd></div><div><dt>Налоговый учёт</dt><dd>Инспекция Федеральной налоговой службы № 7 по г. Москве</dd></div></dl>
+        </div>
+        <div class="contacts__req-group">
+          <h3 class="contacts__req-title">Банк</h3>
+          <dl class="facts"><div><dt>Получатель</dt><dd>ООО «Кассиопея»</dd></div><div><dt>Расчётный счёт</dt><dd>40702810900000037250</dd></div><div><dt>Банк</dt><dd>Филиал «Центральный» Банка ВТБ ПАО, г. Москва</dd></div><div><dt>Корр. счёт</dt><dd>30101810145250000411</dd></div><div><dt>БИК</dt><dd>044525411</dd></div></dl>
+        </div>
+      </div>
+      <p class="contacts__req-done" role="status" data-req-done hidden></p>
+    </section>
 """
 
 DEMO_JS = """
@@ -103,7 +105,8 @@ def main() -> None:
     main = main.replace('action="/lfs_contactcontact?ajax"', 'action="#"')
     main = main.replace('href="/"', 'href="index.html"')
     if "contacts__req" not in main:
-        main = main.replace("      </aside>", REQ + "      </aside>", 1)
+        main = main.replace("      </aside>\n    </div>", "      </aside>\n    </div>\n" + REQ, 1)
+        assert "contacts__req" in main, "место для реквизитов не найдено"
     tail = tail.replace("</body>", '  <script src="assets/js/contacts.js"></script>' + DEMO_JS + "</body>", 1)
     out = typeset_html(head + main + tail)
     (ROOT / "contacts.html").write_text(with_steep(out), encoding="utf-8")

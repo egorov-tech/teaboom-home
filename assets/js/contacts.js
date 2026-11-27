@@ -22,6 +22,23 @@
   });
 
   // Карта — по нажатию (их cookie только после действия покупателя).
+  // Реквизиты: «Скопировать реквизиты» — текстом «Подпись: значение» по группам (28.11).
+  document.querySelectorAll("[data-req]").forEach((box) => {
+    const btn = box.querySelector("[data-req-copy]"), done = box.querySelector("[data-req-done]");
+    btn?.addEventListener("click", async () => {
+      const text = [...box.querySelectorAll(".contacts__req-group")].map((g) =>
+        [...g.querySelectorAll(".facts > div")].map((r) => r.querySelector("dt").textContent.trim() + ": " + r.querySelector("dd").textContent.trim()).join("\n")).join("\n\n");
+      let ok = false;
+      try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+        const t = document.createElement("textarea"); t.value = text; t.setAttribute("readonly", ""); t.style.position = "fixed"; t.style.opacity = "0";
+        document.body.append(t); t.select(); try { ok = document.execCommand("copy"); } catch (e2) { ok = false; } t.remove();
+      }
+      if (done) { done.textContent = ok ? "Реквизиты скопированы — можно вставить в письмо или платёжку." : "Не удалось скопировать — выделите текст вручную."; done.hidden = false; }
+      btn.textContent = ok ? "Скопировано" : "Скопировать реквизиты";
+      window.setTimeout(() => { btn.textContent = "Скопировать реквизиты"; }, 2500);
+    });
+  });
+
   // Своя статичная карта не открылась — показываем прежнюю кнопку живой карты.
   document.querySelectorAll("[data-map-static] img").forEach((img) => {
     const fail = () => { const box = img.closest("[data-map-src]"); img.closest("[data-map-static]").remove(); box.querySelector("[data-map-show]").hidden = false; };

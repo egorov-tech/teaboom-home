@@ -85,10 +85,6 @@
 .contacts__text { min-height: 120px; resize: vertical; }
 .contacts__form .form__done { margin: 0; font-size: 14px; color: var(--value); }
 .contacts__form .form__done.is-error { color: var(--cut); }
-.contacts__req .facts > div { grid-template-columns: 150px minmax(0, 1fr); }
-.contacts__req[open] > .address__toggle { margin-bottom: var(--step-3); }
-.contacts__req:not([open]) { padding-block: var(--step-3); }
-.contacts__req > summary { display: flex; min-height: var(--tap); }
 
 /* ---------- 404 ---------- */
 .nf {
@@ -318,3 +314,20 @@
 @media (hover: hover) { .place__map-static:hover .place__map-open { border-color: var(--ink); } }
 .place__map-static:focus-visible { outline: 2px solid var(--ink); outline-offset: -4px; }
 .place__map-show[hidden] { display: none; }
+
+/* 28.11: «Реквизиты» — раздел внизу контактов (как «Наши реквизиты» на teaboom.ru): три группы, копирование одним
+   нажатием. Карточка и пары «подпись — значение» — те же, что в кабинете (.acc-card, .facts). */
+.contacts__req { margin-top: var(--step-6); }
+.contacts__req-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--step-3); margin-bottom: var(--step-4); }
+.contacts__req-head .acc-card__title { margin: 0; }
+.contacts__req-copy { display: inline-flex; align-items: center; min-height: var(--tap); padding: 0 var(--step-4); font: 600 15px/1 var(--font-text); color: var(--ink); background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--radius-md); cursor: pointer; }
+@media (hover: hover) { .contacts__req-copy:hover { border-color: var(--ink); } }
+.contacts__req-grid { display: grid; gap: var(--step-5); }
+@media (min-width: 1060px) { .contacts__req-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--step-6); } }
+.contacts__req-title { margin: 0 0 var(--step-3); font-size: 13px; font-weight: 600; letter-spacing: 0.02em; color: var(--muted); }
+.contacts__req .facts > div { grid-template-columns: 104px minmax(0, 1fr); gap: var(--step-3); align-items: baseline; }
+@media (max-width: 1059px) { .contacts__req .facts dt { font-size: 13px; } .contacts__req .facts dd { font-size: 14px; } }
+@media (min-width: 1060px) { .contacts__req .facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.contacts__req .facts dd { margin: 0; font-variant-numeric: tabular-nums; overflow-wrap: break-word; }
+.contacts__req-done { margin: var(--step-4) 0 0; font-size: 14px; color: var(--ink-soft); }
+@media (max-width: 359px) { .contacts__req .facts > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
