@@ -120,3 +120,68 @@
 }
 .nf__list { display: flex; flex-wrap: wrap; gap: 0 var(--step-5); margin: 0; padding: 0; list-style: none; }
 .nf__more { padding-top: var(--step-3); border-top: 1px solid var(--line); width: 100%; }
+
+/* ---------- Отзывы о магазине ---------- */
+.shop-rv { display: grid; gap: var(--step-5); padding-block: var(--step-4) var(--step-7); }
+.shop-rv .info__head { margin-bottom: 0; }
+.shop-rv__sum {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--step-3) var(--step-5);
+  padding: var(--step-5);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--surface-radius);
+}
+.shop-rv__score { margin: 0; }
+.shop-rv__avg { font: 500 clamp(48px, 3vw + 32px, 64px)/1 var(--font-display); font-variant-numeric: tabular-nums; }
+.shop-rv__meta { display: grid; gap: 2px; }
+.shop-rv__stars { margin: 0; font-size: 22px; letter-spacing: 0.08em; color: var(--brand-deep); -webkit-text-stroke: 0.5px var(--ink); }
+.shop-rv__count { margin: 0; color: var(--ink-soft); }
+.shop-rv__write { width: auto; min-height: 48px; margin-left: auto; text-decoration: none; }
+@media (max-width: 599px) {
+  .shop-rv__write { flex: 1 1 100%; margin-left: 0; }
+}
+/* Карточки — как отзывы в карточке товара; колонки «кирпичами», чтобы разная длина текста не оставляла дыр. */
+.shop-rv__list { columns: 1; column-gap: var(--step-4); margin: 0; padding: 0; list-style: none; }
+@media (min-width: 760px) { .shop-rv__list { columns: 2; } }
+@media (min-width: 1200px) { .shop-rv__list { columns: 3; } }
+.shop-rv__list > .review { break-inside: avoid; margin-bottom: var(--step-4); }
+.review {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: var(--step-4);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.review--pending { border-style: dashed; }
+.review__who { display: grid; grid-template-columns: 32px 1fr; align-items: center; column-gap: var(--step-3); }
+.review__avatar {
+  grid-row: span 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--brand) 45%, var(--paper));
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+}
+.review__author { font-weight: 600; font-size: 14px; line-height: 1.2; overflow-wrap: anywhere; }
+.review__date { font-size: 12px; color: var(--muted); }
+.review__rating { margin: -2px 0 0; font-size: 13px; letter-spacing: 0.08em; color: var(--ink); }
+.review__text { margin: 0; font-size: 15px; line-height: 1.55; color: var(--ink-soft); overflow-wrap: anywhere; }
+.review__pending { margin: 0; font-size: 13px; color: var(--muted); }
+.shop-rv__mod { display: flex; gap: var(--step-2); }
+.shop-rv__mod form { margin: 0; }
+.shop-rv__mod-btn { min-height: 40px; padding: 0 var(--step-3); font: 600 14px/1 var(--font-text); background: var(--paper); border: 1px solid var(--line-strong); border-radius: var(--radius-md); cursor: pointer; }
+.shop-rv__mod-btn--del { color: var(--cut); }
+.shop-rv__hidden { margin: 0; color: var(--muted); font-size: 14px; }
+.shop-rv__pager .pager__list { align-items: center; }
+.shop-rv__of { color: var(--muted); font-size: 14px; }
+.shop-rv__form { max-width: 640px; }
+.shop-rv__login { width: auto; justify-self: start; text-decoration: none; }

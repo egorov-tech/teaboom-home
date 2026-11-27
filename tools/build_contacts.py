@@ -115,6 +115,26 @@ def build_404() -> None:
     print("built page-404.html")
 
 
+def build_shop_reviews() -> None:
+    """Отзывы о магазине на демо: первая страница отзывов v2 сервера (гостевой вид); дальше — на teaboom.ru."""
+    import re
+    shell = (ROOT / "login.html").read_text(encoding="utf-8")
+    head, rest = shell.split('<main id="main" tabindex="-1">', 1)
+    _, tail = rest.split("</main>", 1)
+    head = head.replace('<link rel="stylesheet" href="assets/css/main.css">',
+                        '<link rel="stylesheet" href="assets/css/main.css">\n  <link rel="stylesheet" href="assets/css/cabinet.css">\n  <link rel="stylesheet" href="assets/css/pages.css">', 1)
+    head = re.sub(r"<title>[^<]*</title>", "<title>Отзывы о магазине — интернет-магазин чая «Чайный Бум»</title>", head, 1)
+    main = (ROOT / "tools" / "account_src" / "shop-reviews.html").read_text(encoding="utf-8")
+    main = re.sub(r'<script\b[^>]*\bsrc="/static/[^"]*"[^>]*></script>', "", main)
+    for a, b in [('href="/"', 'href="index.html"'), ('href="/login?next=/shop_reviews/"', 'href="login.html"'),
+                 ('href="?start=2"', 'href="https://teaboom.ru/shop_reviews/?start=2"')]:
+        main = main.replace(a, b)
+    tail = tail.replace("</body>", '  <script src="assets/js/typo.js"></script>\n</body>', 1)  # тексты отзывов — как на сервере
+    (ROOT / "shop-reviews.html").write_text(typeset_html(head + main + tail), encoding="utf-8")
+    print("built shop-reviews.html")
+
+
 if __name__ == "__main__":
     main()
     build_404()
+    build_shop_reviews()
