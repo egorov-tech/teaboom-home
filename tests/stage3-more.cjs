@@ -18,7 +18,7 @@ const KEY = 'teaboom-viewed-v1';
   ok(tiles[0] === 'molochnyj-ulun-tajvani-1' && tiles.length === 4, `46: первая плитка — из админки (Молочный улун), всего 4: ${tiles.join(', ')}`);
   ok(!tiles.includes('ananasovij-ulun'), '46: сам товар в блоке не показывается');
   ok(await p.locator('[data-rail] .more__note').isVisible(), '46: пример заполнения помечен');
-  ok(await p.locator('.more .rail__frame [data-rail-arrows]').isHidden(), '46: компьютер — 4 плитки помещаются, стрелок нет');
+  ok(await p.locator('.more:not(.more--seen) .rail__frame [data-rail-arrows]').isHidden(), '46: компьютер — 4 плитки помещаются, стрелок нет');
   ok(await p.evaluate(() => { const rows = [...document.querySelectorAll('[data-rail] .packs__grid')].map((e) => Math.round(e.getBoundingClientRect().top)); return rows.every((y) => y === rows[0]); }), '46: фасовки всех плиток на одной линии');
   const before = await p.evaluate(() => (window.TeaboomCart?.items() || []).length);
   await p.locator('[data-rail] .good').nth(1).locator('[data-add]').click(); await p.waitForTimeout(600);
@@ -29,16 +29,16 @@ const KEY = 'teaboom-viewed-v1';
   // ---------- Tablet: arrows when the row does not fit ----------
   c = await b.newContext({ viewport: { width: 768, height: 1024 } });
   p = await open(c);
-  ok(await p.locator('.more .rail__frame [data-rail-arrows]').isVisible() && await p.locator('.more .rail__frame [data-rail-prev]').isDisabled(), '46: планшет — стрелки есть, «Назад» неактивна в начале');
-  await p.locator('.more .rail__frame [data-rail-next]').click(); await p.waitForTimeout(700);
-  ok(await p.evaluate(() => document.querySelector('.more [data-rail-track]').scrollLeft > 100), '46: «Вперёд» листает ряд');
+  ok(await p.locator('.more:not(.more--seen) .rail__frame [data-rail-arrows]').isVisible() && await p.locator('.more:not(.more--seen) .rail__frame [data-rail-prev]').isDisabled(), '46: планшет — стрелки есть, «Назад» неактивна в начале');
+  await p.locator('.more:not(.more--seen) .rail__frame [data-rail-next]').click(); await p.waitForTimeout(700);
+  ok(await p.evaluate(() => document.querySelector('.more:not(.more--seen) [data-rail-track]').scrollLeft > 100), '46: «Вперёд» листает ряд');
   await c.close();
 
   // ---------- Phone ----------
   c = await b.newContext({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
   p = await open(c);
-  ok(await p.locator('.more .rail__frame [data-rail-arrows]').isHidden(), '46: телефон — без стрелок, листается пальцем');
-  ok(await p.evaluate(() => { const t = document.querySelector('.more [data-rail-track]'); return t.scrollWidth > t.clientWidth && getComputedStyle(t).overflowX === 'auto'; }), '46: телефон — ряд прокручивается вбок');
+  ok(await p.locator('.more:not(.more--seen) .rail__frame [data-rail-arrows]').isHidden(), '46: телефон — без стрелок, листается пальцем');
+  ok(await p.evaluate(() => { const t = document.querySelector('.more:not(.more--seen) [data-rail-track]'); return t.scrollWidth > t.clientWidth && getComputedStyle(t).overflowX === 'auto'; }), '46: телефон — ряд прокручивается вбок');
   // innerWidth grows with an over-wide page on phones — compare with the device width instead.
   ok(await p.evaluate(() => innerWidth === 390 && document.documentElement.scrollWidth <= 390), 'телефон: страница не шире экрана (390)');
 

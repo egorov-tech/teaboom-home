@@ -109,7 +109,7 @@
     ul.setAttribute("data-rail-track", "");
     const arrow = (dir, label, d) => '<button class="rail__arrow press" type="button" aria-label="' + label + '" data-rail-' + dir + '><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="' + d + '" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>';
     frame.insertAdjacentHTML("beforeend", '<div class="rail__arrows" data-rail-arrows hidden>' + arrow("prev", "Назад", "M15 5l-7 7 7 7") + arrow("next", "Вперёд", "M9 5l7 7-7 7") + "</div>");
-    box.setAttribute("data-rail", "");
-    wireRail(box);
+    frame.setAttribute("data-rail", "");
+    wireRail(frame);
   }
 })();
