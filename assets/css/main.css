@@ -5115,6 +5115,50 @@ body::before {
   cursor: not-allowed;
 }
 
+.freeship {
+  display: grid;
+  gap: var(--step-2);
+  margin: 0 0 var(--step-4);
+  padding: var(--step-3) var(--step-4);
+  background: color-mix(in srgb, var(--brand) 12%, var(--paper));
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+.freeship[hidden] {
+  display: none;
+}
+.freeship__text {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+}
+.freeship__track {
+  display: block;
+  height: 4px;
+  overflow: hidden;
+  background: var(--line);
+  border-radius: 2px;
+}
+.freeship__fill {
+  display: block;
+  height: 100%;
+  background: var(--brand-deep);
+  border-radius: 2px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 300ms var(--ease-out);
+}
+.freeship.is-done .freeship__fill {
+  background: var(--tea);
+}
+@media (prefers-reduced-motion: reduce) {
+  .freeship__fill {
+    transition: none;
+  }
+}
+
 .checkout {
   padding-block: var(--step-5) var(--step-8);
 }

@@ -117,6 +117,16 @@
     root.querySelector("[data-total]").textContent = money(sum);
     const bar = document.querySelector("[data-total-bar]");
     if (bar) bar.textContent = money(sum);
+    // 28.11: сколько осталось до бесплатной доставки (порог — data-from, как в «Оплате и получении» на карточке).
+    const ship = root.querySelector("[data-free-ship]");
+    if (ship) {
+      const from = Number(ship.dataset.from) || 0, left = Math.max(0, from - sum);
+      ship.hidden = !from || picked.length === 0;
+      ship.classList.toggle("is-done", left === 0);
+      const text = ship.querySelector("[data-free-ship-text]"), fill = ship.querySelector("[data-free-ship-fill]");
+      if (text) text.textContent = left > 0 ? `До бесплатной доставки по Москве — ещё ${money(left)}` : "Доставка курьером по Москве — бесплатно";
+      if (fill) fill.style.transform = `scaleX(${from ? Math.min(1, sum / from) : 0})`;
+    }
     // Nothing ticked: the order button waits (still in place — no jump), with a hint.
     const off = picked.length === 0;
     none.hidden = !off;
