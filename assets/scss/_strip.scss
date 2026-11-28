@@ -6,6 +6,11 @@
 @mixin side-strip {
   min-width: 0;
   overflow-x: auto;
+  // 28.11 (Артём: «прыгает навигация» на iPhone): при overflow-x: auto браузер делает и overflow-y: auto —
+  // лишний 1 px (подчёркивание, тень) давал ленте вертикальную прокрутку, и на iPhone свайп «пружинил» её вверх-вниз,
+  // срезая текст. Лента листается только вбок.
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 
   &::-webkit-scrollbar {
@@ -30,4 +35,10 @@
     -webkit-mask-image: var(--fade);
     mask-image: var(--fade);
   }
+}
+
+// Те же правила для любых лент с data-strip (кабинет, крошки, подразделы, «Вы смотрели»), даже без миксина.
+[data-strip] {
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
 }

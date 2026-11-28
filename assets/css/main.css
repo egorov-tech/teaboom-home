@@ -320,6 +320,11 @@ body::before {
     transform: none;
   }
 }
+[data-strip] {
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+}
+
 .masthead {
   position: sticky;
   top: 0;
@@ -661,6 +666,8 @@ body::before {
   padding-inline: var(--gutter);
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 .menu::-webkit-scrollbar {
@@ -2841,6 +2848,8 @@ body::before {
     white-space: nowrap;
     min-width: 0;
     overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
     scrollbar-width: none;
   }
   .breadcrumbs__list::-webkit-scrollbar {
@@ -3050,6 +3059,8 @@ body::before {
   white-space: nowrap;
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 .category__subcats ul::-webkit-scrollbar {
@@ -6262,6 +6273,8 @@ button.paybar__order {
   scroll-padding-inline: var(--gutter);
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 .more__rail.goods__grid::-webkit-scrollbar {
@@ -6314,6 +6327,8 @@ button.paybar__order {
   scroll-padding-inline: var(--gutter);
   min-width: 0;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scrollbar-width: none;
 }
 .seen-list::-webkit-scrollbar {
