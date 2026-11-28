@@ -788,3 +788,16 @@ button.paybar__order {
 .summary__order[hidden] {
   display: none;
 }
+
+// 28.11: строка об оферте и персональных данных под «Заказать» — доверие и требование закона, как у крупных магазинов.
+.summary__legal {
+  margin: var(--step-3) 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+
+  a {
+    color: var(--ink-soft);
+    text-underline-offset: 2px;
+  }
+}

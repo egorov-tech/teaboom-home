@@ -5823,6 +5823,17 @@ button.paybar__order {
   display: none;
 }
 
+.summary__legal {
+  margin: var(--step-3) 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--muted);
+}
+.summary__legal a {
+  color: var(--ink-soft);
+  text-underline-offset: 2px;
+}
+
 .footer {
   background: var(--paper);
   border-top: 1px solid var(--line);
